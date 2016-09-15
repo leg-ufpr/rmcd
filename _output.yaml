@@ -1,3 +1,5 @@
-bookdown::gitbook: default
+bookdown::gitbook:
+  config:
+    download: [pdf, epub]
 bookdown::pdf_book: default
 bookdown::epub_book: default
