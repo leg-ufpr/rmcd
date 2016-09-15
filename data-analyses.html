@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Regression Models for Count Data</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <meta name="description" content="Regression Models for Count Data">
+  <meta name="generator" content="bookdown 0.1.7 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Regression Models for Count Data" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Regression Models for Count Data" />
+  
+  
+  
+
+<meta name="author" content="Wagner Hugo Bonat">
+<meta name="author" content="Walmes Marques Zeviani">
+<meta name="author" content="Eduardo Elias Ribeiro Jr">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="second-moments-based-especification.html">
+<link rel="next" href="discussion.html">
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="background.html"><a href="background.html"><i class="fa fa-check"></i><b>2</b> Background</a></li>
+<li class="chapter" data-level="3" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html"><i class="fa fa-check"></i><b>3</b> Full Parametric Approach</a><ul>
+<li class="chapter" data-level="3.1" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#models-for-count-data"><i class="fa fa-check"></i><b>3.1</b> Models for count data</a></li>
+<li class="chapter" data-level="3.2" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#regression-models"><i class="fa fa-check"></i><b>3.2</b> Regression models</a></li>
+<li class="chapter" data-level="3.3" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#estimation-and-inference"><i class="fa fa-check"></i><b>3.3</b> Estimation and inference</a></li>
+<li class="chapter" data-level="3.4" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#computational-implementation"><i class="fa fa-check"></i><b>3.4</b> Computational implementation</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html"><i class="fa fa-check"></i><b>4</b> Second Moments Based Especification</a><ul>
+<li class="chapter" data-level="4.1" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#mean-and-variance-relationship"><i class="fa fa-check"></i><b>4.1</b> Mean and variance relationship</a></li>
+<li class="chapter" data-level="4.2" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#estimation-functions-approach"><i class="fa fa-check"></i><b>4.2</b> Estimation functions approach</a></li>
+<li class="chapter" data-level="4.3" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#extended-poisson-tweedie-regression-models"><i class="fa fa-check"></i><b>4.3</b> Extended Poisson-Tweedie regression models</a></li>
+<li class="chapter" data-level="4.4" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#computational-implementation-1"><i class="fa fa-check"></i><b>4.4</b> Computational implementation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="data-analyses.html"><a href="data-analyses.html"><i class="fa fa-check"></i><b>5</b> Data analyses</a></li>
+<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discussion</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression Models for Count Data</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="data-analyses" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Data analyses</h1>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="second-moments-based-especification.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="discussion.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
+
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": null,
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+</body>
+
+</html>
