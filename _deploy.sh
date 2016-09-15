@@ -3,7 +3,7 @@
 git config --global user.email "edujrrib@gmail.com"
 git config --global user.name "Travis boot"
 
-git clone -b gh-pages https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git book-output
+git clone -b gh-pages https://${GIT_KEY}@github.com/${TRAVIS_REPO_SLUG}.git book-output
 cd book-output
 cp -r ../_book/* ./
 git add --all *
