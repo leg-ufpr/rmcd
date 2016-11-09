@@ -1,3 +1,14 @@
 output_dir: _book
 book_filename: "rmcdbook"
 chapter_name: "Chapter "
+
+rmd_files: [
+    "index.Rmd",
+    "introduction.Rmd",
+    "background.Rmd",
+    "parametric-models.Rmd",
+    "second-moments.Rmd",
+    "data-analyses.Rmd",
+    "discussion.Rmd",
+    "bibliography.Rmd"
+]
