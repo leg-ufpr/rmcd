@@ -5,7 +5,7 @@ author:
   - Walmes Marques Zeviani
   - Eduardo Elias Ribeiro Jr
 documentclass: book
-bibliography: [rcmd.bib]
+bibliography: [rmcd.bib]
 biblio-style: apalike
 ---
 
