@@ -2,6 +2,10 @@
 .Rhistory
 .Rapp.history
 
+# Backup and log files
+*.bak
+*.log
+
 # Session Data files
 .RData
 
@@ -34,3 +38,4 @@ vignettes/*.pdf
 
 # Bookdown outputs
 _book/*
+_bookdown_files/*
