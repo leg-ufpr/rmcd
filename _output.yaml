@@ -1,6 +1,14 @@
 bookdown::gitbook:
+  css: rmcd.css
   config:
     download: [pdf, epub]
+    toc:
+      before: |
+        <center><li><strong><a href="./">
+          Regression Models for Count Data
+        </a></strong></li></center>
+      after: |
+        </hr>
 bookdown::pdf_book:
     citation_package: natbib
     dev: "cairo_pdf"
