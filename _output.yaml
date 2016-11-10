@@ -10,6 +10,9 @@ bookdown::gitbook:
       after: |
         </hr>
 bookdown::pdf_book:
-    citation_package: natbib
-    dev: "cairo_pdf"
+  citation_package: natbib
+  dev: "cairo_pdf"
+  includes:
+    in_header: latex/preamble.tex
+    before_body: latex/before.tex
 bookdown::epub_book: default

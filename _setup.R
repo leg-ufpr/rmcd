@@ -14,7 +14,7 @@ opts_chunk$set(
     warning = FALSE,
     message = FALSE,
     echo = FALSE,
-    out.width = "90%",
+    ## out.width = "90%",
     fig.align = "center",
     fig.pos = "h",
     dev.args = list(

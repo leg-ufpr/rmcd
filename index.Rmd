@@ -5,6 +5,9 @@ author:
   - Walmes Marques Zeviani
   - Eduardo Elias Ribeiro Jr
 documentclass: book
+papersize: a5paper
+fontsize: 9pt
+geometry: [left=2cm, right=1.2cm, top=1.5cm, bottom=1.5cm]
 bibliography: [rmcd.bib]
 biblio-style: apalike
 ---
@@ -35,7 +38,7 @@ models to deal with count data. In particular, we focus on parametric
 and second-moments specified models. We shall present the model
 specification along with strategies for model fitting and the associated
 R code. Furthermore, a book-course and supplementary material as R
-[rcore2016] code and data sets will be made available for the students.
+[@rcore2016] code and data sets will be made available for the students.
 We intend to keep the course in a level suitable for bachelor students
 who already attended a course on generalized linear models. However,
 since the course also covers updated topics, it can be of interest of
