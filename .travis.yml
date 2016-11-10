@@ -2,6 +2,11 @@ language: r
 pandoc_version: 1.17.2
 cache: packages
 
+before_install:
+  - tlmgr install eulervm
+  - tlmgr install bera
+  - tlmgr install fancyhdr
+
 before_script:
   - chmod +x ./_deploy.sh
 

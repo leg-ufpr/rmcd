@@ -5,7 +5,7 @@ author:
   - Walmes Marques Zeviani
   - Eduardo Elias Ribeiro Jr
 documentclass: book
-papersize: a5paper
+papersize: a5
 fontsize: 9pt
 geometry: [left=2cm, right=1.2cm, top=1.5cm, bottom=1.5cm]
 bibliography: [rmcd.bib]
