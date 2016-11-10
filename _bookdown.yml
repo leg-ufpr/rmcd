@@ -12,3 +12,5 @@ rmd_files: [
     "discussion.Rmd",
     "bibliography.Rmd"
 ]
+
+before_chapter_script: "_setup.R"

@@ -1,5 +1,9 @@
 Package: rmcd
 Title: Regression Models for Count Data
 Version: 0.0.1
-Imports: bookdown
+Imports:
+  bookdown,
+  knitr,
+  lattice,
+  latticeExtra
 Remotes: rstudio/bookdown

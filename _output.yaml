@@ -3,4 +3,5 @@ bookdown::gitbook:
     download: [pdf, epub]
 bookdown::pdf_book:
     citation_package: natbib
+    dev: "cairo_pdf"
 bookdown::epub_book: default
