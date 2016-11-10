@@ -6,4 +6,7 @@ Imports:
   knitr,
   lattice,
   latticeExtra
+Suggests:
+  sp,
+  plyr
 Remotes: rstudio/bookdown
