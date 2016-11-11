@@ -12,4 +12,7 @@ before_script:
 
 script:
   - Rscript -e "bookdown::render_book('index.Rmd', output_format='all')"
+  - pdflatex ./latex/cover.tex
+  - pdflatex ./latex/merge.tex
+  - mv merge.pdf _book/rmcdbook.pdf
   - ./_deploy.sh
