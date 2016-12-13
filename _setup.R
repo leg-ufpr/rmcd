@@ -6,14 +6,14 @@ library("knitr")
 
 ##-------------------------------------------
 ## General options for R
-options(digits = 3)
+options(digits = 3, width = 70)
 
 ##-------------------------------------------
 ## General options of chunks
 opts_chunk$set(
     warning = FALSE,
     message = FALSE,
-    echo = FALSE,
+    echo = TRUE,
     ## out.width = "90%",
     fig.align = "center",
     fig.pos = "h",

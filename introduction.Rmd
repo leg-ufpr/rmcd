@@ -14,7 +14,7 @@ repulsion, exactly the opposite of overdispersion, that means, an
 event occurence inhibits others near (e.g. count territorialistas
 animals).
 
-```{r process-ilustration, fig.height=3, fig.width=7, fig.cap="Illustration of generator process for under, over and equidispered count data."}
+```{r process-ilustration, echo=FALSE, fig.height=3, fig.width=7, fig.cap="Illustration of generator process for under, over and equidispered count data."}
 
 mygrid <- expand.grid(xc = 1:3, yc = 1:3)
 mygrid <- data.frame(mygrid)
