@@ -34,8 +34,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="discussion.html">
-
+<link rel="prev" href="second-moments-based-especification.html">
+<link rel="next" href="discussion.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -152,28 +152,53 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="bibliography" class="section level1 unnumbered">
-<h1>Bibliography</h1>
+<div id="data-analysis" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Data analysis</h1>
+<div id="ovedispersed-case" class="section level2">
+<h2><span class="header-section-number">5.1</span> Ovedispersed case</h2>
+</div>
+<div id="underdispersed-case" class="section level2">
+<h2><span class="header-section-number">5.2</span> Underdispersed case</h2>
+<div id="cotton-bolls-greenhouse-experiment" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Cotton bolls greenhouse experiment</h3>
+<p>The data set in this section come from a greenhouse experiment with cotton plants (Gossypium hirsutum) obtained under a completely randomized design with five replicates. The experiment was aimed to assess the effects of five defoliation levels (0%, 25%, 50%,75% and 100%) on the observed number of bolls produced by plants at five growth stages: vegetative, flower-bud, blossom, fig and cotton boll. The experimental unity was a vase with two plants. The number of cotton bolls was recorded at the each culture cycle. This data was analysed by <span class="citation">Bonat et al. (2016)</span>, with extended Poisson-Tweedie model and <span class="citation">Zeviani et al. (2014)</span> with Gamma-Count model. In this section the results of articles are reproduced and compared jointly others alternatives for analysis (COM-Poisson model and Generalized-Poisson model).</p>
+<p>This code below shows how to get the data and how it is structured in R. The data set contains 125 records and 4 variables, described below:</p>
+<ul>
+<li><p><code>defol</code> A numeric factor with 5 levels that represents the (artifitial) levels of defoliation (percent in leaf area removed with scissors) applied for all leaves of the plants.</p></li>
+<li><p><code>phenol</code> A categorical ordered factor with 5 levels that represents the (phenological) growth stages of the cotton plants in which the levels of defoliation was applied.</p></li>
+<li><p><code>rept</code> Integer variable that indexes each experimenal unit in each treatment cell.</p></li>
+<li><p><code>bolls</code> The number of bolls produced (count variable) evaluated at harvest of cotton.</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Read the data via package book
+cotton &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="st">&quot;./data/cotton.csv&quot;</span>, <span class="dt">header =</span> <span class="ot">TRUE</span>,
+                     <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>)  ## Remove this
+## data(cotton, package = &quot;rmcd&quot;)
 
-<div id="refs" class="references">
-<div>
-<p>Bonat, Wagner Hugo, Bent Jørgensen, Célestin C Kokonendji, John Hinde, and Clarice Gargia Borges Demétrio. 2016. “Extended Poisson-Tweedie: Properties and Regression Models for Count Data.” <em>ArXiv Preprint ArXiv:1608.06888</em>.</p>
+## ## or read the data via url address
+## url &lt;- &quot;http://cursos.leg.ufpr.br/rmcd/data/cotton.csv&quot;
+## cotton &lt;- read.table(url, header = TRUE, sep = &quot;;&quot;)
+
+<span class="kw">str</span>(cotton)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    125 obs. of  4 variables:
+##  $ phenol: Factor w/ 5 levels &quot;blossom&quot;,&quot;boll&quot;,..: 5 5 5 5 5 5 5 5 5 5 ...
+##  $ defol : num  0 0 0 0 0 0.25 0.25 0.25 0.25 0.25 ...
+##  $ rept  : int  1 2 3 4 5 1 2 3 4 5 ...
+##  $ bolls : int  10 9 8 8 10 11 9 10 10 10 ...</code></pre>
+<p>Figure <a href="data-analysis.html#fig:cotton">5.1</a> shows the number of cotton bolls recorded for each combination of defoliation level and growth stage.</p>
+<div class="figure" style="text-align: center"><span id="fig:cotton"></span>
+<img src="rmcdbook_files/figure-html/cotton-1.png" alt="Number of bolls produced for each artificial defoliation level and each growth stage." width="672" />
+<p class="caption">
+Figure 5.1: Number of bolls produced for each artificial defoliation level and each growth stage.
+</p>
 </div>
-<div>
-<p>Jørgensen, Bent. 1987. “Exponential Dispersion Models.” <em>Journal of the Royal Statistical Society. Series B (Methodological)</em> 49 (2): 127–62.</p>
 </div>
-<div>
-<p>———. 1997. <em>The Theory of Dispersion Models</em>. Chapman &amp; Hall, London.</p>
 </div>
-<div>
-<p>Nelder, John Ashworth, and Robert William Maclagan Wedderburn. 1972. “Generalized Linear Models.” <em>Journal of the Royal Statistical Society. Series A (General)</em> 135 (3): 370–84.</p>
+<div id="equidispersed-case" class="section level2">
+<h2><span class="header-section-number">5.3</span> Equidispersed case</h2>
 </div>
-<div>
-<p>R Core Team. 2016. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.</p>
-</div>
-<div>
-<p>Zeviani, Walmes Marques, Paulo Justiniano Ribeiro Jr, Wagner Hugo Bonat, Silvia Emiko Shimakura, and Joel Augusto Muniz. 2014. “The Gamma-Count Distribution in the Analysis of Experimental Underdispersed Data.” <em>Journal of Applied Statistics</em> 41 (12): 2616–26.</p>
-</div>
+<div id="zero-inflated-case" class="section level2">
+<h2><span class="header-section-number">5.4</span> Zero-Inflated case</h2>
+
 </div>
 </div>
             </section>
@@ -181,8 +206,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="discussion.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="second-moments-based-especification.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="discussion.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
 
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
