@@ -1,4 +1,5 @@
 bookdown::gitbook:
+  highlight: default
   css: rmcd.css
   config:
     download: [pdf, epub]
@@ -10,6 +11,8 @@ bookdown::gitbook:
       after: |
         </hr>
 bookdown::pdf_book:
+  highlight: monochrome
+  keep_tex: yes
   citation_package: natbib
   dev: "cairo_pdf"
   includes:

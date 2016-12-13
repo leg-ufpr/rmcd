@@ -22,3 +22,18 @@
 \fancyhead[LE,RO]{\thepage}
 \fancyhead[RE]{\scriptsize\leftmark}
 \fancyhead[LO]{\scriptsize\rightmark}
+
+% Modify color in Rcodes/chunks (works well only monochrome highlight)
+\definecolor{inputcolor}{RGB}{25,25,112}
+\usepackage{framed}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\},
+                                                   fontsize=\small}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\renewenvironment{Shaded}{\color{inputcolor}}{}
+\renewcommand{\DataTypeTok}[1]{{#1}}
+
+% Modify style of verbatim (chunks outputs)
+\definecolor{outputcolor}{RGB}{139,0,0}
+\makeatletter
+\def\verbatim@font{\ttfamily \small \color{outputcolor}}%
+\makeatother
