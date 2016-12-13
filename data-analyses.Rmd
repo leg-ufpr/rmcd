@@ -39,8 +39,9 @@ R. The data set contains 125 records and 4 variables, described below:
 ```{r}
 
 ## Read the data via package book
-devtools::load_all()  ## Remove this
-data(cotton, package = "rmcd")
+cotton <- read.table("./data/cotton.csv", header = TRUE,
+                     sep = ";")  ## Remove this
+## data(cotton, package = "rmcd")
 
 ## ## or read the data via url address
 ## url <- "http://cursos.leg.ufpr.br/rmcd/data/cotton.csv"
