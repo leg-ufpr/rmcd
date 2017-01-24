@@ -4,7 +4,6 @@ cache: packages
 
 before_install:
   - tlmgr install eulervm
-  - tlmgr install bera
   - tlmgr install fancyhdr
 
 before_script:
