@@ -1,6 +1,6 @@
 bookdown::gitbook:
   highlight: default
-  css: rmcd.css
+  css: config/rmcd.css
   config:
     download: [pdf, epub]
     toc:

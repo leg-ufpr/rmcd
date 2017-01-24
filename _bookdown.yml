@@ -13,4 +13,4 @@ rmd_files: [
     "bibliography.Rmd"
 ]
 
-before_chapter_script: "_setup.R"
+before_chapter_script: "config/_setup.R"
