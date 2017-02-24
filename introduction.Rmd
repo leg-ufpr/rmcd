@@ -1,47 +1,91 @@
 # Introduction #
 
-Figure \@ref(fig:process-ilustration) illustrates the generator process
-for under, over and equidispered counts in two dimensions context. The
-grid lines in this figure indicate fixed regions for which events are
-counted and the counts within each interval are displayed. For the
-equidispersed case the distribution of events is random. In
-overdispersed case, the events are clustered. This behaviour can be
-explained by a contamination process (e.g. count contagious
-disease). The underdispersed case, in contrast of overdispersion, shows
-the events distribution is nearly regular and the counts have smaller
-variances. The natural process that explains underdispersion is
-repulsion, exactly the opposite of overdispersion, that means, an
-event occurence inhibits others near (e.g. count territorialistas
-animals).
+The analysis of count data has received attention from the statistical
+community in the last four decades. Since the seminal paper published 
+by Nelder and Wedderburn [@Nelder1972], the class of generalized linear
+models (GLMs) have a proeminent role for regression modelling of normal and
+non-normal data including count data. The success enjoyed by the GLM framework
+comes from its ability to deal with a wide range of normal and non-normal data.
+GLMs are fitted by a simple and efficient Newton score algorithm relying only
+on second-moment assumptions for estimation and inference. Furthermore, the
+theoretical background for GLMs is well established in the class of dispersion
+models [@Jorgensen1987; @Jorgensen1997] as a generalization of the 
+exponential family of distributions.
 
-```{r process-ilustration, echo=FALSE, fig.height=3, fig.width=7, fig.cap="Illustration of generator process for under, over and equidispered count data."}
+In spite of the flexibility of the GLM class, the Poisson distribution is
+the only choice for the analysis of count data in this framework.  
+Thus, in practice there is probably an over-emphasis on the use of the 
+Poisson distribution for count data. In practice, however, count data can
+present other features, namely underdispersion (mean > variance) and 
+overdispersion (mean < variance). There are many different possible causes
+for departures from the equidispersion. Furthermore, in practical data analysis 
+a number of these could be involved. In this short-course we shall discuss some
+models to deal with non-equidispersed count data. 
 
-mygrid <- expand.grid(xc = 1:3, yc = 1:3)
-mygrid <- data.frame(mygrid)
-sp::coordinates(mygrid) <- ~xc + yc
+One possible cause of under/overdispersion is departure from the Poisson 
+process. It is well known that the Poisson counts can be interpreted as 
+the number of events in a given time interval where the arrival's times 
+are exponential distributed. When this assumption is violated the resulting 
+counts can be under or overdispersed [@Zeviani2014].
+Another possibility and probably more frequent cause of overdispersion is 
+unobserved heterogeneity of experimental units. It can be due, for example,
+to correlation between individual responses, cluster sampling, ommitted
+covariates and others. 
 
-set.seed(20124689)
-equi <- sp::spsample(mygrid, n = 100, type = "random")
-over <- sp::spsample(mygrid, n = 100, type = "clustered", nclusters = 20)
-unde <- sp::spsample(mygrid, n = 100, type = "stratified")
+In general, these departures from the Poisson distribution are manifested 
+in the raw data as a zero-inflated or heavy-tail count distributions. 
+Furthermore, it is important to discuss the consequences of failing to 
+take it into account the under or overdispersion when analysing count data.
+In the case of overdispersion, the standard errors associated with the 
+regression coefficients calculated under the Poisson assumption are too 
+optimistic and associated hypothesis tests will tend to give false 
+positive results by incorrectly rejecting null hypotheses. 
+The opposite situation will appear in case of underdispersed data. 
+In both cases, the Poisson model provides unreliable standard
+errors for the regression coefficients and hence potentially misleading 
+inferences. However, the regression coefficients are still consistently
+estimated.
 
-simul <- list(equi, over, unde)
-names(simul) <- paste0(c("Equi", "Over", "Under"), "dispersion")
-coords <- sapply(simul, function(x) {
-    colnames(x@coords) <- c("x", "y")
-    x@coords
-})
+The strategies for constructing alternative count distributions are related
+with the causes of the non-equidispersion. When departures from the Poisson
+process are plausible the class of duration time models [@Winkelmann2003] 
+can be employed. This class of models basically changes the distribution
+of the time between events from the exponential to more general distributions, 
+like gamma and inverse Gaussian. In this course, we shall discuss one
+example of this approach, namely, the Gamma-Count distribution [@Zeviani2014].
+This distribution assumes that the time between events is gamma distributed,
+thus it can deal with under and overdispersed count data.
 
-da <- plyr::ldply(coords, .id = "caso")
-xyplot(y ~ x | caso, data = da,
-       layout = c(NA, 1),
-       as.table = TRUE,
-       pch = 19,
-       scales = list(draw = FALSE),
-       xlab = "", ylab = "",
-       panel = function(x, y, subscripts, ...) {
-           panel.grid(h = 10, v = 10, col = "gray60", lty = 2)
-           panel.xyplot(x, y, ...)
-       })
+On the other hand, if unobserved heterogeneity is present its in general implies extra 
+variability and consequently overdispersed count data. In this case, a Poisson mixtures 
+is commonly applied. This approach consists of include random effects on the observation
+level, and thus take into account the unobserved heterogeneity. 
+Probably, the most popular example of this approach is the negative binomial model, that
+corresponds to a Poisson-gamma mixtures. In this course, we shall present the Poisson-Tweedie
+family of distributions, which in turn corresponds to Poisson-Tweedie 
+mixtures [@Bonat2016b; @Jorgensen2014]. 
+Finally, a third approach to deal with non-equidispersed count data consists of generalize the 
+Poisson distribution by adding an extra parameter to model under and overdispersion. 
+Such a generalization can be done using the class of weighted Poisson 
+distributions [@DelCastillo1998].
+One popular example of this approach is the Conway–Maxwell–Poisson distribution 
+(COM-Poisson) [@Sellers2010].
+The COM-Poisson is a member of the exponential family, has the Poisson and geometric distributions 
+as special cases and the Bernoulli distribution as a limiting case. It can deal with both under 
+and overdispersed count data. Thus, given the nice properties of the COM-Poisson distribution for handling 
+count data, we choose to present this model as part of this short course. 
 
-```
+In this short course we shall highlight and compare the ability of these distributions to deal with count data 
+through a consideration of dispersion, zero-inflated and heavy tail indexes. 
+Furthermore, we specify regression models and illustrate their application with four worked examples. 
+
+In Chapter $2$ after introduce the dispersion, zero-inflated and heavy tail indexes we present the properties 
+and regression models based on the Poisson, Gamma-count, Poisson-Tweedie and COM-Poisson distributions. 
+Estimation and inference for these models based on the likelihood paradigm are described in Chapter $3$. 
+In Chapter $4$, we extend the Poisson and Poisson-Tweedie by specifying models based only on second-moments 
+assumptions and present the related estimation and inference based on the estimating function approach. 
+Chapter $5$ presents four worked examples. Finally, in Chapter $6$ we discuss the general methods and propose 
+some topics for future works.
+
+
+

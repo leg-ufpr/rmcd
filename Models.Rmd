@@ -1,0 +1,201 @@
+# Count distributions: properties and regression models
+
+In this chapter, we present the probability mass function and discuss 
+the main properties of the Poisson, Gamma-Count, Poisson-Tweedie and 
+COM-Poisson distributions. 
+
+## Poisson distribution
+
+The Poisson distribution is a notorious discrete distribution.
+It has a dual interpretation as a natural exponential family and as 
+an exponential dispersion model. The Poisson distribution denoted by 
+$P(\lambda)$ with mean $\lambda$ has probability mass function 
+$$
+\begin{align}
+p(y;\lambda) &= \frac{\lambda^y}{y!}\exp\{-\lambda\} \\
+	           &= \frac{1}{y!} \exp \{\phi y -  \exp\{\phi\} \}, \quad y \in \mathbb{N}_{0},	
+\end{align}
+\label{eq:Poisson}
+$$
+where $\phi = \log \{\lambda\} \in \mathbb{R}$. 
+Hence the Poisson is a natural exponential family with cumulant generator 
+$\kappa(\phi) = \exp\{\phi\}$. Thus, we have $\mathrm{E}(Y) = \kappa^{\prime}(\phi) = \exp\{\phi\} = \lambda$ and 
+$\mathrm{var}(Y) = \kappa^{\prime \prime}(\phi) = \exp\{\phi\} = \lambda$.
+Consequently, for the Poisson distribution the dispersion index equals 
+$1$ $\forall \lambda$. In the Poisson case is easy to show that 
+$\mathrm{ZI} = 0$ and $\mathrm{HT} \to 0$ when $y \to \infty$.
+
+In order to specify a regression model based on the Poisson distribution, 
+we consider a cross-section dataset, $(y_i, x_i)$, $i = 1,\ldots, n$, 
+where $y_i$'s are i.i.d. realizations of $Y_i$ according to a Poisson 
+distribution. The Poisson regression models is defined by 
+$$Y_i \sim P(\lambda_i), \quad  \text{with} \quad \lambda_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).$$ 
+In this notation, $\boldsymbol{x_i}$ and $\boldsymbol{\beta}$ are 
+($q \times 1$) vectors of known covariates and unknown regression 
+parameters, respectively. Moreover, $g$ is a standard link function, 
+for which we adopt the logarithm link function, but potentially 
+any other suitable link function could be adopted. Given the properties 
+of the Poisson distribution is quite clear that it can deal only with 
+equidispersed data and has no flexibility to deal with zero-inflation 
+and/or heavy tail count data. In fact, the presented indexes were 
+proposed in relation to the Poisson distribution in order to highlight 
+its limitations.
+
+## Gamma-Count distribution
+
+The Poisson distribution as presented in \@ref{eq:Poisson} follows 
+directly from the natural exponential family and thus fits in the 
+generalized linear models (GLMs) framework. Alternatively, the Poisson 
+distribution can be derived by assuming independent and exponentially 
+distributed times between events [@Zeviani2014]. This derivation allows 
+for a flexible framework to specify more general count models to deal 
+with under and overdispersed count data. 
+
+As point out by @Winkelmann2003 the distributions of the arrival times 
+determine the distribution of the number of events.
+Following @Winkelman1995, let ${\tau_k, k \in \mathbb{N}}$ denote a 
+sequence of waiting times between the $(k-1)$th and the $k$th event.
+Then, the arrival time of the $y$th event is given by 
+$\nu_y = \sum_{k = 1}^{y} \tau_k$, for $y = 1, 2, \ldots$. 
+Furthermore, denote $Y$ the total number of events in the open interval 
+between $0$ and $T$. For fixed $T$, $Y$ is a count variable. 
+Indeed, from the definitions of $Y$ and $\nu_y$ we have that
+$Y < y$ iff $\nu_y \ge T$, which in turn implies 
+$P(Y < y) = P(\nu_y \ge T) = 1 - F_y(T)$, where 
+$F_y(T)$ denotes the cumulative distribution function of $\nu_y$.
+Furthermore,
+$$
+\begin{align}
+P(Y = y) &= P(Y < y+1) - P(Y < y) \\
+	 &= F_y(T) - F_{y+1}(T).
+\end{align}
+\label{eq:DURATION}
+$$
+Equation \@ref{eq:DURATION} provides the fundamental relation between the 
+distribution of arrival times and the distribution of counts. 
+Furthermore, this type of specification allows to derive a rich class
+of models for count data by choosing a distribution for the arrival times.
+In this material, we shall explore the Gamma-Count distribution which 
+is obtained by specifying the arrival times distribution as gamma 
+distributed.
+
+Let $\tau_k$ be identically and independently gamma distributed, 
+with density distribution (dropping the index $k$) given by 
+$$
+\begin{equation}
+f(\tau; \alpha, \beta) = \frac{\beta^{\alpha}}{\Gamma(\alpha)} \tau^{\alpha-1} \exp\{-\beta \tau\}, \quad \alpha, \beta \in \mathbb{R}^{+}.
+\end{equation}
+$$
+In this parametrization $\mathrm{E}(\tau) = \alpha/\beta$ and 
+$\mathrm{var}(\tau) = \alpha/\beta^2$. 
+Thus, by applying the convolution formula for gamma distributions it 
+is easy to see that the distribution of $\nu_y$ is given by
+$$
+\begin{equation}
+f_y(\nu; \alpha, \beta) = \frac{\beta^{y\alpha}}{\Gamma(y\alpha)} \nu^{y\alpha-1} \exp\{-\beta \nu\}.
+\end{equation}
+$$
+To derive the new count distribution, we have to evaluate the cumulative 
+distribution function, which after the change of variable 
+$u = \beta \alpha$ can be written as
+$$
+\begin{equation}
+F_y(T) = \frac{1}{\Gamma(y\alpha)} \int_0^{\beta T} u^{n\alpha -1} \exp\{-u\} du,
+\label{eqINTEGRAL}
+\end{equation}
+$$
+where the integral is the incomplete gamma function. We denote the 
+right side of \@ref{eq:INTEGRAL} as $G(\alpha y, \beta T)$. 
+Thus, the number of event occurrences during the time interval 
+$(0,T)$ has the two-parameter distribution function
+$$
+\begin{equation}
+P(Y = y) = G(\alpha y, \beta T) - G(\alpha (y + 1), \beta T),
+\label{eq:MASSFUNCTION}
+\end{equation}
+$$
+for $y = 0, 1, \ldots$, where $\alpha, \beta \in \mathbb{R}^+$. 
+@Winkelman1995 showed that for integer $\alpha$ the probability mass 
+function defined in \@ref{eq:MASSFUNCTION} is given by
+$$
+\begin{equation}
+P(Y = y) = \exp{-\beta T} \sum_{i = 0}^{\alpha -1} \frac{(\beta T)^{\alpha y + i}}{\alpha y + i}! , \quad y = 0, 1, 2, \ldots .
+\end{equation}
+$$
+For $\alpha = 1$, $f(\tau)$ is the exponential distribution and 
+\@ref{eq:MASSFUNCTION} clearly simplifies to the Poisson distribution.
+Although, numerical evaluation of \@ref{eq:MASSFUNCTION} can easily be done based on
+asymptotic expansion, the moments (mean and variance) cannot be obtained in closed form.
+@Winkelman1995 showed for a random variable $Y \sim GC(\alpha, \beta)$, where $GC(\alpha, \beta)$ denotes
+a Gamma-Count distribution with parameters $\alpha$ and $\beta$, $\mathrm{E}(Y) = \sum_{i = 1}^\infty G(\alpha i, \beta T)$.
+Furthermore, for increasing $T$ it holds that
+$$ 
+\begin{equation}
+Y(T) \overset{a}{\sim} N\left(\frac{\beta T}{\alpha}, \frac{\beta T}{\alpha^2} \right), 
+\end{equation}
+$$
+thus the limiting variance-mean ratio equals a constant $1/\alpha$. 
+Consequently, the Gamma-Count distribution displays overdispersion 
+for $0 < \alpha < 1$ and underdispersion for $\alpha > 1$. 
+Figure \@ref{fig:PlotGC} presents the probability mass function for 
+some Gamma-Count distributions. We fixed the parameter $\beta = 10$ and
+fit the parameter $\alpha$ in order to have dispersion index 
+($\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)$) equals to $0.5$, $1$,
+$5$ and $20$.
+
+```{r massfunction, echo = FALSE, fig.cap = 'A figure caption.'}
+dgc <- function(y, beta, alpha) {
+  p <- pgamma(q = 1,
+              shape = y * alpha,
+              rate = alpha * beta) -
+    pgamma(q = 1,
+           shape = (y + 1) * alpha,
+           rate = alpha * beta)
+  return(p)
+}
+```
+
+```{r PlotGC, echo = FALSE, fig.cap = '', fig.height = 2, fig.width= 8}
+par(mfrow = c(1,4), mar=c(2.6, 2.8, 1.2, 0.5), mgp = c(1.6, 0.6, 0))
+plot(dgc(y = c(0:120), beta = 10, alpha = 2.1), type = "h", lwd = 1, 
+     main = "DI = 0.5", ylab = "Mass function", xlab = "y")
+plot(dgc(y = c(0:120), beta = 10, alpha = 1), type = "h", lwd = 1,
+     main = "DI = 1", ylab = "Mass function", xlab = "y")
+plot(dgc(y = c(0:120), beta = 10, alpha = 0.15), type = "h", lwd = 1,
+     main = "DI = 5", ylab = "Mass function", xlab = "y")
+plot(dgc(y = c(0:120), beta = 10, alpha = 0.022), type = "h", lwd = 1,
+     main = "DI = 20", ylab = "Mass function", xlab = "y")
+```
+
+
+## Comparing count distributions
+
+Let $Y$ be a count random variable and 
+$\mathrm{E}(Y)$ and $\mathrm{var}(Y)$ denote its mean and variance, 
+respectively. In order to explore and compare the flexibility of the 
+models in discussion, we introduce the dispersion $(\mathrm{DI})$, 
+zero-inflation $(\mathrm{ZI})$ and heavy-tail $(\mathrm{HT})$ indexes,
+which are respectively given by
+$$
+\begin{equation}
+\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y), \quad 
+\mathrm{ZI} = 1 + \frac{\log \mathrm{P}(Y = 0)}{\mathrm{E}(Y)}
+\end{equation}
+$$
+and
+$$
+\begin{equation}
+\mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty. 
+\end{equation}
+$$
+
+These indexes are defined in relation to the Poisson distribution. 
+Thus, the dispersion index indicates underdispersion for $\mathrm{DI} < 1$, 
+equidispersion for $\mathrm{DI} = 1$ and overdispersion for $\mathrm{DI} > 1$.
+Similarly, the zero-inflated index is easily interpreted, since $\mathrm{ZI} < 0$ 
+indicates zero-deflation, $\mathrm{ZI} = 0$ corresponds to no excess of zeroes 
+and $\mathrm{ZI} > 0$ indicates zero-inflation. 
+Finally, $\mathrm{HT} \to 1$ when $y \to \infty$ indicates a heavy 
+tail distribution. In what follows, we shall present the Poisson,
+Gamma-Count, Poisson-Tweedie and COM-Poisson distributions and explore 
+their properties to deal with non-equidispersed count data.
