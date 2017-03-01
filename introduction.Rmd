@@ -13,14 +13,15 @@ models [@Jorgensen1987; @Jorgensen1997] as a generalization of the
 exponential family of distributions.
 
 In spite of the flexibility of the GLM class, the Poisson distribution is
-the only choice for the analysis of count data in this framework.  
+the only choice for the analysis of count data in this framework. 
 Thus, in practice there is probably an over-emphasis on the use of the 
-Poisson distribution for count data. In practice, however, count data can
-present other features, namely underdispersion (mean > variance) and 
-overdispersion (mean < variance). There are many different possible causes
-for departures from the equidispersion. Furthermore, in practical data analysis 
-a number of these could be involved. In this short-course we shall discuss some
-models to deal with non-equidispersed count data. 
+Poisson distribution for count data. A well known limitation of the 
+Poisson distribution is its mean and variance relationship, which 
+implies that the variance equals the mean, referred to as equidispersion.
+In practice, however, count data can present other features, namely 
+underdispersion (mean > variance) and overdispersion (mean < variance). 
+There are many different possible causes for departures from the equidispersion. 
+Furthermore, in practical data analysis a number of these could be involved. 
 
 One possible cause of under/overdispersion is departure from the Poisson 
 process. It is well known that the Poisson counts can be interpreted as 
@@ -33,9 +34,9 @@ to correlation between individual responses, cluster sampling, ommitted
 covariates and others. 
 
 In general, these departures from the Poisson distribution are manifested 
-in the raw data as a zero-inflated or heavy-tail count distributions. 
-Furthermore, it is important to discuss the consequences of failing to 
-take it into account the under or overdispersion when analysing count data.
+in the raw data as a zero-inflated or heavy-tail count distribution. 
+It is important to discuss the consequences of failing to 
+take into account the under or overdispersion when analysing count data.
 In the case of overdispersion, the standard errors associated with the 
 regression coefficients calculated under the Poisson assumption are too 
 optimistic and associated hypothesis tests will tend to give false 
@@ -49,43 +50,50 @@ estimated.
 The strategies for constructing alternative count distributions are related
 with the causes of the non-equidispersion. When departures from the Poisson
 process are plausible the class of duration time models [@Winkelmann2003] 
-can be employed. This class of models basically changes the distribution
+can be employed. This class of models changes the distribution
 of the time between events from the exponential to more general distributions, 
 like gamma and inverse Gaussian. In this course, we shall discuss one
 example of this approach, namely, the Gamma-Count distribution [@Zeviani2014].
 This distribution assumes that the time between events is gamma distributed,
-thus it can deal with under and overdispersed count data.
+thus it can deal with under, equi and overdispersed count data.
 
-On the other hand, if unobserved heterogeneity is present its in general implies extra 
-variability and consequently overdispersed count data. In this case, a Poisson mixtures 
-is commonly applied. This approach consists of include random effects on the observation
-level, and thus take into account the unobserved heterogeneity. 
-Probably, the most popular example of this approach is the negative binomial model, that
-corresponds to a Poisson-gamma mixtures. In this course, we shall present the Poisson-Tweedie
+On the other hand, if unobserved heterogeneity is present its in general 
+implies extra variability and consequently overdispersed count data. 
+In this case, a Poisson mixtures is commonly applied. 
+This approach consists of include random effects on the observation level, 
+and thus take into account the unobserved heterogeneity. 
+Probably, the most popular example of this approach is the negative 
+binomial model, that corresponds to a Poisson-gamma mixtures. 
+In this course, we shall present the Poisson-Tweedie
 family of distributions, which in turn corresponds to Poisson-Tweedie 
 mixtures [@Bonat2016b; @Jorgensen2014]. 
-Finally, a third approach to deal with non-equidispersed count data consists of generalize the 
-Poisson distribution by adding an extra parameter to model under and overdispersion. 
+Finally, a third approach to deal with non-equidispersed count data 
+consists of generalize the Poisson distribution by adding an extra 
+parameter to model under and overdispersion. 
 Such a generalization can be done using the class of weighted Poisson 
-distributions [@DelCastillo1998].
-One popular example of this approach is the Conway–Maxwell–Poisson distribution 
-(COM-Poisson) [@Sellers2010].
-The COM-Poisson is a member of the exponential family, has the Poisson and geometric distributions 
-as special cases and the Bernoulli distribution as a limiting case. It can deal with both under 
-and overdispersed count data. Thus, given the nice properties of the COM-Poisson distribution for handling 
+distributions [@DelCastillo1998]. One popular example of this approach 
+is the Conway–Maxwell–Poisson distribution (COM-Poisson) [@Sellers2010].
+The COM-Poisson is a member of the exponential family, has the Poisson 
+and geometric distributions as special cases and the Bernoulli 
+distribution as a limiting case. It can deal with both under 
+and overdispersed count data. 
+Thus, given the nice properties of the COM-Poisson distribution for handling 
 count data, we choose to present this model as part of this short course. 
 
-In this short course we shall highlight and compare the ability of these distributions to deal with count data 
-through a consideration of dispersion, zero-inflated and heavy tail indexes. 
-Furthermore, we specify regression models and illustrate their application with four worked examples. 
+In this short course we shall highlight and compare the ability of these 
+distributions to deal with count data through a consideration of dispersion, 
+zero-inflated and heavy tail indexes. 
+Furthermore, we specify regression models and illustrate their application 
+with four worked examples. 
 
-In Chapter $2$ after introduce the dispersion, zero-inflated and heavy tail indexes we present the properties 
-and regression models based on the Poisson, Gamma-count, Poisson-Tweedie and COM-Poisson distributions. 
-Estimation and inference for these models based on the likelihood paradigm are described in Chapter $3$. 
-In Chapter $4$, we extend the Poisson and Poisson-Tweedie by specifying models based only on second-moments 
-assumptions and present the related estimation and inference based on the estimating function approach. 
-Chapter $5$ presents four worked examples. Finally, in Chapter $6$ we discuss the general methods and propose 
+In Chapter $2$ we present the properties and regression models based on 
+the Poisson, Gamma-count, Poisson-Tweedie and COM-Poisson distributions. 
+Moreover, we compare these distributions using the dispersion, 
+zero-inflated and heavy-tail indexes. Estimation and inference for these 
+models based on the likelihood paradigm are described in Chapter $3$. 
+In Chapter $4$, we extend the Poisson and Poisson-Tweedie by specifying 
+models based only on second-moments assumptions and present the related 
+estimation and inference based on the estimating function approach. 
+Chapter $5$ presents four worked examples. 
+Finally, in Chapter $6$ we discuss the general methods and propose 
 some topics for future works.
-
-
-
