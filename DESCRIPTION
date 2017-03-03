@@ -7,7 +7,7 @@ Imports:
   lattice,
   latticeExtra,
   tweedie,
-  statsmod,
+  statmod,
   compoisson,
   rootSolve
 Suggests:
