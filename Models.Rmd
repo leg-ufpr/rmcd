@@ -9,20 +9,18 @@ COM-Poisson distributions.
 The Poisson distribution is a notorious discrete distribution.
 It has a dual interpretation as a natural exponential family and as 
 an exponential dispersion model. The Poisson distribution denoted by 
-$P(\mu)$ with mean $\mu$ has probability mass function 
-$$
-\begin{align}
-p(y;\mu) &= \frac{\mu^y}{y!}\exp\{-\mu\} \\
-	           &= \frac{1}{y!} \exp \{\phi y -  \exp\{\phi\} \}, \quad y \in \mathbb{N}_{0},	
-\end{align}
-\label{eq:Poisson}
-$$
+$P(\mu)$ has probability mass function 
+
+\begin{eqnarray}
+p(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \\
+	     &=& \frac{1}{y!} \exp \{\phi y -  \exp\{\phi\} \}, \quad y \in \mathbb{N}_{0},
+(\#eq:Poisson)
+\end{eqnarray}
 where $\phi = \log \{\mu\} \in \mathbb{R}$. 
 Hence the Poisson is a natural exponential family with cumulant generator 
-$\kappa(\phi) = \exp\{\phi\}$. 
-We have $\mathrm{E}(Y) = \kappa^{\prime}(\phi) = \exp\{\phi\} = \mu$ and 
-$\mathrm{var}(Y) = \kappa^{\prime \prime}(\phi) = \exp\{\phi\} = \mu$.
-The probability mass function \@ref{eq:Poisson} can be evaluated in `R`
+$\kappa(\phi) = \exp\{\phi\}$.  We have $\mathrm{E}(Y) = \kappa^{\prime}(\phi) = \exp\{\phi\} = \mu$ 
+and $\mathrm{var}(Y) = \kappa^{\prime \prime}(\phi) = \exp\{\phi\} = \mu$.
+The probability mass function \@ref(eq:Poisson) can be evaluated in `R`
 through the `dpois()` function. 
 
 In order to specify a regression model based on the Poisson distribution, 
@@ -38,7 +36,7 @@ any other suitable link function could be adopted.
 
 ## Gamma-Count distribution
 
-The Poisson distribution as presented in \@ref{eq:Poisson} follows 
+The Poisson distribution as presented in \@ref(eq:Poisson) follows 
 directly from the natural exponential family and thus fits in the 
 generalized linear models (GLMs) framework. Alternatively, the Poisson 
 distribution can be derived by assuming independent and exponentially 
@@ -49,7 +47,7 @@ with under and overdispersed count data.
 As point out by @Winkelmann2003 the distributions of the arrival times 
 determine the distribution of the number of events.
 Following @Winkelman1995, let ${\tau_k, k \in \mathbb{N}}$ denote a 
-sequence of waiting times between the $(k-1)$th and the $k$th event.
+sequence of waiting times between the $(k-1)$th and the $k$th events.
 Then, the arrival time of the $y$th event is given by 
 $\nu_y = \sum_{k = 1}^{y} \tau_k$, for $y = 1, 2, \ldots$. 
 Furthermore, denote $Y$ the total number of events in the open interval 
@@ -59,14 +57,12 @@ $Y < y$ iff $\nu_y \ge T$, which in turn implies
 $P(Y < y) = P(\nu_y \ge T) = 1 - F_y(T)$, where 
 $F_y(T)$ denotes the cumulative distribution function of $\nu_y$.
 Furthermore,
-$$
-\begin{align}
-P(Y = y) &= P(Y < y+1) - P(Y < y) \\
-	 &= F_y(T) - F_{y+1}(T).
-\end{align}
-\label{eq:DURATION}
-$$
-Equation \@ref{eq:DURATION} provides the fundamental relation between the 
+\begin{eqnarray}
+P(Y = y) &=& P(Y < y+1) - P(Y < y) \\
+	 &=& F_y(T) - F_{y+1}(T).
+(\#eq:DURATION)
+\end{eqnarray}
+Equation \@ref(eq:DURATION) provides the fundamental relation between the 
 distribution of arrival times and the distribution of counts. 
 Furthermore, this type of specification allows to derive a rich class
 of models for count data by choosing a distribution for the arrival times.
@@ -76,47 +72,40 @@ distributed.
 
 Let $\tau_k$ be identically and independently gamma distributed, 
 with density distribution (dropping the index $k$) given by 
-$$
 \begin{equation}
 f(\tau; \alpha, \gamma) = \frac{\gamma^{\alpha}}{\Gamma(\alpha)} \tau^{\alpha-1} \exp\{-\gamma \tau\}, \quad \alpha, \gamma \in \mathbb{R}^{+}.
 \end{equation}
-$$
-In this parametrization $\mathrm{E}(\tau) = \alpha/\gamma$ and 
+
+In this parameterization $\mathrm{E}(\tau) = \alpha/\gamma$ and 
 $\mathrm{var}(\tau) = \alpha/\gamma^2$. 
 Thus, by applying the convolution formula for gamma distributions it 
-is easy to see that the distribution of $\nu_y$ is given by
-$$
+is easy to show that the distribution of $\nu_y$ is given by
 \begin{equation}
 f_y(\nu; \alpha, \gamma) = \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)} \nu^{y\alpha-1} \exp\{-\gamma \nu\}.
 \end{equation}
-$$
+
 To derive the new count distribution, we have to evaluate the cumulative 
 distribution function, which after the change of variable 
 $u = \gamma \alpha$ can be written as
-$$
 \begin{equation}
 F_y(T) = \frac{1}{\Gamma(y\alpha)} \int_0^{\gamma T} u^{n\alpha -1} \exp\{-u\} du,
-\label{eqINTEGRAL}
+(\#eq:INTEGRAL)
 \end{equation}
-$$
 where the integral is the incomplete gamma function. We denote the 
 right side of \@ref{eq:INTEGRAL} as $G(\alpha y, \gamma T)$. 
 Thus, the number of event occurrences during the time interval 
 $(0,T)$ has the two-parameter distribution function
-$$
 \begin{equation}
 P(Y = y) = G(\alpha y, \gamma T) - G(\alpha (y + 1), \gamma T),
-\label{eq:MASSFUNCTION}
+(\#eq:MASSFUNCTION)
 \end{equation}
-$$
 for $y = 0, 1, \ldots$, where $\alpha, \gamma \in \mathbb{R}^+$. 
 @Winkelman1995 showed that for integer $\alpha$ the probability mass 
 function defined in \@ref{eq:MASSFUNCTION} is given by
-$$
 \begin{equation}
 P(Y = y) = \exp^{\{-\gamma T\}} \sum_{i = 0}^{\alpha -1} \frac{(\gamma T)^{\alpha y + i}}{\alpha y + i}!.
 \end{equation}
-$$
+
 For $\alpha = 1$, $f(\tau)$ is the exponential distribution and 
 \@ref{eq:MASSFUNCTION} clearly simplifies to the Poisson distribution.
 The following `R` function can be used to evaluate the probability mass 
@@ -139,25 +128,23 @@ Although, numerical evaluation of \@ref{eq:MASSFUNCTION} can easily be
 done, the moments (mean and variance) cannot be obtained in closed form.
 @Winkelman1995 showed for a random variable $Y \sim GC(\alpha, \gamma)$, 
 where $GC(\alpha, \gamma)$ denotes a Gamma-Count distribution with 
-parameters $\alpha$ and $\gamma$, 
+parameters $\alpha$ and $\gamma$,
 $\mathrm{E}(Y) = \sum_{i = 1}^\infty G(\alpha i, \gamma T)$.
 
 Furthermore, for increasing $T$ it holds that
-$$ 
 \begin{equation}
 Y(T) \overset{a}{\sim} N\left(\frac{\gamma T}{\alpha}, \frac{\gamma T}{\alpha^2} \right), 
 \end{equation}
-$$
 thus the limiting variance-mean ratio equals a constant $1/\alpha$. 
 Consequently, the Gamma-Count distribution displays overdispersion 
 for $0 < \alpha < 1$ and underdispersion for $\alpha > 1$. 
-Figure \@ref{fig:PlotGC} presents the probability mass function for 
+Figure \@ref(fig:PlotGC) presents the probability mass function for 
 some Gamma-Count distributions. We fixed the parameter $\gamma = 10$ and
 fit the parameter $\alpha$ in order to have dispersion index 
-($\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)$) equals to $0.5$, $1$,
+($\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)$) equals to $0.5$, $2$,
 $5$ and $20$. 
 
-```{r PlotGC, echo = FALSE, fig.cap = '', fig.height = 2, fig.width= 8}
+```{r PlotGC, echo = FALSE, fig.cap = 'Gamma-Count probability mass function by values of the dispersion index (DI).', fig.height = 2, fig.width= 8}
 par(mfrow = c(1,4), mar=c(2.6, 2.8, 1.2, 0.5), mgp = c(1.6, 0.6, 0))
 plot(dgc(y = c(0:120), gamma = 10, alpha = 2.1), type = "h", lwd = 1, 
      main = "DI = 0.5", ylab = "Mass function", xlab = "y")
@@ -174,13 +161,12 @@ is identical for all observations, thus $T$ may be set to unity without
 loss of generality, since an intercept is included in the model. 
 In the Gamma-count regression model, the parameters depend on a vector 
 of individual covariates $\boldsymbol{x}_i$. 
-Finally, the Gamma-Count regression model is defined by 
+Thus, the Gamma-Count regression model is defined by 
 
-$$
 \begin{equation}
 \mathrm{E}(\tau_i | \boldsymbol{x}_i) = \frac{\alpha}{\gamma} = g^{-1}(-\boldsymbol{x_i}^\top \boldsymbol{\beta}).
 \end{equation}
-$$
+
 Consequently, the regression model is for the waiting times and not 
 directly for the counts. Note that, 
 $\mathrm{E}(N_i | \boldsymbol{x}_i) = \mathrm{E}(\tau_i | \boldsymbol{x}_i) {-1}$ 
@@ -195,25 +181,21 @@ Chapter $3$.
 The Poisson-Tweedie distribution [@Bonat2016b; @Jorgensen2014; @Shaarawi2011]
 consists of include Tweedie distributed random effects on the observation 
 level of Poisson random variables, and thus to take into account 
-unobserved heterogeneity. 
-The Poisson-Tweedie family is given by the following hierarchical specification
-$$
-\begin{align}
-\begin{split}
-\label{conditional}
-Y|Z &\sim \mathrm{Poisson}(Z) \\ 
-Z &\sim \mathrm{Tw}_p(\mu, \phi), \nonumber
-\end{split}
-\end{align} 
-$$
+unobserved heterogeneity. The Poisson-Tweedie family is given by the 
+following hierarchical specification
+
+\begin{eqnarray}
+Y|Z &\sim& \mathrm{Poisson}(Z) \\ 
+Z &\sim& \mathrm{Tw}_p(\mu, \phi), \nonumber
+(\#eq:conditional)
+\end{eqnarray} 
 where $\mathrm{Tw}_p(\mu, \phi)$ denotes a Tweedie distribution 
 [@Jorgensen1987 ; @Jorgensen1997] with probability function given by
-$$
 \begin{equation}
-\label{pdfTW}
 f_{Z}(z; \mu, \phi, p) = a(z,\phi,p) \exp\{(z\psi - k_p(\psi))/\phi\}.
+(\#eq:tweedie)
 \end{equation}
-$$
+
 In this notation, $\mu = k^{\prime}_p(\psi)$ is the expectation, 
 $\phi > 0$ is the dispersion parameter, $\psi$ is the canonical 
 parameter and $k_p(\psi)$ is the cumulant function.
@@ -241,16 +223,15 @@ right-skewed [@Andersen2016].
 
 The Poisson-Tweedie is an overdispersed factorial dispersion
 model [@Jorgensen2014] and its probability mass function for $p > 1$ is given by
-$$
 \begin{equation}
 f(y;\mu,\phi,p) = \int_0^\infty \frac{z^y \exp{-z}}{y!} a(z,\phi,p) \exp\{(z\psi - k_p(\psi))/\phi\} dz.
-\label{pmfPTW}
+(\#eq:pmfPTW)
 \end{equation}
-$$
-The integral (\@ref{eq:pmfPTW}) has no closed-form apart of the special 
+
+The integral \@ref(eq:pmfPTW) has no closed-form apart of the special 
 case corresponding to the negative binomial distribution, obtained when 
 $p = 2$, i.e. a Poisson gamma mixture. 
-In the case of $p=1$ the integral~(\@ref{eq:pmfPTW}) is replaced by a 
+In the case of $p=1$ the integral \@ref(eq:pmfPTW) is replaced by a 
 sum and we have the Neyman Type A distribution. 
 Further special cases include the Hermite $(p = 0)$, 
 Poisson compound Poisson $(1 < p < 2)$, factorial discrete positive 
@@ -260,7 +241,7 @@ stable $(p > 2)$ and Poisson-inverse Gaussian $(p = 3)$ distributions
 In spite of other approaches to compute the probability mass function of
 the Poisson-Tweedie distribution are available in the literature 
 [@Esnaola2013 ; @Barabesi2016]. In this material, we opted to computed it
-by numerical evaluation of the integral in Eq. \@ref{eq:pmfPTW} using 
+by numerical evaluation of the integral in \@ref(eq:pmfPTW) using 
 the Monte Carlo method as implemented by the following functions.
 
 ```{r ptwpmf, echo = TRUE, fig.cap = 'Probability mass function - Poisson-Tweedie distribution.'}
@@ -284,25 +265,32 @@ dptw <- Vectorize(dptw, vectorize.args = "y")
 
 When using the Monte Carlo method we need to specify a proposal distribution,
 from which samples will be taken to compute the integral as an expectation.
-In the Poisson-Tweedie is sensible to use the Tweedie distribution as proposal.
+In the Poisson-Tweedie case is sensible to use the Tweedie distribution as proposal.
 Thus, in our function we use the argument `control_sample` to provide these
 values. The advantage of this approach is that we need to simulate values 
-once and we can reuse them for all evaluations of the probability mass function. 
+once and we can reuse them for all evaluations of the probability mass 
+function, as shown in the following code.
 
 ```{r ptwpmf1, echo = TRUE, fig.cap = 'Evaluating Poisson-Tweedie distributions.'}
 require(tweedie)
 set.seed(123)
-pts <- rtweedie(n = 100000, mu = 10, phi = 1, power = 2)
+pts <- rtweedie(n = 1000, mu = 10, phi = 1, power = 2)
 norma <- dtweedie(pts, mu = 10, phi = 1, power = 2)
 control_sample <- list("pts" = pts, "norma" = norma) 
-dptw(y = c(5, 10, 15), mu = 10, phi = 1, power = 2, 
+dptw(y = c(0, 5, 10, 15), mu = 10, phi = 1, power = 2, 
      control_sample = control_sample)
-dnbinom(x = c(5, 10, 15), mu = 10, size = 1)
+dnbinom(x = c(0, 5, 10, 15), mu = 10, size = 1)
 ```
+
+It is also possible to use the Gauss-Laguerre method to approximate the
+integral in \@ref(eq:pmfPTW). In the supplementary material `Script2.R`,
+we provide `R` functions using both Monte Carlo e Gauss-Laguerre methods
+to approximate the probability mass function of Poisson-Tweedie distributions.
+
 Figure \@ref(fig:ptwpmfplot) presents the empirical probability mass function 
 of some Poisson-Tweedie distributions computed based on a sample of size 
 $100000$ (gray). Furthermore, we present an approximation (black) for the 
-probability mass function obtained by Monte Carlo integration.
+probability mass function obtained by Monte Carlo integration. 
 We considered different values of the Tweedie power parameter 
 $p = 1.1$, $2$, and $3$ combined with different values of the dispersion 
 index. In all scenarios the expectation $\mu$ was fixed at $10$.
@@ -323,15 +311,13 @@ plot_ptw(mu = 10, phi = 0.04, power = 3, title = "DI = 5; p = 3")
 plot_ptw(mu = 10, phi = 0.19, power = 3, title = "DI = 20; p = 3")
 
 ```
+
 For all scenarios considered the Monte Carlo method provides a quite
 accurate approximation to the empirical probability mass function. 
 For these examples, we used $5000$ random samples from the proposal 
-distribution. The `R` code that generates the Figure \@ref{fig:ptwpmfplot} 
-as well as some extra functions are available as supplementary material 
-`Script2.R`.
+distribution. 
 
-Finally, the Poisson-Tweedie regression 
-model is defined by
+Finally, the Poisson-Tweedie regression model is defined by
 $$Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),$$ 
 where $\boldsymbol{x}_i$ and $\boldsymbol{\beta}$ are $(q \times 1)$ vectors
 of known covariates and unknown regression parameters. The estimation and 
@@ -346,8 +332,8 @@ approach in the style of @Wedderburn1974.
 ## COM-Poisson distribution
 
 The COM-Poisson distribution belongs to the family of weighted Poisson
-distributions. In general, a random variable $Y$ is a weighted Poisson
-distribution if its probability function can be written in the form
+distributions. A random variable $Y$ is a weighted Poisson
+distribution if its probability mass function can be written in the form
 
 $$
 f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!}, \quad y = 0, 1, \ldots,
@@ -357,18 +343,19 @@ is a normalizing constant [@Sellers2012]. The COM-Poisson is obtained
 when $w_{y} = (y!)^{1-\nu}$ for $\nu \geq 0$. In general, the expectation
 and variance of the COM-Poisson distribution cannot be expressed in closed-form.
 However, they can be approximated by 
-
 $$\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu} \quad
 \text{and} \quad \mathrm{var}(Y) \approx (1/ \nu) \lambda^{1 /\nu}.$$
+
 These approximations are accurate when $\nu \leq 1$ or $\lambda > 10^{\nu}$.
-The infinite sum involved in computing the probability mass function and the
-moments of the COM-Poisson distribution can be approximated to any
+The infinite sum involved in computing the probability mass function of 
+the COM-Poisson distribution can be approximated to any
 level of precision. It can be evaluated in `R` using the function
-`dcom()` from `compoisson` package [@Dunn2012]. Figure \@ref(fig:comPoispmfplot)
-presents some COM-Poisson probability mass functions. We tried to find
-parameters $\lambda$ and $\nu$ in order to have $\mathrm{E}(Y) = 10$ and
-dispersion index equals to $\mathrm{DI} = 0.5, 2, 5$ and $20$. 
-However, we could not find any parameter combination to have $\mathrm{DI} = 20$.
+`dcom()` from the `compoisson` package [@Dunn2012]. 
+Figure \@ref(fig:comPoispmfplot) presents some COM-Poisson probability 
+mass functions. We tried to find parameters $\lambda$ and $\nu$ in order 
+to have $\mathrm{E}(Y) = 10$ and dispersion index equals to 
+$\mathrm{DI} = 0.5, 2, 5$ and $20$. However, we could not find any parameter 
+combination to have $\mathrm{DI} = 20$.
 
 ```{r comPoispmfplot, echo = FALSE, cache = TRUE, fig.cap = 'COM-Poisson probability mass function by values of the dispersion index (DI).', fig.height = 2, fig.width= 8}
 source("Script3.R")
@@ -383,28 +370,25 @@ in a generalized linear models style. The COM-Poisson regression model is define
 $$Y_i \sim CP(\lambda_i, \nu), \quad  \text{with} \quad \lambda_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).$$ 
 In this notation, the parameter $\nu$ is considered the dispersion parameter
 such that $\nu > 1$ represents underdispersion and $\nu < 1$ overdispersion.
-
+The Poisson model is obtained for $\nu = 0$ and as usual we adopt the logarithm
+link function for $g$.
 
 ## Comparing count distributions
 
-Let $Y$ be a count random variable and 
-$\mathrm{E}(Y)$ and $\mathrm{var}(Y)$ denote its mean and variance, 
-respectively. In order to explore and compare the flexibility of the 
-models in discussion, we introduce the dispersion $(\mathrm{DI})$, 
+Let $Y$ be a count random variable and $\mathrm{E}(Y) = \mu$ and 
+$\mathrm{var}(Y)$ denote its mean and variance, respectively. 
+To explore and compare the flexibility of the models aforementioned, 
+we introduce the dispersion $(\mathrm{DI})$, 
 zero-inflation $(\mathrm{ZI})$ and heavy-tail $(\mathrm{HT})$ indexes,
 which are respectively given by
-$$
 \begin{equation}
-\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y), \quad 
+\mathrm{DI} = \frac{\mathrm{var}(Y)}{\mathrm{E}(Y)}, \quad 
 \mathrm{ZI} = 1 + \frac{\log \mathrm{P}(Y = 0)}{\mathrm{E}(Y)}
 \end{equation}
-$$
 and
-$$
 \begin{equation}
 \mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty. 
 \end{equation}
-$$
 
 These indexes are defined in relation to the Poisson distribution. 
 Thus, the dispersion index indicates underdispersion for $\mathrm{DI} < 1$, 
@@ -413,18 +397,86 @@ Similarly, the zero-inflated index is easily interpreted, since $\mathrm{ZI} < 0
 indicates zero-deflation, $\mathrm{ZI} = 0$ corresponds to no excess of zeroes 
 and $\mathrm{ZI} > 0$ indicates zero-inflation. 
 Finally, $\mathrm{HT} \to 1$ when $y \to \infty$ indicates a heavy 
-tail distribution. In what follows, we shall present the Poisson,
-Gamma-Count, Poisson-Tweedie and COM-Poisson distributions and explore 
-their properties to deal with non-equidispersed count data.
+tail distribution. 
 
-
-
-Consequently, for the Poisson distribution the dispersion index equals 
-$1$ $\forall \lambda$. In the Poisson case is easy to show that 
-$\mathrm{ZI} = 0$ and $\mathrm{HT} \to 0$ when $y \to \infty$.
-Given the properties 
-of the Poisson distribution is quite clear that it can deal only with 
+For the Poisson distribution the dispersion index equals $1$ $\forall \mu$. 
+In the Poisson case is easy to show that $\mathrm{ZI} = 0$ and 
+$\mathrm{HT} \to 0$ when $y \to \infty$. 
+Thus, it is quite clear that the Poisson model can deal only with 
 equidispersed data and has no flexibility to deal with zero-inflation 
 and/or heavy tail count data. In fact, the presented indexes were 
 proposed in relation to the Poisson distribution in order to highlight 
-its limitations.
+its limitations. Figure \@(fig:indexes) presents the relationship between
+mean and variance, the dispersion and zero-inflation indixes as a function
+of the expected values $\mu$ for different scenarios and count distributions.
+Scenario $1$ corresponds to the case of underdispersion. Thus, 
+we fixed the dispersion index at $DI = 0.5$ when the mean equals $10$.
+Since the Poisson-Tweedie cannot deal with underdispersion, in this 
+scenario we present only the Gamma-Count and COM-Poisson distributions. 
+Similarly, scenarios $2--4$ are obtained by fixing the dispesion index at 
+$DI = 2, 5$ and $10$ when mean equals $10$. In the scenario $4$ we could
+not find a parameter configuration in order to have a COM-Poisson distribution
+with dispersion index equals $20$. Consequently, we present results only
+for the Gamma-Count and Poisson-Tweedie distributions. Furthermore,
+Figure \@ref(fig:heavytail) presents the heavy tail index for some extreme
+values of the random variable $Y$.
+
+```{r indexes, echo = FALSE, cache = TRUE, fig.cap = 'Mean and variance relationship (first line), dispersion (DI) and zero-inflation (ZI) indexes as a function of the expected values by simulation scenarios and count distributions.' , fig.height = 6, fig.width= 8}
+source("Script4.R")
+print(AUX.plot)
+```
+
+```{r heavytail, echo = FALSE, cache = TRUE, fig.cap = 'Heavy tail index for some extreme values of the random variable Y by simulation scenarios and count distributions.' , fig.height = 3, fig.width= 8}
+print(HT.plot)
+```
+
+The indices presented in Figures \@ref(fig:indexes) and \@ref(fig:heavytail) 
+show that for all considered scenarios the Gamma-Count and COM-Poisson 
+distributions are quite similar. In general, the indexes slightly depend
+on the expected values and tend to stabilize for large values of $\mu$. 
+Consequently, the mean and variance relationship is proportional to the 
+dispersion parameter value. In the overdispersion case, the Gamma-Count
+and COM-Poisson distributions can handle with a limited ammount of 
+zero-inflation and are in general light tailed distributions, 
+i.e. $\mathrm{HT} \to 0$ for $y \to \infty$.
+
+Regarding the Poisson-Tweedie the indexes show that for small values of 
+the power parameter the Poisson-Tweedie distribution is suitable to deal 
+with zero-inflated count data. In that case, the $\mathrm{DI}$ and 
+$\mathrm{ZI}$ are almost not dependent on the values of the mean. 
+Furthermore, the $\mathrm{HT}$ decreases as the mean increases. On the other
+hand, for large values of the power parameter the $\mathrm{HT}$ increases 
+with increasing mean, showing that the model is specially suitable to 
+deal with heavy tailed count data. In this case, the $\mathrm{DI}$ and 
+$\mathrm{ZI}$ increase quickly as the mean increases giving an extremely 
+overdispersed model for large values of the mean. In general,
+the $\mathrm{DI}$ and $\mathrm{ZI}$ are larger than one and zero, 
+respectively, which, of course, show that the corresponding 
+Poisson-Tweedie distributions cannot deal with underdispersed and 
+zero-deflated count data.
+
+In terms of regression models, the Poisson and Poisson-Tweedie models are
+easy and convenient to interpret because the expected value is
+directly described by the values of known covariates in a generalized
+linear models manner. On the other hand, the Gamma-Count specifies the
+regression model for the expectation of the times between events and, thus
+requires careful interpretation. The COM-Poisson regression model is hard 
+to interpret and compare with the traditional Poisson regression model, 
+since it specifies the regression model for the parameter $\lambda$ that 
+has no easy interpretation in relation to the expectation of the count 
+response variable. 
+
+Finally, in terms of computational implementation the simplicity of the
+Poisson regression model is unquestionable. The probability mass function
+of the Gamma-Count distribution requires the evaluation of a difference
+between two cumulative gamma distributions. For large values of the random
+variable $Y$, such a difference can be time consuming and inaccurately computed. 
+Similarly, the COM-Poisson probability mass function involves the evaluation of a 
+infinity sum, which can be computational expensive and inaccurate for large 
+values of $Y$. Furthermore, for extreme values of $\lambda$ and $\nu$ the infinite sum
+can numerically diverge making impossible to evaluate the probability mass function. 
+Finally, the Poisson-Tweedie probability mass function involves an intractable
+integral, which makes the estimation and inference based on likelihood methods
+computational intensive.
+
+
