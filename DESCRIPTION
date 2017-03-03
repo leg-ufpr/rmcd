@@ -5,7 +5,9 @@ Imports:
   bookdown,
   knitr,
   lattice,
-  latticeExtra
+  latticeExtra,
+  rtweedie,
+  tweedie
 Suggests:
   sp,
   plyr
