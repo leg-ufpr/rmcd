@@ -5,12 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Regression Models for Count Data</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="Regression Models for Count Data">
-  <meta name="generator" content="bookdown 0.3.3 and GitBook 2.6.7">
+  <title>Regression Models for Count Data: beyond the Poisson model</title>
+  <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
+  <meta name="generator" content="bookdown 0.3.9 and GitBook 2.6.7">
 
-  <meta property="og:title" content="Regression Models for Count Data" />
+  <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
   <meta property="og:type" content="book" />
   
   
@@ -18,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Regression Models for Count Data" />
+  <meta name="twitter:title" content="Regression Models for Count Data: beyond the Poisson model" />
   
   
   
@@ -34,8 +33,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="discussion.html">
-
+<link rel="prev" href="count-distributions-properties-and-regression-models.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -90,10 +88,11 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="rmcd.css" type="text/css" />
+<link rel="stylesheet" href="config/rmcd.css" type="text/css" />
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -109,28 +108,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="background.html"><a href="background.html"><i class="fa fa-check"></i><b>2</b> Background</a></li>
-<li class="chapter" data-level="3" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html"><i class="fa fa-check"></i><b>3</b> Full Parametric Approach</a><ul>
-<li class="chapter" data-level="3.1" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#models-for-count-data"><i class="fa fa-check"></i><b>3.1</b> Models for count data</a></li>
-<li class="chapter" data-level="3.2" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#regression-models"><i class="fa fa-check"></i><b>3.2</b> Regression models</a></li>
-<li class="chapter" data-level="3.3" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#estimation-and-inference"><i class="fa fa-check"></i><b>3.3</b> Estimation and inference</a></li>
-<li class="chapter" data-level="3.4" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#computational-implementation"><i class="fa fa-check"></i><b>3.4</b> Computational implementation</a></li>
+<li class="chapter" data-level="2" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html"><i class="fa fa-check"></i><b>2</b> Count distributions: properties and regression models</a><ul>
+<li class="chapter" data-level="2.1" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#poisson-distribution"><i class="fa fa-check"></i><b>2.1</b> Poisson distribution</a></li>
+<li class="chapter" data-level="2.2" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#gamma-count-distribution"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
+<li class="chapter" data-level="2.3" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#poisson-tweedie-distribution"><i class="fa fa-check"></i><b>2.3</b> Poisson-Tweedie distribution</a></li>
+<li class="chapter" data-level="2.4" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#com-poisson-distribution"><i class="fa fa-check"></i><b>2.4</b> COM-Poisson distribution</a></li>
+<li class="chapter" data-level="2.5" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#comparing-count-distributions"><i class="fa fa-check"></i><b>2.5</b> Comparing count distributions</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html"><i class="fa fa-check"></i><b>4</b> Second Moments Based Especification</a><ul>
-<li class="chapter" data-level="4.1" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#mean-and-variance-relationship"><i class="fa fa-check"></i><b>4.1</b> Mean and variance relationship</a></li>
-<li class="chapter" data-level="4.2" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#estimation-functions-approach"><i class="fa fa-check"></i><b>4.2</b> Estimation functions approach</a></li>
-<li class="chapter" data-level="4.3" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#extended-poisson-tweedie-regression-models"><i class="fa fa-check"></i><b>4.3</b> Extended Poisson-Tweedie regression models</a></li>
-<li class="chapter" data-level="4.4" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#computational-implementation-1"><i class="fa fa-check"></i><b>4.4</b> Computational implementation</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="data-analysis.html"><a href="data-analysis.html"><i class="fa fa-check"></i><b>5</b> Data analysis</a><ul>
-<li class="chapter" data-level="5.1" data-path="data-analysis.html"><a href="data-analysis.html#ovedispersed-case"><i class="fa fa-check"></i><b>5.1</b> Ovedispersed case</a></li>
-<li class="chapter" data-level="5.2" data-path="data-analysis.html"><a href="data-analysis.html#underdispersed-case"><i class="fa fa-check"></i><b>5.2</b> Underdispersed case</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="data-analysis.html"><a href="data-analysis.html#cotton-bolls-greenhouse-experiment"><i class="fa fa-check"></i><b>5.2.1</b> Cotton bolls greenhouse experiment</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="data-analysis.html"><a href="data-analysis.html#equidispersed-case"><i class="fa fa-check"></i><b>5.3</b> Equidispersed case</a></li>
-<li class="chapter" data-level="5.4" data-path="data-analysis.html"><a href="data-analysis.html#zero-inflated-case"><i class="fa fa-check"></i><b>5.4</b> Zero-Inflated case</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discussion</a></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
 </hr>
@@ -144,7 +128,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression Models for Count Data</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression Models for Count Data: beyond the Poisson model</a>
           </h1>
         </div>
 
@@ -157,7 +141,37 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <div id="refs" class="references">
 <div>
-<p>Bonat, Wagner Hugo, Bent Jørgensen, Célestin C Kokonendji, John Hinde, and Clarice Gargia Borges Demétrio. 2016. “Extended Poisson-Tweedie: Properties and Regression Models for Count Data.” <em>ArXiv Preprint ArXiv:1608.06888</em>.</p>
+<p>Andersen, D. A, and W. H. Bonat. 2016. “Double Generalized Linear Compound Poisson Models to Insurance Claims Data.” <em>ArXiv</em>.</p>
+</div>
+<div>
+<p>Barabesi, L., C. Becatti, and M. Marcheselli. 2016. “The Tempered Discrete Linnik Distribution.” <em>ArXiv E-Prints</em>.</p>
+</div>
+<div>
+<p>Bonat, W. H. 2016. “Mcglm: Multivariate Covariance Generalized Linear Models.” <em>Gitlab Repository</em>. http://git.leg.ufpr.br/wbonat/mcglm; GitLab.</p>
+</div>
+<div>
+<p>Bonat, W. H., and B. Jørgensen. 2016. “Multivariate Covariance Generalized Linear Models.” <em>Journal of the Royal Statistical Society: Series C (Applied Statistics)</em> 65: 649–75.</p>
+</div>
+<div>
+<p>Bonat, W. H., B. Jørgensen, J. Kokonendji C. C. andHinde, and C. G. B. Démetrio. 2016. “Extended Poisson-Tweedie: Properties and Regression Model for Count Data.” <em>Arxiv</em>.</p>
+</div>
+<div>
+<p>Del Castillo, Joan, and Marta Pérez-Casany. 1998. “Weighted Poisson Distributions for Overdispersion and Underdispersion Situations.” <em>Annals of the Institute of Statistical Mathematics</em> 50 (3): 567–85.</p>
+</div>
+<div>
+<p>Dunn, Jeffrey. 2012. <em>Compoisson: Conway-Maxwell-Poisson Distribution</em>. <a href="https://CRAN.R-project.org/package=compoisson" class="uri">https://CRAN.R-project.org/package=compoisson</a>.</p>
+</div>
+<div>
+<p>El-Shaarawi, A. H., R. Zhu, and H. Joe. 2011. “Modelling Species Abundance Using the Poisson-Tweedie Family.” <em>Environmetrics</em> 22 (2): 152–64.</p>
+</div>
+<div>
+<p>Esnaola, Mikel, Pedro Puig, David Gonzalez, Robert Castelo, and Juan R. Gonzalez. 2013. “A Flexible Count Data Model to Fit the Wide Diversity of Expression Profiles Arising from Extensively Replicated Rna-Seq Experiments.” <em>BMC Bioinformatics</em> 14 (1): 254–76.</p>
+</div>
+<div>
+<p>Jørgensen, B., and S. J. Knudsen. 2004. “Parameter Orthogonality and Bias Adjustment for Estimating Functions.” <em>Scandinavian Journal of Statistics</em> 31 (1): 93–114.</p>
+</div>
+<div>
+<p>Jørgensen, B., and C. Kokonendji. 2015. “Discrete Dispersion Models and Their Tweedie Asymptotics.” <em>AStA Advances in Statistical Analysis</em>.</p>
 </div>
 <div>
 <p>Jørgensen, Bent. 1987. “Exponential Dispersion Models.” <em>Journal of the Royal Statistical Society. Series B (Methodological)</em> 49 (2): 127–62.</p>
@@ -166,13 +180,31 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>———. 1997. <em>The Theory of Dispersion Models</em>. Chapman &amp; Hall, London.</p>
 </div>
 <div>
-<p>Nelder, John Ashworth, and Robert William Maclagan Wedderburn. 1972. “Generalized Linear Models.” <em>Journal of the Royal Statistical Society. Series A (General)</em> 135 (3): 370–84.</p>
+<p>Kokonendji, C. C., S. Dossou-Gbété, and C. G. B. Demétrio. 2004. “Some Discrete Exponential Dispersion Models: Poisson-Tweedie and Hinde-Demétrio Classes.” <em>Statistics and Operations Research Transactions</em> 28 (2): 201–14.</p>
 </div>
 <div>
-<p>R Core Team. 2016. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing. <a href="https://www.R-project.org/" class="uri">https://www.R-project.org/</a>.</p>
+<p>Nelder, J. A., and R. W. M. Wedderburn. 1972. “Generalized Linear Models.” <em>Journal of the Royal Statistical Society. Series A</em> 135 (3): 370–84.</p>
 </div>
 <div>
-<p>Zeviani, Walmes Marques, Paulo Justiniano Ribeiro Jr, Wagner Hugo Bonat, Silvia Emiko Shimakura, and Joel Augusto Muniz. 2014. “The Gamma-Count Distribution in the Analysis of Experimental Underdispersed Data.” <em>Journal of Applied Statistics</em> 41 (12): 2616–26.</p>
+<p>R Core Team. 2015. <em>R: A Language and Environment for Statistical Computing</em>. Vienna, Austria: R Foundation for Statistical Computing.</p>
+</div>
+<div>
+<p>Sellers, K. F., and G. Shmueli. 2010. “A Flexible Regression Model for Count Data.” <em>Ann. Appl. Stat.</em> 4 (2): 943–61.</p>
+</div>
+<div>
+<p>Sellers, Kimberly F., Sharad Borle, and Galit Shmueli. 2012. “The Com-Poisson Model for Count Data: A Survey of Methods and Applications.” <em>Applied Stochastic Models in Business and Industry</em> 28 (2): 104–16.</p>
+</div>
+<div>
+<p>Wedderburn, R. W. M. 1974. “Quasi-Likelihood Functions, Generalized Linear Models, and the Gauss—Newton Method.” <em>Biometrika</em> 61 (3): 439–47.</p>
+</div>
+<div>
+<p>Winkelmann, R. 1995. “Duration Dependence and Dispersion in Count-Data Models.” <em>Journal of Business &amp; Economic Statistics</em> 13 (4): 467–74.</p>
+</div>
+<div>
+<p>———. 2003. <em>Econometric Analysis of Count Data</em>. Springer.</p>
+</div>
+<div>
+<p>Zeviani, W. M., P. J. Ribeiro Jr, W. H. Bonat, S. E. Shimakura, and J. A. Muniz. 2014. “The Gamma-Count Distribution in the Analysis of Experimental Underdispersed Data.” <em>Journal of Applied Statistics</em> 41 (12): 2616–26.</p>
 </div>
 </div>
 </div>
@@ -181,9 +213,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="discussion.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="count-distributions-properties-and-regression-models.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
-
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
@@ -221,6 +254,17 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

@@ -5,12 +5,11 @@
 
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Regression Models for Count Data</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <meta name="description" content="Regression Models for Count Data">
-  <meta name="generator" content="bookdown 0.3.3 and GitBook 2.6.7">
+  <title>Regression Models for Count Data: beyond the Poisson model</title>
+  <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
+  <meta name="generator" content="bookdown 0.3.9 and GitBook 2.6.7">
 
-  <meta property="og:title" content="Regression Models for Count Data" />
+  <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
   <meta property="og:type" content="book" />
   
   
@@ -18,7 +17,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Regression Models for Count Data" />
+  <meta name="twitter:title" content="Regression Models for Count Data: beyond the Poisson model" />
   
   
   
@@ -35,8 +34,7 @@
   
   
 <link rel="prev" href="index.html">
-<link rel="next" href="background.html">
-
+<link rel="next" href="count-distributions-properties-and-regression-models.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -90,10 +88,11 @@ code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* Com
 code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
-<link rel="stylesheet" href="rmcd.css" type="text/css" />
+<link rel="stylesheet" href="config/rmcd.css" type="text/css" />
 </head>
 
 <body>
+
 
 
   <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
@@ -109,28 +108,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="background.html"><a href="background.html"><i class="fa fa-check"></i><b>2</b> Background</a></li>
-<li class="chapter" data-level="3" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html"><i class="fa fa-check"></i><b>3</b> Full Parametric Approach</a><ul>
-<li class="chapter" data-level="3.1" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#models-for-count-data"><i class="fa fa-check"></i><b>3.1</b> Models for count data</a></li>
-<li class="chapter" data-level="3.2" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#regression-models"><i class="fa fa-check"></i><b>3.2</b> Regression models</a></li>
-<li class="chapter" data-level="3.3" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#estimation-and-inference"><i class="fa fa-check"></i><b>3.3</b> Estimation and inference</a></li>
-<li class="chapter" data-level="3.4" data-path="full-parametric-approach.html"><a href="full-parametric-approach.html#computational-implementation"><i class="fa fa-check"></i><b>3.4</b> Computational implementation</a></li>
+<li class="chapter" data-level="2" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html"><i class="fa fa-check"></i><b>2</b> Count distributions: properties and regression models</a><ul>
+<li class="chapter" data-level="2.1" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#poisson-distribution"><i class="fa fa-check"></i><b>2.1</b> Poisson distribution</a></li>
+<li class="chapter" data-level="2.2" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#gamma-count-distribution"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
+<li class="chapter" data-level="2.3" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#poisson-tweedie-distribution"><i class="fa fa-check"></i><b>2.3</b> Poisson-Tweedie distribution</a></li>
+<li class="chapter" data-level="2.4" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#com-poisson-distribution"><i class="fa fa-check"></i><b>2.4</b> COM-Poisson distribution</a></li>
+<li class="chapter" data-level="2.5" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#comparing-count-distributions"><i class="fa fa-check"></i><b>2.5</b> Comparing count distributions</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html"><i class="fa fa-check"></i><b>4</b> Second Moments Based Especification</a><ul>
-<li class="chapter" data-level="4.1" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#mean-and-variance-relationship"><i class="fa fa-check"></i><b>4.1</b> Mean and variance relationship</a></li>
-<li class="chapter" data-level="4.2" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#estimation-functions-approach"><i class="fa fa-check"></i><b>4.2</b> Estimation functions approach</a></li>
-<li class="chapter" data-level="4.3" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#extended-poisson-tweedie-regression-models"><i class="fa fa-check"></i><b>4.3</b> Extended Poisson-Tweedie regression models</a></li>
-<li class="chapter" data-level="4.4" data-path="second-moments-based-especification.html"><a href="second-moments-based-especification.html#computational-implementation-1"><i class="fa fa-check"></i><b>4.4</b> Computational implementation</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="data-analysis.html"><a href="data-analysis.html"><i class="fa fa-check"></i><b>5</b> Data analysis</a><ul>
-<li class="chapter" data-level="5.1" data-path="data-analysis.html"><a href="data-analysis.html#ovedispersed-case"><i class="fa fa-check"></i><b>5.1</b> Ovedispersed case</a></li>
-<li class="chapter" data-level="5.2" data-path="data-analysis.html"><a href="data-analysis.html#underdispersed-case"><i class="fa fa-check"></i><b>5.2</b> Underdispersed case</a><ul>
-<li class="chapter" data-level="5.2.1" data-path="data-analysis.html"><a href="data-analysis.html#cotton-bolls-greenhouse-experiment"><i class="fa fa-check"></i><b>5.2.1</b> Cotton bolls greenhouse experiment</a></li>
-</ul></li>
-<li class="chapter" data-level="5.3" data-path="data-analysis.html"><a href="data-analysis.html#equidispersed-case"><i class="fa fa-check"></i><b>5.3</b> Equidispersed case</a></li>
-<li class="chapter" data-level="5.4" data-path="data-analysis.html"><a href="data-analysis.html#zero-inflated-case"><i class="fa fa-check"></i><b>5.4</b> Zero-Inflated case</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="discussion.html"><a href="discussion.html"><i class="fa fa-check"></i><b>6</b> Discussion</a></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
 </hr>
@@ -144,7 +128,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression Models for Count Data</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression Models for Count Data: beyond the Poisson model</a>
           </h1>
         </div>
 
@@ -154,13 +138,14 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="introduction" class="section level1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
-<p>Figure <a href="introduction.html#fig:process-ilustration">1.1</a> illustrates the generator process for under, over and equidispered counts in two dimensions context. The grid lines in this figure indicate fixed regions for which events are counted and the counts within each interval are displayed. For the equidispersed case the distribution of events is random. In overdispersed case, the events are clustered. This behaviour can be explained by a contamination process (e.g. count contagious disease). The underdispersed case, in contrast of overdispersion, shows the events distribution is nearly regular and the counts have smaller variances. The natural process that explains underdispersion is repulsion, exactly the opposite of overdispersion, that means, an event occurence inhibits others near (e.g. count territorialistas animals).</p>
-<div class="figure" style="text-align: center"><span id="fig:process-ilustration"></span>
-<img src="rmcdbook_files/figure-html/process-ilustration-1.png" alt="Illustration of generator process for under, over and equidispered count data." width="672" />
-<p class="caption">
-Figure 1.1: Illustration of generator process for under, over and equidispered count data.
-</p>
-</div>
+<p>The analysis of count data has received attention from the statistical community in the last four decades. Since the seminal paper published by Nelder and Wedderburn <span class="citation">(Nelder and Wedderburn 1972)</span>, the class of generalized linear models (GLMs) have a proeminent role for regression modelling of normal and non-normal data including count data. The success enjoyed by the GLM framework comes from its ability to deal with a wide range of normal and non-normal data. GLMs are fitted by a simple and efficient Newton score algorithm relying only on second-moment assumptions for estimation and inference. Furthermore, the theoretical background for GLMs is well established in the class of dispersion models <span class="citation">(B. Jørgensen 1987; B. Jørgensen 1997)</span> as a generalization of the exponential family of distributions.</p>
+<p>In spite of the flexibility of the GLM class, the Poisson distribution is the only choice for the analysis of count data in this framework. Thus, in practice there is probably an over-emphasis on the use of the Poisson distribution for count data. A well known limitation of the Poisson distribution is its mean and variance relationship, which implies that the variance equals the mean, referred to as equidispersion. In practice, however, count data can present other features, namely underdispersion (mean &gt; variance) and overdispersion (mean &lt; variance). There are many different possible causes for departures from the equidispersion. Furthermore, in practical data analysis a number of these could be involved.</p>
+<p>One possible cause of under/overdispersion is departure from the Poisson process. It is well known that the Poisson counts can be interpreted as the number of events in a given time interval where the arrival’s times are exponential distributed. When this assumption is violated the resulting counts can be under or overdispersed <span class="citation">(Zeviani et al. 2014)</span>. Another possibility and probably more frequent cause of overdispersion is unobserved heterogeneity of experimental units. It can be due, for example, to correlation between individual responses, cluster sampling, ommitted covariates and others.</p>
+<p>In general, these departures from the Poisson distribution are manifested in the raw data as a zero-inflated or heavy-tail count distribution. It is important to discuss the consequences of failing to take into account the under or overdispersion when analysing count data. In the case of overdispersion, the standard errors associated with the regression coefficients calculated under the Poisson assumption are too optimistic and associated hypothesis tests will tend to give false positive results by incorrectly rejecting null hypotheses. The opposite situation will appear in case of underdispersed data. In both cases, the Poisson model provides unreliable standard errors for the regression coefficients and hence potentially misleading inferences. However, the regression coefficients are still consistently estimated.</p>
+<p>The strategies for constructing alternative count distributions are related with the causes of the non-equidispersion. When departures from the Poisson process are plausible the class of duration time models <span class="citation">(Winkelmann 2003)</span> can be employed. This class of models changes the distribution of the time between events from the exponential to more general distributions, like gamma and inverse Gaussian. In this course, we shall discuss one example of this approach, namely, the Gamma-Count distribution <span class="citation">(Zeviani et al. 2014)</span>. This distribution assumes that the time between events is gamma distributed, thus it can deal with under, equi and overdispersed count data.</p>
+<p>On the other hand, if unobserved heterogeneity is present its in general implies extra variability and consequently overdispersed count data. In this case, a Poisson mixtures is commonly applied. This approach consists of include random effects on the observation level, and thus take into account the unobserved heterogeneity. Probably, the most popular example of this approach is the negative binomial model, that corresponds to a Poisson-gamma mixtures. In this course, we shall present the Poisson-Tweedie family of distributions, which in turn corresponds to Poisson-Tweedie mixtures <span class="citation">(Bonat et al. 2016; Jørgensen and Kokonendji 2015)</span>. Finally, a third approach to deal with non-equidispersed count data consists of generalize the Poisson distribution by adding an extra parameter to model under and overdispersion. Such a generalization can be done using the class of weighted Poisson distributions <span class="citation">(Del Castillo and Pérez-Casany 1998)</span>. One popular example of this approach is the Conway–Maxwell–Poisson distribution (COM-Poisson) <span class="citation">(K. F. Sellers and Shmueli 2010)</span>. The COM-Poisson is a member of the exponential family, has the Poisson and geometric distributions as special cases and the Bernoulli distribution as a limiting case. It can deal with both under and overdispersed count data. Thus, given the nice properties of the COM-Poisson distribution for handling count data, we choose to present this model as part of this short course.</p>
+<p>In this short course we shall highlight and compare the ability of these distributions to deal with count data through a consideration of dispersion, zero-inflated and heavy tail indexes. Furthermore, we specify regression models and illustrate their application with four worked examples.</p>
+<p>In Chapter <span class="math inline">\(2\)</span> we present the properties and regression models based on the Poisson, Gamma-count, Poisson-Tweedie and COM-Poisson distributions. Moreover, we compare these distributions using the dispersion, zero-inflated and heavy-tail indexes. Estimation and inference for these models based on the likelihood paradigm are described in Chapter <span class="math inline">\(3\)</span>. In Chapter <span class="math inline">\(4\)</span>, we extend the Poisson and Poisson-Tweedie by specifying models based only on second-moments assumptions and present the related estimation and inference based on the estimating function approach. Chapter <span class="math inline">\(5\)</span> presents four worked examples. Finally, in Chapter <span class="math inline">\(6\)</span> we discuss the general methods and propose some topics for future works.</p>
 
 </div>
             </section>
@@ -169,8 +154,9 @@ Figure 1.1: Illustration of generator process for under, over and equidispered c
         </div>
       </div>
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="background.html" class="navigation navigation-next " aria-label="Next page""><i class="fa fa-angle-right"></i></a>
-
+<a href="count-distributions-properties-and-regression-models.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
@@ -208,6 +194,17 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>
