@@ -6,7 +6,10 @@ Imports:
   knitr,
   lattice,
   latticeExtra,
-  tweedie
+  tweedie,
+  statsmod,
+  compoisson,
+  rootSolve
 Suggests:
   sp,
   plyr
