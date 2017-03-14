@@ -1,7 +1,7 @@
 # Script 4 - Exploring count distributions -----------------------------
 # Author: Wagner Hugo Bonat LEG/UFPR -----------------------------------
 # Date: 02/03/2017 -----------------------------------------------------
-rm(list=ls())
+
 # Loading extra functions ----------------------------------------------
 source("Script1.R")
 source("Script2.R")
