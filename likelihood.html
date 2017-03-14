@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Regression Models for Count Data: beyond the Poisson model</title>
+  <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
+  <meta name="generator" content="bookdown 0.3.13 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Regression Models for Count Data: beyond the Poisson model" />
+  
+  
+  
+
+<meta name="author" content="Wagner Hugo Bonat">
+<meta name="author" content="Walmes Marques Zeviani">
+<meta name="author" content="Eduardo Elias Ribeiro Jr">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="models.html">
+<link rel="next" href="SM.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="config/rmcd.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<center><li><strong><a href="./">
+  Regression Models for Count Data
+</a></strong></li></center>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="models.html"><a href="models.html"><i class="fa fa-check"></i><b>2</b> Count distributions: properties and regression models</a><ul>
+<li class="chapter" data-level="2.1" data-path="models.html"><a href="models.html#poisson-distribution"><i class="fa fa-check"></i><b>2.1</b> Poisson distribution</a></li>
+<li class="chapter" data-level="2.2" data-path="models.html"><a href="models.html#gamma-count-distribution"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
+<li class="chapter" data-level="2.3" data-path="models.html"><a href="models.html#ptw"><i class="fa fa-check"></i><b>2.3</b> Poisson-Tweedie distribution</a></li>
+<li class="chapter" data-level="2.4" data-path="models.html"><a href="models.html#com-poisson-distribution"><i class="fa fa-check"></i><b>2.4</b> COM-Poisson distribution</a></li>
+<li class="chapter" data-level="2.5" data-path="models.html"><a href="models.html#comparing-count-distributions"><i class="fa fa-check"></i><b>2.5</b> Comparing count distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> The method of maximum likelihood</a></li>
+<li class="chapter" data-level="4" data-path="SM.html"><a href="SM.html"><i class="fa fa-check"></i><b>4</b> Second-moment assumptions and the extended Poisson-Tweedie model</a></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+<li class="divider"></li>
+</hr>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression Models for Count Data: beyond the Poisson model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="likelihood" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> The method of maximum likelihood</h1>
+<p>The estimation and inference for the models discussed in Chapter <span class="math inline">\(2\)</span> can be done by the method of maximum likelihood <span class="citation">(Silvey 1975)</span>. In this Chapter, we present the maximum likelihood method and its main properties along with some examples in <code>R</code>. The maximum likelihood method is applicable mainly in situations where the true distribution of the count random variable <span class="math inline">\(Y\)</span> is known apart of the values of a finite number of unknown parameters. Let <span class="math inline">\(p(y;\boldsymbol{\theta})\)</span> denote the true probability mass function of the count random variable <span class="math inline">\(Y\)</span>. We assume that the family <span class="math inline">\(p(y;\boldsymbol{\theta})\)</span> is labelled by a (<span class="math inline">\(p \times 1\)</span>) parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span> taking values in <span class="math inline">\(\Theta\)</span> a subset of <span class="math inline">\(\mathbb{R}^n\)</span>. For a given observed value <span class="math inline">\(y\)</span> of the a random variable <span class="math inline">\(Y\)</span>, the likelihood functioncorresponding to the observation <span class="math inline">\(y\)</span> is defined as <span class="math inline">\(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\)</span>. It is important to highlight that <span class="math inline">\(p(y;\boldsymbol{\theta})\)</span> is a probability mass function on the sample space. On the other hand, <span class="math inline">\(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\)</span> is a function on the parameter space <span class="math inline">\(\Theta\)</span>. The likelihood function expresses the plausibilities of different parameters after we have observed <span class="math inline">\(y\)</span>, in the absence of any other information we may have about these different values. In particular, for count random variables the likelihood function is the probability of the point <span class="math inline">\(y\)</span> when <span class="math inline">\(\boldsymbol{\theta}\)</span> is the true parameter.</p>
+<p>The method of maximum likelihood has a strong intuitive appeal and according to it, we estimate the true parameter <span class="math inline">\(\boldsymbol{\theta}\)</span> by any parameter which maximizes the likelihood function. In general, there is a unique maximizing parameter which is the most plausible and this is the maximum likelihood estimate <span class="citation">(Silvey 1975)</span>. In other words, a maximum likelihood estimate <span class="math inline">\(\hat{\boldsymbol{\theta}}(y)\)</span> is any elemente of <span class="math inline">\(\Theta\)</span> such that <span class="math inline">\(L(\hat{\boldsymbol{\theta}}(y);y) = \underset{\boldsymbol{\theta}\in \Theta}\max L(\boldsymbol{\theta};y).\)</span> At this stage we make the distinction between the estimate <span class="math inline">\(\hat{\boldsymbol{\theta}}(y)\)</span> and the estimator <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span>. However, we are not maintain this distinction and we shall use only <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> leaving the context to make it clear whether we are thinking of <span class="math inline">\(\hat{\boldsymbol{\theta}}\)</span> as a function or as a particular value of a function.</p>
+<p>Let <span class="math inline">\(Y_i\)</span> be independent and identically distributed count random variables with probability mass function <span class="math inline">\(p(y;\boldsymbol{\theta})\)</span>, whose observed values are denoted by <span class="math inline">\(y_i\)</span> for <span class="math inline">\(i = 1, \ldots, n.\)</span> In this case, the likelihood function can be written as the product of the individuals probability mass distributions, i.e.</p>
+<span class="math display" id="eq:LIK">\[\begin{equation}
+L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n p(y_i; \boldsymbol{\theta}).
+\tag{3.1}
+\end{equation}\]</span>
+For convenience, in practical situations is advisable to work with the log-likelihood function obtained by taking the logarithm of Eq. <a href="likelihood.html#eq:LIK">(3.1)</a>. Thus, the maximum likelihood estimator (MLE) for the parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span> is obtained by maximizing the following log-likelihood function,
+<span class="math display" id="eq:LOGLIK">\[\begin{equation}
+\mathcal{l}(\boldsymbol{\theta})=\sum^n_{i=1} L(\boldsymbol{\theta}; y_i).
+\tag{3.2}
+\end{equation}\]</span>
+<p>Often, it is not possible to find a relatively simple expression in closed form for the maximum likelihood estimates. However, it is usually possible to assume that maximum likelihood estimates emerge as a solution of the likelihood equations or also called score function, i.e.</p>
+<span class="math display" id="eq:SCORE">\[\begin{equation}
+\mathcal{U}(\boldsymbol{\theta}) = \left ( \frac{\partial \mathcal{l}(\boldsymbol{\theta})}{\partial \theta_1}^\top, \ldots, \frac{\partial \mathcal{l}(\boldsymbol{\theta})}{\partial \theta_p}^\top \right )^\top = \boldsymbol{0}.
+\tag{3.3}
+\end{equation}\]</span>
+However, the system of non-linear equations in <a href="likelihood.html#eq:SCORE">(3.3)</a> often have to be solved numerically. The entry <span class="math inline">\((i,j)\)</span> of the <span class="math inline">\(p \times p\)</span> Fisher information matrix <span class="math inline">\(\mathcal{F}_{\boldsymbol{\theta}}\)</span> for the vector of parameter <span class="math inline">\(\boldsymbol{\theta}\)</span> is given by
+<span class="math display">\[\begin{equation}
+\mathcal{F}_{\boldsymbol{\theta}_{ij}} =-\mathrm{E} \left \{ \frac{\partial^2 \mathcal{l}(\boldsymbol{\theta})}{\partial\theta_i\partial\theta_j} \right \}.
+\end{equation}\]</span>
+In order to solve the system of equations <span class="math inline">\(\mathcal{U}(\boldsymbol{\theta}) = \boldsymbol{0}\)</span>, we employ the Newton scoring algorithm, defined by
+<span class="math display">\[\begin{eqnarray}
+\boldsymbol{\theta}^{(i+1)} &amp;=&amp; \boldsymbol{\theta}^{(i)} - \mathcal{F}_{\boldsymbol{\theta}}^{-1} \mathcal{U}(\boldsymbol{\theta}^{(i)}). 
+\end{eqnarray}\]</span>
+<p>Finally, the well known distribution of the maximum likelihood estimator <span class="math inline">\(\boldsymbol{\hat{\theta}}\)</span> is <span class="math inline">\(\mathrm{N}(\boldsymbol{\theta}, \mathcal{F}_{\boldsymbol{\theta}}^{-1})\)</span>. Thus, the maximum likelihood estimator is asymptotically consistent, unbiased and efficient.</p>
+<p>A critical point of the approach described so far, is that we should be able to compute the first and second derivatives of the log-likelihood function. However, for the Gamma-Count where the log-likelihood function is given by the difference between two integrals, we cannot obtain such derivatives analytically. Simiarly, for the COM-Poisson the log-likelihood function involves an infinite sum and consequently such derivatives cannot be obtained analitycally. Finally, in the Poisson-Tweedie distribution the log-likelihood function is defined by an intractable integral, which implies that we cannot obtain a closed-form for the score function and Fisher information. In these cases, an often approach is to maximize directly the log-likelihood function in Eq.</p>
+<p>Thus, an alternative approach is to maximize directly the log-likelihood function in equation <a href="likelihood.html#eq:LOGLIK">(3.2)</a> using a derivative-free algorithm as the Nelder-Mead method <span class="citation">(Nelder and Mead 1965)</span> or some other numerical method for maximizing the log-likelihood function, examples include the <span class="math inline">\(BFGS\)</span>, conjugate gradient and simulated annealing. All of them are implemented in <code>R</code> through the <code>optim()</code> function. The package <code>bbmle</code> <span class="citation">(Bolker and Team 2014)</span> offers a suite of functions to work with numerical maximization of log-likelihood functions in <code>R</code>. As an example, consider the Gamma-Count distribution described in subsection <span class="math inline">\(2.1\)</span>. The log-likelihood function for the parameters <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\alpha\)</span> in <code>R</code> is given by</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ll_gc &lt;-<span class="st"> </span>function(gamma, alpha, y) {
+  ll &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">dgc</span>(<span class="dt">y =</span> y, <span class="dt">gamma =</span> gamma, <span class="dt">alpha =</span> alpha, <span class="dt">log =</span> <span class="ot">TRUE</span>))
+  <span class="kw">return</span>(-ll)
+}</code></pre></div>
+<p>Now, for a given vector of observed count values, we can numerically maximize the log-likelihood function in <a href="#llgc"><strong>??</strong></a> using the function <code>mle2()</code> from the <code>bbmle</code>package. It is important to highlight that by default the <code>mle2()</code> function requires the negative of the log-likelihood function instead of the log-likelihood itself. Thus, our function returns the negative value of the log-likelihood function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(bbmle)
+y &lt;-<span class="st"> </span><span class="kw">rpois</span>(<span class="dv">100</span>, <span class="dt">lambda =</span> <span class="dv">10</span>)
+fit_gc &lt;-<span class="st"> </span><span class="kw">mle2</span>(ll_gc, <span class="dt">start =</span> <span class="kw">list</span>(<span class="st">&quot;gamma&quot;</span> =<span class="st"> </span><span class="dv">10</span>, <span class="st">&quot;alpha&quot;</span> =<span class="st"> </span><span class="dv">1</span>), 
+               <span class="dt">data =</span> <span class="kw">list</span>(<span class="st">&quot;y&quot;</span> =<span class="st"> </span>y))</code></pre></div>
+<p>The great advantage of the <code>bbmle</code> package for maximum likelihood estimation in R, is that it already provides standard methods like <code>summary()</code>, <code>coef()</code>, <code>confint()</code>, <code>vcov()</code>, <code>profile()</code> and other for objects of <code>mle2</code> class.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit_gc)</code></pre></div>
+<pre><code>## Maximum likelihood estimation
+## 
+## Call:
+## mle2(minuslogl = ll_gc, start = list(gamma = 10, alpha = 1), 
+##     data = list(y = y))
+## 
+## Coefficients:
+##       Estimate Std. Error z value   Pr(z)    
+## gamma    9.842      0.335   29.38 &lt; 2e-16 ***
+## alpha    0.929      0.139    6.68 2.5e-11 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## -2 log L: 518</code></pre>
+<p>Similar functions can be done for the Poisson, Poisson-Tweedie and COM-Poisson distributions. In the supplementary material <code>Script5.R</code>, we provide some functions for maximum likelihood estimation of Poisson-Tweedie and COM-Poisson distributions.</p>
+
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="models.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="SM.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["rmcdbook.pdf", "rmcdbook.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

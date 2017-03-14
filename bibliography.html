@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Regression Models for Count Data: beyond the Poisson model</title>
   <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
-  <meta name="generator" content="bookdown 0.3.9 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3.13 and GitBook 2.6.7">
 
   <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
   <meta property="og:type" content="book" />
@@ -33,7 +33,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="count-distributions-properties-and-regression-models.html">
+<link rel="prev" href="SM.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -108,13 +108,15 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="divider"></li>
 <li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
 <li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
-<li class="chapter" data-level="2" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html"><i class="fa fa-check"></i><b>2</b> Count distributions: properties and regression models</a><ul>
-<li class="chapter" data-level="2.1" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#poisson-distribution"><i class="fa fa-check"></i><b>2.1</b> Poisson distribution</a></li>
-<li class="chapter" data-level="2.2" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#gamma-count-distribution"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
-<li class="chapter" data-level="2.3" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#poisson-tweedie-distribution"><i class="fa fa-check"></i><b>2.3</b> Poisson-Tweedie distribution</a></li>
-<li class="chapter" data-level="2.4" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#com-poisson-distribution"><i class="fa fa-check"></i><b>2.4</b> COM-Poisson distribution</a></li>
-<li class="chapter" data-level="2.5" data-path="count-distributions-properties-and-regression-models.html"><a href="count-distributions-properties-and-regression-models.html#comparing-count-distributions"><i class="fa fa-check"></i><b>2.5</b> Comparing count distributions</a></li>
+<li class="chapter" data-level="2" data-path="models.html"><a href="models.html"><i class="fa fa-check"></i><b>2</b> Count distributions: properties and regression models</a><ul>
+<li class="chapter" data-level="2.1" data-path="models.html"><a href="models.html#poisson-distribution"><i class="fa fa-check"></i><b>2.1</b> Poisson distribution</a></li>
+<li class="chapter" data-level="2.2" data-path="models.html"><a href="models.html#gamma-count-distribution"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
+<li class="chapter" data-level="2.3" data-path="models.html"><a href="models.html#ptw"><i class="fa fa-check"></i><b>2.3</b> Poisson-Tweedie distribution</a></li>
+<li class="chapter" data-level="2.4" data-path="models.html"><a href="models.html#com-poisson-distribution"><i class="fa fa-check"></i><b>2.4</b> COM-Poisson distribution</a></li>
+<li class="chapter" data-level="2.5" data-path="models.html"><a href="models.html#comparing-count-distributions"><i class="fa fa-check"></i><b>2.5</b> Comparing count distributions</a></li>
 </ul></li>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> The method of maximum likelihood</a></li>
+<li class="chapter" data-level="4" data-path="SM.html"><a href="SM.html"><i class="fa fa-check"></i><b>4</b> Second-moment assumptions and the extended Poisson-Tweedie model</a></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
 </hr>
@@ -145,6 +147,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div>
 <p>Barabesi, L., C. Becatti, and M. Marcheselli. 2016. “The Tempered Discrete Linnik Distribution.” <em>ArXiv E-Prints</em>.</p>
+</div>
+<div>
+<p>Bolker, Ben, and R Development Core Team. 2014. <em>Bbmle: Tools for General Maximum Likelihood Estimation</em>. <a href="https://CRAN.R-project.org/package=bbmle" class="uri">https://CRAN.R-project.org/package=bbmle</a>.</p>
 </div>
 <div>
 <p>Bonat, W. H. 2016. “Mcglm: Multivariate Covariance Generalized Linear Models.” <em>Gitlab Repository</em>. http://git.leg.ufpr.br/wbonat/mcglm; GitLab.</p>
@@ -183,6 +188,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Kokonendji, C. C., S. Dossou-Gbété, and C. G. B. Demétrio. 2004. “Some Discrete Exponential Dispersion Models: Poisson-Tweedie and Hinde-Demétrio Classes.” <em>Statistics and Operations Research Transactions</em> 28 (2): 201–14.</p>
 </div>
 <div>
+<p>Nelder, J. A., and R. Mead. 1965. “A Simplex Method for Function Minimization.” <em>The Computer Journal</em> 7: 308–13.</p>
+</div>
+<div>
 <p>Nelder, J. A., and R. W. M. Wedderburn. 1972. “Generalized Linear Models.” <em>Journal of the Royal Statistical Society. Series A</em> 135 (3): 370–84.</p>
 </div>
 <div>
@@ -193,6 +201,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 </div>
 <div>
 <p>Sellers, Kimberly F., Sharad Borle, and Galit Shmueli. 2012. “The Com-Poisson Model for Count Data: A Survey of Methods and Applications.” <em>Applied Stochastic Models in Business and Industry</em> 28 (2): 104–16.</p>
+</div>
+<div>
+<p>Silvey, S.D. 1975. <em>Statistical Inference</em>. Chapman and Hall/Crc Monographs on Statistics and Applied Probability. Taylor; Francis.</p>
 </div>
 <div>
 <p>Wedderburn, R. W. M. 1974. “Quasi-Likelihood Functions, Generalized Linear Models, and the Gauss—Newton Method.” <em>Biometrika</em> 61 (3): 439–47.</p>
@@ -213,7 +224,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="count-distributions-properties-and-regression-models.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="SM.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
