@@ -57,7 +57,7 @@ Thus, the maximum likelihood estimator (MLE) for the parameter vector
 $\boldsymbol{\theta}$ is obtained by maximizing the following 
 log-likelihood function,
 \begin{equation}
-\mathcal{l}(\boldsymbol{\theta})=\sum^n_{i=1} \log\{ L(\boldsymbol{\theta}; y_i) \}.
+\ell(\boldsymbol{\theta})=\sum^n_{i=1} \log\{ L(\boldsymbol{\theta}; y_i) \}.
 (\#eq:LOGLIK)
 \end{equation}
 
@@ -67,7 +67,7 @@ to assume that maximum likelihood estimates emerge as a solution of the
 likelihood equations or also called score functions, i.e.
 
 \begin{equation}
-\mathcal{U}(\boldsymbol{\theta}) = \left ( \frac{\partial \mathcal{l}(\boldsymbol{\theta})}{\partial \theta_1}^\top, \ldots, \frac{\partial \mathcal{l}(\boldsymbol{\theta})}{\partial \theta_p}^\top \right )^\top = \boldsymbol{0}.
+\mathcal{U}(\boldsymbol{\theta}) = \left ( \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_1}^\top, \ldots, \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_p}^\top \right )^\top = \boldsymbol{0}.
 (\#eq:SCORE)
 \end{equation}
 
@@ -76,7 +76,7 @@ have to be solved numerically. The entry $(i,j)$ of the $p \times p$ Fisher
 information matrix $\mathcal{F}_{\boldsymbol{\theta}}$ for the vector 
 of parameter $\boldsymbol{\theta}$ is given by
 \begin{equation}
-\mathcal{F}_{\boldsymbol{\theta}_{ij}} =-\mathrm{E} \left \{ \frac{\partial^2 \mathcal{l}(\boldsymbol{\theta})}{\partial\theta_i\partial\theta_j} \right \}.
+\mathcal{F}_{\boldsymbol{\theta}_{ij}} =-\mathrm{E} \left \{ \frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial\theta_i\partial\theta_j} \right \}.
 \end{equation}
 
 In order to solve the system of equations $\mathcal{U}(\boldsymbol{\theta}) = \boldsymbol{0}$, 
