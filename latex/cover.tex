@@ -1,12 +1,13 @@
 \documentclass[11pt, a5paper]{book}
 \usepackage[utf8]{inputenc}
 \usepackage[left=2cm, right=1.2cm, top=1.5cm, bottom=1.5cm]{geometry}
-\usepackage{hyperref}
+\usepackage[colorlinks, urlcolor=black]{hyperref}
+\usepackage{graphicx}
 
 % Fonts
 \usepackage{mathpazo}
 \usepackage{eulervm}
-\usepackage[scaled=0.85]{beramono}
+\usepackage{inconsolata}
 \urlstyle{tt}
 
 \begin{document}
@@ -16,32 +17,40 @@
 \centering
 
 \topskip0pt
+\includegraphics[scale=0.7]{./logo-emr}
 \vspace*{\fill}
 
-XV EMR - Escola de Modelos de Regressão
-\vspace{0.5cm}
-
 \noindent\rule{\textwidth}{0.4mm}
-\vspace*{-0.2cm}
+\vspace*{0.2cm}
 
-SHORT COURSE\\[0.2cm]
+{ \LARGE SHORT COURSE\\[0.5cm]
 
-\textbf{Regression Models for Count Data}\\
+  \textbf{Regression Models for Count Data:\\
+  beyond Poisson model}
+}
 
-\noindent\rule{\textwidth}{0.4mm}
-\vspace{0.5cm}
-
-March 26 to 29, 2017
-\vspace{1.5cm}
+\vspace{1cm}
 
 Wagner Hugo Bonat\\
 Walmes Marques Zeviani\\
 Eduardo Elias Ribeiro Jr
 
+\vspace*{0.4cm}
+\noindent\rule{\textwidth}{0.4mm}
+
 \vspace*{\fill}
+
+\begin{center}
+  \begin{minipage}[c]{2.5cm}
+    \includegraphics[scale=0.8]{./logo-leg}
+  \end{minipage}
+  \begin{minipage}[c]{7cm}
+    \small
+    Laboratório de Estatística e Geoinformação\\
+    Universidade Federal do Paraná\\
+    \url{http://leg.ufpr.br}
+  \end{minipage}
+\end{center}
+
 \end{titlepage}
-
-\thispagestyle{empty}
-\cleardoublepage
-
 \end{document}
