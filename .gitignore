@@ -5,6 +5,7 @@
 # Backup and log files
 *.bak
 *.log
+*~
 
 # Session Data files
 .RData

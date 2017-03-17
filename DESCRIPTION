@@ -9,7 +9,8 @@ Imports:
   tweedie,
   statmod,
   compoisson,
-  rootSolve
+  rootSolve,
+  bbmle
 Suggests:
   sp,
   plyr

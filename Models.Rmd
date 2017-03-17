@@ -34,7 +34,7 @@ parameters, respectively. Moreover, $g$ is a standard link function,
 for which we adopt the logarithm link function, but potentially 
 any other suitable link function could be adopted. 
 
-## Gamma-Count distribution
+## Gamma-Count distribution {#gammacount}
 
 The Poisson distribution as presented in \@ref(eq:Poisson) follows 
 directly from the natural exponential family and thus fits in the 
