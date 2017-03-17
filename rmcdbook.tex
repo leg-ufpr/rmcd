@@ -422,7 +422,7 @@ parameters, respectively. Moreover, \(g\) is a standard link function,
 for which we adopt the logarithm link function, but potentially any
 other suitable link function could be adopted.
 
-\section{Gamma-Count distribution}\label{gamma-count-distribution}
+\section{Gamma-Count distribution}\label{gammacount}
 
 The Poisson distribution as presented in \eqref{eq:Poisson} follows
 directly from the natural exponential family and thus fits in the
@@ -920,19 +920,19 @@ and inference based on likelihood methods computationally intensive.
 
 \chapter{The method of maximum likelihood}\label{likelihood}
 
-The estimation and inference for the models discussed in Chapter \(2\)
-can be done by the method of maximum likelihood \citep{Silvey:1975}. In
-this Chapter, we present the maximum likelihood method and its main
-properties along with some examples in \texttt{R}. The maximum
-likelihood method is applicable mainly in situations where the true
-distribution of the count random variable \(Y\) is known apart of the
-values of a finite number of unknown parameters. Let
+The estimation and inference for the models discussed in Chapter
+\ref{models} can be done by the method of maximum likelihood
+\citep{Silvey:1975}. In this Chapter, we present the maximum likelihood
+method and its main properties along with some examples in \texttt{R}.
+The maximum likelihood method is applicable mainly in situations where
+the true distribution of the count random variable \(Y\) is known apart
+of the values of a finite number of unknown parameters. Let
 \(p(y;\boldsymbol{\theta})\) denote the true probability mass function
 of the count random variable \(Y\). We assume that the family
 \(p(y;\boldsymbol{\theta})\) is labelled by a (\(p \times 1\)) parameter
 vector \(\boldsymbol{\theta}\) taking values in \(\Theta\) a subset of
 \(\mathbb{R}^n\). For a given observed value \(y\) of the a random
-variable \(Y\), the likelihood functioncorresponding to the observation
+variable \(Y\), the likelihood function corresponding to the observation
 \(y\) is defined as
 \(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\). It is important
 to highlight that \(p(y;\boldsymbol{\theta})\) is a probability mass
@@ -940,7 +940,7 @@ function on the sample space. On the other hand,
 \(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\) is a function on
 the parameter space \(\Theta\). The likelihood function expresses the
 plausibilities of different parameters after we have observed \(y\), in
-the absence of any other information we may have about these different
+the absence of any other information, we may have about these different
 values. In particular, for count random variables the likelihood
 function is the probability of the point \(y\) when
 \(\boldsymbol{\theta}\) is the true parameter.
@@ -951,9 +951,9 @@ by any parameter which maximizes the likelihood function. In general,
 there is a unique maximizing parameter which is the most plausible and
 this is the maximum likelihood estimate \citep{Silvey:1975}. In other
 words, a maximum likelihood estimate \(\hat{\boldsymbol{\theta}}(y)\) is
-any elemente of \(\Theta\) such that
+any element of \(\Theta\) such that
 \(L(\hat{\boldsymbol{\theta}}(y);y) = \underset{\boldsymbol{\theta}\in \Theta}\max L(\boldsymbol{\theta};y).\)
-At this stage we make the distinction between the estimate
+At this stage, we make the distinction between the estimate
 \(\hat{\boldsymbol{\theta}}(y)\) and the estimator
 \(\hat{\boldsymbol{\theta}}\). However, we are not maintain this
 distinction and we shall use only \(\hat{\boldsymbol{\theta}}\) leaving
@@ -979,14 +979,15 @@ parameter vector \(\boldsymbol{\theta}\) is obtained by maximizing the
 following log-likelihood function,
 
 \begin{equation}
-\mathcal{l}(\boldsymbol{\theta})=\sum^n_{i=1} L(\boldsymbol{\theta}; y_i).
+\mathcal{l}(\boldsymbol{\theta})=\sum^n_{i=1} \log\{ L(\boldsymbol{\theta}; y_i) \}.
 \label{eq:LOGLIK}
 \end{equation}
 
 Often, it is not possible to find a relatively simple expression in
 closed form for the maximum likelihood estimates. However, it is usually
 possible to assume that maximum likelihood estimates emerge as a
-solution of the likelihood equations or also called score function, i.e.
+solution of the likelihood equations or also called score functions,
+i.e.
 
 \begin{equation}
 \mathcal{U}(\boldsymbol{\theta}) = \left ( \frac{\partial \mathcal{l}(\boldsymbol{\theta})}{\partial \theta_1}^\top, \ldots, \frac{\partial \mathcal{l}(\boldsymbol{\theta})}{\partial \theta_p}^\top \right )^\top = \boldsymbol{0}.
@@ -1020,14 +1021,12 @@ A critical point of the approach described so far, is that we should be
 able to compute the first and second derivatives of the log-likelihood
 function. However, for the Gamma-Count where the log-likelihood function
 is given by the difference between two integrals, we cannot obtain such
-derivatives analytically. Simiarly, for the COM-Poisson the
+derivatives analytically. Similarly, for the COM-Poisson the
 log-likelihood function involves an infinite sum and consequently such
 derivatives cannot be obtained analitycally. Finally, in the
 Poisson-Tweedie distribution the log-likelihood function is defined by
 an intractable integral, which implies that we cannot obtain a
-closed-form for the score function and Fisher information. In these
-cases, an often approach is to maximize directly the log-likelihood
-function in Eq.
+closed-form for the score function and Fisher information matrix.
 
 Thus, an alternative approach is to maximize directly the log-likelihood
 function in equation \eqref{eq:LOGLIK} using a derivative-free algorithm
@@ -1038,8 +1037,9 @@ implemented in \texttt{R} through the \texttt{optim()} function. The
 package \texttt{bbmle} \citep{bbmle:2014} offers a suite of functions to
 work with numerical maximization of log-likelihood functions in
 \texttt{R}. As an example, consider the Gamma-Count distribution
-described in subsection \(2.1\). The log-likelihood function for the
-parameters \(\gamma\) and \(\alpha\) in \texttt{R} is given by
+described in subsection \ref{gammacount}. The log-likelihood function
+for the parameters \(\theta = (\gamma, \alpha)\) in \texttt{R} is given
+by
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1050,8 +1050,8 @@ parameters \(\gamma\) and \(\alpha\) in \texttt{R} is given by
 \end{Highlighting}
 \end{Shaded}
 
-Now, for a given vector of observed count values, we can numerically
-maximize the log-likelihood function in \ref{llgc} using the function
+Thus, for a given vector of observed count values, we can numerically
+maximize the log-likelihood function above using the function
 \texttt{mle2()} from the \texttt{bbmle}package. It is important to
 highlight that by default the \texttt{mle2()} function requires the
 negative of the log-likelihood function instead of the log-likelihood
@@ -1068,8 +1068,8 @@ log-likelihood function.
 \end{Shaded}
 
 The great advantage of the \texttt{bbmle} package for maximum likelihood
-estimation in R, is that it already provides standard methods like
-\texttt{summary()}, \texttt{coef()}, \texttt{confint()},
+estimation in \texttt{R}, is that it already provides standard methods,
+such as \texttt{summary()}, \texttt{coef()}, \texttt{confint()},
 \texttt{vcov()}, \texttt{profile()} and other for objects of
 \texttt{mle2} class.
 
@@ -1101,30 +1101,34 @@ COM-Poisson distributions. In the supplementary material
 \texttt{Script5.R}, we provide some functions for maximum likelihood
 estimation of Poisson-Tweedie and COM-Poisson distributions.
 
-\chapter{Second-moment assumptions and the extended Poisson-Tweedie
-model}\label{SM}
+\chapter{Models specified by second-moment assumptions}\label{SM}
 
-In Chapter \ref{models} we presented four distributions suitable to deal
+In Chapter \ref{models}, we presented four statistical models to deal
 with count data and in the Chapter \ref{likelihood} the method of
-maximum likelihood was introduced in order to estimate the model's
-parameters. As discussed in Chapter \ref{likelihood} the method of
-maximum likelihood assumes that the true distribution of the count
-random variable \(Y\) is known apart of the values of a finite number of
-unknown parameters. In this Chapter, we shall present a different
-approach for model specification, estimation and inference based only on
-second-moment assumptions. The Poisson-Tweedie distribution as presented
-in subsection @ref\{ptw\} provides a very flexible family of count
-distributions, however, such a family has two main drawbacks: it cannot
-deal with underdispersed count data and its probability mass function is
-given by an intractable integral, which implies that estimation based on
-the maximum likelihood method for this family of models is computational
-demanding for practical data analysis.
+maximum likelihood was introduced to estimate the model's parameters. As
+discussed in Chapter \ref{likelihood} the method of maximum likelihood
+assumes that the true distribution of the count random variable \(Y\) is
+known apart of the values of a finite number of unknown parameters. In
+this Chapter, we shall present a different approach for model
+specification, estimation and inference based only on second-moment
+assumptions.
+
+\section{Extended Poisson-Tweedie
+model}\label{extended-poisson-tweedie-model}
+
+The Poisson-Tweedie distribution as presented in subsection the
+\ref{ptw} provides a very flexible family of count distributions,
+however, such a family has two main drawbacks: it cannot deal with
+underdispersed count data and its probability mass function is given by
+an intractable integral, which implies that estimation based on the
+maximum likelihood method is computational demanding for practical data
+analysis.
 
 In spite of these issues \citep{Jorgensen2014} showed using factorial
 cumulant function that for \(Y \sim PTw_p(\mu, \phi)\),
 \(\mathrm{E}(Y) = \mu\) and \(\mathrm{var}(Y) = \mu + \phi \mu^p\). This
 fact motivates \citep{Bonat2016b} to specify a model by using only
-second-order moment assumptions, i.e.~mean and variance.
+second-moment assumptions, i.e.~mean and variance.
 
 Thus, consider a cross-section dataset, \((y_i, \boldsymbol{x}_i)\),
 \(i = 1, \ldots, n\), where \(y_i\)'s are i.i.d. realizations of \(Y_i\)
@@ -1144,40 +1148,41 @@ model specified in (\ref{MODEL}) is parametrized by
 \(\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top )^\top\),
 where \(\boldsymbol{\lambda} = (\phi, p)\).
 
-Note that, based on second-order moment assumptions, the only
-restriction to have a proper model is that \(\mathrm{var}(Y_i) > 0\),
-thus \[\phi > - \mu^{(1-p)}_i,\] which shows that at least at some
-extent negative values for the dispersion parameter are allowed.
-Consequently, the Poisson-Tweedie model can be extended to deal with
-underdispersed count data, however, in doing so the associated
-probability mass functions do not exist. However, in a regression
-modelling framework as discussed in this in this material, we are in
-general interested in the regression coefficient effects, thus such an
-issue does not imply any loss of interpretation and applicability. The
-formulation of the extended Poisson-Tweedie model is exactly the same of
-the quasi-binomial and quasi-Poisson models popular in the context of
-generalized linear models, see \citet{Nelder:1972, McCullage:1989} for
-details. Furthermore, note that for \(p = 1\) the extended
-Poisson-Tweedie regression model corresponds to a reparametrization of
-the popular quasi-Poisson regression model.
+Note that, based on second-moment assumptions, the only restriction to
+have a proper model is that \(\mathrm{var}(Y_i) > 0\), thus
+\[\phi > - \mu^{(1-p)}_i,\] which shows that at least at some extent
+negative values for the dispersion parameter are allowed. Consequently,
+the Poisson-Tweedie model can be extended to deal with underdispersed
+count data, however, in doing so the associated probability mass
+functions do not exist. However, in a regression modelling framework as
+discussed in this material, we are in general interested in the
+regression coefficient effects, thus such an issue does not imply any
+loss of interpretation and applicability. The formulation of the
+extended Poisson-Tweedie model is exactly the same of the quasi-binomial
+and quasi-Poisson models popular in the context of generalized linear
+models, see \citep[\citet{Nelder1972}]{Wedderburn1974} for details.
+Furthermore, note that for \(p = 1\) the extended Poisson-Tweedie
+regression model corresponds to a reparametrization of the popular
+quasi-Poisson regression model.
 
 It is also important to highlight that in this case the relationship
 between mean and variance is proportional to the dispersion parameter
-\(\phi\) as the Gamma-Count and COM-Poisson distributions. Thus, we
-expect that for \(\phi < 0\) and \(p = 1\) the extended Poisson-Tweedie
-model presents results in terms of regression coefficient really similar
-the ones from the Gamma-Count and COM-Poisson models.
+\(\phi\) as in the Gamma-Count and COM-Poisson distributions. Thus, we
+expect for \(\phi < 0\) and \(p = 1\) the extended Poisson-Tweedie model
+presents results in terms of regression coefficients really similar the
+ones from the Gamma-Count and COM-Poisson regression models.
+
+\section{Estimation and Inference}\label{estimation-and-inference}
 
 Since the model presented in \eqref{eq:EPTW} is based only on
-second-moment assumptions the method of maximum likelihood approach
-cannot be used. \citep{Bonat2016b} based on ideas of
-\citep{Jorgensen2004} and \citep{Bonat2016} proposed an estimating
-function approach for estimation and inference for the extended
-Poisson-Tweedie regression model. \citep{Bonat2016b} combined the
-quasi-score and Pearson estimating functions for estimation of the
-regression and dispersion parameters respectively. Following
-\citep{Bonat2016b} the quasi-score function for \(\boldsymbol{\beta}\)
-has the following form,
+second-moment assumptions the method of maximum likelihood cannot be
+employed. \citep{Bonat2016b} based on ideas of \citep{Jorgensen2004} and
+\citep{Bonat2016a} proposed an estimating function approach for
+estimation and inference for the extended Poisson-Tweedie regression
+model. \citep{Bonat2016b} combined the quasi-score and Pearson
+estimating functions for estimation of the regression and dispersion
+parameters respectively. Following \citep{Bonat2016b} the quasi-score
+function for \(\boldsymbol{\beta}\) has the following form,
 
 \begin{equation*}
 \psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_q}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
@@ -1191,13 +1196,13 @@ respect to the model parameters. Thus, the entry \((j,k)\) of the
 given by
 
 \begin{equation}
-\label{Sbeta}
 \mathrm{S}_{\boldsymbol{\beta}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \beta_k} \psi_{\boldsymbol{\beta}_j}(\boldsymbol{\beta}, \boldsymbol{\lambda})  \right ) = -\sum_{i=1}^n \mu_i x_{ij} C^{-1}_i x_{ik} \mu_i.
+\label{eq:Sbeta}
 \end{equation}
 
 In a similar way, the variability matrix is defined as the variance of
-the estimating functions. In particular, for the quasi-score function
-the entry \((j,k)\) of the \(q \times q\) variability matrix is given by
+the estimating function. In particular, for the quasi-score function the
+entry \((j,k)\) of the \(q \times q\) variability matrix is given by
 
 \begin{equation*}
 \label{Vbeta}
@@ -1220,8 +1225,8 @@ The entry \((j,k)\) of the \(2 \times 2\) sensitivity matrix for the
 dispersion parameters is given by
 
 \begin{equation}
-\label{Slambda}
 \mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n \frac{\partial C^{-1}_i}{\partial \lambda_j} C_i \frac{\partial C^{-1}_i}{\partial \lambda_k}C_i, 
+\label{eq:Slambda}
 \end{equation}
 
 where \(\lambda_1\) and \(\lambda_2\) denote either \(\phi\) or \(p\).
@@ -1229,15 +1234,15 @@ where \(\lambda_1\) and \(\lambda_2\) denote either \(\phi\) or \(p\).
 Similarly, the cross entries of the sensitivity matrix are given by
 
 \begin{equation}
-\label{Sbetalambda}
 \mathrm{S}_{\boldsymbol{\beta}_j \boldsymbol{\lambda}_k} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\boldsymbol{\beta}_j}(\boldsymbol{\beta}, \boldsymbol{\lambda})  \right ) = 0
+\label{eq:Sbetalambda}
 \end{equation}
 
 and
 
 \begin{equation}
-\label{Slambdabeta}
 \mathrm{S}_{\boldsymbol{\lambda}_j \boldsymbol{\beta}_k} = \mathrm{E}\left ( \frac{\partial}{\partial \beta_k}\psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n \frac{\partial C_i^{-1}}{\partial \lambda_j} C_i \frac{\partial C_i^{-1}}{\partial \beta_k} C_i.
+\label{eq:Slambdabeta}
 \end{equation}
 
 Finally, the joint sensitivity matrix for the parameter vector
@@ -1250,8 +1255,8 @@ Finally, the joint sensitivity matrix for the parameter vector
 \end{pmatrix},
 \end{equation*}
 
-whose entries are defined by equations (\ref{Sbeta}), (\ref{Slambda}),
-(\ref{Sbetalambda}) and (\ref{Slambdabeta}).
+whose entries are defined by equations \eqref{eq:Sbeta}, \eqref{eq:Slambda},
+\eqref{eq:Sbetalambda} and \eqref{eq:Slambdabeta}.
 
 We now calculate the asymptotic variance of the estimating function
 estimators denoted by \(\boldsymbol{\hat{\theta}}\), as obtained from
@@ -1262,11 +1267,11 @@ where \(-\top\) denotes inverse transpose. The variability matrix for
 \(\boldsymbol{\theta}\) has the form
 
 \begin{equation}
-\label{VTHETA}
 \mathrm{V}_{\boldsymbol{\theta}} = \begin{pmatrix}
 \mathrm{V}_{\boldsymbol{\beta}} & \mathrm{V}_{\boldsymbol{\beta}\boldsymbol{\lambda}} \\ 
 \mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} & \mathrm{V}_{\boldsymbol{\lambda}}
 \end{pmatrix},
+\label{eq:VTHETA}
 \end{equation}
 
 where
@@ -1282,8 +1287,7 @@ higher-order moments, we propose to use the empirical versions of
 \end{equation*}
 
 Finally, the well known asymptotic distribution of
-\(\boldsymbol{\hat{\theta}}\)\textasciitilde{}\citep{Jorgensen:2004,YUAN:1998, Godambe:1978}
-is given by
+\(\boldsymbol{\hat{\theta}}\) \citep{Jorgensen2004} is given by
 
 \begin{equation*}
 \boldsymbol{\hat{\theta}} \sim \mathrm{N}(\boldsymbol{\theta}, \mathrm{J}_{\boldsymbol{\theta}}^{-1}), \quad \text{where} \quad
@@ -1292,7 +1296,7 @@ is given by
 
 To solve the system of equations
 \(\psi_{\boldsymbol{\beta}} = \boldsymbol{0}\) and
-\(\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}\) \citet{Jorgensen:2004}
+\(\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}\) \citep{Jorgensen2004}
 proposed the modified chaser algorithm, defined by
 
 \begin{eqnarray*}
@@ -1302,14 +1306,14 @@ proposed the modified chaser algorithm, defined by
 \end{eqnarray*}
 
 The modified chaser algorithm uses the insensitivity property
-(\ref{Sbetalambda}), which allows us to use two separate equations to
+\eqref{eq:Sbetalambda}, which allows us to use two separate equations to
 update \(\boldsymbol{\beta}\) and \(\boldsymbol{\lambda}\). We introduce
 the tuning constant, \(\alpha\), to control the step-length. This
 algorithm is a special case of the flexible algorithm presented by
-\citet{Bonat:2016} in the context of multivariate covariance generalized
-linear models. Hence, estimation for the Poisson-Tweedie model is easily
-implemented in \texttt{R} through the
-\texttt{mcglm}\textasciitilde{}\citep{Bonat:2015a} package.
+\citet{Bonat2016a} in the context of multivariate covariance generalized
+linear models. Hence, estimation for the extended Poisson-Tweedie model
+is easily implemented in \texttt{R} through the \texttt{mcglm}
+\citep{Bonat2016c} package.
 
 \bibliography{config/rmcd.bib}
 

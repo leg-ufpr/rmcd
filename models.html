@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Regression Models for Count Data: beyond the Poisson model</title>
   <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
-  <meta name="generator" content="bookdown 0.3.13 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3.14 and GitBook 2.6.7">
 
   <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
   <meta property="og:type" content="book" />
@@ -110,13 +110,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="models.html"><a href="models.html"><i class="fa fa-check"></i><b>2</b> Count distributions: properties and regression models</a><ul>
 <li class="chapter" data-level="2.1" data-path="models.html"><a href="models.html#poisson-distribution"><i class="fa fa-check"></i><b>2.1</b> Poisson distribution</a></li>
-<li class="chapter" data-level="2.2" data-path="models.html"><a href="models.html#gamma-count-distribution"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
+<li class="chapter" data-level="2.2" data-path="models.html"><a href="models.html#gammacount"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
 <li class="chapter" data-level="2.3" data-path="models.html"><a href="models.html#ptw"><i class="fa fa-check"></i><b>2.3</b> Poisson-Tweedie distribution</a></li>
 <li class="chapter" data-level="2.4" data-path="models.html"><a href="models.html#com-poisson-distribution"><i class="fa fa-check"></i><b>2.4</b> COM-Poisson distribution</a></li>
 <li class="chapter" data-level="2.5" data-path="models.html"><a href="models.html#comparing-count-distributions"><i class="fa fa-check"></i><b>2.5</b> Comparing count distributions</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> The method of maximum likelihood</a></li>
-<li class="chapter" data-level="4" data-path="SM.html"><a href="SM.html"><i class="fa fa-check"></i><b>4</b> Second-moment assumptions and the extended Poisson-Tweedie model</a></li>
+<li class="chapter" data-level="4" data-path="SM.html"><a href="SM.html"><i class="fa fa-check"></i><b>4</b> Models specified by second-moment assumptions</a><ul>
+<li class="chapter" data-level="4.1" data-path="SM.html"><a href="SM.html#extended-poisson-tweedie-model"><i class="fa fa-check"></i><b>4.1</b> Extended Poisson-Tweedie model</a></li>
+<li class="chapter" data-level="4.2" data-path="SM.html"><a href="SM.html#estimation-and-inference"><i class="fa fa-check"></i><b>4.2</b> Estimation and Inference</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
 </hr>
@@ -152,7 +155,7 @@ p(y;\mu) &amp;=&amp; \frac{\mu^y}{y!}\exp\{-\mu\} \\
 <p>where <span class="math inline">\(\phi = \log \{\mu\} \in \mathbb{R}\)</span>. Hence the Poisson is a natural exponential family with cumulant generator <span class="math inline">\(\kappa(\phi) = \exp\{\phi\}\)</span>. We have <span class="math inline">\(\mathrm{E}(Y) = \kappa^{\prime}(\phi) = \exp\{\phi\} = \mu\)</span> and <span class="math inline">\(\mathrm{var}(Y) = \kappa^{\prime \prime}(\phi) = \exp\{\phi\} = \mu\)</span>. The probability mass function <a href="models.html#eq:Poisson">(2.1)</a> can be evaluated in <code>R</code> through the <code>dpois()</code> function.</p>
 <p>In order to specify a regression model based on the Poisson distribution, we consider a cross-section dataset, <span class="math inline">\((y_i, x_i)\)</span>, <span class="math inline">\(i = 1,\ldots, n\)</span>, where <span class="math inline">\(y_i\)</span>’s are iid realizations of <span class="math inline">\(Y_i\)</span> according to a Poisson distribution. The Poisson regression models is defined by <span class="math display">\[Y_i \sim P(\mu_i), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).\]</span> In this notation, <span class="math inline">\(\boldsymbol{x_i}\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are (<span class="math inline">\(q \times 1\)</span>) vectors of known covariates and unknown regression parameters, respectively. Moreover, <span class="math inline">\(g\)</span> is a standard link function, for which we adopt the logarithm link function, but potentially any other suitable link function could be adopted.</p>
 </div>
-<div id="gamma-count-distribution" class="section level2">
+<div id="gammacount" class="section level2">
 <h2><span class="header-section-number">2.2</span> Gamma-Count distribution</h2>
 <p>The Poisson distribution as presented in <a href="models.html#eq:Poisson">(2.1)</a> follows directly from the natural exponential family and thus fits in the generalized linear models (GLMs) framework. Alternatively, the Poisson distribution can be derived by assuming independent and exponentially distributed times between events <span class="citation">(Zeviani et al. 2014)</span>. This derivation allows for a flexible framework to specify more general models to deal with under and overdispersed count data.</p>
 As point out by <span class="citation">Winkelmann (2003)</span> the distributions of the arrival times determine the distribution of the number of events. Following <span class="citation">Winkelmann (1995)</span>, let <span class="math inline">\({\tau_k, k \in \mathbb{N}}\)</span> denote a sequence of waiting times between the <span class="math inline">\((k-1)\)</span>th and the <span class="math inline">\(k\)</span>th events. Then, the arrival time of the <span class="math inline">\(y\)</span>th event is given by <span class="math inline">\(\nu_y = \sum_{k = 1}^{y} \tau_k\)</span>, for <span class="math inline">\(y = 1, 2, \ldots\)</span>. Furthermore, denote <span class="math inline">\(Y\)</span> the total number of events in the open interval between <span class="math inline">\(0\)</span> and <span class="math inline">\(T\)</span>. For fixed <span class="math inline">\(T\)</span>, <span class="math inline">\(Y\)</span> is a count variable. Indeed, from the definitions of <span class="math inline">\(Y\)</span> and <span class="math inline">\(\nu_y\)</span> we have that <span class="math inline">\(Y &lt; y\)</span> iff <span class="math inline">\(\nu_y \ge T\)</span>, which in turn implies <span class="math inline">\(P(Y &lt; y) = P(\nu_y \ge T) = 1 - F_y(T)\)</span>, where <span class="math inline">\(F_y(T)\)</span> denotes the cumulative distribution function of <span class="math inline">\(\nu_y\)</span>. Furthermore,

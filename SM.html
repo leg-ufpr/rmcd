@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Regression Models for Count Data: beyond the Poisson model</title>
   <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
-  <meta name="generator" content="bookdown 0.3.13 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.3.14 and GitBook 2.6.7">
 
   <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
   <meta property="og:type" content="book" />
@@ -110,13 +110,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="models.html"><a href="models.html"><i class="fa fa-check"></i><b>2</b> Count distributions: properties and regression models</a><ul>
 <li class="chapter" data-level="2.1" data-path="models.html"><a href="models.html#poisson-distribution"><i class="fa fa-check"></i><b>2.1</b> Poisson distribution</a></li>
-<li class="chapter" data-level="2.2" data-path="models.html"><a href="models.html#gamma-count-distribution"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
+<li class="chapter" data-level="2.2" data-path="models.html"><a href="models.html#gammacount"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
 <li class="chapter" data-level="2.3" data-path="models.html"><a href="models.html#ptw"><i class="fa fa-check"></i><b>2.3</b> Poisson-Tweedie distribution</a></li>
 <li class="chapter" data-level="2.4" data-path="models.html"><a href="models.html#com-poisson-distribution"><i class="fa fa-check"></i><b>2.4</b> COM-Poisson distribution</a></li>
 <li class="chapter" data-level="2.5" data-path="models.html"><a href="models.html#comparing-count-distributions"><i class="fa fa-check"></i><b>2.5</b> Comparing count distributions</a></li>
 </ul></li>
 <li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> The method of maximum likelihood</a></li>
-<li class="chapter" data-level="4" data-path="SM.html"><a href="SM.html"><i class="fa fa-check"></i><b>4</b> Second-moment assumptions and the extended Poisson-Tweedie model</a></li>
+<li class="chapter" data-level="4" data-path="SM.html"><a href="SM.html"><i class="fa fa-check"></i><b>4</b> Models specified by second-moment assumptions</a><ul>
+<li class="chapter" data-level="4.1" data-path="SM.html"><a href="SM.html#extended-poisson-tweedie-model"><i class="fa fa-check"></i><b>4.1</b> Extended Poisson-Tweedie model</a></li>
+<li class="chapter" data-level="4.2" data-path="SM.html"><a href="SM.html#estimation-and-inference"><i class="fa fa-check"></i><b>4.2</b> Estimation and Inference</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
 </hr>
@@ -139,9 +142,12 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="SM" class="section level1">
-<h1><span class="header-section-number">Chapter 4</span> Second-moment assumptions and the extended Poisson-Tweedie model</h1>
-<p>In Chapter <a href="models.html#models">2</a> we presented four distributions suitable to deal with count data and in the Chapter <a href="likelihood.html#likelihood">3</a> the method of maximum likelihood was introduced in order to estimate the model’s parameters. As discussed in Chapter <a href="likelihood.html#likelihood">3</a> the method of maximum likelihood assumes that the true distribution of the count random variable <span class="math inline">\(Y\)</span> is known apart of the values of a finite number of unknown parameters. In this Chapter, we shall present a different approach for model specification, estimation and inference based only on second-moment assumptions. The Poisson-Tweedie distribution as presented in subsection @ref{ptw} provides a very flexible family of count distributions, however, such a family has two main drawbacks: it cannot deal with underdispersed count data and its probability mass function is given by an intractable integral, which implies that estimation based on the maximum likelihood method for this family of models is computational demanding for practical data analysis.</p>
-<p>In spite of these issues <span class="citation">(Jørgensen and Kokonendji 2015)</span> showed using factorial cumulant function that for <span class="math inline">\(Y \sim PTw_p(\mu, \phi)\)</span>, <span class="math inline">\(\mathrm{E}(Y) = \mu\)</span> and <span class="math inline">\(\mathrm{var}(Y) = \mu + \phi \mu^p\)</span>. This fact motivates <span class="citation">(Bonat et al. 2016)</span> to specify a model by using only second-order moment assumptions, i.e. mean and variance.</p>
+<h1><span class="header-section-number">Chapter 4</span> Models specified by second-moment assumptions</h1>
+<p>In Chapter <a href="models.html#models">2</a>, we presented four statistical models to deal with count data and in the Chapter <a href="likelihood.html#likelihood">3</a> the method of maximum likelihood was introduced to estimate the model’s parameters. As discussed in Chapter <a href="likelihood.html#likelihood">3</a> the method of maximum likelihood assumes that the true distribution of the count random variable <span class="math inline">\(Y\)</span> is known apart of the values of a finite number of unknown parameters. In this Chapter, we shall present a different approach for model specification, estimation and inference based only on second-moment assumptions.</p>
+<div id="extended-poisson-tweedie-model" class="section level2">
+<h2><span class="header-section-number">4.1</span> Extended Poisson-Tweedie model</h2>
+<p>The Poisson-Tweedie distribution as presented in subsection the <a href="models.html#ptw">2.3</a> provides a very flexible family of count distributions, however, such a family has two main drawbacks: it cannot deal with underdispersed count data and its probability mass function is given by an intractable integral, which implies that estimation based on the maximum likelihood method is computational demanding for practical data analysis.</p>
+<p>In spite of these issues <span class="citation">(Jørgensen and Kokonendji 2015)</span> showed using factorial cumulant function that for <span class="math inline">\(Y \sim PTw_p(\mu, \phi)\)</span>, <span class="math inline">\(\mathrm{E}(Y) = \mu\)</span> and <span class="math inline">\(\mathrm{var}(Y) = \mu + \phi \mu^p\)</span>. This fact motivates <span class="citation">(Bonat et al. 2016)</span> to specify a model by using only second-moment assumptions, i.e. mean and variance.</p>
 Thus, consider a cross-section dataset, <span class="math inline">\((y_i, \boldsymbol{x}_i)\)</span>, <span class="math inline">\(i = 1, \ldots, n\)</span>, where <span class="math inline">\(y_i\)</span>’s are i.i.d. realizations of <span class="math inline">\(Y_i\)</span> according to an unspecified distribution, whose expectation and variance are given by
 <span class="math display" id="eq:EPTW">\[\begin{align}
 \mathrm{E}(Y_i) = \mu_i = g^{-1}(\boldsymbol{x}_i^{\top} \boldsymbol{\beta}) \\
@@ -149,18 +155,21 @@ Thus, consider a cross-section dataset, <span class="math inline">\((y_i, \bolds
 \tag{4.1}
 \end{align}\]</span>
 <p>where as before <span class="math inline">\(\boldsymbol{x}_i\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are (<span class="math inline">\(q \times 1\)</span>) vectors of known covariates and unknown regression parameters and <span class="math inline">\(g\)</span> is the logarithm link function. The regression model specified in () is parametrized by <span class="math inline">\(\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top )^\top\)</span>, where <span class="math inline">\(\boldsymbol{\lambda} = (\phi, p)\)</span>.</p>
-<p>Note that, based on second-order moment assumptions, the only restriction to have a proper model is that <span class="math inline">\(\mathrm{var}(Y_i) &gt; 0\)</span>, thus <span class="math display">\[\phi &gt; - \mu^{(1-p)}_i,\]</span> which shows that at least at some extent negative values for the dispersion parameter are allowed. Consequently, the Poisson-Tweedie model can be extended to deal with underdispersed count data, however, in doing so the associated probability mass functions do not exist. However, in a regression modelling framework as discussed in this in this material, we are in general interested in the regression coefficient effects, thus such an issue does not imply any loss of interpretation and applicability. The formulation of the extended Poisson-Tweedie model is exactly the same of the quasi-binomial and quasi-Poisson models popular in the context of generalized linear models, see  for details. Furthermore, note that for <span class="math inline">\(p = 1\)</span> the extended Poisson-Tweedie regression model corresponds to a reparametrization of the popular quasi-Poisson regression model.</p>
-<p>It is also important to highlight that in this case the relationship between mean and variance is proportional to the dispersion parameter <span class="math inline">\(\phi\)</span> as the Gamma-Count and COM-Poisson distributions. Thus, we expect that for <span class="math inline">\(\phi &lt; 0\)</span> and <span class="math inline">\(p = 1\)</span> the extended Poisson-Tweedie model presents results in terms of regression coefficient really similar the ones from the Gamma-Count and COM-Poisson models.</p>
-<p>Since the model presented in <a href="SM.html#eq:EPTW">(4.1)</a> is based only on second-moment assumptions the method of maximum likelihood approach cannot be used. <span class="citation">(Bonat et al. 2016)</span> based on ideas of <span class="citation">(Jørgensen and Knudsen 2004)</span> and <span class="citation">(<span class="citeproc-not-found" data-reference-id="Bonat2016"><strong>???</strong></span>)</span> proposed an estimating function approach for estimation and inference for the extended Poisson-Tweedie regression model. <span class="citation">(Bonat et al. 2016)</span> combined the quasi-score and Pearson estimating functions for estimation of the regression and dispersion parameters respectively. Following <span class="citation">(Bonat et al. 2016)</span> the quasi-score function for <span class="math inline">\(\boldsymbol{\beta}\)</span> has the following form,</p>
+<p>Note that, based on second-moment assumptions, the only restriction to have a proper model is that <span class="math inline">\(\mathrm{var}(Y_i) &gt; 0\)</span>, thus <span class="math display">\[\phi &gt; - \mu^{(1-p)}_i,\]</span> which shows that at least at some extent negative values for the dispersion parameter are allowed. Consequently, the Poisson-Tweedie model can be extended to deal with underdispersed count data, however, in doing so the associated probability mass functions do not exist. However, in a regression modelling framework as discussed in this material, we are in general interested in the regression coefficient effects, thus such an issue does not imply any loss of interpretation and applicability. The formulation of the extended Poisson-Tweedie model is exactly the same of the quasi-binomial and quasi-Poisson models popular in the context of generalized linear models, see <span class="citation">(Wedderburn 1974, <span class="citation">Nelder and Wedderburn (1972)</span>)</span> for details. Furthermore, note that for <span class="math inline">\(p = 1\)</span> the extended Poisson-Tweedie regression model corresponds to a reparametrization of the popular quasi-Poisson regression model.</p>
+<p>It is also important to highlight that in this case the relationship between mean and variance is proportional to the dispersion parameter <span class="math inline">\(\phi\)</span> as in the Gamma-Count and COM-Poisson distributions. Thus, we expect for <span class="math inline">\(\phi &lt; 0\)</span> and <span class="math inline">\(p = 1\)</span> the extended Poisson-Tweedie model presents results in terms of regression coefficients really similar the ones from the Gamma-Count and COM-Poisson regression models.</p>
+</div>
+<div id="estimation-and-inference" class="section level2">
+<h2><span class="header-section-number">4.2</span> Estimation and Inference</h2>
+<p>Since the model presented in <a href="SM.html#eq:EPTW">(4.1)</a> is based only on second-moment assumptions the method of maximum likelihood cannot be employed. <span class="citation">(Bonat et al. 2016)</span> based on ideas of <span class="citation">(Jørgensen and Knudsen 2004)</span> and <span class="citation">(Bonat and Jørgensen 2016)</span> proposed an estimating function approach for estimation and inference for the extended Poisson-Tweedie regression model. <span class="citation">(Bonat et al. 2016)</span> combined the quasi-score and Pearson estimating functions for estimation of the regression and dispersion parameters respectively. Following <span class="citation">(Bonat et al. 2016)</span> the quasi-score function for <span class="math inline">\(\boldsymbol{\beta}\)</span> has the following form,</p>
 <span class="math display">\[\begin{equation*}
 \psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_q}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
 \end{equation*}\]</span>
 <p>where <span class="math inline">\(\partial \mu_i/\partial \beta_j = \mu_i x_{ij}\)</span> for <span class="math inline">\(j = 1, \ldots, q\)</span>. The sensitivity matrix is defined as the expectation of the first derivative of the estimating function with respect to the model parameters. Thus, the entry <span class="math inline">\((j,k)\)</span> of the <span class="math inline">\(q \times q\)</span> sensitivity matrix for <span class="math inline">\(\psi_{\boldsymbol{\beta}}\)</span> is given by</p>
-<span class="math display">\[\begin{equation}
-\label{Sbeta}
+<span class="math display" id="eq:Sbeta">\[\begin{equation}
 \mathrm{S}_{\boldsymbol{\beta}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \beta_k} \psi_{\boldsymbol{\beta}_j}(\boldsymbol{\beta}, \boldsymbol{\lambda})  \right ) = -\sum_{i=1}^n \mu_i x_{ij} C^{-1}_i x_{ik} \mu_i.
+\tag{4.2}
 \end{equation}\]</span>
-In a similar way, the variability matrix is defined as the variance of the estimating functions. In particular, for the quasi-score function the entry <span class="math inline">\((j,k)\)</span> of the <span class="math inline">\(q \times q\)</span> variability matrix is given by
+In a similar way, the variability matrix is defined as the variance of the estimating function. In particular, for the quasi-score function the entry <span class="math inline">\((j,k)\)</span> of the <span class="math inline">\(q \times q\)</span> variability matrix is given by
 <span class="math display">\[\begin{equation*}
 \label{Vbeta}
 \mathrm{V}_{\boldsymbol{\beta}_{jk}} = \mathrm{Cov}(\psi_{\boldsymbol{\beta}_j}(\boldsymbol{\beta}, \boldsymbol{\lambda}),\psi_{\boldsymbol{\beta}_k}(\boldsymbol{\beta}, \boldsymbol{\lambda})) = \sum_{i=1}^n \mu_i x_{ij} C^{-1}_i x_{ik} \mu_i.
@@ -172,20 +181,20 @@ In a similar way, the variability matrix is defined as the variance of the estim
 \end{equation*}\]</span>
 <p>Note that, the Pearson estimating functions are unbiased estimating functions for <span class="math inline">\(\boldsymbol{\lambda}\)</span> based on the squared residuals <span class="math inline">\((Y_i - \mu_i)^2\)</span> with expected value <span class="math inline">\(C_i\)</span>.</p>
 The entry <span class="math inline">\((j,k)\)</span> of the <span class="math inline">\(2 \times 2\)</span> sensitivity matrix for the dispersion parameters is given by
-<span class="math display">\[\begin{equation}
-\label{Slambda}
+<span class="math display" id="eq:Slambda">\[\begin{equation}
 \mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n \frac{\partial C^{-1}_i}{\partial \lambda_j} C_i \frac{\partial C^{-1}_i}{\partial \lambda_k}C_i, 
+\tag{4.3}
 \end{equation}\]</span>
 <p>where <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span> denote either <span class="math inline">\(\phi\)</span> or <span class="math inline">\(p\)</span>.</p>
 Similarly, the cross entries of the sensitivity matrix are given by
-<span class="math display">\[\begin{equation}
-\label{Sbetalambda}
+<span class="math display" id="eq:Sbetalambda">\[\begin{equation}
 \mathrm{S}_{\boldsymbol{\beta}_j \boldsymbol{\lambda}_k} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\boldsymbol{\beta}_j}(\boldsymbol{\beta}, \boldsymbol{\lambda})  \right ) = 0
+\tag{4.4}
 \end{equation}\]</span>
 and
-<span class="math display">\[\begin{equation}
-\label{Slambdabeta}
+<span class="math display" id="eq:Slambdabeta">\[\begin{equation}
 \mathrm{S}_{\boldsymbol{\lambda}_j \boldsymbol{\beta}_k} = \mathrm{E}\left ( \frac{\partial}{\partial \beta_k}\psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n \frac{\partial C_i^{-1}}{\partial \lambda_j} C_i \frac{\partial C_i^{-1}}{\partial \beta_k} C_i.
+\tag{4.5}
 \end{equation}\]</span>
 Finally, the joint sensitivity matrix for the parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span> is given by
 <span class="math display">\[\begin{equation*}
@@ -194,32 +203,33 @@ Finally, the joint sensitivity matrix for the parameter vector <span class="math
 \mathrm{S}_{\boldsymbol{\lambda}\boldsymbol{\beta}} &amp; \mathrm{S}_{\boldsymbol{\lambda}}
 \end{pmatrix},
 \end{equation*}\]</span>
-<p>whose entries are defined by equations (), (), () and ().</p>
+<p>whose entries are defined by equations <a href="SM.html#eq:Sbeta">(4.2)</a>, <a href="SM.html#eq:Slambda">(4.3)</a>, <a href="SM.html#eq:Sbetalambda">(4.4)</a> and <a href="SM.html#eq:Slambdabeta">(4.5)</a>.</p>
 We now calculate the asymptotic variance of the estimating function estimators denoted by <span class="math inline">\(\boldsymbol{\hat{\theta}}\)</span>, as obtained from the inverse Godambe information matrix, whose general form for a vector of parameter <span class="math inline">\(\boldsymbol{\theta}\)</span> is <span class="math inline">\(\mathrm{J}^{-1}_{\boldsymbol{\theta}} = \mathrm{S}^{-1}_{\boldsymbol{\theta}} \mathrm{V}_{\boldsymbol{\theta}} \mathrm{S}^{-\top}_{\boldsymbol{\theta}}\)</span>, where <span class="math inline">\(-\top\)</span> denotes inverse transpose. The variability matrix for <span class="math inline">\(\boldsymbol{\theta}\)</span> has the form
-<span class="math display">\[\begin{equation}
-\label{VTHETA}
+<span class="math display" id="eq:VTHETA">\[\begin{equation}
 \mathrm{V}_{\boldsymbol{\theta}} = \begin{pmatrix}
 \mathrm{V}_{\boldsymbol{\beta}} &amp; \mathrm{V}_{\boldsymbol{\beta}\boldsymbol{\lambda}} \\ 
 \mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} &amp; \mathrm{V}_{\boldsymbol{\lambda}}
 \end{pmatrix},
+\tag{4.6}
 \end{equation}\]</span>
 <p>where <span class="math inline">\(\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} = \mathrm{V}^{\top}_{\boldsymbol{\beta}\boldsymbol{\lambda}}\)</span> and <span class="math inline">\(\mathrm{V}_{\boldsymbol{\lambda}}\)</span> depend on the third and fourth moments of <span class="math inline">\(Y_i\)</span>, respectively. In order to avoid this dependence on higher-order moments, we propose to use the empirical versions of <span class="math inline">\(\mathrm{V}_{\boldsymbol{\lambda}}\)</span> and <span class="math inline">\(\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}}\)</span> as given by</p>
 <span class="math display">\[\begin{equation*}
 \tilde{\mathrm{V}}_{\boldsymbol{\lambda}_{jk}} = \sum_{i=1}^n \psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i\psi_{\boldsymbol{\lambda}_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \quad \text{and} \quad \tilde{\mathrm{V}}_{\boldsymbol{\lambda}_j \boldsymbol{\beta}_k} = \sum_{i=1}^n \psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \psi_{\boldsymbol{\beta}_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i.
 \end{equation*}\]</span>
-Finally, the well known asymptotic distribution of <span class="math inline">\(\boldsymbol{\hat{\theta}}\)</span>~ is given by
+Finally, the well known asymptotic distribution of <span class="math inline">\(\boldsymbol{\hat{\theta}}\)</span> <span class="citation">(Jørgensen and Knudsen 2004)</span> is given by
 <span class="math display">\[\begin{equation*}
 \boldsymbol{\hat{\theta}} \sim \mathrm{N}(\boldsymbol{\theta}, \mathrm{J}_{\boldsymbol{\theta}}^{-1}), \quad \text{where} \quad
 \mathrm{J}^{-1}_{\boldsymbol{\theta}} = \mathrm{S}^{-1}_{\boldsymbol{\theta}} \mathrm{V}_{\boldsymbol{\theta}} \mathrm{S}^{-\top}_{\boldsymbol{\theta}}.
 \end{equation*}\]</span>
-To solve the system of equations <span class="math inline">\(\psi_{\boldsymbol{\beta}} = \boldsymbol{0}\)</span> and <span class="math inline">\(\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}\)</span>  proposed the modified chaser algorithm, defined by
+To solve the system of equations <span class="math inline">\(\psi_{\boldsymbol{\beta}} = \boldsymbol{0}\)</span> and <span class="math inline">\(\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}\)</span> <span class="citation">(Jørgensen and Knudsen 2004)</span> proposed the modified chaser algorithm, defined by
 <span class="math display">\[\begin{eqnarray*}
 \label{chaser}
 \boldsymbol{\beta}^{(i+1)} &amp;=&amp; \boldsymbol{\beta}^{(i)} - \mathrm{S}_{\boldsymbol{\beta}}^{-1} \psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}^{(i)}, \boldsymbol{\lambda}^{(i)}) \nonumber \\
 \boldsymbol{\lambda}^{(i+1)} &amp;=&amp; \boldsymbol{\lambda}^{(i)} - \alpha \mathrm{S}_{\boldsymbol{\lambda}}^{-1} \psi_{\boldsymbol{\lambda}}(\boldsymbol{\beta}^{(i+1)}, \boldsymbol{\lambda}^{(i)}).
 \end{eqnarray*}\]</span>
-<p>The modified chaser algorithm uses the insensitivity property (), which allows us to use two separate equations to update <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{\lambda}\)</span>. We introduce the tuning constant, <span class="math inline">\(\alpha\)</span>, to control the step-length. This algorithm is a special case of the flexible algorithm presented by  in the context of multivariate covariance generalized linear models. Hence, estimation for the Poisson-Tweedie model is easily implemented in  through the ~ package.</p>
+<p>The modified chaser algorithm uses the insensitivity property <a href="SM.html#eq:Sbetalambda">(4.4)</a>, which allows us to use two separate equations to update <span class="math inline">\(\boldsymbol{\beta}\)</span> and <span class="math inline">\(\boldsymbol{\lambda}\)</span>. We introduce the tuning constant, <span class="math inline">\(\alpha\)</span>, to control the step-length. This algorithm is a special case of the flexible algorithm presented by <span class="citation">Bonat and Jørgensen (2016)</span> in the context of multivariate covariance generalized linear models. Hence, estimation for the extended Poisson-Tweedie model is easily implemented in <code>R</code> through the <code>mcglm</code> <span class="citation">(Bonat 2016)</span> package.</p>
 
+</div>
 </div>
             </section>
 
