@@ -1,15 +1,15 @@
 # Second-moment assumptions and the extended Poisson-Tweedie model {#SM}
 
-In Chapter \@ref(models) we presented four distributions suitable to deal with
-count data and in the Chapter \@ref(likelihood) the method of maximum likelihood
-was introduced in order to estimate the model's parameters. 
+In Chapter \@ref(models), we presented four statistical models to deal 
+with count data and in the Chapter \@ref(likelihood) the method of 
+maximum likelihood was introduced to estimate the model's parameters. 
 As discussed in Chapter \@ref(likelihood) the method of maximum likelihood assumes
 that the true distribution of the count random variable $Y$ is known 
 apart of the values of a finite number of unknown parameters. 
 In this Chapter, we shall present a different approach for model 
 specification, estimation and inference based only on second-moment
 assumptions. The Poisson-Tweedie distribution as presented in subsection
-\@ref{ptw} provides a very flexible family of count distributions, however,
+the \@ref(ptw) provides a very flexible family of count distributions, however,
 such a family has two main drawbacks: it cannot deal with underdispersed
 count data and its probability mass function is given by an intractable
 integral, which implies that estimation based on the maximum likelihood method 

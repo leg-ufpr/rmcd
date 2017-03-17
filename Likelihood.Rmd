@@ -65,7 +65,6 @@ form for the maximum likelihood estimates. However, it is usually possible
 to assume that maximum likelihood estimates emerge as a solution of the
 likelihood equations or also called score function, i.e.
 
-
 \begin{equation}
 \mathcal{U}(\boldsymbol{\theta}) = \left ( \frac{\partial \mathcal{l}(\boldsymbol{\theta})}{\partial \theta_1}^\top, \ldots, \frac{\partial \mathcal{l}(\boldsymbol{\theta})}{\partial \theta_p}^\top \right )^\top = \boldsymbol{0}.
 (\#eq:SCORE)
@@ -99,7 +98,7 @@ be obtained analitycally. Finally, in the Poisson-Tweedie distribution the
 log-likelihood function is defined by an intractable integral, which implies
 that we cannot obtain a closed-form for the score function and Fisher information.
 In these cases, an often approach is to maximize directly the log-likelihood
-function in Eq. 
+function in Eq. \@ref(eq:LOGLIK) using some quasi-Newton method.
 
 Thus, an alternative approach is to maximize directly the log-likelihood
 function in equation \@ref(eq:LOGLIK) using a derivative-free algorithm 
@@ -125,7 +124,6 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
   return(p)
 }
 ```
-
 
 
 ```{r llgc, echo = TRUE, fig.cap = 'Log-likelihood function - Gamma-Count distribution.'}
