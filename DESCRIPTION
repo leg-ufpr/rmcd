@@ -10,8 +10,11 @@ Imports:
   statmod,
   compoisson,
   rootSolve,
-  bbmle
+  bbmle,
+  MRDCr
 Suggests:
   sp,
   plyr
-Remotes: rstudio/bookdown
+Remotes:
+  rstudio/bookdown,
+  leg-ufpr/MRDCr@devel
