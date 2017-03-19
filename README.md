@@ -33,3 +33,14 @@ Brazilian School of Regression models.
 }
 
 ```
+
+<!--------------------------------------------- -->
+[wagner]: http://leg.ufpr.br/doku.php/pessoais:wbonat
+[walmes]: http://leg.ufpr.br/doku.php/pessoais:walmes
+[eduardo]: http://leg.ufpr.br/doku.php/pessoais:eduardojr
+[rcmdbook]: http://cursos.leg.ufpr.br/rmcd/
+[bookdown]: https://github.com/rstudio/bookdown
+[emr]: http://www.redeabe.org.br/emr2017/
+[epubbook]: http://cursos.leg.ufpr.br/rmcd/rmcdbook.epub
+[pdfbook]: http://cursos.leg.ufpr.br/rmcd/rmcdbook.pdf
+[gitbook]: http://cursos.leg.ufpr.br/rmcd/index.html
