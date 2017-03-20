@@ -19,9 +19,9 @@ count data and its probability mass function is given by an intractable
 integral, which implies that estimation based on the maximum likelihood method
 is computational demanding for practical data analysis.
 
-In spite of these issues [@Jorgensen2014] showed using factorial cumulant
+In spite of these issues @Jorgensen2014 showed using factorial cumulant
 function that for $Y \sim PTw_p(\mu, \phi)$, $\mathrm{E}(Y) = \mu$ and
-$\mathrm{var}(Y) = \mu + \phi \mu^p$. This fact motivates [@Bonat2016b]
+$\mathrm{var}(Y) = \mu + \phi \mu^p$. This fact motivates @Bonat2016b
 to specify a model by using only second-moment assumptions, i.e.
 mean and variance.
 
@@ -30,14 +30,14 @@ $(y_i, \boldsymbol{x}_i)$, $i = 1, \ldots, n$, where $y_i$'s are i.i.d.
 realizations of $Y_i$ according to an unspecified distribution,
 whose expectation and variance are given by
 \begin{align}
-\mathrm{E}(Y_i) = \mu_i = g^{-1}(\boldsymbol{x}_i^{\top} \boldsymbol{\beta}) \\
+\mathrm{E}(Y_i) = \mu_i = g^{-1}(\boldsymbol{x}_i^{\top} \boldsymbol{\beta}) \nonumber \\
 \mathrm{var}(Y_i) = C_i = \mu_i + \phi \mu_i^p,
 (\#eq:EPTW)
 \end{align}
 where as before $\boldsymbol{x}_i$ and $\boldsymbol{\beta}$ are ($q \times 1$)
 vectors of known covariates and unknown regression parameters and $g$
 is the logarithm link function. The regression model specified in
-(\ref{MODEL}) is parametrized by
+\@ref(eq:EPTW) is parametrized by
 $\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top )^\top$,
 where $\boldsymbol{\lambda} = (\phi, p)$.
 
@@ -70,12 +70,12 @@ really similar the ones from the Gamma-Count and COM-Poisson regression models.
 
 Since the model presented in \@ref(eq:EPTW) is based only on second-moment
 assumptions the method of maximum likelihood cannot be employed.
-[@Bonat2016b] based on ideas of [@Jorgensen2004] and [@Bonat2016a] proposed
+@Bonat2016b based on ideas of @Jorgensen2004 and @Bonat2016a proposed
 an estimating function approach for estimation and inference for the
-extended Poisson-Tweedie regression model. [@Bonat2016b] combined the
+extended Poisson-Tweedie regression model. @Bonat2016b combined the
 quasi-score and Pearson estimating functions for estimation of the
 regression and dispersion parameters respectively.
-Following [@Bonat2016b] the quasi-score function for
+Following @Bonat2016b the quasi-score function for
 $\boldsymbol{\beta}$ has the following form,
 
 \begin{equation*}
@@ -159,7 +159,7 @@ is given by
 \mathrm{J}^{-1}_{\boldsymbol{\theta}} = \mathrm{S}^{-1}_{\boldsymbol{\theta}} \mathrm{V}_{\boldsymbol{\theta}} \mathrm{S}^{-\top}_{\boldsymbol{\theta}}.
 \end{equation*}
 
-To solve the system of equations $\psi_{\boldsymbol{\beta}} = \boldsymbol{0}$ and $\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}$ [@Jorgensen2004] proposed the modified chaser algorithm, defined by
+To solve the system of equations $\psi_{\boldsymbol{\beta}} = \boldsymbol{0}$ and $\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}$ @Jorgensen2004 proposed the modified chaser algorithm, defined by
 \begin{eqnarray*}
 \label{chaser}
 \boldsymbol{\beta}^{(i+1)} &=& \boldsymbol{\beta}^{(i)} - \mathrm{S}_{\boldsymbol{\beta}}^{-1} \psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}^{(i)}, \boldsymbol{\lambda}^{(i)}) \nonumber \\

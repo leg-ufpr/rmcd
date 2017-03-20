@@ -2,7 +2,7 @@
 
 The analysis of count data has received attention from the statistical
 community in the last four decades. Since the seminal paper published
-by Nelder and Wedderburn [@Nelder1972], the class of generalized linear
+by @Nelder1972, the class of generalized linear
 models (GLMs) have a proeminent role for regression modelling of normal and
 non-normal data.
 GLMs are fitted by a simple and efficient Newton score algorithm relying only

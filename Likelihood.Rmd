@@ -20,7 +20,7 @@ $L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})$ is a function on
 the parameter space $\Theta$.
 The likelihood function expresses the plausibilities of different
 parameters after we have observed $y$, in the absence of any other
-information, we may have about these different values.
+information that we may have about these different values.
 In particular, for count random variables the likelihood function is
 the probability of the point $y$ when $\boldsymbol{\theta}$ is the
 true parameter.

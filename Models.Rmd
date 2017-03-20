@@ -12,7 +12,7 @@ an exponential dispersion model. The Poisson distribution denoted by
 $P(\mu)$ has probability mass function
 
 \begin{eqnarray}
-p(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \\
+p(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \nonumber \\
 	     &=& \frac{1}{y!} \exp \{\phi y -  \exp\{\phi\} \}, \quad y \in \mathbb{N}_{0},
 (\#eq:Poisson)
 \end{eqnarray}
@@ -58,7 +58,7 @@ $P(Y < y) = P(\nu_y \ge T) = 1 - F_y(T)$, where
 $F_y(T)$ denotes the cumulative distribution function of $\nu_y$.
 Furthermore,
 \begin{eqnarray}
-P(Y = y) &=& P(Y < y+1) - P(Y < y) \\
+P(Y = y) &=& P(Y < y+1) - P(Y < y) \nonumber \\
 	 &=& F_y(T) - F_{y+1}(T).
 (\#eq:DURATION)
 \end{eqnarray}
@@ -233,7 +233,7 @@ $p = 2$, i.e. a Poisson gamma mixture.
 In the case of $p=1$, the integral \@ref(eq:pmfPTW) is replaced by a
 sum and we have the Neyman Type A distribution.
 Further special cases include the Hermite $(p = 0)$,
-Poisson compound Poisson $(1 < p < 2)$, factorial discrete positive
+ compound Poisson $(1 < p < 2)$, factorial discrete positive
 stable $(p > 2)$ and Poisson-inverse Gaussian $(p = 3)$ distributions
 [@Jorgensen2014 ; @Kokonendji2004].
 
@@ -467,14 +467,16 @@ has no easy interpretation in relation to the expectation of the count
 response variable.
 
 Finally, in terms of computational implementation the simplicity of the
-Poisson regression model is unquestionable. The probability mass function
-of the Gamma-Count distribution requires the evaluation of the difference
-between two cumulative gamma distributions. For large values of the random
-variable $Y$, such a difference can be time consuming and inaccurately computed.
-Similarly, the COM-Poisson probability mass function involves the evaluation of a
-infinity sum, which can be computational expensive and inaccurate for large
-values of $Y$. Furthermore, for extreme values of $\lambda$ and $\nu$ the infinite sum
-can numerically diverge making impossible to evaluate the probability mass function.
-Finally, the Poisson-Tweedie probability mass function involves an intractable
-integral, which makes the estimation and inference based on likelihood methods
-computationally intensive.
+Poisson regression model is unquestionable. The probability mass
+function of the Gamma-Count distribution requires the evaluation of the
+difference between two cumulative gamma distributions. For large values
+of the random variable $Y$, such a difference can be time consuming and
+inaccurately computed.  Similarly, the COM-Poisson probability mass
+function involves the evaluation of a infinity sum, which can be
+computational expensive and inaccurate for large values of
+$Y$. Furthermore, for extreme values of $\lambda$ combined with small
+values of $\nu$ the infinite sum can numerically diverge making
+impossible to evaluate the probability mass function.  Finally, the
+Poisson-Tweedie probability mass function involves an intractable
+integral, which makes the estimation and inference based on likelihood
+methods computationally intensive.
