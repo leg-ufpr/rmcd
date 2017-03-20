@@ -7,7 +7,8 @@ rmd_files: [
     "introduction.Rmd",
     "Models.Rmd",
     "Likelihood.Rmd",
-    "SM.Rmd",	
+    "SM.Rmd",
+    "Applications.Rmd",
     "bibliography.Rmd"
 ]
 

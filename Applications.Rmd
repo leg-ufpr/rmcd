@@ -1,0 +1,281 @@
+# Applications
+
+In this chapter, we will bring some applications based on real data
+sets to show how use R packages to analyse count data.
+
+## Cotton Bolls
+
+Cotton production can be drastically reduced by attack of defoliating
+insects. Depending on the growth stage, the plant can recover from the
+caused damage and keeps production not affected or can have the
+production reduced by low intensity defoliation.
+
+A greenhouse experiment with cotton plants (*Gossypium hirsutum*) was
+done under a completely randomized design with five replicates to assess
+the effects of five defoliation levels (0%, 25%, 50%,75% and 100%) on
+the observed number of bolls produced by plants at five growth stages:
+vegetative, flower-bud, blossom, fig and cotton boll. The experimental
+unity was a vase with two plants [@Silva2012a, for more]. The number of
+cotton bolls was recorded at the hasvest of the experiment.
+
+```{r}
+library(MRDCr)
+ls("package:MRDCr")
+```
+```{r, eval = FALSE}
+# Documentation in Portuguese.
+help(capdesfo, help_type = "html")
+```
+```{r}
+str(capdesfo)
+levels(capdesfo$est) <- c("vegetative",
+                          "flower-bud",
+                          "blossom",
+                          "fig",
+                          "cotton boll")
+xtabs(~est + des, data = capdesfo)
+```
+
+Figure \@ref(fig:bools-mean-var) (top) shows the beeswarm plot of number
+of cotton bolls recorded for each combination of defoliation level and
+growth stage. All the points in the sample means and variances
+dispersion diagram (bottom) are below the identity line, clearly
+suggesting data with underdispersion.
+
+```{r bools-mean-var, fig.cap = cap, echo = FALSE, fig.height = 10}
+cap <- "(top) Number of bolls produced for each artificial defoliation level and each growth stage. (bottom) Sample variance against the sample mean of the five replicates for each combination of defoliation level and growth stage."
+
+library(lattice)
+library(gridExtra)
+
+xy1 <- xyplot(ncap ~ des | est,
+              data = capdesfo,
+              layout = c(NA, 2),
+              type = c("p", "smooth"),
+              xlab = "Artifitial defoliation levels",
+              ylab = "Bolls produced",
+              as.table = TRUE,
+              grid = TRUE,
+              xlim = extendrange(c(0:1), f = 0.15),
+              panel = panel.beeswarm,
+              spread = 0.05)
+
+mv <- aggregate(ncap ~ est + des, data = capdesfo,
+                FUN = function(x) c(mean = mean(x), var = var(x)))
+xlim <- ylim <- extendrange(c(mv$ncap), f = 0.05)
+
+xy2 <- xyplot(ncap[, "var"] ~ ncap[, "mean"],
+              data = mv,
+              xlim = xlim,
+              ylim = ylim,
+              ylab = "Sample variance",
+              xlab = "Sample mean",
+              panel = function(x, y) {
+                  panel.xyplot(x, y, type = c("p", "r"), grid = TRUE)
+                  panel.abline(a = 0, b = 1, lty = 2)
+              })
+
+grid.arrange(xy1, xy2, ncol = 1)
+```
+
+The exploratory data analysis, although simple, was able to detect
+departures from the Poisson equidispersion assumption. So, we have in
+advance few conditions met for the use of GLM Poisson as a regression
+model to analyse this experiment.
+
+Poisson, as being a process derived from the memoryless waiting times
+Exponential distribuition, implies that each boll is an independent
+event in the artificial subjacent domain, that can be thought was the
+natural resource domain that the plant has to allocate bolls. Its is
+easy to assume, based on plant fisiology, that the probability of a boll
+decreases with the number of previous bolls because the plant's resource
+to produce bolls is limited and it is a non memoryless process
+equivalent.
+
+<!--
+
+We are going to convert artifitial defoliation (`desf`) to categorial,
+despite is a numeric factor, to avoid lack of fit concerns that are out
+of scope here.
+
+-->
+
+<!--
+
+To access the effects of the experimental factors, nested models in
+terms of linear predictors were fitted, as described by the following
+structures for the log-link function $g()$.
+
+  1. $g(\mu) = \beta_0$ (null model);
+  2. $g(\mu) = \beta_0 + \beta_1 \text{def}$ (1st order effect of
+     defoliation);
+  3. $g(\mu) = \beta_0 + \beta_1 \text{def} + \beta_2 \text{def}^2$
+     (2nd order effect of defoliation);
+  4. $g(\mu) = \beta_0 + \beta_{1j} \text{def} + \beta_2
+     \text{def}^2$ (1st order defoliation effect for each growth stage);
+  5. $g(\mu) = \beta_0 + \beta_{1j} \text{def}
+     + \beta_{2j} \text{def}^2$ (2nd order effect defoliation for each
+     growth stage).
+
+-->
+
+Based on the exploratory data analysis, a predictor with 2nd order
+effect of defoliation for each growth stage should be enough to model
+the number of bolls mean in a regression model. The analysis and
+assessment of the effects of the experimental factors are based on the
+Poisson, Gamma-count and Poisson Tweedie models.
+
+```{r}
+m0 <- glm(ncap ~ est * (des + I(des^2)),
+          data = capdesfo,
+          family = poisson)
+
+summary(m0)
+logLik(m0)
+```
+```{r, include = FALSE}
+rdev <- round(deviance(m0), 2)
+rdf <- df.residual(m0)
+rat <- rdev/rdf
+```
+We fit the GLM Poisson regression model using the stardard `glm()`
+function in R. The fitted model summary shows the estimated parameters
+for the second order effect of defoliation crossed with growth stages
+levels. The residual deviance was `r rdev` based on `r rdf` degrees of
+freedoom. The ratio $`r rdev`/`r rdf` = `r rat`$ is a strong evidence
+against Poisson equidispersion assumption that uses a dispersion
+parameter equals 1.
+
+```{r}
+anova(m0, test = "Chisq")
+```
+
+The analysis of deviance table did not stated effect of any
+interactions, neither second order effect of defiliation. Although, all
+these effects are noticeable in Figure \@ref(bools-mean-var).
+
+```{r bolls-plot-residuals, echo = FALSE, fig.cap = cap, fig.height = 7}
+cap <- "The 4 plots for checking departures of assumptions in the GLM-Poisson regression."
+par(mfrow = c(2, 2))
+plot(m0); layout(1)
+```
+
+Figure \@ref(bolls-plot-residuals) displays the four residual plots for
+the fitted model. Based on these plots, there is no concern about
+mispecifications regarding to the model predictor or influential
+observations.  The only remarkable aspect is about the range of the
+stardartized deviance residuals quite distant from the expected -3 to 3
+from the normal distribution. Once more, these is another measure
+indicating a underdispersed count data.
+
+The `gcnt()` is a function defined in the `MRDCr` package [@mrdcr-pkg]
+to fit the Gamma-Count regression model. This function fits a
+GML-Poisson to use the estimates as initial values to optimize
+Gamma-Count likelihood using `optim()` through `bblme` package
+[@bblme-pkg].
+
+```{r}
+m1 <- gcnt(ncap ~ est * (des + I(des^2)),
+           data = capdesfo)
+summary(m1)
+```
+
+During the optimization process for this dataset, `optim()` has found
+`NaN` when evaluating the likelihood. This occurs due little numerical
+precision to calculate the difference of Gamma CDFs on tails or for
+extreme values, resulting in numerical zeros and corresponding `-Inf`
+log-likelihood. This is a numerical problem that can narrow, or make
+things difficult, the use of Gamma-Count regression model.
+
+The dispersion parameter is the first position in the parameter
+vector. The optimization was carried out on the log scale to avoid
+problems regarding to bounded parameter spaces.  As the dispersion
+parameter is in fact interpreted as a precision coefficient, the
+positive estimate indicates an underdispersed count. According to the
+$z$ statistic, $\hat{alpha}$ is significantly different from zero
+(Poisson case). Poisson is special case of Gamma-Count when $\alpha =
+0$, so we can perform a likelihood ratio test to the hypothesis $H_0:
+\alpha = 0$.
+
+```{r}
+# Likelihood ratio test.
+chi <- 2 * (logLik(m1) - logLik(m0))
+pval <- 2 * pchisq(chi, df = 1, lower.tail = FALSE)
+cat("Likelihood Ratio Test\n",
+    "Chisq:\t\t ", chi, "\n",
+    "Pr(>Chisq):\t ", pval, "\n",
+    sep = "")
+```
+
+```{r}
+cbind(c(0, coef(m0)), coef(m1))
+rstd <- summary(m1)@coef[-1, 2]/summary(m0)$coeff[, 2]
+plyr::each(mean, range)(rstd)
+```
+
+The estimates for the location parameters were very close. The ratio
+between Gamma-Count parameters standard error and Poisson ones, on the
+other hand, were `r round(mean(rstd), 3)` for all estimates, for 3 decimals of
+precision. This leads to the conclusion that TODO relação linear no
+parâmetro de dispersão.
+
+```{r}
+# Wald test for the interaction.
+a <- c(0, attr(model.matrix(m0), "assign"))
+ai <- a == max(a)
+L <- t(replicate(sum(ai), rbind(coef(m1) * 0), simplify = "matrix"))
+L[, ai] <- diag(sum(ai))
+
+library(car)
+
+linearHypothesis(model = m0, # m0 is not being used here.
+                 hypothesis.matrix = L,
+                 vcov. = vcov(m1),
+                 coef. = coef(m1))
+```
+
+```{r, eval = FALSE}
+library(mcglm)
+```
+
+## Soybean pod and beans
+
+```{r}
+str(soja)
+# help(soja, h = "html")
+
+xtabs(~umid + K, data = soja[-75, ])
+
+xyplot(nvag + ngra ~ K,
+       groups = umid,
+       outer = TRUE,
+       data = soja[-74, ],
+       type = c("p", "a"),
+       scales = "free",
+       ylab = NULL,
+       xlab = expression("Applied potassium amount" ~ (mg ~ dm^{-3})),
+       auto.key = list(title = "Soil water content (%)",
+                       cex.title = 1,
+                       columns = 3),
+       strip = strip.custom(
+           factor.levels = c("Number of pods",
+                             "Number of beans")))
+
+```
+
+
+```{r}
+soja <- transform(soja, K = factor(K))
+
+m0 <- glm(nvag ~ bloc + umid * K,
+          data = soja,
+          family = poisson)
+```
+
+```{r}
+par(mfrow = c(2, 2))
+plot(m0); layout(1)
+```
+
+
+## Number of vehicle claims
