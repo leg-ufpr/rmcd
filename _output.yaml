@@ -1,6 +1,8 @@
 bookdown::gitbook:
-  highlight: default
+  highlight: haddock
   css: config/rmcd.css
+  includes:
+    in_header: config/MathJax.html
   config:
     download: [pdf, epub]
     toc:
@@ -10,6 +12,7 @@ bookdown::gitbook:
         </a></strong></li></center>
       after: |
         </hr>
+
 bookdown::pdf_book:
   highlight: monochrome
   keep_tex: yes
@@ -18,4 +21,5 @@ bookdown::pdf_book:
   includes:
     in_header: latex/preamble.tex
     before_body: latex/before.tex
+
 bookdown::epub_book: default
