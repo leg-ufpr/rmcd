@@ -294,14 +294,13 @@ March 27, 2017.
 
 The analysis of count data has received attention from the statistical
 community in the last four decades. Since the seminal paper published by
-Nelder and Wedderburn \citep{Nelder1972}, the class of generalized
-linear models (GLMs) have a proeminent role for regression modelling of
-normal and non-normal data. GLMs are fitted by a simple and efficient
-Newton score algorithm relying only on second-moment assumptions for
-estimation and inference. Furthermore, the theoretical background for
-GLMs is well established in the class of dispersion models
-\citep{Jorgensen1987, Jorgensen1997} as a generalization of the
-exponential family of distributions.
+\citet{Nelder1972}, the class of generalized linear models (GLMs) have a
+proeminent role for regression modelling of normal and non-normal data.
+GLMs are fitted by a simple and efficient Newton score algorithm relying
+only on second-moment assumptions for estimation and inference.
+Furthermore, the theoretical background for GLMs is well established in
+the class of dispersion models \citep{Jorgensen1987, Jorgensen1997} as a
+generalization of the exponential family of distributions.
 
 In spite of the flexibility of the GLM class, the Poisson distribution
 is the only choice for the analysis of count data in this framework.
@@ -403,7 +402,7 @@ exponential dispersion model. The Poisson distribution denoted by
 \(P(\mu)\) has probability mass function
 
 \begin{eqnarray}
-p(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \\
+p(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \nonumber \\
          &=& \frac{1}{y!} \exp \{\phi y -  \exp\{\phi\} \}, \quad y \in \mathbb{N}_{0},
 \label{eq:Poisson}
 \end{eqnarray}
@@ -452,7 +451,7 @@ that \(Y < y\) iff \(\nu_y \ge T\), which in turn implies
 cumulative distribution function of \(\nu_y\). Furthermore,
 
 \begin{eqnarray}
-P(Y = y) &=& P(Y < y+1) - P(Y < y) \\
+P(Y = y) &=& P(Y < y+1) - P(Y < y) \nonumber \\
      &=& F_y(T) - F_{y+1}(T).
 \label{eq:DURATION}
 \end{eqnarray}
@@ -538,7 +537,7 @@ Gamma-Count distribution with parameters \(\alpha\) and \(\gamma\),
 Furthermore, for increasing \(T\) it holds that
 
 \begin{equation}
-Y(T) \overset{a}{\sim} N\left(\frac{\gamma T}{\alpha}, \frac{\gamma T}{\alpha^2} \right), 
+Y(T) \overset{a}{\sim} N\left(\frac{\gamma T}{\alpha}, \frac{\gamma T}{\alpha^2} \right),
 \end{equation}
 
 thus the limiting variance-mean ratio equals a constant \(1/\alpha\).
@@ -589,7 +588,7 @@ heterogeneity. The Poisson-Tweedie family is given by the following
 hierarchical specification
 
 \begin{eqnarray}
-Y|Z &\sim& \mathrm{Poisson}(Z) \\ 
+Y|Z &\sim& \mathrm{Poisson}(Z) \\
 Z &\sim& \mathrm{Tw}_p(\mu, \phi), \nonumber
 \label{eq:conditional}
 \end{eqnarray}
@@ -643,9 +642,9 @@ case corresponding to the negative binomial distribution, obtained when
 \(p = 2\), i.e.~a Poisson gamma mixture. In the case of \(p=1\), the
 integral \eqref{eq:pmfPTW} is replaced by a sum and we have the Neyman
 Type A distribution. Further special cases include the Hermite
-\((p = 0)\), Poisson compound Poisson \((1 < p < 2)\), factorial
-discrete positive stable \((p > 2)\) and Poisson-inverse Gaussian
-\((p = 3)\) distributions \citetext{\citealp[
+\((p = 0)\), compound Poisson \((1 < p < 2)\), factorial discrete
+positive stable \((p > 2)\) and Poisson-inverse Gaussian \((p = 3)\)
+distributions \citetext{\citealp[
 ]{Jorgensen2014}; \citealp{Kokonendji2004}}.
 
 In spite of other approaches to compute the probability mass function of
@@ -659,7 +658,7 @@ following functions.
 \begin{Highlighting}[]
 \CommentTok{# Integrand Poisson X Tweedie distributions}
 \NormalTok{integrand <-}\StringTok{ }\NormalTok{function(x, y, mu, phi, power) \{}
-    \NormalTok{int =}\StringTok{ }\KeywordTok{dpois}\NormalTok{(y, }\DataTypeTok{lambda =} \NormalTok{x)*}\KeywordTok{dtweedie}\NormalTok{(x, }\DataTypeTok{mu =} \NormalTok{mu, }
+    \NormalTok{int =}\StringTok{ }\KeywordTok{dpois}\NormalTok{(y, }\DataTypeTok{lambda =} \NormalTok{x)*}\KeywordTok{dtweedie}\NormalTok{(x, }\DataTypeTok{mu =} \NormalTok{mu,}
                                         \DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
     \KeywordTok{return}\NormalTok{(int)}
 \NormalTok{\}}
@@ -668,7 +667,7 @@ following functions.
 \NormalTok{dptw <-}\StringTok{ }\NormalTok{function(y, mu, phi, power, control_sample) \{}
     \NormalTok{pts <-}\StringTok{ }\NormalTok{control_sample$pts}
     \NormalTok{norma <-}\StringTok{ }\NormalTok{control_sample$norma}
-    \NormalTok{integral <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{integrand}\NormalTok{(pts, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }
+    \NormalTok{integral <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{integrand}\NormalTok{(pts, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi,}
                                \DataTypeTok{power =} \NormalTok{power)/norma)}
     \KeywordTok{return}\NormalTok{(integral)}
 \NormalTok{\}}
@@ -691,8 +690,8 @@ shown in the following code.
 \KeywordTok{set.seed}\NormalTok{(}\DecValTok{123}\NormalTok{)}
 \NormalTok{pts <-}\StringTok{ }\KeywordTok{rtweedie}\NormalTok{(}\DataTypeTok{n =} \DecValTok{1000}\NormalTok{, }\DataTypeTok{mu =} \DecValTok{10}\NormalTok{, }\DataTypeTok{phi =} \DecValTok{1}\NormalTok{, }\DataTypeTok{power =} \DecValTok{2}\NormalTok{)}
 \NormalTok{norma <-}\StringTok{ }\KeywordTok{dtweedie}\NormalTok{(pts, }\DataTypeTok{mu =} \DecValTok{10}\NormalTok{, }\DataTypeTok{phi =} \DecValTok{1}\NormalTok{, }\DataTypeTok{power =} \DecValTok{2}\NormalTok{)}
-\NormalTok{control_sample <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"pts"} \NormalTok{=}\StringTok{ }\NormalTok{pts, }\StringTok{"norma"} \NormalTok{=}\StringTok{ }\NormalTok{norma) }
-\KeywordTok{dptw}\NormalTok{(}\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{), }\DataTypeTok{mu =} \DecValTok{10}\NormalTok{, }\DataTypeTok{phi =} \DecValTok{1}\NormalTok{, }\DataTypeTok{power =} \DecValTok{2}\NormalTok{, }
+\NormalTok{control_sample <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"pts"} \NormalTok{=}\StringTok{ }\NormalTok{pts, }\StringTok{"norma"} \NormalTok{=}\StringTok{ }\NormalTok{norma)}
+\KeywordTok{dptw}\NormalTok{(}\DataTypeTok{y =} \KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{5}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{15}\NormalTok{), }\DataTypeTok{mu =} \DecValTok{10}\NormalTok{, }\DataTypeTok{phi =} \DecValTok{1}\NormalTok{, }\DataTypeTok{power =} \DecValTok{2}\NormalTok{,}
      \DataTypeTok{control_sample =} \NormalTok{control_sample)}
 \end{Highlighting}
 \end{Shaded}
@@ -812,14 +811,14 @@ introduce the dispersion \((\mathrm{DI})\), zero-inflation
 respectively given by
 
 \begin{equation}
-\mathrm{DI} = \frac{\mathrm{var}(Y)}{\mathrm{E}(Y)}, \quad 
+\mathrm{DI} = \frac{\mathrm{var}(Y)}{\mathrm{E}(Y)}, \quad
 \mathrm{ZI} = 1 + \frac{\log \mathrm{P}(Y = 0)}{\mathrm{E}(Y)}
 \end{equation}
 
 and
 
 \begin{equation}
-\mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty. 
+\mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty.
 \end{equation}
 
 These indexes are defined in relation to the Poisson distribution. Thus,
@@ -918,11 +917,12 @@ of the random variable \(Y\), such a difference can be time consuming
 and inaccurately computed. Similarly, the COM-Poisson probability mass
 function involves the evaluation of a infinity sum, which can be
 computational expensive and inaccurate for large values of \(Y\).
-Furthermore, for extreme values of \(\lambda\) and \(\nu\) the infinite
-sum can numerically diverge making impossible to evaluate the
-probability mass function. Finally, the Poisson-Tweedie probability mass
-function involves an intractable integral, which makes the estimation
-and inference based on likelihood methods computationally intensive.
+Furthermore, for extreme values of \(\lambda\) combined with small
+values of \(\nu\) the infinite sum can numerically diverge making
+impossible to evaluate the probability mass function. Finally, the
+Poisson-Tweedie probability mass function involves an intractable
+integral, which makes the estimation and inference based on likelihood
+methods computationally intensive.
 
 \chapter{The method of maximum likelihood}\label{likelihood}
 
@@ -946,9 +946,9 @@ function on the sample space. On the other hand,
 \(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\) is a function on
 the parameter space \(\Theta\). The likelihood function expresses the
 plausibilities of different parameters after we have observed \(y\), in
-the absence of any other information, we may have about these different
-values. In particular, for count random variables the likelihood
-function is the probability of the point \(y\) when
+the absence of any other information that we may have about these
+different values. In particular, for count random variables the
+likelihood function is the probability of the point \(y\) when
 \(\boldsymbol{\theta}\) is the true parameter.
 
 The method of maximum likelihood has a strong intuitive appeal and
@@ -1014,7 +1014,7 @@ In order to solve the system of equations
 Newton scoring algorithm, defined by
 
 \begin{eqnarray}
-\boldsymbol{\theta}^{(i+1)} &=& \boldsymbol{\theta}^{(i)} - \mathcal{F}_{\boldsymbol{\theta}}^{-1} \mathcal{U}(\boldsymbol{\theta}^{(i)}). 
+\boldsymbol{\theta}^{(i+1)} &=& \boldsymbol{\theta}^{(i)} - \mathcal{F}_{\boldsymbol{\theta}}^{-1} \mathcal{U}(\boldsymbol{\theta}^{(i)}).
 \end{eqnarray}
 
 Finally, the well known distribution of the maximum likelihood estimator
@@ -1068,7 +1068,7 @@ log-likelihood function.
 \begin{Highlighting}[]
 \KeywordTok{require}\NormalTok{(bbmle)}
 \NormalTok{y <-}\StringTok{ }\KeywordTok{rpois}\NormalTok{(}\DecValTok{100}\NormalTok{, }\DataTypeTok{lambda =} \DecValTok{10}\NormalTok{)}
-\NormalTok{fit_gc <-}\StringTok{ }\KeywordTok{mle2}\NormalTok{(ll_gc, }\DataTypeTok{start =} \KeywordTok{list}\NormalTok{(}\StringTok{"gamma"} \NormalTok{=}\StringTok{ }\DecValTok{10}\NormalTok{, }\StringTok{"alpha"} \NormalTok{=}\StringTok{ }\DecValTok{1}\NormalTok{), }
+\NormalTok{fit_gc <-}\StringTok{ }\KeywordTok{mle2}\NormalTok{(ll_gc, }\DataTypeTok{start =} \KeywordTok{list}\NormalTok{(}\StringTok{"gamma"} \NormalTok{=}\StringTok{ }\DecValTok{10}\NormalTok{, }\StringTok{"alpha"} \NormalTok{=}\StringTok{ }\DecValTok{1}\NormalTok{),}
                \DataTypeTok{data =} \KeywordTok{list}\NormalTok{(}\StringTok{"y"} \NormalTok{=}\StringTok{ }\NormalTok{y))}
 \end{Highlighting}
 \end{Shaded}
@@ -1130,10 +1130,10 @@ an intractable integral, which implies that estimation based on the
 maximum likelihood method is computational demanding for practical data
 analysis.
 
-In spite of these issues \citep{Jorgensen2014} showed using factorial
+In spite of these issues \citet{Jorgensen2014} showed using factorial
 cumulant function that for \(Y \sim PTw_p(\mu, \phi)\),
 \(\mathrm{E}(Y) = \mu\) and \(\mathrm{var}(Y) = \mu + \phi \mu^p\). This
-fact motivates \citep{Bonat2016b} to specify a model by using only
+fact motivates \citet{Bonat2016b} to specify a model by using only
 second-moment assumptions, i.e.~mean and variance.
 
 Thus, consider a cross-section dataset, \((y_i, \boldsymbol{x}_i)\),
@@ -1142,15 +1142,15 @@ according to an unspecified distribution, whose expectation and variance
 are given by
 
 \begin{align}
-\mathrm{E}(Y_i) = \mu_i = g^{-1}(\boldsymbol{x}_i^{\top} \boldsymbol{\beta}) \\
-\mathrm{var}(Y_i) = C_i = \mu_i + \phi \mu_i^p, 
+\mathrm{E}(Y_i) = \mu_i = g^{-1}(\boldsymbol{x}_i^{\top} \boldsymbol{\beta}) \nonumber \\
+\mathrm{var}(Y_i) = C_i = \mu_i + \phi \mu_i^p,
 \label{eq:EPTW}
 \end{align}
 
 where as before \(\boldsymbol{x}_i\) and \(\boldsymbol{\beta}\) are
 (\(q \times 1\)) vectors of known covariates and unknown regression
 parameters and \(g\) is the logarithm link function. The regression
-model specified in (\ref{MODEL}) is parametrized by
+model specified in \eqref{eq:EPTW} is parametrized by
 \(\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top )^\top\),
 where \(\boldsymbol{\lambda} = (\phi, p)\).
 
@@ -1182,12 +1182,12 @@ ones from the Gamma-Count and COM-Poisson regression models.
 
 Since the model presented in \eqref{eq:EPTW} is based only on
 second-moment assumptions the method of maximum likelihood cannot be
-employed. \citep{Bonat2016b} based on ideas of \citep{Jorgensen2004} and
-\citep{Bonat2016a} proposed an estimating function approach for
+employed. \citet{Bonat2016b} based on ideas of \citet{Jorgensen2004} and
+\citet{Bonat2016a} proposed an estimating function approach for
 estimation and inference for the extended Poisson-Tweedie regression
-model. \citep{Bonat2016b} combined the quasi-score and Pearson
+model. \citet{Bonat2016b} combined the quasi-score and Pearson
 estimating functions for estimation of the regression and dispersion
-parameters respectively. Following \citep{Bonat2016b} the quasi-score
+parameters respectively. Following \citet{Bonat2016b} the quasi-score
 function for \(\boldsymbol{\beta}\) has the following form,
 
 \begin{equation*}
@@ -1231,7 +1231,7 @@ The entry \((j,k)\) of the \(2 \times 2\) sensitivity matrix for the
 dispersion parameters is given by
 
 \begin{equation}
-\mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n \frac{\partial C^{-1}_i}{\partial \lambda_j} C_i \frac{\partial C^{-1}_i}{\partial \lambda_k}C_i, 
+\mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n \frac{\partial C^{-1}_i}{\partial \lambda_j} C_i \frac{\partial C^{-1}_i}{\partial \lambda_k}C_i,
 \label{eq:Slambda}
 \end{equation}
 
@@ -1256,7 +1256,7 @@ Finally, the joint sensitivity matrix for the parameter vector
 
 \begin{equation*}
 \mathrm{S}_{\boldsymbol{\theta}} = \begin{pmatrix}
-\mathrm{S}_{\boldsymbol{\beta}} & \boldsymbol{0} \\ 
+\mathrm{S}_{\boldsymbol{\beta}} & \boldsymbol{0} \\
 \mathrm{S}_{\boldsymbol{\lambda}\boldsymbol{\beta}} & \mathrm{S}_{\boldsymbol{\lambda}}
 \end{pmatrix},
 \end{equation*}
@@ -1274,7 +1274,7 @@ where \(-\top\) denotes inverse transpose. The variability matrix for
 
 \begin{equation}
 \mathrm{V}_{\boldsymbol{\theta}} = \begin{pmatrix}
-\mathrm{V}_{\boldsymbol{\beta}} & \mathrm{V}_{\boldsymbol{\beta}\boldsymbol{\lambda}} \\ 
+\mathrm{V}_{\boldsymbol{\beta}} & \mathrm{V}_{\boldsymbol{\beta}\boldsymbol{\lambda}} \\
 \mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} & \mathrm{V}_{\boldsymbol{\lambda}}
 \end{pmatrix},
 \label{eq:VTHETA}
@@ -1302,7 +1302,7 @@ Finally, the well known asymptotic distribution of
 
 To solve the system of equations
 \(\psi_{\boldsymbol{\beta}} = \boldsymbol{0}\) and
-\(\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}\) \citep{Jorgensen2004}
+\(\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}\) \citet{Jorgensen2004}
 proposed the modified chaser algorithm, defined by
 
 \begin{eqnarray*}

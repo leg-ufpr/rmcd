@@ -147,20 +147,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="extended-poisson-tweedie-model" class="section level2">
 <h2><span class="header-section-number">4.1</span> Extended Poisson-Tweedie model</h2>
 <p>The Poisson-Tweedie distribution as presented in subsection the <a href="models.html#ptw">2.3</a> provides a very flexible family of count distributions, however, such a family has two main drawbacks: it cannot deal with underdispersed count data and its probability mass function is given by an intractable integral, which implies that estimation based on the maximum likelihood method is computational demanding for practical data analysis.</p>
-<p>In spite of these issues <span class="citation">(Jørgensen and Kokonendji 2015)</span> showed using factorial cumulant function that for <span class="math inline">\(Y \sim PTw_p(\mu, \phi)\)</span>, <span class="math inline">\(\mathrm{E}(Y) = \mu\)</span> and <span class="math inline">\(\mathrm{var}(Y) = \mu + \phi \mu^p\)</span>. This fact motivates <span class="citation">(Bonat et al. 2016)</span> to specify a model by using only second-moment assumptions, i.e. mean and variance.</p>
+<p>In spite of these issues <span class="citation">Jørgensen and Kokonendji (2015)</span> showed using factorial cumulant function that for <span class="math inline">\(Y \sim PTw_p(\mu, \phi)\)</span>, <span class="math inline">\(\mathrm{E}(Y) = \mu\)</span> and <span class="math inline">\(\mathrm{var}(Y) = \mu + \phi \mu^p\)</span>. This fact motivates <span class="citation">Bonat et al. (2016)</span> to specify a model by using only second-moment assumptions, i.e. mean and variance.</p>
 Thus, consider a cross-section dataset, <span class="math inline">\((y_i, \boldsymbol{x}_i)\)</span>, <span class="math inline">\(i = 1, \ldots, n\)</span>, where <span class="math inline">\(y_i\)</span>’s are i.i.d. realizations of <span class="math inline">\(Y_i\)</span> according to an unspecified distribution, whose expectation and variance are given by
 <span class="math display" id="eq:EPTW">\[\begin{align}
-\mathrm{E}(Y_i) = \mu_i = g^{-1}(\boldsymbol{x}_i^{\top} \boldsymbol{\beta}) \\
-\mathrm{var}(Y_i) = C_i = \mu_i + \phi \mu_i^p, 
+\mathrm{E}(Y_i) = \mu_i = g^{-1}(\boldsymbol{x}_i^{\top} \boldsymbol{\beta}) \nonumber \\
+\mathrm{var}(Y_i) = C_i = \mu_i + \phi \mu_i^p,
 \tag{4.1}
 \end{align}\]</span>
-<p>where as before <span class="math inline">\(\boldsymbol{x}_i\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are (<span class="math inline">\(q \times 1\)</span>) vectors of known covariates and unknown regression parameters and <span class="math inline">\(g\)</span> is the logarithm link function. The regression model specified in () is parametrized by <span class="math inline">\(\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top )^\top\)</span>, where <span class="math inline">\(\boldsymbol{\lambda} = (\phi, p)\)</span>.</p>
+<p>where as before <span class="math inline">\(\boldsymbol{x}_i\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are (<span class="math inline">\(q \times 1\)</span>) vectors of known covariates and unknown regression parameters and <span class="math inline">\(g\)</span> is the logarithm link function. The regression model specified in <a href="SM.html#eq:EPTW">(4.1)</a> is parametrized by <span class="math inline">\(\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top )^\top\)</span>, where <span class="math inline">\(\boldsymbol{\lambda} = (\phi, p)\)</span>.</p>
 <p>Note that, based on second-moment assumptions, the only restriction to have a proper model is that <span class="math inline">\(\mathrm{var}(Y_i) &gt; 0\)</span>, thus <span class="math display">\[\phi &gt; - \mu^{(1-p)}_i,\]</span> which shows that at least at some extent negative values for the dispersion parameter are allowed. Consequently, the Poisson-Tweedie model can be extended to deal with underdispersed count data, however, in doing so the associated probability mass functions do not exist. However, in a regression modelling framework as discussed in this material, we are in general interested in the regression coefficient effects, thus such an issue does not imply any loss of interpretation and applicability. The formulation of the extended Poisson-Tweedie model is exactly the same of the quasi-binomial and quasi-Poisson models popular in the context of generalized linear models, see <span class="citation">(Wedderburn 1974, <span class="citation">Nelder and Wedderburn (1972)</span>)</span> for details. Furthermore, note that for <span class="math inline">\(p = 1\)</span> the extended Poisson-Tweedie regression model corresponds to a reparametrization of the popular quasi-Poisson regression model.</p>
 <p>It is also important to highlight that in this case the relationship between mean and variance is proportional to the dispersion parameter <span class="math inline">\(\phi\)</span> as in the Gamma-Count and COM-Poisson distributions. Thus, we expect for <span class="math inline">\(\phi &lt; 0\)</span> and <span class="math inline">\(p = 1\)</span> the extended Poisson-Tweedie model presents results in terms of regression coefficients really similar the ones from the Gamma-Count and COM-Poisson regression models.</p>
 </div>
 <div id="estimation-and-inference" class="section level2">
 <h2><span class="header-section-number">4.2</span> Estimation and Inference</h2>
-<p>Since the model presented in <a href="SM.html#eq:EPTW">(4.1)</a> is based only on second-moment assumptions the method of maximum likelihood cannot be employed. <span class="citation">(Bonat et al. 2016)</span> based on ideas of <span class="citation">(Jørgensen and Knudsen 2004)</span> and <span class="citation">(Bonat and Jørgensen 2016)</span> proposed an estimating function approach for estimation and inference for the extended Poisson-Tweedie regression model. <span class="citation">(Bonat et al. 2016)</span> combined the quasi-score and Pearson estimating functions for estimation of the regression and dispersion parameters respectively. Following <span class="citation">(Bonat et al. 2016)</span> the quasi-score function for <span class="math inline">\(\boldsymbol{\beta}\)</span> has the following form,</p>
+<p>Since the model presented in <a href="SM.html#eq:EPTW">(4.1)</a> is based only on second-moment assumptions the method of maximum likelihood cannot be employed. <span class="citation">Bonat et al. (2016)</span> based on ideas of <span class="citation">Jørgensen and Knudsen (2004)</span> and <span class="citation">Bonat and Jørgensen (2016)</span> proposed an estimating function approach for estimation and inference for the extended Poisson-Tweedie regression model. <span class="citation">Bonat et al. (2016)</span> combined the quasi-score and Pearson estimating functions for estimation of the regression and dispersion parameters respectively. Following <span class="citation">Bonat et al. (2016)</span> the quasi-score function for <span class="math inline">\(\boldsymbol{\beta}\)</span> has the following form,</p>
 <span class="math display">\[\begin{equation*}
 \psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_q}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
 \end{equation*}\]</span>
@@ -182,7 +182,7 @@ In a similar way, the variability matrix is defined as the variance of the estim
 <p>Note that, the Pearson estimating functions are unbiased estimating functions for <span class="math inline">\(\boldsymbol{\lambda}\)</span> based on the squared residuals <span class="math inline">\((Y_i - \mu_i)^2\)</span> with expected value <span class="math inline">\(C_i\)</span>.</p>
 The entry <span class="math inline">\((j,k)\)</span> of the <span class="math inline">\(2 \times 2\)</span> sensitivity matrix for the dispersion parameters is given by
 <span class="math display" id="eq:Slambda">\[\begin{equation}
-\mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n \frac{\partial C^{-1}_i}{\partial \lambda_j} C_i \frac{\partial C^{-1}_i}{\partial \lambda_k}C_i, 
+\mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n \frac{\partial C^{-1}_i}{\partial \lambda_j} C_i \frac{\partial C^{-1}_i}{\partial \lambda_k}C_i,
 \tag{4.3}
 \end{equation}\]</span>
 <p>where <span class="math inline">\(\lambda_1\)</span> and <span class="math inline">\(\lambda_2\)</span> denote either <span class="math inline">\(\phi\)</span> or <span class="math inline">\(p\)</span>.</p>
@@ -199,7 +199,7 @@ and
 Finally, the joint sensitivity matrix for the parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span> is given by
 <span class="math display">\[\begin{equation*}
 \mathrm{S}_{\boldsymbol{\theta}} = \begin{pmatrix}
-\mathrm{S}_{\boldsymbol{\beta}} &amp; \boldsymbol{0} \\ 
+\mathrm{S}_{\boldsymbol{\beta}} &amp; \boldsymbol{0} \\
 \mathrm{S}_{\boldsymbol{\lambda}\boldsymbol{\beta}} &amp; \mathrm{S}_{\boldsymbol{\lambda}}
 \end{pmatrix},
 \end{equation*}\]</span>
@@ -207,7 +207,7 @@ Finally, the joint sensitivity matrix for the parameter vector <span class="math
 We now calculate the asymptotic variance of the estimating function estimators denoted by <span class="math inline">\(\boldsymbol{\hat{\theta}}\)</span>, as obtained from the inverse Godambe information matrix, whose general form for a vector of parameter <span class="math inline">\(\boldsymbol{\theta}\)</span> is <span class="math inline">\(\mathrm{J}^{-1}_{\boldsymbol{\theta}} = \mathrm{S}^{-1}_{\boldsymbol{\theta}} \mathrm{V}_{\boldsymbol{\theta}} \mathrm{S}^{-\top}_{\boldsymbol{\theta}}\)</span>, where <span class="math inline">\(-\top\)</span> denotes inverse transpose. The variability matrix for <span class="math inline">\(\boldsymbol{\theta}\)</span> has the form
 <span class="math display" id="eq:VTHETA">\[\begin{equation}
 \mathrm{V}_{\boldsymbol{\theta}} = \begin{pmatrix}
-\mathrm{V}_{\boldsymbol{\beta}} &amp; \mathrm{V}_{\boldsymbol{\beta}\boldsymbol{\lambda}} \\ 
+\mathrm{V}_{\boldsymbol{\beta}} &amp; \mathrm{V}_{\boldsymbol{\beta}\boldsymbol{\lambda}} \\
 \mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} &amp; \mathrm{V}_{\boldsymbol{\lambda}}
 \end{pmatrix},
 \tag{4.6}
@@ -221,7 +221,7 @@ Finally, the well known asymptotic distribution of <span class="math inline">\(\
 \boldsymbol{\hat{\theta}} \sim \mathrm{N}(\boldsymbol{\theta}, \mathrm{J}_{\boldsymbol{\theta}}^{-1}), \quad \text{where} \quad
 \mathrm{J}^{-1}_{\boldsymbol{\theta}} = \mathrm{S}^{-1}_{\boldsymbol{\theta}} \mathrm{V}_{\boldsymbol{\theta}} \mathrm{S}^{-\top}_{\boldsymbol{\theta}}.
 \end{equation*}\]</span>
-To solve the system of equations <span class="math inline">\(\psi_{\boldsymbol{\beta}} = \boldsymbol{0}\)</span> and <span class="math inline">\(\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}\)</span> <span class="citation">(Jørgensen and Knudsen 2004)</span> proposed the modified chaser algorithm, defined by
+To solve the system of equations <span class="math inline">\(\psi_{\boldsymbol{\beta}} = \boldsymbol{0}\)</span> and <span class="math inline">\(\psi_{\boldsymbol{\lambda}} = \boldsymbol{0}\)</span> <span class="citation">Jørgensen and Knudsen (2004)</span> proposed the modified chaser algorithm, defined by
 <span class="math display">\[\begin{eqnarray*}
 \label{chaser}
 \boldsymbol{\beta}^{(i+1)} &amp;=&amp; \boldsymbol{\beta}^{(i)} - \mathrm{S}_{\boldsymbol{\beta}}^{-1} \psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}^{(i)}, \boldsymbol{\lambda}^{(i)}) \nonumber \\
