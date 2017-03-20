@@ -78,3 +78,12 @@ pre code {
 }
 
 /*------------------------------------------- */
+
+.book .book-body .page-wrapper .page-inner section.normal pre,
+.book .book-body .page-wrapper .page-inner section.normal code {
+    line-height: 1.2;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal pre {
+    padding: .3em .3em;
+}
