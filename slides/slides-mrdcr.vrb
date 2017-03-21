@@ -1,0 +1,21 @@
+\frametitle{Flexibilidade}
+\begin{table}[h]
+\centering
+\caption{Reference models and dominant features by dispersion and power parameter values.}
+\label{tab:model}
+\begin{tabular}{llll} \hline
+Modelo de referência     & Fatos dominantes                     & Dispersão           & Power   \\ \hline
+Poisson                  & Equi                                 & $\phi = 0$          & $-$      \\
+Gamma-Count              & Sub, Equi, Super, deflação de zero   & $\alpha \lessgtr 1$ & $-$ \\
+COM-Poisson              & Sub, Equi, Super, deflação de zero   & $\nu \lessgtr 1$    & $-$ \\
+Hermite                  & Super                                & $\phi\lessgtr 0$    & $p = 0$   \\
+Neyman Type A            & Super, Zero-inflacionado             & $\phi > 0$          & $p = 1$ \\
+\textit{Poisson compound Poisson} & Super, Zero-inflacionado    & $\phi > 0$ & $1 < p < 2$ \\
+P\'olya-Aeppli           & Super, Zero-inflacionado             & $\phi > 0$ & $p = 1.5$ \\
+Negative binomial        & Super                                & $\phi > 0$ & $p = 2$ \\
+\textit{Poisson positive stable}  & Super, cauda pesada         & $\phi > 0$       & $p > 2$ \\
+Poisson-inverse Gaussian & Super, cauda pesada                     & $\phi > 0$       & $p = 3$ \\ \hline
+\end{tabular}
+\end{table}
+
+

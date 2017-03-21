@@ -1,0 +1,13 @@
+\beamer@endinputifotherversion {3.24pt}
+\select@language {brazil}
+\beamer@sectionintoc {1}{Introdu\IeC {\c c}\IeC {\~a}o}{4}{0}{1}
+\beamer@sectionintoc {2}{Distribui\IeC {\c c}\IeC {\~o}es de contagem: propriedades e modelos de regress\IeC {\~a}o}{19}{0}{2}
+\beamer@subsectionintoc {2}{1}{Distribui\IeC {\c c}\IeC {\~a}o Poisson}{20}{0}{2}
+\beamer@subsectionintoc {2}{2}{Distribui\IeC {\c c}\IeC {\~a}o Gamma-Count}{23}{0}{2}
+\beamer@subsectionintoc {2}{3}{Distribui\IeC {\c c}\IeC {\~a}o Poisson-Tweedie}{34}{0}{2}
+\beamer@subsectionintoc {2}{4}{Distribui\IeC {\c c}\IeC {\~a}o COM-Poisson}{42}{0}{2}
+\beamer@subsectionintoc {2}{5}{Comparando distribui\IeC {\c c}\IeC {\~o}es para contagens}{51}{0}{2}
+\beamer@sectionintoc {3}{M\IeC {\'e}todo de m\IeC {\'a}xima verossimilhan\IeC {\c c}a}{56}{0}{3}
+\beamer@sectionintoc {4}{Modelos especificados por suposi\IeC {\c c}\IeC {\~o}es de momentos}{57}{0}{4}
+\beamer@sectionintoc {5}{Estudos de casos}{58}{0}{5}
+\beamer@sectionintoc {6}{Discuss\IeC {\~a}o}{59}{0}{6}
