@@ -170,6 +170,12 @@
 \def\verbatim@font{\ttfamily \small \color{outputcolor}}%
 \makeatother
 
+% % For table placemente (knitr::kable don't provides this option)
+% \usepackage{float}
+% \makeatletter
+% \renewcommand{\fps@table}{H}
+% \makeatother
+
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}{Lemma}[chapter]
@@ -757,19 +763,52 @@ the style of \citet{Wedderburn1974}.
 The COM-Poisson distribution belongs to the family of weighted Poisson
 distributions. A random variable \(Y\) is a weighted Poisson
 distribution if its probability mass function can be written in the form
-
 \[
-f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!}, \quad y = 0, 1, \ldots,
+f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!},
+\quad y = 0, 1, \ldots,
 \] where
-\(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_s / i!\) is
+\(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_i / i!\) is
 a normalizing constant \citep{Sellers2012}. The COM-Poisson is obtained
-when \(w_{y} = (y!)^{1-\nu}\) for \(\nu \geq 0\). In general, the
-expectation and variance of the COM-Poisson distribution cannot be
-expressed in closed-form. However, they can be approximated by
-\[\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu} \quad
-\text{and} \quad \mathrm{var}(Y) \approx (1/ \nu) \lambda^{1 /\nu}.\]
+when \(w_{y} = (y!)^{1-\nu}\) for \(\nu \geq 0\). The serie \(W\) for
+COM-Poisson distribution is denoted by \(Z(\lambda, \nu)\) and can be
+written as \(\sum_{i=0}^{\infty}\lambda^i/(i!)^\nu\). Note that the
+serie is theoretically divergent only when \(\nu = 0\) and
+\(\lambda \geq 1\), but numerically for small values of \(\nu\) combined
+with large values of \(\lambda\), the sum is so huge it causes overlow.
+The Table \ref{tab:convergenceZ} shows the sums calculated with 1000
+increments, in other words, \(\sum_{i=0}^{1000}\lambda^i/(i!)^\nu\) for
+different values of \(\nu\) (horizontal lines) and \(\lambda\) (vertical
+lines).
 
-These approximations are accurate when \(\nu \leq 1\) or
+\begin{table}
+
+\caption{\label{tab:convergenceZ}Values for $Z(\lambda, \nu)$ constant (calculated numerically) to combined values of $\lambda$ (0.5 to 50) and $\phi$ (0 to 1)}
+\centering
+\begin{tabular}[t]{lcccccc}
+\toprule
+  & 0.5 & 1 & 5 & 10 & 30 & 50\\
+\midrule
+0 & 2.00 & Inf & Inf & Inf & Inf & Inf\\
+0.1 & 1.92 & 7.64 & Inf & Inf & Inf & Inf\\
+0.2 & 1.86 & 5.25 & 3.17e+273 & Inf & Inf & Inf\\
+0.3 & 1.81 & 4.32 & 1.60e+29 & 2.54e+282 & Inf & Inf\\
+0.4 & 1.77 & 3.80 & 4.71e+10 & 1.33e+56 & Inf & Inf\\
+0.5 & 1.74 & 3.47 & 1.34e+06 & 3.67e+22 & 3.32e+196 & Inf\\
+0.6 & 1.72 & 3.23 & 2.05e+04 & 4.99e+12 & 1.73e+76 & 4.63e+177\\
+0.7 & 1.70 & 3.06 & 2.37e+03 & 3.69e+08 & 4.93e+39 & 6.93e+81\\
+0.8 & 1.68 & 2.92 & 6.49e+02 & 2.70e+06 & 5.09e+24 & 3.43e+46\\
+0.9 & 1.66 & 2.81 & 2.74e+02 & 1.47e+05 & 1.80e+17 & 2.19e+30\\
+1 & 1.65 & 2.72 & 1.48e+02 & 2.20e+04 & 1.07e+13 & 5.18e+21\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In general, the expectation and variance of the COM-Poisson distribution
+cannot be expressed in closed-form. However, they can be approximated by
+\[\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu}
+\quad \text{and} \quad
+\mathrm{var}(Y) \approx \frac{1}{\nu} \lambda^{1 /\nu}.
+\] These approximations are accurate when \(\nu \leq 1\) or
 \(\lambda > 10^{\nu}\). The infinite sum involved in computing the
 probability mass function of the COM-Poisson distribution can be
 approximated to any level of precision. It can be evaluated in
@@ -779,7 +818,9 @@ approximated to any level of precision. It can be evaluated in
 functions. We tried to find parameters \(\lambda\) and \(\nu\) in order
 to have \(\mathrm{E}(Y) = 10\) and dispersion index equals to
 \(\mathrm{DI} = 0.5, 2, 5\) and \(20\). However, we could not find any
-parameter combination to have \(\mathrm{DI} = 20\).
+parameter combination to have \(\mathrm{DI} = 20\), probably due to
+overflow of the sum since \(\nu\) is inversely proportional to the
+dispersion index (see table \ref{tab:convergenceZ}).
 
 \begin{figure}[h]
 

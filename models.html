@@ -278,12 +278,129 @@ Figure 2.2: Empirical (gray) and approximated (black) Poisson-Tweedie probabilit
 </div>
 <div id="com-poisson-distribution" class="section level2">
 <h2><span class="header-section-number">2.4</span> COM-Poisson distribution</h2>
-<p>The COM-Poisson distribution belongs to the family of weighted Poisson distributions. A random variable <span class="math inline">\(Y\)</span> is a weighted Poisson distribution if its probability mass function can be written in the form</p>
-<p><span class="math display">\[
-f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!}, \quad y = 0, 1, \ldots,
-\]</span> where <span class="math inline">\(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_s / i!\)</span> is a normalizing constant <span class="citation">(Kimberly F. Sellers, Borle, and Shmueli 2012)</span>. The COM-Poisson is obtained when <span class="math inline">\(w_{y} = (y!)^{1-\nu}\)</span> for <span class="math inline">\(\nu \geq 0\)</span>. In general, the expectation and variance of the COM-Poisson distribution cannot be expressed in closed-form. However, they can be approximated by <span class="math display">\[\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu} \quad
-\text{and} \quad \mathrm{var}(Y) \approx (1/ \nu) \lambda^{1 /\nu}.\]</span></p>
-<p>These approximations are accurate when <span class="math inline">\(\nu \leq 1\)</span> or <span class="math inline">\(\lambda &gt; 10^{\nu}\)</span>. The infinite sum involved in computing the probability mass function of the COM-Poisson distribution can be approximated to any level of precision. It can be evaluated in <code>R</code> using the function <code>dcom()</code> from the <code>compoisson</code> package <span class="citation">(Dunn 2012)</span>. Figure <a href="models.html#fig:comPoispmfplot">2.3</a> presents some COM-Poisson probability mass functions. We tried to find parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\nu\)</span> in order to have <span class="math inline">\(\mathrm{E}(Y) = 10\)</span> and dispersion index equals to <span class="math inline">\(\mathrm{DI} = 0.5, 2, 5\)</span> and <span class="math inline">\(20\)</span>. However, we could not find any parameter combination to have <span class="math inline">\(\mathrm{DI} = 20\)</span>.</p>
+<p>The COM-Poisson distribution belongs to the family of weighted Poisson distributions. A random variable <span class="math inline">\(Y\)</span> is a weighted Poisson distribution if its probability mass function can be written in the form <span class="math display">\[
+f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!},
+\quad y = 0, 1, \ldots,
+\]</span> where <span class="math inline">\(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_i / i!\)</span> is a normalizing constant <span class="citation">(Kimberly F. Sellers, Borle, and Shmueli 2012)</span>. The COM-Poisson is obtained when <span class="math inline">\(w_{y} = (y!)^{1-\nu}\)</span> for <span class="math inline">\(\nu \geq 0\)</span>. The serie <span class="math inline">\(W\)</span> for COM-Poisson distribution is denoted by <span class="math inline">\(Z(\lambda, \nu)\)</span> and can be written as <span class="math inline">\(\sum_{i=0}^{\infty}\lambda^i/(i!)^\nu\)</span>. Note that the serie is theoretically divergent only when <span class="math inline">\(\nu = 0\)</span> and <span class="math inline">\(\lambda \geq 1\)</span>, but numerically for small values of <span class="math inline">\(\nu\)</span> combined with large values of <span class="math inline">\(\lambda\)</span>, the sum is so huge it causes overlow. The Table <a href="models.html#tab:convergenceZ">2.1</a> shows the sums calculated with 1000 increments, in other words, <span class="math inline">\(\sum_{i=0}^{1000}\lambda^i/(i!)^\nu\)</span> for different values of <span class="math inline">\(\nu\)</span> (horizontal lines) and <span class="math inline">\(\lambda\)</span> (vertical lines).</p>
+<table>
+<caption><span id="tab:convergenceZ">Table 2.1: </span>Values for <span class="math inline">\(Z(\lambda, \nu)\)</span> constant (calculated numerically) to combined values of <span class="math inline">\(\lambda\)</span> (0.5 to 50) and <span class="math inline">\(\phi\)</span> (0 to 1)</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">0.5</th>
+<th align="center">1</th>
+<th align="center">5</th>
+<th align="center">10</th>
+<th align="center">30</th>
+<th align="center">50</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0</td>
+<td align="center">2.00</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+</tr>
+<tr class="even">
+<td>0.1</td>
+<td align="center">1.92</td>
+<td align="center">7.64</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+</tr>
+<tr class="odd">
+<td>0.2</td>
+<td align="center">1.86</td>
+<td align="center">5.25</td>
+<td align="center">3.17e+273</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+</tr>
+<tr class="even">
+<td>0.3</td>
+<td align="center">1.81</td>
+<td align="center">4.32</td>
+<td align="center">1.60e+29</td>
+<td align="center">2.54e+282</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+</tr>
+<tr class="odd">
+<td>0.4</td>
+<td align="center">1.77</td>
+<td align="center">3.80</td>
+<td align="center">4.71e+10</td>
+<td align="center">1.33e+56</td>
+<td align="center">Inf</td>
+<td align="center">Inf</td>
+</tr>
+<tr class="even">
+<td>0.5</td>
+<td align="center">1.74</td>
+<td align="center">3.47</td>
+<td align="center">1.34e+06</td>
+<td align="center">3.67e+22</td>
+<td align="center">3.32e+196</td>
+<td align="center">Inf</td>
+</tr>
+<tr class="odd">
+<td>0.6</td>
+<td align="center">1.72</td>
+<td align="center">3.23</td>
+<td align="center">2.05e+04</td>
+<td align="center">4.99e+12</td>
+<td align="center">1.73e+76</td>
+<td align="center">4.63e+177</td>
+</tr>
+<tr class="even">
+<td>0.7</td>
+<td align="center">1.70</td>
+<td align="center">3.06</td>
+<td align="center">2.37e+03</td>
+<td align="center">3.69e+08</td>
+<td align="center">4.93e+39</td>
+<td align="center">6.93e+81</td>
+</tr>
+<tr class="odd">
+<td>0.8</td>
+<td align="center">1.68</td>
+<td align="center">2.92</td>
+<td align="center">6.49e+02</td>
+<td align="center">2.70e+06</td>
+<td align="center">5.09e+24</td>
+<td align="center">3.43e+46</td>
+</tr>
+<tr class="even">
+<td>0.9</td>
+<td align="center">1.66</td>
+<td align="center">2.81</td>
+<td align="center">2.74e+02</td>
+<td align="center">1.47e+05</td>
+<td align="center">1.80e+17</td>
+<td align="center">2.19e+30</td>
+</tr>
+<tr class="odd">
+<td>1</td>
+<td align="center">1.65</td>
+<td align="center">2.72</td>
+<td align="center">1.48e+02</td>
+<td align="center">2.20e+04</td>
+<td align="center">1.07e+13</td>
+<td align="center">5.18e+21</td>
+</tr>
+</tbody>
+</table>
+<p>In general, the expectation and variance of the COM-Poisson distribution cannot be expressed in closed-form. However, they can be approximated by <span class="math display">\[\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu}
+\quad \text{and} \quad
+\mathrm{var}(Y) \approx \frac{1}{\nu} \lambda^{1 /\nu}.
+\]</span> These approximations are accurate when <span class="math inline">\(\nu \leq 1\)</span> or <span class="math inline">\(\lambda &gt; 10^{\nu}\)</span>. The infinite sum involved in computing the probability mass function of the COM-Poisson distribution can be approximated to any level of precision. It can be evaluated in <code>R</code> using the function <code>dcom()</code> from the <code>compoisson</code> package <span class="citation">(Dunn 2012)</span>. Figure <a href="models.html#fig:comPoispmfplot">2.3</a> presents some COM-Poisson probability mass functions. We tried to find parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\nu\)</span> in order to have <span class="math inline">\(\mathrm{E}(Y) = 10\)</span> and dispersion index equals to <span class="math inline">\(\mathrm{DI} = 0.5, 2, 5\)</span> and <span class="math inline">\(20\)</span>. However, we could not find any parameter combination to have <span class="math inline">\(\mathrm{DI} = 20\)</span>, probably due to overflow of the sum since <span class="math inline">\(\nu\)</span> is inversely proportional to the dispersion index (see table <a href="models.html#tab:convergenceZ">2.1</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:comPoispmfplot"></span>
 <img src="rmcdbook_files/figure-html/comPoispmfplot-1.png" alt="COM-Poisson probability mass function by values of the dispersion index (DI)." width="768" />
 <p class="caption">
