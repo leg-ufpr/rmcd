@@ -59,4 +59,4 @@ trellis.par.set(ps)
 
 ##-------------------------------------------
 ## Remove objects
-rm(list = ls())
+rm("add.alpha", "mycol", "myreg", "ps")
