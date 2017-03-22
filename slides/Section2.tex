@@ -1,0 +1,38 @@
+
+
+\subsection{Distribuição Poisson}
+
+%%%-------------------------------------------------------------------
+\begin{frame}{Distribuição Poisson}
+\begin{itemize}
+\item Função de probabilidade
+\begin{eqnarray}
+p(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \nonumber \\
+	     &=& \frac{1}{y!} \exp \{\phi y -  \exp\{\phi\} \}, \quad y \in \mathbb{N}_{0},
+\end{eqnarray}
+onde $\phi = \log \{\mu\} \in \mathbb{R}$ e $\kappa(\phi) = \exp\{\phi\}$
+denota a função cumulante.
+\vspace{0,5cm}
+\item $\mathrm{E}(Y) = \kappa^{\prime}(\phi) = \exp\{\phi\} = \mu$. 
+\vspace{0,5cm}
+\item $\mathrm{var}(Y) = \kappa^{\prime \prime}(\phi) = \exp\{\phi\} = \mu$.
+\vspace{0,5cm}
+\item Em \texttt{R} temos \texttt{dpois()}.
+
+\end{itemize}
+\end{frame}
+
+%%%-------------------------------------------------------------------
+\begin{frame}{Regressão Poisson}
+\begin{itemize}
+\item Considere $(y_i, x_i)$, $i = 1,\ldots, n$, onde $y_i$'s são iid 
+realizações de $Y_i$ de acordo com a distribuição Poisson.
+\vspace{0,5cm}
+\item Modelo de regressão Poisson
+$$Y_i \sim P(\mu_i), \quad  \text{sendo} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),$$
+onde $\boldsymbol{x_i}$ and $\boldsymbol{\beta}$ são vetores $(p \times 1)$
+de covariáveis conhecidas e parâmetros de regressão, respectivamente.
+\vspace{0,5cm}
+\item Em \texttt{R} temos \texttt{glm(..., family = poisson)}.
+\end{itemize}
+\end{frame}
