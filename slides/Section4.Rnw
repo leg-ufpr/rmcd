@@ -7,15 +7,15 @@
 
 \subsection{Especificação}
 %%%-------------------------------------------------------------------
-\begin{frame}{Modelos baseados em momentos}
+\begin{frame}{Motivação}
 \begin{itemize}
-  \item Assumem que a distribuiçao de probabilidade é completamente
+  \item Assumem que a distribuição de probabilidade é completamente
   conhecida a menos de um vetor de parâmetros.
-  \item Na prática pode ser dificil escolher uma particular distribuição.
-  \item Dificil de estimar usando métodos baseados em verossimilhança.
+  \item Na prática pode ser difícil escolher uma particular distribuição.
+  \item Difícil de estimar usando métodos baseados em verossimilhança.
   \item Nem sempre a esperança é conhecida.
-  \item O efeito das covariáveis não são diretamente na esperança da va.
-  \item Abordagem mais geral que se adapte a estrutura de dispersão dos dados.
+  \item O efeito das covariáveis não são diretamente relacionados a esperança da va.
+  \item Abordagem mais geral que se adapte automaticamente a estrutura de dispersão dos dados.
   \item Fácil de implementar.
   \item SOLUÇÃO: Poisson-Tweedie estendida.
 \end{itemize}
@@ -72,13 +72,13 @@ o vetor de parâmetros.
 \begin{equation*}
 \psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(y_i - \mu_i)^\top, \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_Q}C^{-1}_i(y_i - \mu_i)^\top  \right )^\top,
 \end{equation*}
-onde $C_i = \mu_i + \phi \mu_i^p$ e $\partial \mu_i/\partial \beta_j = \mu_i x_{ij}$ para $j = 1, \ldots, Q$.
-\item A entrada $(j,k)$ da matriz $Q \times Q$ de sensitividade para $\psi_{\boldsymbol{\beta}}$ é dada por
+onde $C_i = \mu_i + \phi \mu_i^p$ e $\partial \mu_i/\partial \beta_j = \mu_i x_{ij}$ para $j = 1, \ldots, p$.
+\item A entrada $(j,k)$ da matriz $p \times p$ de sensitividade para $\psi_{\boldsymbol{\beta}}$ é dada por
 \begin{equation}
 \label{Sbeta}
 \mathrm{S}_{\beta_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \beta_k} \psi_{\beta_j}(\boldsymbol{\beta}, \boldsymbol{\lambda})  \right ) = -\sum_{i=1}^n \mu_i x_{ij} C^{-1}_i x_{ik} \mu_i.
 \end{equation}
-\item A enrada $(j,k)$ da matriz $Q \times Q$  de variabilidade para $\psi_{\boldsymbol{\beta}}$ é dada por
+\item A enrada $(j,k)$ da matriz $p \times p$  de variabilidade para $\psi_{\boldsymbol{\beta}}$ é dada por
 \begin{equation}
 \label{Vbeta}
 \mathrm{V}_{\beta_{jk}} = \mathrm{Var}(\psi_{\beta_{jk}}(\boldsymbol{\beta}, \boldsymbol{\lambda})) = \sum_{i=1}^n \mu_i x_{ij} C^{-1}_i x_{ik} \mu_i.

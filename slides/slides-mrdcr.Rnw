@@ -215,8 +215,8 @@ source("_setup.R")
 %<<pgnz, child = "poisson_generalizada.Rnw">>=
 %@
 
-\section{Discussão}
-\label{Section6}
+%\section{Discussão}
+%\label{Section6}
 
 %<<compoisson, child = "compoisson.Rnw">>=
 %@
@@ -225,6 +225,18 @@ source("_setup.R")
 \small
 
 \begin{thebibliography}{99}
+\bibitem{Bonat2016} Bonat, W. H., J{\o}rgensen, B. (2016).
+Multivariate covariance generalized linear models. 
+{\em Journal of Royal Statistical Society - Series C}, 65, 649–675.
+
+\bibitem{Bonat2016a} Bonat, W. H. et.al, (2017).
+Extended Poisson-Tweedie: properties and regression models. 
+{\em Statistical Modelling}, to appear.
+
+\bibitem{Bonat2016b} Bonat, W. H. (2017).
+Multiple regression models in R. The mcglm package. 
+{\em Journal of Statistical Software}, to appear.
+
 \bibitem{Conway1962} Conway, R. W., Maxwell, W. L. (1962).
 A queuing model with state dependent service rates. {\em Journal of
 Industrial Engineering}, 12, 132–136.

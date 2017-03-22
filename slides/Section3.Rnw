@@ -8,14 +8,14 @@
 %%%-------------------------------------------------------------------
 \begin{frame}{Método de máxima verossimilhança}
 \begin{itemize}
-  \item Conhecemos a distribuição que gerou os dados $p(y;\boldsymbol{\theta})$.
+  \item Conhecemos a distribuição que gerou os dados $f(y;\boldsymbol{\theta})$.
   \item Mas não seu finito vetor de parâmetros $\boldsymbol{\theta} \in \Theta$.
   \item $\Theta$ em geral é um subconjunto do $\mathbb{R}^n$.
   \item Dado $y$ uma observação da va $Y$ a função de verossimilhança 
-  $$ L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta}). $$
-  \item Note que $p(y;\boldsymbol{\theta})$ é uma função de probabilidade
+  $$ L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta}). $$
+  \item Note que $f(y;\boldsymbol{\theta})$ é uma função de probabilidade
   no espaço amostral.
-  \item Porém, $L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})$
+  \item Porém, $L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta})$
   é uma função no espaço paramétrico $\Theta$.
   \item $L(\boldsymbol{\theta};y)$ expressa a plausibilidade para
   diferentes valores dos parâmetros após observarmos $y$ sem ter nenhuma
@@ -30,8 +30,8 @@
 \begin{frame}{Estimador de máxima verossimilhança}
 \begin{itemize}
   \item Estimador de máxima verossimilhança (MLE) $L(\hat{\boldsymbol{\theta}}(y);y) = \underset{\boldsymbol{\theta}\in \Theta}\max L(\boldsymbol{\theta};y).$
-  \item Seja $Y_i$ iid va com fp $p(y;\boldsymbol{\theta})$ então
-  $$L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n p(y_i; \boldsymbol{\theta}).$$
+  \item Seja $Y_i$ iid va com fp $f(y;\boldsymbol{\theta})$ então
+  $$L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}).$$
   \item Log-verossimilhança
   $$\ell(\boldsymbol{\theta})=\sum^n_{i=1} \log\{ L(\boldsymbol{\theta}; y_i) \}.$$
 \end{itemize}
@@ -40,7 +40,7 @@
 %%%-------------------------------------------------------------------
 \begin{frame}{Estimador de máxima verossimilhança}
 \begin{itemize}
-  \item MLE em geral pode ser obtido com a solução das equações de verossimilhança (ou escore)
+  \item MLE em geral pode ser obtido como a solução das equações de verossimilhança (ou escore)
   $$\mathcal{U}(\boldsymbol{\theta}) = \left ( \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_1}^\top, \ldots, \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_p}^\top \right )^\top = \boldsymbol{0}.$$
   \item Soluções analíticas são raras e métodos numéricos são necessários.
   \item A entrada $(i,j)$ da matrix $p \times p$ de informação de Fisher 
@@ -52,7 +52,7 @@ $$
 $$  
 \boldsymbol{\theta}^{(i+1)} = \boldsymbol{\theta}^{(i)} - \mathcal{F}_{\boldsymbol{\theta}}^{-1} \mathcal{U}(\boldsymbol{\theta}^{(i)}).
 $$
-  \item Distribuição assintótica $\boldsymbol{\hat{\theta}}$ is $\mathrm{N}(\boldsymbol{\theta}, \mathcal{F}_{\boldsymbol{\theta}}^{-1})$.
+  \item Distribuição assintótica $\boldsymbol{\hat{\theta}} \sim \mathrm{N}(\boldsymbol{\theta}, \mathcal{F}_{\boldsymbol{\theta}}^{-1})$.
 \end{itemize}
 \end{frame}
 
@@ -70,7 +70,7 @@ $$
     \item COM-Poisson: envolve uma soma infinita.
   \end{enumerate}
   \item Nestes casos não é possível obter expressões fechadas para as
-  funções escore e matrix de informação de Fisher.
+  funções escore e matriz de informação de Fisher.
   \item Solução! Maximizar diretamente a log-verossimilhança usando
   algum método quase-Newton ou derivadas-free. 
   \item Exemplos BFGS, Gradiente conjugado, Nelder-Mead.

@@ -12,7 +12,7 @@
 \begin{itemize}
 \item Função de probabilidade
 \begin{eqnarray}
-p(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \nonumber \\
+f(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \nonumber \\
 	     &=& \frac{1}{y!} \exp \{\phi y -  \exp\{\phi\} \}, \quad y \in \mathbb{N}_{0},
 \end{eqnarray}
 onde $\phi = \log \{\mu\} \in \mathbb{R}$ e $\kappa(\phi) = \exp\{\phi\}$
@@ -36,9 +36,11 @@ realizações de $Y_i$ de acordo com a distribuição Poisson.
 \item Modelo de regressão Poisson
 $$Y_i \sim P(\mu_i), \quad  \text{sendo} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),$$
 onde $\boldsymbol{x_i}$ and $\boldsymbol{\beta}$ são vetores $(p \times 1)$
-de covariáveis conhecidas e parâmetros de regressão, respectivamente.
+de covariáveis conhecidas e parâmetros de regressão.
 \vspace{0,5cm}
 \item Em \texttt{R} temos \texttt{glm(..., family = poisson)}.
+\vspace{0,5cm}
+\item $g$ função de ligação (log link).
 \end{itemize}
 \end{frame}
 
@@ -59,11 +61,11 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
 \end{frame}
 
 %%%-------------------------------------------------------------------
-\begin{frame}[allowframebreaks]
+\begin{frame}
   \frametitle{Duração dependência}
   \begin{itemize}
   \item Considere um processo estocástico definido pela sequência da
-    v.a. $\tau_k$, intervalo de tempo entre eventos.
+    va $\tau_k$, intervalo de tempo entre eventos.
   \item Se $\{\tau_1, \tau_2,\ldots\}$ são independentes e identicamente
     distribuídos, todos com densidade $f(\tau)$, esse processo é chamado
     de \emph{renewal process}.
@@ -76,27 +78,6 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
   \item São distribuições fechadas para convolução: normal, Poisson,
     binomial e gama.
   \item Destas, apenas a gama é contínua e positiva.
-
-    \framebreak
-
-  \item Denote $\text{E}(\tau) = \mu$, $\text{V}(\tau) = \sigma^2$ e
-    $\text{CV}(\tau) = \sigma/\mu$.
-  \item Defina $\lambda(\tau) = \frac{f(\tau)}{1-F(\tau)}$ como a função
-    de risco e assuma que é monótona.
-  \item Existe relação entre o tipo de duração dependência e o
-    coeficiente de variância
-    \begin{equation}
-      \frac{\text{d}\lambda(t)}{\text{d}t} \left.\begin{matrix}
-          < \\
-          = \\
-          >
-        \end{matrix}\right\} 0 \Rightarrow
-      \upsilon \left.\begin{matrix}
-          < \\
-          = \\
-          >
-        \end{matrix}\right\} 1
-    \end{equation}
   \end{itemize}
 \end{frame}
 
@@ -111,7 +92,7 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
     $$ \text{E}(\tau) = \frac{\alpha}{\gamma}, \quad
     \text{var}(\tau) = \frac{\alpha}{\gamma^2}.$$
   \item Tempo até o $y$-ésimo evento
-    $$\vartheta_n = \tau_1+\cdots+\tau_y ~ \sim
+    $$\vartheta_y = \tau_1+\cdots+\tau_y ~ \sim
     \text{G}(y\alpha, \gamma),$$
     $$f_y(\vartheta, \alpha, \gamma) =
     \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}\cdot
@@ -136,7 +117,7 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
     \framebreak
 
   \item Portanto, distribuição de $Y_T$ é resultado da diferença de
-    acumuladas da distribuição Gama, pois
+    acumuladas da distribuição Gama, 
     \begin{equation}
       F_y(T) = G(y\alpha, \gamma T) =
       \int_{0}^{T} \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}
@@ -153,7 +134,7 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
                    \left[ \int_{0}^{T}
                    \frac{\gamma^{(y+1)\alpha}}{\Gamma((y+1)\alpha)}
                    t^{(y+1)\alpha-1}\cdot
-                   \exp\{-\gamma t\}\, \text{d}t \right]
+                   \exp\{-\gamma t\}\, \text{d}t \right].
     \end{align*}
   \end{itemize}
 \end{frame}
@@ -191,7 +172,7 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
 \centering
 \end{figure}
 \begin{itemize}
-\item Índice de dispersão - $DI =  E(Y)/var(Y)$
+\item Índice de dispersão - $\mathrm{DI} =  \mathrm{E}(Y)/\mathrm{var}(Y)$
 \end{itemize}
 \end{frame}
 
@@ -201,7 +182,7 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
   \begin{itemize}
   \item A média da variável aleatória $Y_T$ é resultado de
     \begin{align*}
-      E(Y_T) &= \sum_{i=0}^{\infty} i\cdot \Pr(i) \\
+      \mathrm{E}(Y_T) &= \sum_{i=0}^{\infty} i\cdot \Pr(i) \\
            &= \sum_{i=1}^{\infty} i\cdot \Pr(i)\\
            &= \sum_{i=1}^{\infty} G(i\alpha, \gamma T).\\
     \end{align*}
@@ -212,8 +193,8 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
         \frac{\gamma}{\alpha^2}\right).
     \end{equation*}
   \item Considere que
-    $$\frac{\gamma}{\alpha} = \exp\{x^{\top}\beta\} \Rightarrow
-    \gamma = \alpha \exp\{x^{\top}\beta\}.$$
+    $$\frac{\gamma}{\alpha} = \exp\{\boldsymbol{x}^{\top}\beta\} \Rightarrow
+    \gamma = \alpha \exp\{\boldsymbol{x}^{\top}\beta\}.$$
     Essa parametrização produz um modelo de regressão para a média
     do tempo entre eventos definida por
     $$\text{E}(\tau|\boldsymbol{x}) = \frac{\alpha}{\gamma} =
@@ -243,8 +224,8 @@ f(z; \mu, \phi, p) = a(z,\phi,p) \exp\{(z\psi - k(\psi))/\phi\},
 \end{equation*}
 onde $\mu = \mathrm{E}(Z) = k^{\prime}(\psi)$ é a média. 
 \item $\phi > 0$ e $\psi$ são os parâmetros de dispersão e canônico.
-$k(\psi)$ é a função cumulante e $a(z,\phi, p)$ é a constante normalizadora.
-\item $\mathrm{Var}(Z) = \phi \mu^p$ onde $p \in (-\infty  ,0] \cup [1,\infty)$ é 
+\item $k(\psi)$ é a função cumulante e $a(z,\phi, p)$ é a constante normalizadora.
+\item $\mathrm{var}(Z) = \phi \mu^p$ onde $p \in (-\infty  ,0] \cup [1,\infty)$ é 
 um index determinando a distribuição.
 \item Casos especiais: Normal ($p=0$), Poisson ($p=1$), não-central gamma ($p=1.5$), gamma ($p=2$), normal inversa ($p=3$) and distribuições estáveis ($p > 2$).
 \item Notação $Z \sim Tw_p(\mu, \phi)$.
@@ -254,13 +235,13 @@ um index determinando a distribuição.
 
 %=======================================================================
 \begin{frame}[c]
-\frametitle{Função de probabilidade}
+\frametitle{Distribuição Poisson-Tweedie}
 \begin{itemize}
 \item Especificação hierárquica:
 \begin{align}
 \begin{split}
 \label{conditional}
-Y|Z &\sim Poisson(Z) \\ 
+Y|Z &\sim P(Z) \\ 
 Z &\sim Tw_p(\mu, \phi). \nonumber
 \end{split}
 \end{align}
@@ -268,7 +249,7 @@ Z &\sim Tw_p(\mu, \phi). \nonumber
 \begin{equation*}
 f(y;\mu,\phi,p) = \int_0^\infty \frac{z^y \exp^{-z}}{y!} a(z,\phi,p) \exp\{(z\psi - k(\psi))/\phi\} dz.
 \end{equation*}
-\item Forma fechada está disponível apenas no caso espcial - binomial negativa.
+\item Forma fechada está disponível apenas no caso especial - binomial negativa ($p=2$).
 \item Pode ser aproximada por integração Monte Carlo e/ou integração Gauss-Laguerre.
 \end{itemize}
 \end{frame}
@@ -333,12 +314,12 @@ dnbinom(x = c(0, 5, 10, 15), mu = 10, size = 1)
 \begin{eqnarray}
 \label{marginalGaussian}
 \mathrm{E}(Y) &=& \mu \nonumber    \\
-\mathrm{Var}(Y) &=& \mu + \phi\mu^p. \nonumber
+\mathrm{var}(Y) &=& \mu + \phi\mu^p. \nonumber
 \end{eqnarray}
 \item Casos especiais: Hermite ($p=0$), Neyman-Type A ($p=1$), 
       P\'olya-Aeppli ($p=1.5$), binomial negativa $(p=2)$ e Poisson inversa-Normal ($p=3$).
 \item Cuidado! - Hermite é um caso limite.
-\item $p$ é um indice que distingue entre importantes distribuições.
+\item $p$ é um índice que distingue entre importantes distribuições.
 \item Espaço paramétrico de $p$ é não trivial $p \in {0}\cup[1,\infty)$.
 \item Estimação de $p$ funciona como uma seleção automática de distribuições.
 \item Notação $Y \sim PTw_p(\mu, \phi)$.
@@ -350,7 +331,7 @@ dnbinom(x = c(0, 5, 10, 15), mu = 10, size = 1)
 \begin{frame}[fragile]
 \begin{figure}[h]
 \includegraphics[scale=0.5]{images/PoissonTweedie.png}
-\caption{Distribuição de probabilidade empírica (cinza) e funça de 
+\caption{Distribuição de probabilidade empírica (cinza) e função de 
 probabilidade aproximada (preta) por valores do
 índice de dispersão e valores do parâmetro de potência: Poisson-Tweedie.}
 \label{Fig3}
@@ -370,9 +351,10 @@ realizações de $Y_i$ de acordo com a distribuição Poisson-Tweedie.
 $$Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{sendo} \quad 
 \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),$$
 onde $\boldsymbol{x_i}$ and $\boldsymbol{\beta}$ são vetores $(p \times 1)$
-de covariáveis conhecidas e parâmetros de regressão, respectivamente.
+de covariáveis conhecidas e parâmetros de regressão.
 \vspace{0,5cm}
-\item Em \texttt{R} temos ??
+\item Em \texttt{R} temos \texttt{dptw()}.
+\item $g$ função de ligação (log link).
 \end{itemize}
 \end{frame}
 
@@ -385,15 +367,15 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
     \item Nome COM-Poisson, advém de seus autores {\bf CO}nway e
     {\bf M}axwell (também é chamada de distribuição
     Conway-Maxwell-Poisson).
-    \item Proposta em um contexto de filas \cite{Conway1962},
+    \item Proposta em um contexto de filas,
     essa distribuição generaliza a Poisson com a adição de um parâmetro.
     \item Modifica a relação entre probabilidades consecutivas.
     \begin{multicols}{2}
         \begin{itemize}
             \item {\bf Distribuição Poisson}\\
-            $$\frac{P(Y = y-1)}{P(Y = y)} = \frac{y}{\lambda}$$
+            $$\frac{Pr(Y = y-1)}{Pr(Y = y)} = \frac{y}{\lambda}$$
             \item {\bf Distribuição COM-Poisson}\\
-            $$\frac{P(Y = y-1)}{P(Y = y)} = \frac{y^\nu}{\lambda}$$
+            $$\frac{Pr(Y = y-1)}{Pr(Y = y)} = \frac{y^\nu}{\lambda}$$
         \end{itemize}
     \end{multicols}   
 \end{itemize}
@@ -403,7 +385,7 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
 \begin{block}{Distribuição de probabilidades}
 \begin{center}
 \begin{equation*} 
-    \Pr(Y = y \mid \lambda, \nu) = \frac{\lambda^y}{(y!)^\nu 
+    f(y; \lambda, \nu) = \frac{\lambda^y}{(y!)^\nu 
     Z(\lambda, \nu)}, \quad \textrm{em que }\, Z(\lambda, \nu) = 
     \sum_{j=0}^\infty \frac{\lambda^j}{(j!)^\nu} \textrm{; e}\quad
     \lambda > 0, \, \nu \geq 0
@@ -415,7 +397,7 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
 \begin{itemize}
 	\item Distribuição Poisson, quando $\nu = 1$
 	\item Distribuição Bernoulli, quando $\nu \rightarrow \infty$
-	\item Distribuição Geométrica, quando $\nu = 0,\ \lambda < 1$
+	\item Distribuição Geométrica, quando $\nu = 0, \quad \lambda < 1$
 \end{itemize}
 \end{block}
 \end{frame}
@@ -554,35 +536,35 @@ Não tem expressão analítica, calculamos utilizando a definição de média e
 variância;
 \begin{itemize}
   \itemsep7.5pt\parskip0pt\parsep0pt
-  \item E(Y) = $\begin{aligned} 
+  \item $\mathrm{E}(Y) = \begin{aligned} 
             &\sum_{y = 0}^{\infty} y \cdot p(y)&
         \end{aligned}
         $
-  \item V(Y) = $\begin{aligned} 
-            &\sum_{y = 0}^{\infty} y^2 \cdot p(y) - E^2(Y)&
+  \item $\mathrm{var}(Y) = \begin{aligned} 
+            &\sum_{y = 0}^{\infty} y^2 \cdot p(y) - \mathrm{E}^2(Y)&
         \end{aligned}
         $
 \end{itemize}
 
 \column{.48\textwidth}
-Aproximação proposta por \cite{Shimueli2005}, boa aproximação para $\nu 
+Aproximação proposta por Shimueli (2005), boa aproximação para $\nu 
 \leq 1$ ou $\lambda > 10^\nu$ \\[0.2cm]
 \begin{itemize}
   \itemsep7.5pt\parskip0pt\parsep0pt
-  \item E(Y) $\approx$ $\begin{aligned} 
+  \item $\mathrm{E}(Y) \approx$ $\begin{aligned} 
             &\lambda ^ \frac{1}{\nu} - \frac{\nu - 1}{2\nu}&
         \end{aligned}
         $ 
-  \item V(Y) $\approx$ $\begin{aligned} 
-            &\frac{1}{\nu}\cdot E(Y)&
+  \item $\mathrm{var}(Y) \approx$ $\begin{aligned} 
+            &\frac{1}{\nu}\cdot \mathrm{E}(Y)&
         \end{aligned}
         $
 \end{itemize}
 \end{columns}
 \begin{itemize}
-  \item Regressão COM-Poisson: $\lambda_i = \exp(x_i \beta)$, 
-  em que $x_i$ é o vetor de covariáveis do i-ésimo indivíduo e 
-  $\beta$ o vetor de parâmetros.
+  \item Regressão COM-Poisson: $\lambda_i = \exp(\boldsymbol{x}_i^{\top} \boldsymbol{\beta})$, 
+  em que $\boldsymbol{x}_i$ é o vetor de covariáveis do i-ésimo indivíduo e 
+  $\boldsymbol{\beta}$ o vetor de parâmetros.
 \end{itemize}
 \end{frame}
 
@@ -592,10 +574,10 @@ Aproximação proposta por \cite{Shimueli2005}, boa aproximação para $\nu
 \begin{itemize}
 
 \item Índice de dispersão: $$\mathrm{DI} = \frac{\mathrm{var}(Y)}{\mathrm{E}(Y)}.$$
-$ DI < 1$ sub dispersão, $DI = 1$ equidispersão e $DI > 1$ super dispersão.
+$ DI < 1$ subdispersão, $DI = 1$ equidispersão e $DI > 1$ superdispersão.
 \vspace{0,5cm}
 \item Índice de inflação de zeros: $$\mathrm{ZI} = 1 + \frac{\log \mathrm{P}(Y = 0)}{\mathrm{E}(Y)}.$$
-$ZI < 0$ zero deflacionado, $ZI=1$ não zero inflado e $ZI > 1$ zero inflacionado.
+$ZI < 0$ zero deflacionado, $ZI=1$ não zero inflacionado e $ZI > 1$ zero inflacionado.
 \vspace{0,5cm}
 \item Índice de cauda pesada:
 $$ \mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty.$$
@@ -607,8 +589,7 @@ $\mathrm{HT} \to 1$ quando $y \to \infty$ indica cauda pesada.
 \begin{frame}[fragile]
 \begin{figure}[h]
 \includegraphics[scale=0.5]{images/Compara.png}
-\caption{Distribuição de probabilidade por valores do
-índice de dispersão: COM-Poisson.}
+\caption{}
 \label{Fig3}
 \centering
 \end{figure}
@@ -636,10 +617,10 @@ $\mathrm{HT} \to 1$ quando $y \to \infty$ indica cauda pesada.
 \label{tab:model}
 \begin{tabular}{llll} \hline
 Modelo de referência     & Fatos dominantes                     & Dispersão           & Power   \\ \hline
-Poisson                  & Equi                                 & $\phi = 0$          & $-$      \\
+Poisson                  & Equi                                 & $-$          & $-$      \\
 Gamma-Count              & Sub, Equi, Super, deflação de zero   & $\alpha \lessgtr 1$ & $-$ \\
 COM-Poisson              & Sub, Equi, Super, deflação de zero   & $\nu \lessgtr 1$    & $-$ \\
-Hermite                  & Super                                & $\phi\lessgtr 0$    & $p = 0$   \\
+Hermite                  & Super                                & $\phi > 0$    & $p = 0$   \\
 Neyman Type A            & Super, Zero-inflacionado             & $\phi > 0$          & $p = 1$ \\
 \textit{Poisson compound Poisson} & Super, Zero-inflacionado    & $\phi > 0$ & $1 < p < 2$ \\
 P\'olya-Aeppli           & Super, Zero-inflacionado             & $\phi > 0$ & $p = 1.5$ \\

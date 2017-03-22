@@ -90,14 +90,14 @@ de contagens, embora frequente, em geral é desaconselhável.
         \item O uso da transformação logarítmica apresenta problemas 
         para contagens iguais a zero;
         \vspace{0,5cm}
-        \item Não se contempla a relação não constante entre variância
-        e média, característica de dados de contagens.
+        \item Não se contempla a relação não constante entre média e 
+        variância, característica de dados de contagens.
     \end{itemize}
 
 \end{frame}
 
 %%%-------------------------------------------------------------------
-\begin{frame}{A distribuição de Poisson}
+\begin{frame}{Distribuição de Poisson}
 
     \begin{itemize}
         \item A distribuição de Poisson é a principal referência para 
@@ -126,12 +126,12 @@ Dentre as principais propriedades da distribuição de Poisson, tem-se:
 \vspace{0,3cm}
 \begin{itemize}
 
-    \item Média: $E(Y)= \mu$;
+    \item Média: $\mathrm{E}(Y)= \mu$;
     \vspace{0,5cm}
-    \item Variância: $var(Y)=\mu$ (equidispersão);
+    \item Variância: $\mathrm{var}(Y)=\mu$ (equidispersão);
     \vspace{0,5cm}
     \item Razão de probabilidades sucessivas: 
-    $\frac{P\left ( X=k \right )}{P\left ( X=k-1 \right )}=\frac{\lambda}{k},$ 
+    $\frac{P\left ( Y = k \right )}{P\left ( Y = k-1 \right )}=\frac{\lambda}{k},$ 
     gerando a relação de recorrência:
     $$
         P(Y=k)k=P(Y=k-1)\lambda;
@@ -178,7 +178,7 @@ para todo $t>0$.
 \end{figure}
 \end{frame}
 %%%-------------------------------------------------------------------
-\begin{frame}{O processo de Poisson}
+\begin{frame}{Processo de Poisson}
 O Processo de Poisson configura um processo de contagem em que 
 $Y(t),t\geqslant 0$, representa o número de eventos que ocorrem até $t$, 
 satisfazendo:
@@ -204,7 +204,7 @@ eventos verificados em intervalos disjuntos são independentes.
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{images/processos14.pdf}
-\caption{Ilustração de diferentes tipos de processos pontuais.}
+\caption{Ilustração de diferentes tipos de processos de contagens.}
 \label{Fig2}
 \centering
 
@@ -214,12 +214,12 @@ eventos verificados em intervalos disjuntos são independentes.
 %%%-------------------------------------------------------------------
 \begin{frame}{O desafio de dados de contagem}
 \begin{itemize}
-\item Poisson implica equidispersão, ou seja, $ E(Y) = var(Y) = \mu. $
+\item Poisson implica equidispersão, ou seja, $\mathrm{E}(Y) = \mathrm{var}(Y) = \mu. $
 \vspace{0,5cm}
 \item Na prática podemos ter
 \begin{itemize}
-  \item Subdispersão $E(Y) > var(Y)$;
-  \item Superdispersão $E(Y) < var(Y)$.
+  \item Subdispersão $\mathrm{E}(Y) > \mathrm{var}(Y)$;
+  \item Superdispersão $\mathrm{E}(Y) < \mathrm{var}(Y)$.
 \end{itemize}
 \vspace{0,5cm}
   \item Desvios da equidispersão implicam: 
