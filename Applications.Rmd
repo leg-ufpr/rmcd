@@ -19,6 +19,15 @@ unity was a vase with two plants [@Silva2012a, for more]. The number of
 cotton bolls was recorded at the hasvest of the experiment.
 
 ```{r}
+library(lattice)
+library(latticeExtra)
+library(gridExtra)
+library(plyr)
+library(car)
+library(corrplot)
+library(doBy)
+library(multcomp)
+library(mcglm)
 library(MRDCr)
 ls("package:MRDCr")
 ```
@@ -44,9 +53,6 @@ suggesting data with underdispersion.
 
 ```{r bools-mean-var, fig.cap = cap, echo = FALSE, fig.height = 10}
 cap <- "(top) Number of bolls produced for each artificial defoliation level and each growth stage. (bottom) Sample variance against the sample mean of the five replicates for each combination of defoliation level and growth stage."
-
-library(lattice)
-library(gridExtra)
 
 xy1 <- xyplot(ncap ~ des | est,
               data = capdesfo,
@@ -138,6 +144,7 @@ rdev <- round(deviance(m0), 2)
 rdf <- df.residual(m0)
 rat <- rdev/rdf
 ```
+
 We fit the GLM Poisson regression model using the stardard `glm()`
 function in R. The fitted model summary shows the estimated parameters
 for the second order effect of defoliation crossed with growth stages
@@ -208,6 +215,11 @@ cat("Likelihood Ratio Test\n",
 ```
 
 ```{r}
+# Log-likelihood profile for alpha.
+plot(profile(m1, which = "alpha"))
+```
+
+```{r}
 cbind(c(0, coef(m0)), coef(m1))
 rstd <- summary(m1)@coef[-1, 2]/summary(m0)$coeff[, 2]
 plyr::each(mean, range)(rstd)
@@ -226,30 +238,100 @@ ai <- a == max(a)
 L <- t(replicate(sum(ai), rbind(coef(m1) * 0), simplify = "matrix"))
 L[, ai] <- diag(sum(ai))
 
-library(car)
-
 linearHypothesis(model = m0, # m0 is not being used here.
                  hypothesis.matrix = L,
                  vcov. = vcov(m1),
                  coef. = coef(m1))
 ```
 
-```{r, eval = FALSE}
-library(mcglm)
+```{r, eval = TRUE}
+# Fitting Poisson-Tweedie model.
+m2 <- mcglm(linear_pred = c(ncap ~ est * (des + I(des^2))),
+            matrix_pred = list(mc_id(data = capdesfo)),
+            link = "log",
+            variance = "poisson_tweedie",
+            power_fixed = FALSE,
+            data = capdesfo,
+            control_algorithm = list(verbose = FALSE,
+                                     max_iter = 100,
+                                     tunning = 0.5,
+                                     correct = FALSE))
+
+# Parameter estimates.
+summary(m2)
+
+plot(m2, type = "algorithm")
+
+# Wald test for fixed effects.
+anova(m2)
 ```
+
+```{r}
+# New data values for prediction.
+pred <- with(capdesfo,
+             expand.grid(est = levels(est),
+                         des = seq(0, 1, length.out = 30)))
+
+# Corresponding model matrix.
+X <- model.matrix(formula(m0)[-2], data = pred)
+
+#--------------------------------------------
+# Poisson.
+
+yp <- predict(m0, newdata = pred, se.fit = TRUE)
+em <- outer(yp$se.fit,
+            c(lwrP = -1, fitP = 0, uprP = 1) * qnorm(0.975),
+            FUN = "*")
+ci <- sweep(em, MARGIN = 1, STATS = yp$fit, FUN = "+")
+ci <- m0$family$linkinv(ci)
+
+pred <- cbind(pred, as.data.frame(ci))
+str(pred)
+
+# xyplot(fitP + lwrP + uprP ~ des | )
+
+```
+
+TODO: pares de estimativa e erros padrões.
+
+
+
 
 ## Soybean pod and beans
 
+The tropical soils, usually poor in potassium (K), demand potassium
+fertilization when cultivated with soybean (*Glycine max* L.) to obtain
+satisfactory yields. Soybean production is affected by long exposition
+to water deficit. As postassium is a nutrient involved in the water
+balance in plant, by hyphotesis, a good supply of potassium avoids lose
+production.
+
+The aim of this study was to evaluate the effects of K doses and soil
+humidity levels on soybean production. The experiment was carried out in
+a greenhouse, in pots with two plants, containing 5 dm^3^ of soil. The
+experimental design was completely randomized block with treatments in a
+5 x 3 factorial arrangement. The K doses were 0, 30, 60, 120 and 180 mg
+dm^-3^ , and the soil humidity ranged from 35 to 40, 47.5 to 52.5, and
+60 to 65% of the total porosity.
+
 ```{r}
 str(soja)
-# help(soja, h = "html")
 
-xtabs(~umid + K, data = soja[-75, ])
+# Removing an outlier.
+soja <- soja[-74, ]
+soja <- transform(soja, K = factor(K))
+```
+
+### Number of pods ###
+
+```{r}
+#-----------------------------------------------------------------------
+# Carregando e explorando os dados.
 
 xyplot(nvag + ngra ~ K,
        groups = umid,
        outer = TRUE,
-       data = soja[-74, ],
+       data = soja,
        type = c("p", "a"),
        scales = "free",
        ylab = NULL,
@@ -261,21 +343,183 @@ xyplot(nvag + ngra ~ K,
            factor.levels = c("Number of pods",
                              "Number of beans")))
 
-```
-
-
-```{r}
-soja <- transform(soja, K = factor(K))
+#--------------------------------------------
+# Poisson.
 
 m0 <- glm(nvag ~ bloc + umid * K,
           data = soja,
           family = poisson)
-```
 
-```{r}
+# Checking residuals.
 par(mfrow = c(2, 2))
 plot(m0); layout(1)
+
+#--------------------------------------------
+# Gamma-Count.
+
+m1 <- gcnt(formula(m0), data = soja)
+
+#--------------------------------------------
+# Tweedie.
+
+m2 <- mcglm(linear_pred = c(nvag ~ bloc + umid * K),
+            matrix_pred = list(mc_id(data = soja)),
+            link = "log",
+            variance = "poisson_tweedie",
+            power_fixed = TRUE,
+            data = soja,
+            control_algorithm = list(verbose = FALSE,
+                                     max_iter = 100,
+                                     tunning = 0.5,
+                                     correct = FALSE))
+
+#-----------------------------------------------------------------------
+# Comparing models.
+
+# Log-likelihood.
+c(P = logLik(m0), GC = logLik(m1), TW = NA)
+```
+```{r, results = "hide"}
+c0 <- summary(m0)$coefficients[, 1:2]
+c1 <- summary(m1)@coef[, 1:2]
+c2 <- rbind(summary(m2)[[1]]$tau[, 1:2],
+            summary(m2)[[1]]$Regression[, 1:2])
+```
+```{r}
+# Parameter estimates according to each model.
+c0 <- cbind("P" = rbind(0, c0),
+            "GC" = c1,
+            "TW" = c2)
+colnames(c0) <- substr(colnames(c0), 1, 6)
+round(c0, digits = 6)
+
+# Likelihhod profile for Gamma-Count dispersion parameter.
+plot(profile(m1, which = "alpha"))
+abline(v = 0, lty = 2)
+
+# V <- cov2cor(vcov(m1))
+# corrplot.mixed(V,
+#                lower = "number",
+#                upper = "ellipse",
+#                diag = "l",
+#                tl.pos = "lt",
+#                tl.col = "black",
+#                tl.cex = 0.8,
+#                col = brewer.pal(9, "Greys")
+#                [-(1:3)]) dev.off()
+
+# Analysis of deviance table.
+anova(m0, test = "Chisq")
+
+# Wald test for interaction.
+a <- c(0, attr(model.matrix(m0), "assign"))
+ai <- a == max(a)
+L <- t(replicate(sum(ai), rbind(coef(m1) * 0), simplify = "matrix"))
+L[, ai] <- diag(sum(ai))
+linearHypothesis(model = m0, # m0 is not being used here.
+                 hypothesis.matrix = L,
+                 vcov. = vcov(m1),
+                 coef. = coef(m1))
+
+# Wald test for fixed effects.
+anova(m2)
 ```
 
+```{r, echo = FALSE}
+#-----------------------------------------------------------------------
+# Mean prediction.
+
+# Cell combinations.
+X <- LSmatrix(m0, effect = c("umid", "K"))
+pred <- attr(X, "grid")
+pred <- transform(pred,
+                  K = as.integer(K),
+                  umid = factor(umid))
+pred <- list(P = pred, GC = pred, TW = pred)
+
+# Poisson model prediction.
+aux <- confint(glht(m0, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$P <- cbind(pred$P, exp(aux))
+
+# Gamma-Count model prediction.
+aux <- predict(m1, newdata = X,
+               interval = "confidence",
+               type = "link")
+pred$GC <- cbind(pred$GC, exp(aux[, c(2, 1, 3)]))
+
+V <- vcov(m2)
+i <- grepl("^beta", rownames(V))
+eta <- X %*% coef(m2, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*%
+                           as.matrix(V[i, i]) %*%
+                           t(X))))
+q <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+me <- outer(std, q, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$TW <- cbind(pred$TW, exp(aux))
+
+pred <- ldply(pred, .id = "model")
+pred <- arrange(pred, umid, K, model)
+
+key <- list(type = "o", divide = 1,
+            lines = list(pch = 1:nlevels(pred$model),
+                         lty = 1, col = 1),
+            text = list(c("Poisson",
+                          "Gamma-Count",
+                          "Poisson-Tweedie")))
+
+xyplot(fit ~ K | umid,
+       data = pred,
+       layout = c(NA, 1),
+       as.table = TRUE,
+       xlim = extendrange(range(pred$K), f = 0.1),
+       key = key,
+       pch = pred$model,
+       xlab = expression("Applied potassium amount" ~ (mg ~ dm^{-3})),
+       ylab = "Number of pods per plot",
+       ly = pred$lwr,
+       uy = pred$upr,
+       cty = "bars",
+       length = 0,
+       prepanel = prepanel.cbH,
+       desloc = 8 * scale(as.integer(pred$model), scale = FALSE),
+       panel = panel.cbH)
+```
+
+### Númber of grains ###
+
+<!--
+
+NOTE: Essa contagem é alta e uma análise preliminar não retornou
+Hessiana para o modelo Gamma-Count ajustado com a mle2. A suspeita que é
+seja pela ordem de magnitude dos dados. Sendo assim, vamos considerar um
+offset artifical de 10 apenas para correr as análises.
+
+Warning message:
+In mle2(llgcnt, start = start, data = L, fixed = list(alpha = 0),  :
+  couldn't invert Hessian
+
+Warning message:
+In mle2(llgcnt, start = start, data = L, vecpar = TRUE) :
+  couldn't invert Hessian
+
+-->
+
+```{r}
+#-----------------------------------------------------------------------
+xyplot(ngra ~ K | umid, data = soja, layout = c(NA, 1),
+       type = c("p", "smooth"),
+       ylab = "Número de grãos por parcela",
+       xlab = expression("Dose de potássio aplicada"~(mg ~ dm^{3})),
+       strip = strip.custom(strip.names = TRUE, var.name = "Umidade"))
+
+
+soja$off <- 10
+fivenum(with(soja, ngra/off))
+```
+
+### Number of grains per pod ###
 
 ## Number of vehicle claims
