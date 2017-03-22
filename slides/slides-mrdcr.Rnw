@@ -140,7 +140,7 @@
 \title{Modelos de regressão para dados de contagem: além do modelo Poisson.}
 \author[Wagner H. Bonat, Walmes M. Zeviani \& Eduardo Jr]{
   Prof. PhD. Wagner Hugo Bonat \\
-  Prf. Dr. Walmes M. Zeviani\\
+  Prof. Dr. Walmes M. Zeviani\\
   Eduardo E. Ribeiro Jr\\ 
 }
 \institute[UFPR]{
@@ -177,6 +177,7 @@ source("_setup.R")
 \column{.65\textwidth}
 \includegraphics[scale=0.05]{./images/github_icon}
 \url{https://github.com/leg-ufpr/rmcd}
+\url{http://cursos.leg.ufpr.br/rmcd/}
 \end{columns}
 
 \end{frame}
@@ -190,7 +191,7 @@ source("_setup.R")
 <<excesso_zeros, child = "Introduction.Rnw">>=
 @
 
-\section{Distribuições de contagem: propriedades e modelos de regressão}
+\section{Distribuições para contagens: propriedades e modelos de regressão}
 \label{Section2}
 
 <<Section2, child = "Section2.Rnw">>=
@@ -199,13 +200,16 @@ source("_setup.R")
 \section{Método de máxima verossimilhança}
 \label{Section3}
 
-%<<zeroinfl, child = "zeroinfl.Rnw">>=
-%@
+<<Section3, child = "Section3.Rnw">>=
+@
 
 \section{Modelos especificados por suposições de momentos}
 \label{Section4}
 
-\section{Estudos de casos}
+<<Section4, child = "Section4.Rnw">>=
+@
+
+\section{Aplicações}
 \label{Section5}
 
 %<<pgnz, child = "poisson_generalizada.Rnw">>=

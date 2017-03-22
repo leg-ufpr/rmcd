@@ -28,10 +28,10 @@ cultura $\ldots$
 
 \begin{itemize}
     \item Modelos probabilísticos para variáveis aleatórias discretas, 
-    com suporte no conjunto de números inteiros não-negativos, 
+    com suporte no conjunto dos números inteiros não-negativos, 
     são potenciais candidatos para a análise de dados de contagens.
 \vspace{0.5cm}
-    \item Algumas alternativas: Distribuição Binomial, Poisson e 
+    \item Algumas alternativas: Distribuição binomial, Poisson e 
     generalizações; distribuições geradas por misturas, como a 
     beta-binomial, binomial negativa; distribuições fundamentadas na 
     modelagem do tempo entre eventos, na razão de probabilidades 
@@ -91,7 +91,7 @@ de contagens, embora frequente, em geral é desaconselhável.
         para contagens iguais a zero;
         \vspace{0,5cm}
         \item Não se contempla a relação não constante entre variância
-        e média, característica de  dados de contagens.
+        e média, característica de dados de contagens.
     \end{itemize}
 
 \end{frame}
@@ -128,7 +128,7 @@ Dentre as principais propriedades da distribuição de Poisson, tem-se:
 
     \item Média: $E(Y)= \mu$;
     \vspace{0,5cm}
-    \item Variância: $Var(Y)=\mu$ (equidispersão);
+    \item Variância: $var(Y)=\mu$ (equidispersão);
     \vspace{0,5cm}
     \item Razão de probabilidades sucessivas: 
     $\frac{P\left ( X=k \right )}{P\left ( X=k-1 \right )}=\frac{\lambda}{k},$ 
@@ -136,8 +136,8 @@ Dentre as principais propriedades da distribuição de Poisson, tem-se:
     $$
         P(Y=k)k=P(Y=k-1)\lambda;
     $$
-    \item Se $Y_{1},Y_{2},...,Y_{n}$ são v.a.s independentes com 
-    $Y_{i}\sim Poisson(\lambda_{i})$, e $\sum\mu_{i}<\infty$, então 
+    \item Se $Y_{1},Y_{2},...,Y_{n}$ são va's independentes com 
+    $Y_{i}\sim Poisson(\mu_{i})$, e $\sum\mu_{i}<\infty$, então 
     $\sum Y_{i}\sim Poisson(\sum\mu_{i})$.
     \end{itemize}
 \end{frame}
@@ -148,7 +148,7 @@ Dentre as principais propriedades da distribuição de Poisson, tem-se:
 
 \begin{itemize}
 \item Se o tempo decorrido entre sucessivos eventos é uma variável 
-aleatória com distribuição exponencial de média $\lambda=1/\mu$, 
+aleatória com distribuição exponencial de média $\lambda = 1/\mu$, 
 então o número de eventos ocorridos em um intervalo $t$ de tempo tem 
 distribuição de Poisson com média $\mu t$.
 
@@ -204,7 +204,7 @@ eventos verificados em intervalos disjuntos são independentes.
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{images/processos14.pdf}
-\caption{Ilustração de diferentes tipos de processos pontuais}
+\caption{Ilustração de diferentes tipos de processos pontuais.}
 \label{Fig2}
 \centering
 
@@ -218,14 +218,14 @@ eventos verificados em intervalos disjuntos são independentes.
 \vspace{0,5cm}
 \item Na prática podemos ter
 \begin{itemize}
-  \item Sub dispersão $E(Y) > var(Y)$;
-  \item Super dispersão $E(Y) < var(Y)$.
+  \item Subdispersão $E(Y) > var(Y)$;
+  \item Superdispersão $E(Y) < var(Y)$.
 \end{itemize}
 \vspace{0,5cm}
   \item Desvios da equidispersão implicam: 
   \begin{itemize}
     \item Mais ou menos zeros e
-    \item Caldas mais leves ou mais pesadas que o modelo Poisson.
+    \item Caudas mais leves ou mais pesadas que o modelo Poisson.
   \end{itemize}
 \end{itemize}
 \end{frame}
@@ -238,15 +238,14 @@ eventos verificados em intervalos disjuntos são independentes.
 \vspace{0,5cm}
 \item O que acontece caso o modelo Poisson seja usada para dados não equidispersos?
 \begin{enumerate}
-  \item Super dispersão: erros padrões associados aos coeficientes de 
-  regressão serão sub estimados.
-  \item Sub dispersão: erros padrões associados aos coeficientes de 
-  regressão serão super estimados.
+  \item Superdispersão: erros padrões associados aos coeficientes de 
+  regressão serão subestimados.
+  \item Subdispersão: erros padrões associados aos coeficientes de 
+  regressão serão superestimados.
 \end{enumerate}
 \vspace{0,5cm}
   \item Ambos os casos o modelo Poisson resulta em erros padrões 
   não-confiáveis o que implica em inferências incorretas.
-  
 \end{itemize}
 \end{frame}
 

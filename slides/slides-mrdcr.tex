@@ -190,7 +190,7 @@
 \title{Modelos de regressão para dados de contagem: além do modelo Poisson.}
 \author[Wagner H. Bonat, Walmes M. Zeviani \& Eduardo Jr]{
   Prof. PhD. Wagner Hugo Bonat \\
-  Prf. Dr. Walmes M. Zeviani\\
+  Prof. Dr. Walmes M. Zeviani\\
   Eduardo E. Ribeiro Jr\\ 
 }
 \institute[UFPR]{
@@ -225,6 +225,7 @@
 \column{.65\textwidth}
 \includegraphics[scale=0.05]{./images/github_icon}
 \url{https://github.com/leg-ufpr/rmcd}
+\url{http://cursos.leg.ufpr.br/rmcd/}
 \end{columns}
 
 \end{frame}
@@ -264,10 +265,10 @@ cultura $\ldots$
 
 \begin{itemize}
     \item Modelos probabilísticos para variáveis aleatórias discretas, 
-    com suporte no conjunto de números inteiros não-negativos, 
+    com suporte no conjunto dos números inteiros não-negativos, 
     são potenciais candidatos para a análise de dados de contagens.
 \vspace{0.5cm}
-    \item Algumas alternativas: Distribuição Binomial, Poisson e 
+    \item Algumas alternativas: Distribuição binomial, Poisson e 
     generalizações; distribuições geradas por misturas, como a 
     beta-binomial, binomial negativa; distribuições fundamentadas na 
     modelagem do tempo entre eventos, na razão de probabilidades 
@@ -327,7 +328,7 @@ de contagens, embora frequente, em geral é desaconselhável.
         para contagens iguais a zero;
         \vspace{0,5cm}
         \item Não se contempla a relação não constante entre variância
-        e média, característica de  dados de contagens.
+        e média, característica de dados de contagens.
     \end{itemize}
 
 \end{frame}
@@ -364,7 +365,7 @@ Dentre as principais propriedades da distribuição de Poisson, tem-se:
 
     \item Média: $E(Y)= \mu$;
     \vspace{0,5cm}
-    \item Variância: $Var(Y)=\mu$ (equidispersão);
+    \item Variância: $var(Y)=\mu$ (equidispersão);
     \vspace{0,5cm}
     \item Razão de probabilidades sucessivas: 
     $\frac{P\left ( X=k \right )}{P\left ( X=k-1 \right )}=\frac{\lambda}{k},$ 
@@ -372,8 +373,8 @@ Dentre as principais propriedades da distribuição de Poisson, tem-se:
     $$
         P(Y=k)k=P(Y=k-1)\lambda;
     $$
-    \item Se $Y_{1},Y_{2},...,Y_{n}$ são v.a.s independentes com 
-    $Y_{i}\sim Poisson(\lambda_{i})$, e $\sum\mu_{i}<\infty$, então 
+    \item Se $Y_{1},Y_{2},...,Y_{n}$ são va's independentes com 
+    $Y_{i}\sim Poisson(\mu_{i})$, e $\sum\mu_{i}<\infty$, então 
     $\sum Y_{i}\sim Poisson(\sum\mu_{i})$.
     \end{itemize}
 \end{frame}
@@ -384,7 +385,7 @@ Dentre as principais propriedades da distribuição de Poisson, tem-se:
 
 \begin{itemize}
 \item Se o tempo decorrido entre sucessivos eventos é uma variável 
-aleatória com distribuição exponencial de média $\lambda=1/\mu$, 
+aleatória com distribuição exponencial de média $\lambda = 1/\mu$, 
 então o número de eventos ocorridos em um intervalo $t$ de tempo tem 
 distribuição de Poisson com média $\mu t$.
 
@@ -440,7 +441,7 @@ eventos verificados em intervalos disjuntos são independentes.
 
 \begin{figure}[h]
 \includegraphics[scale=0.6]{images/processos14.pdf}
-\caption{Ilustração de diferentes tipos de processos pontuais}
+\caption{Ilustração de diferentes tipos de processos pontuais.}
 \label{Fig2}
 \centering
 
@@ -454,14 +455,14 @@ eventos verificados em intervalos disjuntos são independentes.
 \vspace{0,5cm}
 \item Na prática podemos ter
 \begin{itemize}
-  \item Sub dispersão $E(Y) > var(Y)$;
-  \item Super dispersão $E(Y) < var(Y)$.
+  \item Subdispersão $E(Y) > var(Y)$;
+  \item Superdispersão $E(Y) < var(Y)$.
 \end{itemize}
 \vspace{0,5cm}
   \item Desvios da equidispersão implicam: 
   \begin{itemize}
     \item Mais ou menos zeros e
-    \item Caldas mais leves ou mais pesadas que o modelo Poisson.
+    \item Caudas mais leves ou mais pesadas que o modelo Poisson.
   \end{itemize}
 \end{itemize}
 \end{frame}
@@ -474,15 +475,14 @@ eventos verificados em intervalos disjuntos são independentes.
 \vspace{0,5cm}
 \item O que acontece caso o modelo Poisson seja usada para dados não equidispersos?
 \begin{enumerate}
-  \item Super dispersão: erros padrões associados aos coeficientes de 
-  regressão serão sub estimados.
-  \item Sub dispersão: erros padrões associados aos coeficientes de 
-  regressão serão super estimados.
+  \item Superdispersão: erros padrões associados aos coeficientes de 
+  regressão serão subestimados.
+  \item Subdispersão: erros padrões associados aos coeficientes de 
+  regressão serão superestimados.
 \end{enumerate}
 \vspace{0,5cm}
   \item Ambos os casos o modelo Poisson resulta em erros padrões 
   não-confiáveis o que implica em inferências incorretas.
-  
 \end{itemize}
 \end{frame}
 
@@ -498,7 +498,7 @@ de dispersão. Ex COM-Poisson.
 \end{itemize}
 \end{frame}
 
-\section{Distribuições de contagem: propriedades e modelos de regressão}
+\section{Distribuições para contagens: propriedades e modelos de regressão}
 \label{Section2}
 
 
@@ -562,16 +562,16 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
   \frametitle{Duração dependência}
   \begin{itemize}
   \item Considere um processo estocástico definido pela sequência da
-    v.a. $\tau_i$, intervalo de tempo entre eventos.
+    v.a. $\tau_k$, intervalo de tempo entre eventos.
   \item Se $\{\tau_1, \tau_2,\ldots\}$ são independentes e identicamente
     distribuídos, todos com densidade $f(\tau)$, esse processo é chamado
     de \emph{renewal process}.
-  \item Defina a variável de contagem $N_T$ como o número de eventos no
+  \item Defina a variável de contagem $Y_T$ como o número de eventos no
     intervalo $[0,T)$.
-  \item Defina $\vartheta_n = \sum_{i=1}^{n} \tau_i$ o tempo até o
-    $n$-ésimo evento.
-  \item A distribuição de $\vartheta_n$ determina a distribuição de
-    $N_T$, mas é baseada em covolução.
+  \item Defina $\vartheta_y = \sum_{k=1}^{y} \tau_k$ o tempo até o
+    $y$-ésimo evento.
+  \item A distribuição de $\vartheta_y$ determina a distribuição de
+    $Y_T$, mas é baseada em convolução.
   \item São distribuições fechadas para convolução: normal, Poisson,
     binomial e gama.
   \item Destas, apenas a gama é contínua e positiva.
@@ -603,54 +603,55 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
 \begin{frame}[allowframebreaks]
   \frametitle{Relação entre número de eventos e intervalo entre eventos}
   \begin{itemize}
-  \item Intervalos entre tempo $\tau \sim \text{Gama}(\alpha,\gamma)$,
+  \item Intervalos entre tempo $\tau_k \sim \text{G}(\alpha,\gamma)$,
+  (omitindo $k$) temos
     $$f(\tau, \alpha, \gamma) = \frac{\gamma^\alpha}{\Gamma(\alpha)}
     \cdot \tau^{\alpha-1}\cdot \exp\{-\gamma\tau\},$$
     $$ \text{E}(\tau) = \frac{\alpha}{\gamma}, \quad
-    \text{V}(\tau) = \frac{\alpha}{\gamma^2}.$$
-  \item Tempo até o $n$-ésimo evento
-    $$\vartheta_n = \tau_1+\cdots+\tau_n ~ \sim
-    \text{Gama}(n\alpha, \gamma),$$
-    $$f_n(\vartheta, \alpha, \gamma) =
-    \frac{\gamma^{n\alpha}}{\Gamma(n\alpha)}\cdot
-    \vartheta^{n\alpha-1}\cdot \exp\{-\gamma\vartheta\},$$
-    $$ \text{E}(\vartheta) = \frac{n\alpha}{\gamma}, \quad
-    \text{V}(\vartheta) = \frac{n\alpha}{\gamma^2}.$$
+    \text{var}(\tau) = \frac{\alpha}{\gamma^2}.$$
+  \item Tempo até o $y$-ésimo evento
+    $$\vartheta_n = \tau_1+\cdots+\tau_y ~ \sim
+    \text{G}(y\alpha, \gamma),$$
+    $$f_y(\vartheta, \alpha, \gamma) =
+    \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}\cdot
+    \vartheta^{y\alpha-1}\cdot \exp\{-\gamma\vartheta\},$$
+    $$ \text{E}(\vartheta) = \frac{y\alpha}{\gamma}, \quad
+    \text{var}(\vartheta) = \frac{y\alpha}{\gamma^2}.$$
 
     \framebreak
 
-  \item A distribuição acumulada do tempo até $\vartheta_{n}$ é
-    $$F_n(T) = \Pr(\vartheta_n \leq T) = \int_{0}^{T}
-    \frac{\gamma^{n\alpha}}{\Gamma(n\alpha)}\cdot t^{n\alpha-1}\cdot
+  \item A distribuição acumulada do tempo até $\vartheta_{y}$ é
+    $$F_y(T) = \Pr(\vartheta_y \leq T) = \int_{0}^{T}
+    \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}\cdot t^{y\alpha-1}\cdot
     \exp\{-\gamma t\}\,\text{d}t.$$
-  \item Seja $[0,T)$ um intervalo e $N_{T}$ a v.a. número de eventos
+  \item Seja $[0,T)$ um intervalo e $Y_{T}$ a va número de eventos
     neste intervalo.
-  \item Segue que $N_T < n$ se e somente se $\vartheta_n \geq
+  \item Segue que $Y_T < y$ se e somente se $\vartheta_y \geq
     T$. Assim
-    $$\Pr(N_T<n) = \Pr(\vartheta_n \geq T) = 1-F_n(T);$$
-  \item Já que $\Pr(N_T = n) = \Pr(N_T < n+1) - \Pr(N_T < n)$, então
-    $$\Pr(N_T = n) = F_n(T) - F_{n+1}(T).$$
+    $$\Pr(Y_T < y) = \Pr(\vartheta_y \geq T) = 1-F_y(T);$$
+  \item Já que $\Pr(Y_T = y) = \Pr(Y_T < y+1) - \Pr(Y_T < y)$, então
+    $$\Pr(Y_T = y) = F_y(T) - F_{y+1}(T).$$
 
     \framebreak
 
-  \item Portanto, distribuição de $N_T$ é resultado da diferença de
+  \item Portanto, distribuição de $Y_T$ é resultado da diferença de
     acumuladas da distribuição Gama, pois
     \begin{equation}
-      F_n(T) = G(n\alpha, \gamma T) =
-      \int_{0}^{T} \frac{\gamma^{n\alpha}}{\Gamma(n\alpha)}
-      t^{n\alpha-1}\cdot\exp\{-\gamma t\}\, \text{d}t.
+      F_y(T) = G(y\alpha, \gamma T) =
+      \int_{0}^{T} \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}
+      t^{y\alpha-1}\cdot\exp\{-\gamma t\}\, \text{d}t.
     \end{equation}
   \item Assim
     \begin{align*}
-      \Pr(N_T=n) &= G(n\alpha, \gamma T) - G((n+1)\alpha, \gamma T) \\
+      \Pr(Y_T=y) &= G(y\alpha, \gamma T) - G((y+1)\alpha, \gamma T) \\
                  &= \left[ \int_{0}^{T}
-                   \frac{\gamma^{n\alpha}}{\Gamma(n\alpha)}
-                   t^{n\alpha-1}\cdot
+                   \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}
+                   t^{y\alpha-1}\cdot
                    \exp\{-\gamma t\}\, \text{d}t \right] \\
                  &\quad -
                    \left[ \int_{0}^{T}
-                   \frac{\gamma^{(n+1)\alpha}}{\Gamma((n+1)\alpha)}
-                   t^{(n+1)\alpha-1}\cdot
+                   \frac{\gamma^{(y+1)\alpha}}{\Gamma((y+1)\alpha)}
+                   t^{(y+1)\alpha-1}\cdot
                    \exp\{-\gamma t\}\, \text{d}t \right]
     \end{align*}
   \end{itemize}
@@ -700,15 +701,15 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
 \begin{frame}[allowframebreaks]
   \frametitle{Parametrização para modelo de regressão}
   \begin{itemize}
-  \item A média da variável aleatória $N_T$ é resultado de
+  \item A média da variável aleatória $Y_T$ é resultado de
     \begin{align*}
-      E(N) &= \sum_{i=0}^{\infty} i\cdot \Pr(i) \\
+      E(Y_T) &= \sum_{i=0}^{\infty} i\cdot \Pr(i) \\
            &= \sum_{i=1}^{\infty} i\cdot \Pr(i)\\
            &= \sum_{i=1}^{\infty} G(i\alpha, \gamma T).\\
     \end{align*}
   \item Para um $T$ cada vez maior, tem-se que
     \begin{equation*}
-      N(T)\; \dot{\sim}\; \text{Normal}\left(
+      Y(T)\; \dot{\sim}\; \text{N}\left(
         \frac{\gamma}{\alpha},
         \frac{\gamma}{\alpha^2}\right).
     \end{equation*}
@@ -717,12 +718,14 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
     \gamma = \alpha \exp\{x^{\top}\beta\}.$$
     Essa parametrização produz um modelo de regressão para a média
     do tempo entre eventos definida por
-    $$\text{E}(\tau|x) = \frac{\alpha}{\gamma} =
-    \exp\{-x^{\top}\beta\}.$$
+    $$\text{E}(\tau|\boldsymbol{x}) = \frac{\alpha}{\gamma} =
+    \exp\{-\boldsymbol{x}^{\top}\beta\}.$$
   \item O modelo de regressão é para o tempo entre eventos ($\tau$)
     e não diretamente para contagem porque, a menos que
     $\alpha = 1$, não é certo que
-    $\text{E}(N_i|x_i) = [\text{E}(\tau_i|x_i)]^{-1}$.
+    $\text{E}(Y_i|x_i) = [\text{E}(\tau_i|x_i)]^{-1}$.
+  \item $\alpha$ é um parâmetro de dispersão, assim $\alpha > 1$ indica
+  subdispersão, $\alpha = 1$ equidispersão e $\alpha < 1$ superdispersão.
   \item Em \texttt{R} temos \texttt{MrDCR::gcnt(formula, data)}.
   \end{itemize}
   
@@ -1127,11 +1130,9 @@ Neyman Type A            & Super, Zero-inflacionado             & $\phi > 0$    
 P\'olya-Aeppli           & Super, Zero-inflacionado             & $\phi > 0$ & $p = 1.5$ \\
 Negative binomial        & Super                                & $\phi > 0$ & $p = 2$ \\
 \textit{Poisson positive stable}  & Super, cauda pesada         & $\phi > 0$       & $p > 2$ \\
-Poisson-inverse Gaussian & Super, cauda pesada                     & $\phi > 0$       & $p = 3$ \\ \hline
+Poisson-inverse Gaussian & Super, cauda pesada                  & $\phi > 0$       & $p = 3$ \\ \hline
 \end{tabular}
 \end{table}
-
-
 \end{frame}
 
 %%%-------------------------------------------------------------------
@@ -1139,13 +1140,326 @@ Poisson-inverse Gaussian & Super, cauda pesada                     & $\phi > 0$ 
 \section{Método de máxima verossimilhança}
 \label{Section3}
 
-%<<zeroinfl, child = "zeroinfl.Rnw">>=
-%@
+
+
+
+%%%-------------------------------------------------------------------
+\begin{frame}{Método de máxima verossimilhança}
+\begin{itemize}
+  \item Conhecemos a distribuição que gerou os dados $p(y;\boldsymbol{\theta})$.
+  \item Mas não seu finito vetor de parâmetros $\boldsymbol{\theta} \in \Theta$.
+  \item $\Theta$ em geral é um subconjunto do $\mathbb{R}^n$.
+  \item Dado $y$ uma observação da va $Y$ a função de verossimilhança 
+  $$ L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta}). $$
+  \item Note que $p(y;\boldsymbol{\theta})$ é uma função de probabilidade
+  no espaço amostral.
+  \item Porém, $L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})$
+  é uma função no espaço paramétrico $\Theta$.
+  \item $L(\boldsymbol{\theta};y)$ expressa a plausibilidade para
+  diferentes valores dos parâmetros após observarmos $y$ sem ter nenhuma
+  outra informação sobre $\boldsymbol{\theta}$.
+  \item Para dados de contagem a verossimilhança é a probabilidade de
+  observar o ponto $y$ caso $\boldsymbol{\theta}$ seja o verdadeiro
+  valor do parâmetro.
+\end{itemize}
+\end{frame}
+
+%%%-------------------------------------------------------------------
+\begin{frame}{Estimador de máxima verossimilhança}
+\begin{itemize}
+  \item Estimador de máxima verossimilhança (MLE) $L(\hat{\boldsymbol{\theta}}(y);y) = \underset{\boldsymbol{\theta}\in \Theta}\max L(\boldsymbol{\theta};y).$
+  \item Seja $Y_i$ iid va com fp $p(y;\boldsymbol{\theta})$ então
+  $$L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n p(y_i; \boldsymbol{\theta}).$$
+  \item Log-verossimilhança
+  $$\ell(\boldsymbol{\theta})=\sum^n_{i=1} \log\{ L(\boldsymbol{\theta}; y_i) \}.$$
+\end{itemize}
+\end{frame}
+
+%%%-------------------------------------------------------------------
+\begin{frame}{Estimador de máxima verossimilhança}
+\begin{itemize}
+  \item MLE em geral pode ser obtido com a solução das equações de verossimilhança (ou escore)
+  $$\mathcal{U}(\boldsymbol{\theta}) = \left ( \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_1}^\top, \ldots, \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_p}^\top \right )^\top = \boldsymbol{0}.$$
+  \item Soluções analíticas são raras e métodos numéricos são necessários.
+  \item A entrada $(i,j)$ da matrix $p \times p$ de informação de Fisher 
+  $\mathcal{F}_{\boldsymbol{\theta}}$ para o vetor $\boldsymbol{\theta}$ é dada por
+$$
+\mathcal{F}_{\boldsymbol{\theta}_{ij}} =-\mathrm{E} \left \{ \frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial\theta_i\partial\theta_j} \right \}.
+$$
+  \item Algorithm Newton scoring
+$$  
+\boldsymbol{\theta}^{(i+1)} = \boldsymbol{\theta}^{(i)} - \mathcal{F}_{\boldsymbol{\theta}}^{-1} \mathcal{U}(\boldsymbol{\theta}^{(i)}).
+$$
+  \item Distribuição assintótica $\boldsymbol{\hat{\theta}}$ is $\mathrm{N}(\boldsymbol{\theta}, \mathcal{F}_{\boldsymbol{\theta}}^{-1})$.
+\end{itemize}
+\end{frame}
+
+%%%-------------------------------------------------------------------
+\begin{frame}{Comentários MLE}
+\begin{itemize}
+  \item A verdadeira distribuição que gerou os dados é conhecida.
+  \item É possível obter de forma analítica a primeira e segunda derivada
+  da log-verossimilhança.
+  \item A log-verossimilhança é
+  \begin{enumerate}
+    \item Poisson sem problemas!
+    \item Count-Gamma: diferença de duas integrais.
+    \item Poisson-Tweedie: expressa como uma integral sem solução analítica.
+    \item COM-Poisson: envolve uma soma infinita.
+  \end{enumerate}
+  \item Nestes casos não é possível obter expressões fechadas para as
+  funções escore e matrix de informação de Fisher.
+  \item Solução! Maximizar diretamente a log-verossimilhança usando
+  algum método quase-Newton ou derivadas-free. 
+  \item Exemplos BFGS, Gradiente conjugado, Nelder-Mead.
+  \item Ver função \texttt{optim()} em \texttt{R}.
+  
+\end{itemize}
+\end{frame}
+
+%%%-------------------------------------------------------------------
+\begin{frame}[fragile]{Exemplo: MLE distribuição Count-Gamma}
+\begin{itemize}
+  \item Log-verossimilhança
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlcom{# Função de probabilidade}
+\hlstd{dgc} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{y}\hlstd{,} \hlkwc{gamma}\hlstd{,} \hlkwc{alpha}\hlstd{,} \hlkwc{log} \hlstd{=} \hlnum{FALSE}\hlstd{) \{}
+  \hlstd{p} \hlkwb{<-} \hlkwd{pgamma}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{1}\hlstd{,}
+              \hlkwc{shape} \hlstd{= y} \hlopt{*} \hlstd{alpha,}
+              \hlkwc{rate} \hlstd{= alpha} \hlopt{*} \hlstd{gamma)} \hlopt{-}
+    \hlkwd{pgamma}\hlstd{(}\hlkwc{q} \hlstd{=} \hlnum{1}\hlstd{,}
+           \hlkwc{shape} \hlstd{= (y} \hlopt{+} \hlnum{1}\hlstd{)} \hlopt{*} \hlstd{alpha,}
+           \hlkwc{rate} \hlstd{= alpha} \hlopt{*} \hlstd{gamma)}
+  \hlkwa{if}\hlstd{(log} \hlopt{==} \hlnum{TRUE}\hlstd{) \{p} \hlkwb{<-} \hlkwd{log}\hlstd{(p)\}}
+  \hlkwd{return}\hlstd{(p)}
+\hlstd{\}}
+\hlcom{# Função de log-verossimilhança}
+\hlstd{ll_gc} \hlkwb{<-} \hlkwa{function}\hlstd{(}\hlkwc{gamma}\hlstd{,} \hlkwc{alpha}\hlstd{,} \hlkwc{y}\hlstd{) \{}
+  \hlstd{ll} \hlkwb{<-} \hlkwd{sum}\hlstd{(}\hlkwd{dgc}\hlstd{(}\hlkwc{y} \hlstd{= y,} \hlkwc{gamma} \hlstd{= gamma,} \hlkwc{alpha} \hlstd{= alpha,} \hlkwc{log} \hlstd{=} \hlnum{TRUE}\hlstd{))}
+  \hlkwd{return}\hlstd{(}\hlopt{-}\hlstd{ll)}
+\hlstd{\}}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
+\end{itemize}
+\end{frame}
+
+%%%-------------------------------------------------------------------
+\begin{frame}[fragile]{Exemplo: MLE distribuição Count-Gamma}
+\begin{itemize}
+  \item Maximização numérica e ajuste final
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{require}\hlstd{(bbmle)}
+\hlstd{y} \hlkwb{<-} \hlkwd{rpois}\hlstd{(}\hlnum{100}\hlstd{,} \hlkwc{lambda} \hlstd{=} \hlnum{10}\hlstd{)}
+\hlstd{fit_gc} \hlkwb{<-} \hlkwd{mle2}\hlstd{(ll_gc,} \hlkwc{start} \hlstd{=} \hlkwd{list}\hlstd{(}\hlstr{"gamma"} \hlstd{=} \hlnum{10}\hlstd{,} \hlstr{"alpha"} \hlstd{=} \hlnum{1}\hlstd{),}
+               \hlkwc{data} \hlstd{=} \hlkwd{list}\hlstd{(}\hlstr{"y"} \hlstd{= y))}
+\hlstd{fit_gc}
+\end{alltt}
+\begin{verbatim}
+## 
+## Call:
+## mle2(minuslogl = ll_gc, start = list(gamma = 10, alpha = 1), 
+##     data = list(y = y))
+## 
+## Coefficients:
+##     gamma     alpha 
+## 9.5321032 0.8224768 
+## 
+## Log-likelihood: -263.21
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+\end{itemize}
+\end{frame}
 
 \section{Modelos especificados por suposições de momentos}
 \label{Section4}
 
-\section{Estudos de casos}
+
+
+
+\subsection{Especificação}
+%%%-------------------------------------------------------------------
+\begin{frame}{Modelos baseados em momentos}
+\begin{itemize}
+  \item Assumem que a distribuiçao de probabilidade é completamente
+  conhecida a menos de um vetor de parâmetros.
+  \item Na prática pode ser dificil escolher uma particular distribuição.
+  \item Dificil de estimar usando métodos baseados em verossimilhança.
+  \item Nem sempre a esperança é conhecida.
+  \item O efeito das covariáveis não são diretamente na esperança da va.
+  \item Abordagem mais geral que se adapte a estrutura de dispersão dos dados.
+  \item Fácil de implementar.
+  \item SOLUÇÃO: Poisson-Tweedie estendida.
+\end{itemize}
+\end{frame}
+
+%%%-------------------------------------------------------------------
+\begin{frame}[c]
+\frametitle{Modelos de regressão}
+\begin{itemize}
+\item Considere $(y_i, \boldsymbol{x}_i)$, $i = 1, \ldots, n$, onde
+$y_i$'s são iid. va's.
+\item Especificação paramétrica completa: $$Y_i \sim \mathrm{PTw_p}(\mu_i, \phi).$$
+\item Especificação baseada em momentos:
+\begin{eqnarray}
+\label{marginalGaussian}
+\mathrm{E}(Y_i) &=& \mu_i \nonumber    \\
+\mathrm{var}(Y_i) &=& \mu_i + \phi\mu_i^p \nonumber
+\end{eqnarray}
+onde $g(\mu_i) = \eta_i = \boldsymbol{x}_i^{\top} \boldsymbol{\beta}$,
+$\boldsymbol{x}_i$ e $\boldsymbol{\beta}$ são ($p \times 1$) vetores
+de covariáveis conhecidas e parâmetros de regressão desconhecidos.
+\item $\mathrm{var}(Y_i) > 0$, assim $\phi > - \mu^{(1-p)}_i$ $\Longrightarrow$ sub, equi e superdispersão.
+\item $g$ função de ligação (log link).
+\end{itemize}
+\end{frame}
+%=======================================================================
+
+%=======================================================================
+\begin{frame}[c]
+\frametitle{Modelos de regressão}
+\begin{itemize}
+\item Poisson-Tweedie estendida pode lidar com subdispersão $\phi < 0$.
+\begin{figure}[h]
+\includegraphics[scale=0.4]{images/Rplot.pdf}
+\caption{\tiny{Índice de dispersão como uma função da média por valores dos parâmetros de dispersão e potência.}}
+\label{SUBPTW}
+\centering
+\end{figure}
+\item Máxima verossimilhança precisa da especificação paramétrica completa.
+\item Funções de estimação (Bonat, et. al. 2016)
+\item Espaço paramétrico para o parâmetro de potência é livre ($p \in \Re$).
+\end{itemize}
+\end{frame}
+%=======================================================================
+
+%=======================================================================
+\subsection{Estimação e Inferência}
+\begin{frame}[c]
+\frametitle{Parâmetros de regressão}
+\begin{itemize}
+\item Seja $\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top = (\phi, p)^\top)^\top$ 
+o vetor de parâmetros.
+\item Função quasi-score para os parâmetros de regressão
+\begin{equation*}
+\psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(y_i - \mu_i)^\top, \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_Q}C^{-1}_i(y_i - \mu_i)^\top  \right )^\top,
+\end{equation*}
+onde $C_i = \mu_i + \phi \mu_i^p$ e $\partial \mu_i/\partial \beta_j = \mu_i x_{ij}$ para $j = 1, \ldots, Q$.
+\item A entrada $(j,k)$ da matriz $Q \times Q$ de sensitividade para $\psi_{\boldsymbol{\beta}}$ é dada por
+\begin{equation}
+\label{Sbeta}
+\mathrm{S}_{\beta_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \beta_k} \psi_{\beta_j}(\boldsymbol{\beta}, \boldsymbol{\lambda})  \right ) = -\sum_{i=1}^n \mu_i x_{ij} C^{-1}_i x_{ik} \mu_i.
+\end{equation}
+\item A enrada $(j,k)$ da matriz $Q \times Q$  de variabilidade para $\psi_{\boldsymbol{\beta}}$ é dada por
+\begin{equation}
+\label{Vbeta}
+\mathrm{V}_{\beta_{jk}} = \mathrm{Var}(\psi_{\beta_{jk}}(\boldsymbol{\beta}, \boldsymbol{\lambda})) = \sum_{i=1}^n \mu_i x_{ij} C^{-1}_i x_{ik} \mu_i.
+\end{equation}
+\end{itemize}
+\end{frame}
+%=======================================================================
+
+%=======================================================================
+\begin{frame}[c]
+\frametitle{Parâmetros de dispersão}
+\begin{itemize}
+\item Função de estimação de Pearson
+\begin{equation*}
+\label{Pearson}
+\psi_{\boldsymbol{\lambda}}(\boldsymbol{\lambda}, \boldsymbol{\beta}) = \left (\sum_{i=1}^n W_{i \phi} \left [ (y_i - \mu_i)^2 - C_i \right ]^\top, \sum_{i=1}^n W_{i p} \left [ (y_i - \mu_i)^2 - C_i \right ]^\top  \right )^\top,
+\end{equation*}
+onde $W_{i \phi} = - \partial C^{-1}_i/\partial \phi$ e $W_{i p} = - \partial C^{-1}_i/\partial p$.
+\item A entrada $(j,k)$ data matriz $2 \times 2$ de sensitividade é dada por 
+\begin{equation}
+\label{Slambda}
+\mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n W_{i \lambda_j} C_i W_{i\lambda_k}C_i, 
+\end{equation}
+onde $\lambda_1$ e $\lambda_2$ denota ambos $\phi$ ou $p$.
+\end{itemize}
+\end{frame}
+%=======================================================================
+
+%=======================================================================
+\begin{frame}[c]
+\frametitle{Matriz de sensitividade cruzada}
+\begin{itemize}
+\item A matriz de sensitividade cruzada é dada por
+\begin{equation}
+\label{Sbetalambda}
+\mathrm{S}_{\beta_j \lambda_k} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\beta_j}(\boldsymbol{\beta}, \boldsymbol{\lambda})  \right ) = 0
+\end{equation}
+e
+\begin{equation}
+\label{Slambdabeta}
+\mathrm{S}_{\lambda_j \beta_k} = \mathrm{E}\left ( \frac{\partial}{\partial \beta_k}\psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n W_{i\lambda_j}C_i W_{i\beta_k}C_i,
+\end{equation}
+onde $W_{i\beta_k} = -\partial C_i^{-1}/\partial \beta_k$. 
+\item A matriz de sensitividade conjunta para o vetor $\boldsymbol{\theta}$ é dada por
+\begin{equation*}
+\mathrm{S}_{\boldsymbol{\theta}} = \begin{pmatrix}
+\mathrm{S}_{\boldsymbol{\beta}} & \boldsymbol{0} \\ 
+\mathrm{S}_{\boldsymbol{\lambda}\boldsymbol{\beta}} & \mathrm{S}_{\boldsymbol{\lambda}}
+\end{pmatrix},
+\end{equation*}
+cuja entradas são definidas por (\ref{Sbeta}), (\ref{Slambda}), (\ref{Sbetalambda}) e (\ref{Slambdabeta}).
+\end{itemize}
+\end{frame}
+%=======================================================================
+
+%=======================================================================
+\begin{frame}[c]
+\frametitle{Matriz de variabilidade}
+\begin{itemize}
+\item A matriz de variabilidade para $\boldsymbol{\theta}$ tem a forma
+\begin{equation*}
+\label{VTHETA}
+\mathrm{V}_{\boldsymbol{\theta}} = \begin{pmatrix}
+\mathrm{V}_{\boldsymbol{\beta}} & \mathrm{V}^{\top}_{\boldsymbol{\lambda}\boldsymbol{\beta}} \\ 
+\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} & \mathrm{V}_{\boldsymbol{\lambda}}
+\end{pmatrix}
+\end{equation*}
+\item $\mathrm{V}_{\boldsymbol{\beta}}$ foi definido em~(\ref{Vbeta}).
+\item As entradas para matriz de variabilidade empírica são dadas por
+\begin{eqnarray*}
+\tilde{\mathrm{V}}_{\lambda_{jk}} = \sum_{i=1}^n \psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \psi_{\lambda_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \quad \text{and} \\  \tilde{\mathrm{V}}_{\lambda_j \beta_k} = \sum_{i=1}^n \psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \psi_{\beta_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i.
+\end{eqnarray*}
+\end{itemize}
+\end{frame}
+%=======================================================================
+
+%=======================================================================
+\begin{frame}[c]
+\frametitle{Distribuição assintótica e algoritmo de ajuste}
+\begin{itemize}
+\item Faça $\boldsymbol{\hat{\theta}}$ denotar o estimador função de estimação.
+\item A distribuição assintótica de $\boldsymbol{\hat{\theta}}$ é dada por 
+\begin{equation*}
+\boldsymbol{\hat{\theta}} \sim \mathrm{N}(\boldsymbol{\theta}, \mathrm{J}_{\boldsymbol{\theta}}^{-1}), \quad
+\text{onde} \quad
+\mathrm{J}_{\boldsymbol{\theta}} =  \mathrm{S}_{\boldsymbol{\theta}}^{-1}\mathrm{V}_{\boldsymbol{\theta}}\mathrm{S}_{\boldsymbol{\theta}}^{-1}
+\end{equation*}
+é a matriz de informação de Godambe.
+\item Algoritmo Chaser
+\begin{eqnarray*}
+\label{chaser}
+\boldsymbol{\beta}^{(i+1)} &=& \boldsymbol{\beta}^{(i)} - \mathrm{S}_{\boldsymbol{\beta}}^{-1} \psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}^{(i)}, \boldsymbol{\lambda}^{(i)}) \nonumber \\
+\boldsymbol{\lambda}^{(i+1)} &=& \boldsymbol{\lambda}^{(i)} - \alpha \mathrm{S}_{\boldsymbol{\lambda}}^{-1} \psi_{\boldsymbol{\lambda}}(\boldsymbol{\beta}^{(i+1)}, \boldsymbol{\lambda}^{(i)}).
+\end{eqnarray*}
+\item Facilmente implementado em \texttt{R} através da função \texttt{mcglm()}
+do pacote \texttt{mcglm}(Bonat, 2015).
+\item $\alpha$ é um \textit{tuning} constante para controlar o tamanho do passo.
+\end{itemize}
+\end{frame}
+%=======================================================================
+
+\section{Aplicações}
 \label{Section5}
 
 %<<pgnz, child = "poisson_generalizada.Rnw">>=

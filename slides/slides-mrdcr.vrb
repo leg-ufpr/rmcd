@@ -1,21 +1,28 @@
-\frametitle{Flexibilidade}
-\begin{table}[h]
-\centering
-\caption{Reference models and dominant features by dispersion and power parameter values.}
-\label{tab:model}
-\begin{tabular}{llll} \hline
-Modelo de referência     & Fatos dominantes                     & Dispersão           & Power   \\ \hline
-Poisson                  & Equi                                 & $\phi = 0$          & $-$      \\
-Gamma-Count              & Sub, Equi, Super, deflação de zero   & $\alpha \lessgtr 1$ & $-$ \\
-COM-Poisson              & Sub, Equi, Super, deflação de zero   & $\nu \lessgtr 1$    & $-$ \\
-Hermite                  & Super                                & $\phi\lessgtr 0$    & $p = 0$   \\
-Neyman Type A            & Super, Zero-inflacionado             & $\phi > 0$          & $p = 1$ \\
-\textit{Poisson compound Poisson} & Super, Zero-inflacionado    & $\phi > 0$ & $1 < p < 2$ \\
-P\'olya-Aeppli           & Super, Zero-inflacionado             & $\phi > 0$ & $p = 1.5$ \\
-Negative binomial        & Super                                & $\phi > 0$ & $p = 2$ \\
-\textit{Poisson positive stable}  & Super, cauda pesada         & $\phi > 0$       & $p > 2$ \\
-Poisson-inverse Gaussian & Super, cauda pesada                     & $\phi > 0$       & $p = 3$ \\ \hline
-\end{tabular}
-\end{table}
+\frametitle{Exemplo: MLE distribuição Count-Gamma}
+\begin{itemize}
+  \item Maximização numérica e ajuste final
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{require}\hlstd{(bbmle)}
+\hlstd{y} \hlkwb{<-} \hlkwd{rpois}\hlstd{(}\hlnum{100}\hlstd{,} \hlkwc{lambda} \hlstd{=} \hlnum{10}\hlstd{)}
+\hlstd{fit_gc} \hlkwb{<-} \hlkwd{mle2}\hlstd{(ll_gc,} \hlkwc{start} \hlstd{=} \hlkwd{list}\hlstd{(}\hlstr{"gamma"} \hlstd{=} \hlnum{10}\hlstd{,} \hlstr{"alpha"} \hlstd{=} \hlnum{1}\hlstd{),}
+               \hlkwc{data} \hlstd{=} \hlkwd{list}\hlstd{(}\hlstr{"y"} \hlstd{= y))}
+\hlstd{fit_gc}
+\end{alltt}
+\begin{verbatim}
+##
+## Call:
+## mle2(minuslogl = ll_gc, start = list(gamma = 10, alpha = 1),
+##     data = list(y = y))
+##
+## Coefficients:
+##     gamma     alpha
+## 9.5321032 0.8224768
+##
+## Log-likelihood: -263.21
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
 
-
+\end{itemize}

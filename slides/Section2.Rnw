@@ -63,16 +63,16 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
   \frametitle{Duração dependência}
   \begin{itemize}
   \item Considere um processo estocástico definido pela sequência da
-    v.a. $\tau_i$, intervalo de tempo entre eventos.
+    v.a. $\tau_k$, intervalo de tempo entre eventos.
   \item Se $\{\tau_1, \tau_2,\ldots\}$ são independentes e identicamente
     distribuídos, todos com densidade $f(\tau)$, esse processo é chamado
     de \emph{renewal process}.
-  \item Defina a variável de contagem $N_T$ como o número de eventos no
+  \item Defina a variável de contagem $Y_T$ como o número de eventos no
     intervalo $[0,T)$.
-  \item Defina $\vartheta_n = \sum_{i=1}^{n} \tau_i$ o tempo até o
-    $n$-ésimo evento.
-  \item A distribuição de $\vartheta_n$ determina a distribuição de
-    $N_T$, mas é baseada em covolução.
+  \item Defina $\vartheta_y = \sum_{k=1}^{y} \tau_k$ o tempo até o
+    $y$-ésimo evento.
+  \item A distribuição de $\vartheta_y$ determina a distribuição de
+    $Y_T$, mas é baseada em convolução.
   \item São distribuições fechadas para convolução: normal, Poisson,
     binomial e gama.
   \item Destas, apenas a gama é contínua e positiva.
@@ -104,54 +104,55 @@ de covariáveis conhecidas e parâmetros de regressão, respectivamente.
 \begin{frame}[allowframebreaks]
   \frametitle{Relação entre número de eventos e intervalo entre eventos}
   \begin{itemize}
-  \item Intervalos entre tempo $\tau \sim \text{Gama}(\alpha,\gamma)$,
+  \item Intervalos entre tempo $\tau_k \sim \text{G}(\alpha,\gamma)$,
+  (omitindo $k$) temos
     $$f(\tau, \alpha, \gamma) = \frac{\gamma^\alpha}{\Gamma(\alpha)}
     \cdot \tau^{\alpha-1}\cdot \exp\{-\gamma\tau\},$$
     $$ \text{E}(\tau) = \frac{\alpha}{\gamma}, \quad
-    \text{V}(\tau) = \frac{\alpha}{\gamma^2}.$$
-  \item Tempo até o $n$-ésimo evento
-    $$\vartheta_n = \tau_1+\cdots+\tau_n ~ \sim
-    \text{Gama}(n\alpha, \gamma),$$
-    $$f_n(\vartheta, \alpha, \gamma) =
-    \frac{\gamma^{n\alpha}}{\Gamma(n\alpha)}\cdot
-    \vartheta^{n\alpha-1}\cdot \exp\{-\gamma\vartheta\},$$
-    $$ \text{E}(\vartheta) = \frac{n\alpha}{\gamma}, \quad
-    \text{V}(\vartheta) = \frac{n\alpha}{\gamma^2}.$$
+    \text{var}(\tau) = \frac{\alpha}{\gamma^2}.$$
+  \item Tempo até o $y$-ésimo evento
+    $$\vartheta_n = \tau_1+\cdots+\tau_y ~ \sim
+    \text{G}(y\alpha, \gamma),$$
+    $$f_y(\vartheta, \alpha, \gamma) =
+    \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}\cdot
+    \vartheta^{y\alpha-1}\cdot \exp\{-\gamma\vartheta\},$$
+    $$ \text{E}(\vartheta) = \frac{y\alpha}{\gamma}, \quad
+    \text{var}(\vartheta) = \frac{y\alpha}{\gamma^2}.$$
 
     \framebreak
 
-  \item A distribuição acumulada do tempo até $\vartheta_{n}$ é
-    $$F_n(T) = \Pr(\vartheta_n \leq T) = \int_{0}^{T}
-    \frac{\gamma^{n\alpha}}{\Gamma(n\alpha)}\cdot t^{n\alpha-1}\cdot
+  \item A distribuição acumulada do tempo até $\vartheta_{y}$ é
+    $$F_y(T) = \Pr(\vartheta_y \leq T) = \int_{0}^{T}
+    \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}\cdot t^{y\alpha-1}\cdot
     \exp\{-\gamma t\}\,\text{d}t.$$
-  \item Seja $[0,T)$ um intervalo e $N_{T}$ a v.a. número de eventos
+  \item Seja $[0,T)$ um intervalo e $Y_{T}$ a va número de eventos
     neste intervalo.
-  \item Segue que $N_T < n$ se e somente se $\vartheta_n \geq
+  \item Segue que $Y_T < y$ se e somente se $\vartheta_y \geq
     T$. Assim
-    $$\Pr(N_T<n) = \Pr(\vartheta_n \geq T) = 1-F_n(T);$$
-  \item Já que $\Pr(N_T = n) = \Pr(N_T < n+1) - \Pr(N_T < n)$, então
-    $$\Pr(N_T = n) = F_n(T) - F_{n+1}(T).$$
+    $$\Pr(Y_T < y) = \Pr(\vartheta_y \geq T) = 1-F_y(T);$$
+  \item Já que $\Pr(Y_T = y) = \Pr(Y_T < y+1) - \Pr(Y_T < y)$, então
+    $$\Pr(Y_T = y) = F_y(T) - F_{y+1}(T).$$
 
     \framebreak
 
-  \item Portanto, distribuição de $N_T$ é resultado da diferença de
+  \item Portanto, distribuição de $Y_T$ é resultado da diferença de
     acumuladas da distribuição Gama, pois
     \begin{equation}
-      F_n(T) = G(n\alpha, \gamma T) =
-      \int_{0}^{T} \frac{\gamma^{n\alpha}}{\Gamma(n\alpha)}
-      t^{n\alpha-1}\cdot\exp\{-\gamma t\}\, \text{d}t.
+      F_y(T) = G(y\alpha, \gamma T) =
+      \int_{0}^{T} \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}
+      t^{y\alpha-1}\cdot\exp\{-\gamma t\}\, \text{d}t.
     \end{equation}
   \item Assim
     \begin{align*}
-      \Pr(N_T=n) &= G(n\alpha, \gamma T) - G((n+1)\alpha, \gamma T) \\
+      \Pr(Y_T=y) &= G(y\alpha, \gamma T) - G((y+1)\alpha, \gamma T) \\
                  &= \left[ \int_{0}^{T}
-                   \frac{\gamma^{n\alpha}}{\Gamma(n\alpha)}
-                   t^{n\alpha-1}\cdot
+                   \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}
+                   t^{y\alpha-1}\cdot
                    \exp\{-\gamma t\}\, \text{d}t \right] \\
                  &\quad -
                    \left[ \int_{0}^{T}
-                   \frac{\gamma^{(n+1)\alpha}}{\Gamma((n+1)\alpha)}
-                   t^{(n+1)\alpha-1}\cdot
+                   \frac{\gamma^{(y+1)\alpha}}{\Gamma((y+1)\alpha)}
+                   t^{(y+1)\alpha-1}\cdot
                    \exp\{-\gamma t\}\, \text{d}t \right]
     \end{align*}
   \end{itemize}
@@ -198,15 +199,15 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
 \begin{frame}[allowframebreaks]
   \frametitle{Parametrização para modelo de regressão}
   \begin{itemize}
-  \item A média da variável aleatória $N_T$ é resultado de
+  \item A média da variável aleatória $Y_T$ é resultado de
     \begin{align*}
-      E(N) &= \sum_{i=0}^{\infty} i\cdot \Pr(i) \\
+      E(Y_T) &= \sum_{i=0}^{\infty} i\cdot \Pr(i) \\
            &= \sum_{i=1}^{\infty} i\cdot \Pr(i)\\
            &= \sum_{i=1}^{\infty} G(i\alpha, \gamma T).\\
     \end{align*}
   \item Para um $T$ cada vez maior, tem-se que
     \begin{equation*}
-      N(T)\; \dot{\sim}\; \text{Normal}\left(
+      Y(T)\; \dot{\sim}\; \text{N}\left(
         \frac{\gamma}{\alpha},
         \frac{\gamma}{\alpha^2}\right).
     \end{equation*}
@@ -215,12 +216,14 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
     \gamma = \alpha \exp\{x^{\top}\beta\}.$$
     Essa parametrização produz um modelo de regressão para a média
     do tempo entre eventos definida por
-    $$\text{E}(\tau|x) = \frac{\alpha}{\gamma} =
-    \exp\{-x^{\top}\beta\}.$$
+    $$\text{E}(\tau|\boldsymbol{x}) = \frac{\alpha}{\gamma} =
+    \exp\{-\boldsymbol{x}^{\top}\beta\}.$$
   \item O modelo de regressão é para o tempo entre eventos ($\tau$)
     e não diretamente para contagem porque, a menos que
     $\alpha = 1$, não é certo que
-    $\text{E}(N_i|x_i) = [\text{E}(\tau_i|x_i)]^{-1}$.
+    $\text{E}(Y_i|x_i) = [\text{E}(\tau_i|x_i)]^{-1}$.
+  \item $\alpha$ é um parâmetro de dispersão, assim $\alpha > 1$ indica
+  subdispersão, $\alpha = 1$ equidispersão e $\alpha < 1$ superdispersão.
   \item Em \texttt{R} temos \texttt{MrDCR::gcnt(formula, data)}.
   \end{itemize}
   
