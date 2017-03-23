@@ -350,9 +350,9 @@ m0 <- glm(nvag ~ bloc + umid * K,
           data = soja,
           family = poisson)
 
-# Checking residuals.
-par(mfrow = c(2, 2))
-plot(m0); layout(1)
+## # Checking residuals.
+## par(mfrow = c(2, 2))
+## plot(m0); layout(1)
 
 #--------------------------------------------
 # Gamma-Count.

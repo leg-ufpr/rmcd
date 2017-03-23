@@ -12,10 +12,15 @@ Imports:
   compoisson,
   rootSolve,
   bbmle,
-  MRDCr
-Suggests:
+  MRDCr,
+  plyr,
+  car,
+  corrplot,
+  doBy,
+  multcomp,
   sp,
-  plyr
+  mcglm
 Remotes:
   rstudio/bookdown,
   leg-ufpr/MRDCr@devel
+  wbonat/mcglm@devel
