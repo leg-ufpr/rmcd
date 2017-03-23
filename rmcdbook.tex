@@ -257,7 +257,7 @@ The main goal of this course is to present a wide range of statistical
 models to deal with count data. We focus on parametric and second-moment
 specified models. We shall present the model specification along with
 strategies for model fitting and associated \texttt{R}\citep{R2015}
-code. Furthermore, this book-course and supplementary materials as
+code. Furthermore, this book-course and supplementary materials, such as
 \texttt{R} code and data sets are available for the students on the web
 page \url{http://cursos.leg.ufpr.br/rmcd}.
 
@@ -267,18 +267,18 @@ who already attended a course on generalized linear models
 topics, it can be of interest of postgraduate students and researches in
 general.
 
-We designed the course for three hours of tuition. In the first part
-(two hours) of the course, we shall present the analysis of count data
-based on fully parametric models. After a brief introduction and
-motivation on count data, we present the Poisson, Gamma-Count,
-Poisson-Tweedie and COM-Poisson distributions. We explore their
-properties through a consideration of dispersion, zero-inflated and
-heavy tail indexes. Furthermore, the estimation and inference for these
-models based on the likelihood paradigm is discussed along with
-\texttt{R} code and worked examples.
+We designed the course for three hours of tuition. In the first part of
+the course, we shall present the analysis of count data based on fully
+parametric models. After a brief introduction and motivation on count
+data, we present the Poisson, Gamma-Count, Poisson-Tweedie and
+COM-Poisson distributions. We explore their properties through a
+consideration of dispersion, zero-inflated and heavy tail indexes.
+Furthermore, the estimation and inference for these models based on the
+likelihood paradigm is discussed along with the associated \texttt{R}
+code and worked examples.
 
-In the second part (one hour) of the course, we provide a brief
-introduction to the estimating function approach \citetext{\citealp[
+In the second part of the course, we provide a brief introduction to the
+estimating function approach \citetext{\citealp[
 ]{Jorgensen2004}; \citealp{Bonat2016a}} and discuss models based on
 second-moment assumptions in the style of \citet{Wedderburn1974}. In
 particular, we focus on the recently proposed Extended Poisson-Tweedie
@@ -301,9 +301,9 @@ March 27, 2017.
 The analysis of count data has received attention from the statistical
 community in the last four decades. Since the seminal paper published by
 \citet{Nelder1972}, the class of generalized linear models (GLMs) have a
-proeminent role for regression modelling of normal and non-normal data.
-GLMs are fitted by a simple and efficient Newton score algorithm relying
-only on second-moment assumptions for estimation and inference.
+prominent role for regression modelling of normal and non-normal data.
+GLMs are fitted by a simple and efficient Newton scoring algorithm
+relying only on second-moment assumptions for estimation and inference.
 Furthermore, the theoretical background for GLMs is well established in
 the class of dispersion models \citep{Jorgensen1987, Jorgensen1997} as a
 generalization of the exponential family of distributions.
@@ -323,12 +323,12 @@ practical data analysis a number of these could be involved.
 One possible cause of under/overdispersion is departure from the Poisson
 process. It is well known that the Poisson counts can be interpreted as
 the number of events in a given time interval where the arrival's times
-are exponential distributed. When this assumption is violated the
-resulting counts can be under or overdispersed \citep{Zeviani2014}.
-Another possibility and probably more frequent cause of overdispersion
-is unobserved heterogeneity of experimental units. It can be due, for
-example, to correlation between individual responses, cluster sampling,
-ommitted covariates and others.
+are exponential distributed. In the cases where this assumption is
+violated the resulting counts can be under or overdispersed
+\citep{Zeviani2014}. Another possibility and probably more frequent
+cause of overdispersion is unobserved heterogeneity of experimental
+units. It can be due, for example, to correlation between individual
+responses, cluster sampling, omitted covariates and others.
 
 In general, these departures from the Poisson distribution are
 manifested in the raw data as a zero-inflated or heavy-tailed count
@@ -348,8 +348,8 @@ related with the causes of the non-equidispersion. When departures from
 the Poisson process are plausible the class of duration dependence
 models \citep{Winkelmann2003} can be employed. This class of models
 changes the distribution of the time between events from the exponential
-to more general distributions, like gamma and inverse Gaussian. In this
-course, we shall discuss one example of this approach, namely, the
+to more general distributions, such as gamma and inverse Gaussian. In
+this course, we shall discuss one example of this approach, namely, the
 Gamma-Count distribution \citep{Zeviani2014}. This distribution assumes
 that the time between events is gamma distributed, thus it can deal with
 under, equi and overdispersed count data.
@@ -374,24 +374,23 @@ exponential family, has the Poisson and geometric distributions as
 special cases and the Bernoulli distribution as a limiting case. It can
 deal with both under and overdispersed count data. Thus, given the nice
 properties of the COM-Poisson distribution for handling count data, we
-choose to present this model as part of this short course.
+chose to present this model as part of this course.
 
-In this short course, we shall highlight and compare the ability of
-these distributions to deal with count data through a consideration of
+In this course, we shall highlight and compare the flexibility of these
+distributions to deal with count data through a consideration of
 dispersion, zero-inflated and heavy tail indexes. Furthermore, we
-specify regression models and illustrate their application with two
+specify regression models and illustrate their application with three
 worked examples.
 
 In Chapter \ref{models} we present the properties and regression models
 associated with the Poisson, Gamma-count, Poisson-Tweedie and
 COM-Poisson distributions. Furthermore, we compare these distributions
-using the dispersion, zero-inflated and heavy-tail indexes. Estimation
+using the dispersion, zero-inflated and heavy tail indexes. Estimation
 and inference for these models based on the likelihood paradigm are
 discussed in Chapter \ref{likelihood}. In Chapter \ref{SM}, we extend
-the Poisson-Tweedie model using only second-moment assumptions and the
-fitting algorithm based on the estimating functions approach. Chapter
-\(5\) presents two worked examples. Finally, in Chapter \(6\) we discuss
-the general methods and propose some topics for future works.
+the Poisson-Tweedie model using only second-moment assumptions and
+present the fitting algorithm based on the estimating functions
+approach. Chapter \(5\) presents three worked examples.
 
 \chapter{Count distributions: properties and regression
 models}\label{models}
@@ -428,7 +427,7 @@ according to a Poisson distribution. The Poisson regression models is
 defined by
 \[Y_i \sim P(\mu_i), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).\]
 In this notation, \(\boldsymbol{x_i}\) and \(\boldsymbol{\beta}\) are
-(\(q \times 1\)) vectors of known covariates and unknown regression
+(\(p \times 1\)) vectors of known covariates and unknown regression
 parameters, respectively. Moreover, \(g\) is a standard link function,
 for which we adopt the logarithm link function, but potentially any
 other suitable link function could be adopted.
@@ -477,7 +476,7 @@ density distribution (dropping the index \(k\)) given by
 f(\tau; \alpha, \gamma) = \frac{\gamma^{\alpha}}{\Gamma(\alpha)} \tau^{\alpha-1} \exp\{-\gamma \tau\}, \quad \alpha, \gamma \in \mathbb{R}^{+}.
 \end{equation}
 
-In this parameterization \(\mathrm{E}(\tau) = \alpha/\gamma\) and
+In this parametrization \(\mathrm{E}(\tau) = \alpha/\gamma\) and
 \(\mathrm{var}(\tau) = \alpha/\gamma^2\). Thus, by applying the
 convolution formula for gamma distributions, it is easy to show that the
 distribution of \(\nu_y\) is given by
@@ -552,7 +551,7 @@ Consequently, the Gamma-Count distribution displays overdispersion for
 \ref{fig:PlotGC} presents the probability mass function for some
 Gamma-Count distributions. We fixed the parameter \(\gamma = 10\) and
 fit the parameter \(\alpha\) in order to have dispersion index
-(\(\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)\)) equaling to \(0.5\),
+(\(\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)\)) equalling to \(0.5\),
 \(2\), \(5\) and \(20\).
 
 \begin{figure}[h]
@@ -647,10 +646,9 @@ The integral \eqref{eq:pmfPTW} has no closed-form apart of the special
 case corresponding to the negative binomial distribution, obtained when
 \(p = 2\), i.e.~a Poisson gamma mixture. In the case of \(p=1\), the
 integral \eqref{eq:pmfPTW} is replaced by a sum and we have the Neyman
-Type A distribution. Further special cases include the Hermite
-\((p = 0)\), compound Poisson \((1 < p < 2)\), factorial discrete
-positive stable \((p > 2)\) and Poisson-inverse Gaussian \((p = 3)\)
-distributions \citetext{\citealp[
+Type A distribution. Further special cases include the compound Poisson
+\((1 < p < 2)\), factorial discrete positive stable \((p > 2)\) and
+Poisson-inverse Gaussian \((p = 3)\) distributions \citetext{\citealp[
 ]{Jorgensen2014}; \citealp{Kokonendji2004}}.
 
 In spite of other approaches to compute the probability mass function of
@@ -681,7 +679,7 @@ following functions.
 \end{Highlighting}
 \end{Shaded}
 
-When using the Monte Carlo method we need to specify a proposal
+When using the Monte Carlo method, we need to specify a proposal
 distribution, from which samples will be taken to compute the integral
 as an expectation. In the Poisson-Tweedie case is sensible to use the
 Tweedie distribution as proposal. Thus, in our function we use the
@@ -748,7 +746,7 @@ distribution.
 Finally, the Poisson-Tweedie regression model is defined by
 \[Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),\]
 where \(\boldsymbol{x}_i\) and \(\boldsymbol{\beta}\) are
-\((q \times 1)\) vectors of known covariates and unknown regression
+\((p \times 1)\) vectors of known covariates and unknown regression
 parameters. The estimation and inference of Poisson-Tweedie regression
 models based on the maximum likelihood method are challenged by the
 presence of an intractable integral in the probability mass function and
@@ -769,13 +767,13 @@ f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!},
 \] where
 \(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_i / i!\) is
 a normalizing constant \citep{Sellers2012}. The COM-Poisson is obtained
-when \(w_{y} = (y!)^{1-\nu}\) for \(\nu \geq 0\). The serie \(W\) for
+when \(w_{y} = (y!)^{1-\nu}\) for \(\nu \geq 0\). The series \(W\) for
 COM-Poisson distribution is denoted by \(Z(\lambda, \nu)\) and can be
 written as \(\sum_{i=0}^{\infty}\lambda^i/(i!)^\nu\). Note that the
-serie is theoretically divergent only when \(\nu = 0\) and
+series is theoretically divergent only when \(\nu = 0\) and
 \(\lambda \geq 1\), but numerically for small values of \(\nu\) combined
-with large values of \(\lambda\), the sum is so huge it causes overlow.
-The Table \ref{tab:convergenceZ} shows the sums calculated with 1000
+with large values of \(\lambda\), the sum is so huge it causes overflow.
+The Table \ref{tab:convergenceZ} shows the sums calculated with \(1000\)
 increments, in other words, \(\sum_{i=0}^{1000}\lambda^i/(i!)^\nu\) for
 different values of \(\nu\) (horizontal lines) and \(\lambda\) (vertical
 lines).
@@ -818,8 +816,8 @@ approximated to any level of precision. It can be evaluated in
 functions. We tried to find parameters \(\lambda\) and \(\nu\) in order
 to have \(\mathrm{E}(Y) = 10\) and dispersion index equals to
 \(\mathrm{DI} = 0.5, 2, 5\) and \(20\). However, we could not find any
-parameter combination to have \(\mathrm{DI} = 20\), probably due to
-overflow of the sum since \(\nu\) is inversely proportional to the
+parameter combination to have \(\mathrm{DI} = 20\). Probably, it was due
+to overflow of the sum since \(\nu\) is inversely proportional to the
 dispersion index (see table \ref{tab:convergenceZ}).
 
 \begin{figure}[h]
@@ -839,7 +837,7 @@ COM-Poisson regression model is defined by
 In this notation, the parameter \(\nu\) is considered the dispersion
 parameter such that \(\nu > 1\) represents underdispersion and
 \(\nu < 1\) overdispersion. The Poisson model is obtained for
-\(\nu = 0\) and as usual we adopt the logarithm link function for \(g\).
+\(\nu = 1\) and as usual we adopt the logarithm link function for \(g\).
 
 \section{Comparing count
 distributions}\label{comparing-count-distributions}
@@ -865,7 +863,7 @@ and
 These indexes are defined in relation to the Poisson distribution. Thus,
 the dispersion index indicates underdispersion for \(\mathrm{DI} < 1\),
 equidispersion for \(\mathrm{DI} = 1\) and overdispersion for
-\(\mathrm{DI} > 1\). Similarly, the zero-inflated index is easily
+\(\mathrm{DI} > 1\). Similarly, the zero-inflation index is easily
 interpreted, since \(\mathrm{ZI} < 0\) indicates zero-deflation,
 \(\mathrm{ZI} = 0\) corresponds to no excess of zeroes and
 \(\mathrm{ZI} > 0\) indicates zero-inflation. Finally,
@@ -879,16 +877,18 @@ Thus, it is quite clear that the Poisson model can deal only with
 equidispersed data and has no flexibility to deal with zero-inflation
 and/or heavy tail count data. In fact, the presented indexes were
 proposed in relation to the Poisson distribution in order to highlight
-its limitations. Figure \ref{fig:indexes} presents the relationship
-between mean and variance, the dispersion and zero-inflation indexes as
-a function of the expected values \(\mu\) for different scenarios and
-count distributions. Scenario \(1\) corresponds to the case of
-underdispersion. Thus, we fixed the dispersion index at \(DI = 0.5\)
-when the mean equaling \(10\). Since the Poisson-Tweedie cannot deal
-with underdispersion, in this scenario we present only the Gamma-Count
-and COM-Poisson distributions. Similarly, scenarios \(2--4\) are
-obtained by fixing the dispesion index at \(DI = 2, 5\) and \(10\) when
-mean equaling \(10\). In the scenario \(4\) we could not find a
+its limitations.
+
+Figure \ref{fig:indexes} presents the relationship between mean and
+variance, the dispersion and zero-inflation indexes as a function of the
+expected values \(\mu\) for different scenarios and count distributions.
+Scenario \(1\) corresponds to the case of underdispersion. Thus, we
+fixed the dispersion index at \(\mathrm{DI} = 0.5\) when the mean
+equalling \(10\). Since the Poisson-Tweedie cannot deal with
+underdispersion, in this scenario we present only the Gamma-Count and
+COM-Poisson distributions. Similarly, scenarios \(2--4\) are obtained by
+fixing the dispersion index at \(\mathrm{DI} = 2, 5\) and \(10\) when
+mean equalling \(10\). In the scenario \(4\) we could not find a
 parameter configuration in order to have a COM-Poisson distribution with
 dispersion index equals \(20\). Consequently, we present results only
 for the Gamma-Count and Poisson-Tweedie distributions. Furthermore,
@@ -920,7 +920,7 @@ for these distributions, the indexes slightly depend on the expected
 values and tend to stabilize for large values of \(\mu\). Consequently,
 the mean and variance relationship is proportional to the dispersion
 parameter value. In the overdispersion case, the Gamma-Count and
-COM-Poisson distributions can handle with a limited ammount of
+COM-Poisson distributions can handle with a limited amount of
 zero-inflation and are in general light tailed distributions, i.e.
 \(\mathrm{HT} \to 0\) for \(y \to \infty\).
 
@@ -931,7 +931,7 @@ suitable to deal with zero-inflated count data. In that case, the
 values of the mean. Furthermore, the \(\mathrm{HT}\) decreases as the
 mean increases. On the other hand, for large values of the power
 parameter the \(\mathrm{HT}\) increases with increasing mean, showing
-that the model is specially suitable to deal with heavy tailed count
+that the model is specially suitable to deal with heavy-tailed count
 data. In this case, the \(\mathrm{DI}\) and \(\mathrm{ZI}\) increase
 quickly as the mean increases giving an extremely overdispersed model
 for large values of the mean. In general, the \(\mathrm{DI}\) and
@@ -959,7 +959,7 @@ and inaccurately computed. Similarly, the COM-Poisson probability mass
 function involves the evaluation of a infinity sum, which can be
 computational expensive and inaccurate for large values of \(Y\).
 Furthermore, for extreme values of \(\lambda\) combined with small
-values of \(\nu\) the infinite sum can numerically diverge making
+values of \(\nu\) the infinite sum can numerically diverges making
 impossible to evaluate the probability mass function. Finally, the
 Poisson-Tweedie probability mass function involves an intractable
 integral, which makes the estimation and inference based on likelihood
@@ -974,17 +974,17 @@ method and its main properties along with some examples in \texttt{R}.
 The maximum likelihood method is applicable mainly in situations where
 the true distribution of the count random variable \(Y\) is known apart
 of the values of a finite number of unknown parameters. Let
-\(p(y;\boldsymbol{\theta})\) denote the true probability mass function
+\(f(y;\boldsymbol{\theta})\) denote the true probability mass function
 of the count random variable \(Y\). We assume that the family
-\(p(y;\boldsymbol{\theta})\) is labelled by a (\(p \times 1\)) parameter
+\(f(y;\boldsymbol{\theta})\) is labelled by a (\(p \times 1\)) parameter
 vector \(\boldsymbol{\theta}\) taking values in \(\Theta\) a subset of
 \(\mathbb{R}^n\). For a given observed value \(y\) of the a random
 variable \(Y\), the likelihood function corresponding to the observation
 \(y\) is defined as
-\(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\). It is important
-to highlight that \(p(y;\boldsymbol{\theta})\) is a probability mass
+\(L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta})\). It is important
+to highlight that \(f(y;\boldsymbol{\theta})\) is a probability mass
 function on the sample space. On the other hand,
-\(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\) is a function on
+\(L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta})\) is a function on
 the parameter space \(\Theta\). The likelihood function expresses the
 plausibilities of different parameters after we have observed \(y\), in
 the absence of any other information that we may have about these
@@ -1009,13 +1009,13 @@ the context to make it clear whether we are thinking of
 a function.
 
 Let \(Y_i\) be independent and identically distributed count random
-variables with probability mass function \(p(y;\boldsymbol{\theta})\),
+variables with probability mass function \(f(y;\boldsymbol{\theta})\),
 whose observed values are denoted by \(y_i\) for \(i = 1, \ldots, n.\)
 In this case, the likelihood function can be written as the product of
 the individuals probability mass distributions, i.e.
 
 \begin{equation}
-L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n p(y_i; \boldsymbol{\theta}).
+L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}).
 \label{eq:LIK}
 \end{equation}
 
@@ -1041,10 +1041,10 @@ i.e.
 \label{eq:SCORE}
 \end{equation}
 
-However, the system of non-linear equations in \eqref{eq:SCORE} often have
-to be solved numerically. The entry \((i,j)\) of the \(p \times p\)
-Fisher information matrix \(\mathcal{F}_{\boldsymbol{\theta}}\) for the
-vector of parameter \(\boldsymbol{\theta}\) is given by
+The system of non-linear equations in \eqref{eq:SCORE} often have to be
+solved numerically. The entry \((i,j)\) of the \(p \times p\) Fisher
+information matrix \(\mathcal{F}_{\boldsymbol{\theta}}\) for the vector
+of parameter \(\boldsymbol{\theta}\) is given by
 
 \begin{equation}
 \mathcal{F}_{\boldsymbol{\theta}_{ij}} =-\mathrm{E} \left \{ \frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial\theta_i\partial\theta_j} \right \}.
@@ -1070,7 +1070,7 @@ function. However, for the Gamma-Count where the log-likelihood function
 is given by the difference between two integrals, we cannot obtain such
 derivatives analytically. Similarly, for the COM-Poisson the
 log-likelihood function involves an infinite sum and consequently such
-derivatives cannot be obtained analitycally. Finally, in the
+derivatives cannot be obtained analytically. Finally, in the
 Poisson-Tweedie distribution the log-likelihood function is defined by
 an intractable integral, which implies that we cannot obtain a
 closed-form for the score function and Fisher information matrix.
@@ -1144,9 +1144,7 @@ such as \texttt{summary()}, \texttt{coef()}, \texttt{confint()},
 \end{verbatim}
 
 Similar functions can be done for the Poisson, Poisson-Tweedie and
-COM-Poisson distributions. In the supplementary material
-\texttt{Script5.R}, we provide some functions for maximum likelihood
-estimation of Poisson-Tweedie and COM-Poisson distributions.
+COM-Poisson distributions.
 
 \chapter{Models specified by second-moment assumptions}\label{SM}
 
@@ -1163,13 +1161,12 @@ assumptions.
 \section{Extended Poisson-Tweedie
 model}\label{extended-poisson-tweedie-model}
 
-The Poisson-Tweedie distribution as presented in subsection the
-\ref{ptw} provides a very flexible family of count distributions,
-however, such a family has two main drawbacks: it cannot deal with
-underdispersed count data and its probability mass function is given by
-an intractable integral, which implies that estimation based on the
-maximum likelihood method is computational demanding for practical data
-analysis.
+The Poisson-Tweedie distribution as presented in subsection \ref{ptw}
+provides a very flexible family of count distributions, however, such a
+family has two main drawbacks: it cannot deal with underdispersed count
+data and its probability mass function is given by an intractable
+integral, which implies that estimation based on the maximum likelihood
+method is computational demanding for practical data analysis.
 
 In spite of these issues \citet{Jorgensen2014} showed using factorial
 cumulant function that for \(Y \sim PTw_p(\mu, \phi)\),
@@ -1189,7 +1186,7 @@ are given by
 \end{align}
 
 where as before \(\boldsymbol{x}_i\) and \(\boldsymbol{\beta}\) are
-(\(q \times 1\)) vectors of known covariates and unknown regression
+(\(p \times 1\)) vectors of known covariates and unknown regression
 parameters and \(g\) is the logarithm link function. The regression
 model specified in \eqref{eq:EPTW} is parametrized by
 \(\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top )^\top\),
@@ -1232,14 +1229,14 @@ parameters respectively. Following \citet{Bonat2016b} the quasi-score
 function for \(\boldsymbol{\beta}\) has the following form,
 
 \begin{equation*}
-\psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_q}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
+\psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_p}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
 \end{equation*}
 
 where \(\partial \mu_i/\partial \beta_j = \mu_i x_{ij}\) for
-\(j = 1, \ldots, q\). The sensitivity matrix is defined as the
+\(j = 1, \ldots, p\). The sensitivity matrix is defined as the
 expectation of the first derivative of the estimating function with
 respect to the model parameters. Thus, the entry \((j,k)\) of the
-\(q \times q\) sensitivity matrix for \(\psi_{\boldsymbol{\beta}}\) is
+\(p \times p\) sensitivity matrix for \(\psi_{\boldsymbol{\beta}}\) is
 given by
 
 \begin{equation}
@@ -1249,7 +1246,7 @@ given by
 
 In a similar way, the variability matrix is defined as the variance of
 the estimating function. In particular, for the quasi-score function the
-entry \((j,k)\) of the \(q \times q\) variability matrix is given by
+entry \((j,k)\) of the \(p \times p\) variability matrix is given by
 
 \begin{equation*}
 \label{Vbeta}
@@ -1325,7 +1322,7 @@ where
 \(\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} = \mathrm{V}^{\top}_{\boldsymbol{\beta}\boldsymbol{\lambda}}\)
 and \(\mathrm{V}_{\boldsymbol{\lambda}}\) depend on the third and fourth
 moments of \(Y_i\), respectively. In order to avoid this dependence on
-higher-order moments, we propose to use the empirical versions of
+higher-order moments, we use the empirical versions of
 \(\mathrm{V}_{\boldsymbol{\lambda}}\) and
 \(\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}}\) as given by
 
