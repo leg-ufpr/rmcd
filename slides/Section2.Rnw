@@ -205,7 +205,7 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
     $\text{E}(Y_i|x_i) = [\text{E}(\tau_i|x_i)]^{-1}$.
   \item $\alpha$ é um parâmetro de dispersão, assim $\alpha > 1$ indica
   subdispersão, $\alpha = 1$ equidispersão e $\alpha < 1$ superdispersão.
-  \item Em \texttt{R} temos \texttt{MrDCR::gcnt(formula, data)}.
+  \item Em \texttt{R} temos \texttt{MRDCr::gcnt(formula, data)}.
   \end{itemize}
   
 \end{frame}
@@ -613,7 +613,7 @@ $\mathrm{HT} \to 1$ quando $y \to \infty$ indica cauda pesada.
 \begin{frame}[fragile]{Flexibilidade}
 \begin{table}[h]
 \centering
-\caption{Reference models and dominant features by dispersion and power parameter values.}
+\caption{Modelo de referência e fatos dominantes por valores dos parâmetros de dispersão e potência.}
 \label{tab:model}
 \begin{tabular}{llll} \hline
 Modelo de referência     & Fatos dominantes                     & Dispersão           & Power   \\ \hline
