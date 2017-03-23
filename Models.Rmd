@@ -333,28 +333,87 @@ approach in the style of @Wedderburn1974.
 The COM-Poisson distribution belongs to the family of weighted Poisson
 distributions. A random variable $Y$ is a weighted Poisson
 distribution if its probability mass function can be written in the form
-
 $$
-f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!}, \quad y = 0, 1, \ldots,
+f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!},
+\quad y = 0, 1, \ldots,
 $$
-where $W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_s / i!$
+where $W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_i / i!$
 is a normalizing constant [@Sellers2012]. The COM-Poisson is obtained
-when $w_{y} = (y!)^{1-\nu}$ for $\nu \geq 0$. In general, the expectation
-and variance of the COM-Poisson distribution cannot be expressed in closed-form.
-However, they can be approximated by
-$$\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu} \quad
-\text{and} \quad \mathrm{var}(Y) \approx (1/ \nu) \lambda^{1 /\nu}.$$
+when $w_{y} = (y!)^{1-\nu}$ for $\nu \geq 0$. The serie $W$ for
+COM-Poisson distribution is denoted by $Z(\lambda, \nu)$ and can be
+written as $\sum_{i=0}^{\infty}\lambda^i/(i!)^\nu$. Note that the serie
+is theoretically divergent only when $\nu = 0$ and $\lambda \geq 1$, but
+numerically for small values of $\nu$ combined with large values of
+$\lambda$, the sum is so huge it causes overlow. The Table
+\@ref(tab:convergenceZ) shows the sums calculated with 1000 increments,
+in other words, $\sum_{i=0}^{1000}\lambda^i/(i!)^\nu$ for different
+values of $\nu$ (horizontal lines) and $\lambda$ (vertical lines).
 
-These approximations are accurate when $\nu \leq 1$ or $\lambda > 10^{\nu}$.
-The infinite sum involved in computing the probability mass function of
-the COM-Poisson distribution can be approximated to any
+```{r convergenceZ, echo = FALSE, results = "asis"}
+
+opt <- options()
+
+##======================================================================
+## Convergence of Z(lambda, nu) constant
+computeZ <- function(lambda, nu, maxit = 1e4, tol = 1e-5) {
+    z <- vector("numeric", maxit)
+    j = 1
+    z[j] <- exp(j * log(lambda) - nu * lfactorial(j))
+    while (abs(z[j] - 0) > tol && j <= maxit) {
+        j = j + 1
+        z[j] <- exp(j * log(lambda) - nu * lfactorial(j))
+    }
+    if (lambda == 1 & nu == 0) z <- Inf
+    return(sum(z, na.rm = TRUE) + 1)
+}
+
+grid <- expand.grid(
+    lambda = c(0.5, 1, 5, 10, 30, 50),
+    nu = seq(0, 1, length.out = 11))
+grid$z <- apply(grid, 1, function(par) {
+    computeZ(lambda = par[1], nu = par[2], maxit = 1e4)
+})
+
+xt <- xtabs(z ~ nu + lambda, data = grid)
+caption <- paste(
+    "Values for $Z(\\lambda, \\nu)$ constant (calculated numerically)",
+    "to combined values of $\\lambda$ (0.5 to 50) and $\\phi$ (0 to 1)")
+
+options(scipen = -2)
+kb <- knitr::kable(xt, cap = caption,
+                   booktabs = TRUE,
+                   linesep = "",
+                   align = "c")
+
+## Remove excessive scientific notation
+kb2 <- gsub("e\\+00", "    ", unclass(kb))
+kb2 <- gsub("\\|([0-9].{2}) \\|", "\\|**\\1** \\|", kb2)
+class(kb2) <- class(kb)
+kb2
+
+options(opt)
+
+```
+
+In general, the expectation and variance of the COM-Poisson distribution
+cannot be expressed in closed-form.  However, they can be approximated
+by
+$$\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu}
+\quad \text{and} \quad
+\mathrm{var}(Y) \approx \frac{1}{\nu} \lambda^{1 /\nu}.
+$$
+These approximations are accurate when $\nu \leq 1$ or $\lambda >
+10^{\nu}$.  The infinite sum involved in computing the probability mass
+function of the COM-Poisson distribution can be approximated to any
 level of precision. It can be evaluated in `R` using the function
-`dcom()` from the `compoisson` package [@Dunn2012].
-Figure \@ref(fig:comPoispmfplot) presents some COM-Poisson probability
-mass functions. We tried to find parameters $\lambda$ and $\nu$ in order
-to have $\mathrm{E}(Y) = 10$ and dispersion index equals to
-$\mathrm{DI} = 0.5, 2, 5$ and $20$. However, we could not find any parameter
-combination to have $\mathrm{DI} = 20$.
+`dcom()` from the `compoisson` package [@Dunn2012].  Figure
+\@ref(fig:comPoispmfplot) presents some COM-Poisson probability mass
+functions. We tried to find parameters $\lambda$ and $\nu$ in order to
+have $\mathrm{E}(Y) = 10$ and dispersion index equals to $\mathrm{DI} =
+0.5, 2, 5$ and $20$. However, we could not find any parameter
+combination to have $\mathrm{DI} = 20$, probably due to overflow of the
+sum since $\nu$ is inversely proportional to the dispersion index (see
+table \@ref(tab:convergenceZ)).
 
 ```{r comPoispmfplot, echo = FALSE, cache = TRUE, fig.cap = 'COM-Poisson probability mass function by values of the dispersion index (DI).', fig.height = 2, fig.width= 8}
 source("Script3.R")

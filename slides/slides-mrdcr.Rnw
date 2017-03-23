@@ -25,6 +25,7 @@
 \hypersetup{colorlinks, allcolors=., urlcolor=url, runcolor=run}
 
 \setbeamercolor{bibliography entry author}{fg=black}
+\usepackage[alf]{abntex2cite}
 
 %% ======================================================================
 %% Tema e cores do documento
@@ -137,24 +138,31 @@
 
 %% ======================================================================
 %% Metadados do documento
-\title{Modelos de regressão para dados de contagem: além do modelo Poisson.}
+\title{Modelos de regressão para dados de contagem:\\
+  além do modelo Poisson.}
 \author[Wagner H. Bonat, Walmes M. Zeviani \& Eduardo Jr]{
   Prof. PhD. Wagner Hugo Bonat \\
   Prof. Dr. Walmes M. Zeviani\\
-  Eduardo E. Ribeiro Jr\\ 
+  Eduardo E. Ribeiro Jr\\
 }
 \institute[UFPR]{
   Laboratório de Estatística e Geoinformação \\
   Departamento de Estatística \\
   Universidade Federal do Paraná}
-\date{\today \\[0.1cm] \url{{wbonat, walmes, eduardo.jr}@ufpr.br}}
+\date{\small \today \\[0.2cm]
+  \url{wbonat@ufpr.br} | \url{walmes@ufpr.br} | \url{jreduardo@usp.br}}
 %\titlegraphic{\includegraphics[width=2cm]{images/MRDCr_logo}}
 
 %% ======================================================================
 %% Configurações knitr
 
 <<setup, include=FALSE>>=
+
 source("_setup.R")
+thm = knit_theme$get("dusk")
+knit_theme$set(thm)
+opts_chunk$set(size = "footnotesize")
+
 @
 
 %% ======================================================================
@@ -168,16 +176,30 @@ source("_setup.R")
 
 \begin{frame}{Disponibilização}
 
+  \centering
+
 \begin{columns}[c]
   \column{.35\textwidth}
-\begin{flushright}	
-  \includegraphics[scale=0.2]{./images/git_icon}\\
-\end{flushright}
-% \hfill
-\column{.65\textwidth}
-\includegraphics[scale=0.05]{./images/github_icon}
-\url{https://github.com/leg-ufpr/rmcd}
-\url{http://cursos.leg.ufpr.br/rmcd/}
+  \begin{flushright}
+    \includegraphics[scale=0.15]{./images/bookdown_logo}
+  \end{flushright}
+  % \hfill
+  \column{.65\textwidth}
+  Livro (web, pdf e ebook) e slides (pdf)\\
+  \url{http://cursos.leg.ufpr.br/rmcd/}\\[0.5cm]
+\end{columns}
+
+\vspace{0.5cm}
+
+\begin{columns}[c]
+  \column{.35\textwidth}
+  \begin{flushright}
+    \includegraphics[scale=0.15]{./images/github_icon}
+  \end{flushright}
+  % \hfill
+  \column{.65\textwidth}
+  Códigos fonte (Scripts R)\\
+  \url{https://github.com/leg-ufpr/rmcd}
 \end{columns}
 
 \end{frame}
@@ -188,7 +210,7 @@ source("_setup.R")
 \end{multicols}
 \end{frame}
 
-<<excesso_zeros, child = "Introduction.Rnw">>=
+<<Introduction, child = "Introduction.Rnw">>=
 @
 
 \section{Distribuições para contagens: propriedades e modelos de regressão}
@@ -221,73 +243,14 @@ source("_setup.R")
 %<<compoisson, child = "compoisson.Rnw">>=
 %@
 
+
+\section*{Bibliografia}
 \begin{frame}[allowframebreaks]{Referências}
-\small
-
-\begin{thebibliography}{99}
-\bibitem{Bonat2016} Bonat, W. H., J{\o}rgensen, B. (2016).
-Multivariate covariance generalized linear models. 
-{\em Journal of Royal Statistical Society - Series C}, 65, 649–675.
-
-\bibitem{Bonat2016a} Bonat, W. H. et.al, (2017).
-Extended Poisson-Tweedie: properties and regression models. 
-{\em Statistical Modelling}, to appear.
-
-\bibitem{Bonat2016b} Bonat, W. H. (2017).
-Multiple regression models in R. The mcglm package. 
-{\em Journal of Statistical Software}, to appear.
-
-\bibitem{Conway1962} Conway, R. W., Maxwell, W. L. (1962).
-A queuing model with state dependent service rates. {\em Journal of
-Industrial Engineering}, 12, 132–136.
-
-\bibitem{Paula2013} Paula, G. A. (2013). {\em Modelos de regress\~ao com
-apoio computacional}. IME-USP, S\~ao Paulo.
-
-\bibitem{Shimueli2005} Shmueli, G., Minka, T. P., Kadane, J. B., Borle,
-S., Boatwright, P. (2005). A useful distribution for fitting discrete
-data: Revival of the Conway-Maxwell-Poisson distribution. {\em Journal of
-the Royal Statistical Society. Series C: Applied Statistics}, 54(1),
-127–142.
-
-\bibitem{Zeiles2008} Zeileis, A., Kleiber, C., Jackman, S. (2008). 
-Regression Models for Count Data in R. {\em Journal of Statistical
-Software}, 27(8), 1 - 25. 
-\url{doi:http://dx.doi.org/10.18637/jss.v027.i08}
-
-\bibitem{Winkelmann2008} Winkelmann, R. (2008). {\em Econometric analysis
-of count data} (5th Ed.). Springer Science \& Business Media.
-
-\bibitem{silva2012}
-\MakeUppercase{Silva, A. M.; Degrande, P. E.; Suekane, R.; Fernandes,
-  M. G.; Zeviani, W. M.}
-\newblock{Impacto de diferentes níveis de desfolha artificial nos
-  estádios fenológicos do algodoeiro}.
-\newblock \textbf{Revista de Ciências Agrárias}, v.35, n.1, 2012 (prelo).
-
-\bibitem{Winkelmann1994}
-\MakeUppercase{Winkelmann, R.; Zimmermann, K.}
-\newblock {Count data models for demographic data}.
-\newblock \textbf{Mathematical Population Studies}, v.4, n.3, p.205--221, 1994.
-
-\bibitem{Winkelmann1995}
-\MakeUppercase{Winkelmann, R.}
-\newblock{Duration dependence and dispersion in count-data models}.
-\newblock \textbf{Journal of Business \& Economic Statistics}, v.13, n.4,
-  p.467--474, 1995.
-
-\bibitem{ConsulJain1997}
-\MakeUppercase{Consul, P. C. and G. C. Jain}
-\newblock{A generalization of the Poisson distribution}.
-\textbf{Technometrics}, v.15, n.4, p.791--799, 1973.
-
-\bibitem{Consul1989}
-\MakeUppercase{Consul, P. C}
-\newblock{Generalized Poisson Distributions: Properties and
-Applications}. \textbf{Statistics: Textbooks and Monographs}, New
-York: Marcel Dekker Inc. 1989.
-
-\end{thebibliography}
+  \small
+  \vspace*{-0.5cm}
+  \nocite{Bonat2016b}
+  \nocite{Zeviani2014}
+  \bibliography{../config/rmcd}
 \end{frame}
 
 \end{document}
