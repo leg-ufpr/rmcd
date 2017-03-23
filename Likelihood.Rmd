@@ -7,16 +7,16 @@ properties along with some examples in `R`.
 The maximum likelihood method is applicable mainly in situations
 where the true distribution of the count random variable $Y$ is known
 apart of the values of a finite number of unknown parameters.
-Let $p(y;\boldsymbol{\theta})$ denote the true probability mass function
+Let $f(y;\boldsymbol{\theta})$ denote the true probability mass function
 of the count random variable $Y$. We assume that the family
-$p(y;\boldsymbol{\theta})$ is labelled by a ($p \times 1$) parameter
+$f(y;\boldsymbol{\theta})$ is labelled by a ($p \times 1$) parameter
 vector $\boldsymbol{\theta}$ taking values in $\Theta$ a subset of
 $\mathbb{R}^n$. For a given observed value $y$ of the a random variable $Y$,
 the likelihood function corresponding to the observation $y$ is defined
-as $L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})$.
-It is important to highlight that $p(y;\boldsymbol{\theta})$ is a
+as $L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta})$.
+It is important to highlight that $f(y;\boldsymbol{\theta})$ is a
 probability mass function on the sample space. On the other hand,
-$L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})$ is a function on
+$L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta})$ is a function on
 the parameter space $\Theta$.
 The likelihood function expresses the plausibilities of different
 parameters after we have observed $y$, in the absence of any other
@@ -41,13 +41,13 @@ we are thinking of $\hat{\boldsymbol{\theta}}$ as a function or as
 a particular value of a function.
 
 Let $Y_i$ be independent and identically distributed count random
-variables with probability mass function $p(y;\boldsymbol{\theta})$,
+variables with probability mass function $f(y;\boldsymbol{\theta})$,
 whose observed values are denoted by $y_i$ for $i = 1, \ldots, n.$
 In this case, the likelihood function can be written as the product
 of the individuals probability mass distributions, i.e.
 
 \begin{equation}
-L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n p(y_i; \boldsymbol{\theta}).
+L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}).
 (\#eq:LIK)
 \end{equation}
 
@@ -71,7 +71,7 @@ likelihood equations or also called score functions, i.e.
 (\#eq:SCORE)
 \end{equation}
 
-However, the system of non-linear equations in \@ref(eq:SCORE) often
+The system of non-linear equations in \@ref(eq:SCORE) often
 have to be solved numerically. The entry $(i,j)$ of the $p \times p$ Fisher
 information matrix $\mathcal{F}_{\boldsymbol{\theta}}$ for the vector
 of parameter $\boldsymbol{\theta}$ is given by
@@ -95,7 +95,7 @@ function. However, for the Gamma-Count where the log-likelihood function
 is given by the difference between two integrals, we cannot obtain such
 derivatives analytically. Similarly, for the COM-Poisson the log-likelihood
 function involves an infinite sum and consequently such derivatives cannot
-be obtained analitycally. Finally, in the Poisson-Tweedie distribution the
+be obtained analytically. Finally, in the Poisson-Tweedie distribution the
 log-likelihood function is defined by an intractable integral, which implies
 that we cannot obtain a closed-form for the score function and Fisher information matrix.
 
@@ -154,6 +154,4 @@ for objects of `mle2` class.
 summary(fit_gc)
 ```
 Similar functions can be done for the Poisson, Poisson-Tweedie and
-COM-Poisson distributions. In the supplementary material `Script5.R`,
-we provide some functions for maximum likelihood estimation of
-Poisson-Tweedie and COM-Poisson distributions.
+COM-Poisson distributions.

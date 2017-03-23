@@ -29,7 +29,7 @@ where $y_i$'s are iid realizations of $Y_i$ according to a Poisson
 distribution. The Poisson regression models is defined by
 $$Y_i \sim P(\mu_i), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).$$
 In this notation, $\boldsymbol{x_i}$ and $\boldsymbol{\beta}$ are
-($q \times 1$) vectors of known covariates and unknown regression
+($p \times 1$) vectors of known covariates and unknown regression
 parameters, respectively. Moreover, $g$ is a standard link function,
 for which we adopt the logarithm link function, but potentially
 any other suitable link function could be adopted.
@@ -76,7 +76,7 @@ with density distribution (dropping the index $k$) given by
 f(\tau; \alpha, \gamma) = \frac{\gamma^{\alpha}}{\Gamma(\alpha)} \tau^{\alpha-1} \exp\{-\gamma \tau\}, \quad \alpha, \gamma \in \mathbb{R}^{+}.
 \end{equation}
 
-In this parameterization $\mathrm{E}(\tau) = \alpha/\gamma$ and
+In this parametrization $\mathrm{E}(\tau) = \alpha/\gamma$ and
 $\mathrm{var}(\tau) = \alpha/\gamma^2$.
 Thus, by applying the convolution formula for gamma distributions, it
 is easy to show that the distribution of $\nu_y$ is given by
@@ -141,7 +141,7 @@ for $0 < \alpha < 1$ and underdispersion for $\alpha > 1$.
 Figure \@ref(fig:PlotGC) presents the probability mass function for
 some Gamma-Count distributions. We fixed the parameter $\gamma = 10$ and
 fit the parameter $\alpha$ in order to have dispersion index
-($\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)$) equaling to $0.5$, $2$,
+($\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)$) equalling to $0.5$, $2$,
 $5$ and $20$.
 
 ```{r PlotGC, echo = FALSE, fig.cap = 'Gamma-Count probability mass function by values of the dispersion index (DI).', fig.height = 2, fig.width= 8}
@@ -232,9 +232,8 @@ case corresponding to the negative binomial distribution, obtained when
 $p = 2$, i.e. a Poisson gamma mixture.
 In the case of $p=1$, the integral \@ref(eq:pmfPTW) is replaced by a
 sum and we have the Neyman Type A distribution.
-Further special cases include the Hermite $(p = 0)$,
- compound Poisson $(1 < p < 2)$, factorial discrete positive
-stable $(p > 2)$ and Poisson-inverse Gaussian $(p = 3)$ distributions
+Further special cases include the compound Poisson $(1 < p < 2)$, 
+factorial discrete positive stable $(p > 2)$ and Poisson-inverse Gaussian $(p = 3)$ distributions
 [@Jorgensen2014 ; @Kokonendji2004].
 
 In spite of other approaches to compute the probability mass function of
@@ -262,7 +261,7 @@ dptw <- function(y, mu, phi, power, control_sample) {
 dptw <- Vectorize(dptw, vectorize.args = "y")
 ```
 
-When using the Monte Carlo method we need to specify a proposal distribution,
+When using the Monte Carlo method, we need to specify a proposal distribution,
 from which samples will be taken to compute the integral as an expectation.
 In the Poisson-Tweedie case is sensible to use the Tweedie distribution as proposal.
 Thus, in our function we use the argument `control_sample` to provide these
@@ -318,7 +317,7 @@ distribution.
 
 Finally, the Poisson-Tweedie regression model is defined by
 $$Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),$$
-where $\boldsymbol{x}_i$ and $\boldsymbol{\beta}$ are $(q \times 1)$ vectors
+where $\boldsymbol{x}_i$ and $\boldsymbol{\beta}$ are $(p \times 1)$ vectors
 of known covariates and unknown regression parameters. The estimation and
 inference of Poisson-Tweedie regression models based on the maximum
 likelihood method are challenged by the presence of an intractable
@@ -339,13 +338,13 @@ f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!},
 $$
 where $W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_i / i!$
 is a normalizing constant [@Sellers2012]. The COM-Poisson is obtained
-when $w_{y} = (y!)^{1-\nu}$ for $\nu \geq 0$. The serie $W$ for
+when $w_{y} = (y!)^{1-\nu}$ for $\nu \geq 0$. The series $W$ for
 COM-Poisson distribution is denoted by $Z(\lambda, \nu)$ and can be
-written as $\sum_{i=0}^{\infty}\lambda^i/(i!)^\nu$. Note that the serie
+written as $\sum_{i=0}^{\infty}\lambda^i/(i!)^\nu$. Note that the series
 is theoretically divergent only when $\nu = 0$ and $\lambda \geq 1$, but
 numerically for small values of $\nu$ combined with large values of
-$\lambda$, the sum is so huge it causes overlow. The Table
-\@ref(tab:convergenceZ) shows the sums calculated with 1000 increments,
+$\lambda$, the sum is so huge it causes overflow. The Table
+\@ref(tab:convergenceZ) shows the sums calculated with $1000$ increments,
 in other words, $\sum_{i=0}^{1000}\lambda^i/(i!)^\nu$ for different
 values of $\nu$ (horizontal lines) and $\lambda$ (vertical lines).
 
@@ -411,7 +410,7 @@ level of precision. It can be evaluated in `R` using the function
 functions. We tried to find parameters $\lambda$ and $\nu$ in order to
 have $\mathrm{E}(Y) = 10$ and dispersion index equals to $\mathrm{DI} =
 0.5, 2, 5$ and $20$. However, we could not find any parameter
-combination to have $\mathrm{DI} = 20$, probably due to overflow of the
+combination to have $\mathrm{DI} = 20$. Probably, it was due to overflow of the
 sum since $\nu$ is inversely proportional to the dispersion index (see
 table \@ref(tab:convergenceZ)).
 
@@ -428,7 +427,7 @@ in a generalized linear models style. The COM-Poisson regression model is define
 $$Y_i \sim CP(\lambda_i, \nu), \quad  \text{with} \quad \lambda_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).$$
 In this notation, the parameter $\nu$ is considered the dispersion parameter
 such that $\nu > 1$ represents underdispersion and $\nu < 1$ overdispersion.
-The Poisson model is obtained for $\nu = 0$ and as usual we adopt the logarithm
+The Poisson model is obtained for $\nu = 1$ and as usual we adopt the logarithm
 link function for $g$.
 
 ## Comparing count distributions
@@ -451,7 +450,7 @@ and
 These indexes are defined in relation to the Poisson distribution.
 Thus, the dispersion index indicates underdispersion for $\mathrm{DI} < 1$,
 equidispersion for $\mathrm{DI} = 1$ and overdispersion for $\mathrm{DI} > 1$.
-Similarly, the zero-inflated index is easily interpreted, since $\mathrm{ZI} < 0$
+Similarly, the zero-inflation index is easily interpreted, since $\mathrm{ZI} < 0$
 indicates zero-deflation, $\mathrm{ZI} = 0$ corresponds to no excess of zeroes
 and $\mathrm{ZI} > 0$ indicates zero-inflation.
 Finally, $\mathrm{HT} \to 1$ when $y \to \infty$ indicates a heavy
@@ -464,15 +463,17 @@ Thus, it is quite clear that the Poisson model can deal only with
 equidispersed data and has no flexibility to deal with zero-inflation
 and/or heavy tail count data. In fact, the presented indexes were
 proposed in relation to the Poisson distribution in order to highlight
-its limitations. Figure \@ref(fig:indexes) presents the relationship between
+its limitations. 
+
+Figure \@ref(fig:indexes) presents the relationship between
 mean and variance, the dispersion and zero-inflation indexes as a function
 of the expected values $\mu$ for different scenarios and count distributions.
 Scenario $1$ corresponds to the case of underdispersion. Thus,
-we fixed the dispersion index at $DI = 0.5$ when the mean equaling $10$.
+we fixed the dispersion index at $\mathrm{DI} = 0.5$ when the mean equalling $10$.
 Since the Poisson-Tweedie cannot deal with underdispersion, in this
 scenario we present only the Gamma-Count and COM-Poisson distributions.
-Similarly, scenarios $2--4$ are obtained by fixing the dispesion index at
-$DI = 2, 5$ and $10$ when mean equaling $10$. In the scenario $4$ we could
+Similarly, scenarios $2--4$ are obtained by fixing the dispersion index at
+$\mathrm{DI} = 2, 5$ and $10$ when mean equalling $10$. In the scenario $4$ we could
 not find a parameter configuration in order to have a COM-Poisson distribution
 with dispersion index equals $20$. Consequently, we present results only
 for the Gamma-Count and Poisson-Tweedie distributions. Furthermore,
@@ -495,7 +496,7 @@ the indexes slightly depend on the expected values and tend to stabilize
 for large values of $\mu$. Consequently, the mean and variance
 relationship is proportional to the dispersion parameter value.
 In the overdispersion case, the Gamma-Count and COM-Poisson distributions
-can handle with a limited ammount of zero-inflation and are in general
+can handle with a limited amount of zero-inflation and are in general
 light tailed distributions, i.e. $\mathrm{HT} \to 0$ for $y \to \infty$.
 
 Regarding the Poisson-Tweedie distributions the indexes show that for
@@ -506,7 +507,7 @@ dependent on the values of the mean.
 Furthermore, the $\mathrm{HT}$ decreases as the mean increases.
 On the other hand, for large values of the power parameter the
 $\mathrm{HT}$ increases with increasing mean, showing that the model
-is specially suitable to deal with heavy tailed count data.
+is specially suitable to deal with heavy-tailed count data.
 In this case, the $\mathrm{DI}$ and $\mathrm{ZI}$ increase quickly as
 the mean increases giving an extremely overdispersed model for large
 values of the mean. In general, the $\mathrm{DI}$ and $\mathrm{ZI}$
@@ -534,7 +535,7 @@ inaccurately computed.  Similarly, the COM-Poisson probability mass
 function involves the evaluation of a infinity sum, which can be
 computational expensive and inaccurate for large values of
 $Y$. Furthermore, for extreme values of $\lambda$ combined with small
-values of $\nu$ the infinite sum can numerically diverge making
+values of $\nu$ the infinite sum can numerically diverges making
 impossible to evaluate the probability mass function.  Finally, the
 Poisson-Tweedie probability mass function involves an intractable
 integral, which makes the estimation and inference based on likelihood

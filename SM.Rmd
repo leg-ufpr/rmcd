@@ -13,7 +13,7 @@ assumptions.
 ## Extended Poisson-Tweedie model
 
 The Poisson-Tweedie distribution as presented in subsection
-the \@ref(ptw) provides a very flexible family of count distributions, however,
+\@ref(ptw) provides a very flexible family of count distributions, however,
 such a family has two main drawbacks: it cannot deal with underdispersed
 count data and its probability mass function is given by an intractable
 integral, which implies that estimation based on the maximum likelihood method
@@ -34,7 +34,7 @@ whose expectation and variance are given by
 \mathrm{var}(Y_i) = C_i = \mu_i + \phi \mu_i^p,
 (\#eq:EPTW)
 \end{align}
-where as before $\boldsymbol{x}_i$ and $\boldsymbol{\beta}$ are ($q \times 1$)
+where as before $\boldsymbol{x}_i$ and $\boldsymbol{\beta}$ are ($p \times 1$)
 vectors of known covariates and unknown regression parameters and $g$
 is the logarithm link function. The regression model specified in
 \@ref(eq:EPTW) is parametrized by
@@ -79,12 +79,12 @@ Following @Bonat2016b the quasi-score function for
 $\boldsymbol{\beta}$ has the following form,
 
 \begin{equation*}
-\psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_q}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
+\psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_p}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
 \end{equation*}
-where $\partial \mu_i/\partial \beta_j = \mu_i x_{ij}$ for $j = 1, \ldots, q$.
+where $\partial \mu_i/\partial \beta_j = \mu_i x_{ij}$ for $j = 1, \ldots, p$.
 The sensitivity matrix is defined as the expectation of the first derivative
 of the estimating function with respect to the model parameters.
-Thus, the entry $(j,k)$ of the $q \times q$ sensitivity matrix for
+Thus, the entry $(j,k)$ of the $p \times p$ sensitivity matrix for
 $\psi_{\boldsymbol{\beta}}$ is given by
 
 \begin{equation}
@@ -93,7 +93,7 @@ $\psi_{\boldsymbol{\beta}}$ is given by
 \end{equation}
 In a similar way, the variability matrix is defined as the variance
 of the estimating function. In particular, for the quasi-score function
-the entry $(j,k)$ of the $q \times q$ variability matrix is given by
+the entry $(j,k)$ of the $p \times p$ variability matrix is given by
 \begin{equation*}
 \label{Vbeta}
 \mathrm{V}_{\boldsymbol{\beta}_{jk}} = \mathrm{Cov}(\psi_{\boldsymbol{\beta}_j}(\boldsymbol{\beta}, \boldsymbol{\lambda}),\psi_{\boldsymbol{\beta}_k}(\boldsymbol{\beta}, \boldsymbol{\lambda})) = \sum_{i=1}^n \mu_i x_{ij} C^{-1}_i x_{ik} \mu_i.
@@ -147,7 +147,7 @@ The variability matrix for $\boldsymbol{\theta}$  has the form
 \end{pmatrix},
 (\#eq:VTHETA)
 \end{equation}
-where $\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} = \mathrm{V}^{\top}_{\boldsymbol{\beta}\boldsymbol{\lambda}}$ and $\mathrm{V}_{\boldsymbol{\lambda}}$ depend on the third and fourth moments of $Y_i$, respectively. In order to avoid this dependence on higher-order moments, we propose to use the empirical versions of $\mathrm{V}_{\boldsymbol{\lambda}}$ and $\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}}$ as given by
+where $\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} = \mathrm{V}^{\top}_{\boldsymbol{\beta}\boldsymbol{\lambda}}$ and $\mathrm{V}_{\boldsymbol{\lambda}}$ depend on the third and fourth moments of $Y_i$, respectively. In order to avoid this dependence on higher-order moments, we use the empirical versions of $\mathrm{V}_{\boldsymbol{\lambda}}$ and $\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}}$ as given by
 
 \begin{equation*}
 \tilde{\mathrm{V}}_{\boldsymbol{\lambda}_{jk}} = \sum_{i=1}^n \psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i\psi_{\boldsymbol{\lambda}_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \quad \text{and} \quad \tilde{\mathrm{V}}_{\boldsymbol{\lambda}_j \boldsymbol{\beta}_k} = \sum_{i=1}^n \psi_{\boldsymbol{\lambda}_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \psi_{\boldsymbol{\beta}_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i.
