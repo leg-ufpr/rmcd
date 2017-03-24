@@ -15,10 +15,10 @@ done under a completely randomized design with five replicates to assess
 the effects of five defoliation levels (0%, 25%, 50%,75% and 100%) on
 the observed number of bolls produced by plants at five growth stages:
 vegetative, flower-bud, blossom, fig and cotton boll. The experimental
-unity was a vase with two plants [@Silva2012a, for more]. The number of
+unity was a pot with two plants [@Silva2012a, for more]. The number of
 cotton bolls was recorded at the hasvest of the experiment.
 
-```{r}
+```{r, message = FALSE}
 library(lattice)
 library(latticeExtra)
 library(gridExtra)
@@ -162,7 +162,8 @@ interactions, neither second order effect of defiliation. Although, all
 these effects are noticeable in Figure \@ref(bools-mean-var).
 
 ```{r bolls-plot-residuals, echo = FALSE, fig.cap = cap, fig.height = 7}
-cap <- "The 4 plots for checking departures of assumptions in the GLM-Poisson regression."
+cap <-
+    "The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for the number of cotton bolls."
 par(mfrow = c(2, 2))
 plot(m0); layout(1)
 ```
@@ -288,7 +289,7 @@ ci <- m0$family$linkinv(ci)
 pred <- cbind(pred, as.data.frame(ci))
 str(pred)
 
-# xyplot(fitP + lwrP + uprP ~ des | )
+# TODO predito pelo 3 modelos.
 
 ```
 
@@ -296,7 +297,7 @@ TODO: pares de estimativa e erros padrões.
 
 
 
-
+<!------------------------------------------- -->
 ## Soybean pod and beans
 
 The tropical soils, usually poor in potassium (K), demand potassium
@@ -306,15 +307,27 @@ to water deficit. As postassium is a nutrient involved in the water
 balance in plant, by hyphotesis, a good supply of potassium avoids lose
 production.
 
-The aim of this study was to evaluate the effects of K doses and soil
-humidity levels on soybean production. The experiment was carried out in
-a greenhouse, in pots with two plants, containing 5 dm^3^ of soil. The
-experimental design was completely randomized block with treatments in a
-5 x 3 factorial arrangement. The K doses were 0, 30, 60, 120 and 180 mg
-dm^-3^ , and the soil humidity ranged from 35 to 40, 47.5 to 52.5, and
-60 to 65% of the total porosity.
+The aim of this experiment was to evaluate the effects of K doses and
+soil humidity levels on soybean production. The experiment was carried
+out in a greenhouse, in pots with two plants, containing 5 dm^3^ of
+soil. The experimental design was completely randomized block with
+treatments in a 5 x 3 factorial arrangement. The K doses were 0, 30, 60,
+120 and 180 mg dm^-3^ , and the soil humidity ranged from 35 to 40, 47.5
+to 52.5, and 60 to 65% of the total porosity
+[@Serafim2012, for more details].
+
+Two count variables were recorded in this experiment: the total number
+of pods per plot and the total number of grains per plot. The ratio,
+grains/pod, can also be analysed, since the fisiological response can
+change it.
+
+There is an outlier in the dataset at position 74 that must be
+removed. Potassion amount (K) will be converted to a categorical factor,
+despite it is a numerical one, to prevent concerns with lack of fit,
+that is not the main scope of the following analysis.
 
 ```{r}
+data(soja)
 str(soja)
 
 # Removing an outlier.
@@ -322,11 +335,29 @@ soja <- soja[-74, ]
 soja <- transform(soja, K = factor(K))
 ```
 
-### Number of pods ###
+### Number of pods
 
-```{r}
-#-----------------------------------------------------------------------
-# Carregando e explorando os dados.
+<!-- Add a pod picture here -->
+
+The pod is a dehiscent fruit of a leguminous plant such as the beans and
+soybeans. The pod is the basic unit of production in soybean, so factors
+that reduces or increases the number of pods have impact in crop
+production.
+
+The potassium amount (K) increased the number of pods and number of
+beans in all soil water content levels (A)
+(\@ref(fig:pods-beans-scatter)). For lowest soil water level, the mean
+was fairly low than the other levels that perform very similar. The
+pattern driven by the mean lines suggests interaction between applied
+potassium amount and soil water content for both variables.
+
+We could obtain the sample variance and sample mean for each cell
+combination for checking dispersion level but it would ignore the block
+effect, that can enlarges the variance.
+
+```{r pods-beans-scatter, fig.cap = cap, echo = -(1:2)}
+cap <-
+"Number of pods and beans as function of potassium amount (K) for each soil water content level (%). Lines passes on the average of points. The mean response pattern is the same on the two variables."
 
 xyplot(nvag + ngra ~ K,
        groups = umid,
@@ -342,17 +373,22 @@ xyplot(nvag + ngra ~ K,
        strip = strip.custom(
            factor.levels = c("Number of pods",
                              "Number of beans")))
+```
 
+The following analysis with be carried out in parallel, that is, results
+will be showed together in each step for the sake of comparison.
+
+We fit Poisson (P), Gamma-Count (GC) and Poisson-Tweedie (TW) regression
+models. The first two were fit by maximum likelihood and the last by
+moments specification.
+
+```{r}
 #--------------------------------------------
 # Poisson.
 
 m0 <- glm(nvag ~ bloc + umid * K,
           data = soja,
           family = poisson)
-
-# Checking residuals.
-par(mfrow = c(2, 2))
-plot(m0); layout(1)
 
 #--------------------------------------------
 # Gamma-Count.
@@ -372,13 +408,51 @@ m2 <- mcglm(linear_pred = c(nvag ~ bloc + umid * K),
                                      max_iter = 100,
                                      tunning = 0.5,
                                      correct = FALSE))
+```
 
+To fit Poisson and Gamma-Count, the correspond function were used in the
+default setting. To fit Poisson Tweedie, we `power_fixed = TRUE` option,
+since the number of pods is a close to equidispersed count variable. The
+Poisson-Tweedie loses identifiability in the equidispersion zone because
+the variance is $var(Y) = \mu + \phi\mu^p$, then $p$ can be any value if
+$\phi$ goes to zero. We fixed $p = 1$.
+
+```{r pods-plot-residuals, echo = FALSE, fig.cap = cap, fig.height = 7}
+cap <-
+    "The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods."
+par(mfrow = c(2, 2))
+plot(m0); layout(1)
+```
+
+Figure \@ref(fig:pods-plot-residuals) shows the 4 plots based on
+residuals. This residuals didn't show any departure pattern. On the
+contray, the axes of the qq-norm plot shows the same range, indicating a
+equidispersed count variable.
+
+The maximised log-likelihood were very close for Poisson and Gamma-Count
+models. The profile log-likelihood for Gamma-Count dispersion parameter
+contains 0 inside (Figure \@ref(fig:profile-alpha-pods)), so indicating
+a close to Poisson case. <!-- The profile has a very simetric shape -->
+
+```{r}
 #-----------------------------------------------------------------------
 # Comparing models.
 
 # Log-likelihood.
 c(P = logLik(m0), GC = logLik(m1), TW = NA)
 ```
+```{r profile-alpha-pods, fig.cap = cap}
+cap <-
+    "Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line."
+# Likelihhod profile for Gamma-Count dispersion parameter.
+plot(profile(m1, which = "alpha"))
+abline(v = 0, lty = 2)
+```
+
+The estimates and standard erros also were close on the (location)
+regression parameters for all models. They differ only in the dispersion
+parameter by construction.
+
 ```{r, results = "hide"}
 c0 <- summary(m0)$coefficients[, 1:2]
 c1 <- summary(m1)@coef[, 1:2]
@@ -387,16 +461,14 @@ c2 <- rbind(summary(m2)[[1]]$tau[, 1:2],
 ```
 ```{r}
 # Parameter estimates according to each model.
-c0 <- cbind("P" = rbind(0, c0),
+c4 <- cbind("P" = rbind(NA, c0),
             "GC" = c1,
             "TW" = c2)
-colnames(c0) <- substr(colnames(c0), 1, 6)
-round(c0, digits = 6)
+colnames(c4) <- substr(colnames(c4), 1, 6)
+round(c4, digits = 4)
+```
 
-# Likelihhod profile for Gamma-Count dispersion parameter.
-plot(profile(m1, which = "alpha"))
-abline(v = 0, lty = 2)
-
+```{r, include = FALSE}
 # V <- cov2cor(vcov(m1))
 # corrplot.mixed(V,
 #                lower = "number",
@@ -407,7 +479,15 @@ abline(v = 0, lty = 2)
 #                tl.cex = 0.8,
 #                col = brewer.pal(9, "Greys")
 #                [-(1:3)]) dev.off()
+```
 
+Until now, all models perform very close suggesting to keep the Poisson
+by parsimony. But for testing purposes, Gamma-Count and Poisson-Tweedie
+got a more significant p-value for the potassium amount $\times$ soil
+water content interaction. If a 5% significance is adoted, models lead
+to different practical conclusions.
+
+```{r}
 # Analysis of deviance table.
 anova(m0, test = "Chisq")
 
@@ -425,7 +505,13 @@ linearHypothesis(model = m0, # m0 is not being used here.
 anova(m2)
 ```
 
-```{r, echo = FALSE}
+Figure \@ref(fig:segplot-pods) shows the estimated cells means with 95%
+confidence intervals. All estimated means are equals along models in
+each cell.  Gamma-count and Poisson-Tweedie have more shorter confidence
+intervals than Poisson, because the extra flexibility enebled by fitting
+a dispersion parameter.
+
+```{r, include = FALSE}
 #-----------------------------------------------------------------------
 # Mean prediction.
 
@@ -469,7 +555,9 @@ key <- list(type = "o", divide = 1,
             text = list(c("Poisson",
                           "Gamma-Count",
                           "Poisson-Tweedie")))
-
+```
+```{r segplot-pods, echo = FALSE, fig.cap = cap}
+cap <- "Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals."
 xyplot(fit ~ K | umid,
        data = pred,
        layout = c(NA, 1),
@@ -488,38 +576,474 @@ xyplot(fit ~ K | umid,
        panel = panel.cbH)
 ```
 
-### Númber of grains ###
+We analysed the number of soybean pods. This variable showed
+equidispersion than Gamma-Count and Poisson-Tweedie perform very close
+to Poisson. For testing fixed effects, on the other hand, Poisson
+weren't able to detect the interaction effect under a 5% significance
+level. This points out that more flexible models are powerful in
+detecting effects.
 
-<!--
 
-NOTE: Essa contagem é alta e uma análise preliminar não retornou
-Hessiana para o modelo Gamma-Count ajustado com a mle2. A suspeita que é
-seja pela ordem de magnitude dos dados. Sendo assim, vamos considerar um
-offset artifical de 10 apenas para correr as análises.
+### Number of grains
 
-Warning message:
-In mle2(llgcnt, start = start, data = L, fixed = list(alpha = 0),  :
-  couldn't invert Hessian
+For the analysis of number of beans, the same steps will be carried out,
+just adaptating the code when needed. The first adaptation we need make
+is to overcome a numerical problem in the Gamma-Count implementation.
 
-Warning message:
-In mle2(llgcnt, start = start, data = L, vecpar = TRUE) :
-  couldn't invert Hessian
-
--->
+The Gamma-Count mass function, and also the likelihood, computes the
+difference of Gamma CDF. This difference can be numerically zero by lack
+of precision and this leads to a -Inf in the log-likelihood. To overcame
+this, we can use an artifitial offset that can prevent those zeros. The
+code below shows the effect of offset on the probabilities.
 
 ```{r}
-#-----------------------------------------------------------------------
-xyplot(ngra ~ K | umid, data = soja, layout = c(NA, 1),
-       type = c("p", "smooth"),
-       ylab = "Número de grãos por parcela",
-       xlab = expression("Dose de potássio aplicada"~(mg ~ dm^{3})),
-       strip = strip.custom(strip.names = TRUE, var.name = "Umidade"))
+dgcnt
 
+y <- 0:30
+lambda <- 30
+alpha <- 5
+off <- 1
+pgamma(q = off,
+       shape = y * alpha,
+       rate = alpha * lambda) -
+    pgamma(q = off,
+           shape = (y + 1) * alpha,
+           rate = alpha * lambda)
 
+off <- off * 0.5
+pgamma(q = off,
+       shape = y * alpha,
+       rate = alpha * lambda) -
+    pgamma(q = off,
+           shape = (y + 1) * alpha,
+           rate = alpha * lambda)
+```
+
+The practical implication of an artificial offset is changing the size of
+the unit were the counts were observed, so the estimates are multiples
+of the those with offset 1. To be consistent, we will the same
+artifitial offset, 10, in all models. This offset, artifitially, assumes
+that the count were observed as a sum of 10 pots.
+
+```{r}
 soja$off <- 10
 fivenum(with(soja, ngra/off))
 ```
+```{r}
+#--------------------------------------------
+# Poisson.
 
-### Number of grains per pod ###
+m0 <- glm(ngra ~ offset(log(off)) + bloc + umid * K,
+          data = soja,
+          family = poisson)
+
+#--------------------------------------------
+# Gamma-Count.
+
+m1 <- gcnt(formula(m0), data = soja)
+
+#--------------------------------------------
+# Tweedie.
+
+m2 <- mcglm(linear_pred = c(ngra ~ bloc + umid * K),
+            matrix_pred = list(mc_id(data = soja)),
+            link = "log",
+            offset = list(log(soja$off)),
+            variance = "poisson_tweedie",
+            power_fixed = FALSE,
+            data = soja,
+            control_algorithm = list(verbose = FALSE,
+                                     max_iter = 100,
+                                     tunning = 0.2,
+                                     correct = FALSE))
+```
+
+To fit Poisson Tweedie for number of beans, we set `power_fixed = FALSE`
+option, because the number of beans if a more dispersed variable than
+number of pods. We used 0.2 for tunning to get convergence.
+
+```{r beans-plot-residuals, echo = FALSE, fig.cap = cap, fig.height = 7}
+cap <-
+    "The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods."
+par(mfrow = c(2, 2))
+plot(m0); layout(1)
+```
+
+Figure \@ref(fig:beans-plot-residuals) shows the 4 plots based on
+residuals. This residuals didn't show any departure pattern regarding
+mispecification of the predictor (lack of fit, for example). The y axis
+of the qq-norm plot has range on -3 to 4, indicating an overdispersed
+count variable.
+
+The maximised log-likelihood were different between Poisson and
+Gamma-Count models. The profile log-likelihood for Gamma-Count
+dispersion parameter does not contain 0 inside (Figure
+\@ref(fig:profile-alpha-beans)), so indicating a overdispersed case. The
+profile show a simmetric shape with almost linear or "V" shape that
+indicates a quadratic profile likelihood function.
+
+```{r}
+#-----------------------------------------------------------------------
+# Comparing models.
+
+# Log-likelihood.
+c(P = logLik(m0), GC = logLik(m1), TW = NA)
+```
+```{r profile-alpha-beans, fig.cap = cap}
+cap <-
+    "Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line."
+# Likelihhod profile for Gamma-Count dispersion parameter.
+plot(profile(m1, which = "alpha"))
+```
+
+The estimates for location parameters were the same for all three
+models. The standard error for Poisson estimates were smaller than those
+for Gamma-Count and Poisson-Tweedie. The ratio of standard errors
+between Gamma-Count and Poisson were 1.3 (mean) and for Poisson-Tweedie
+1.26 (mean).
+
+```{r, results = "hide"}
+c0 <- summary(m0)$coefficients[, 1:2]
+c1 <- summary(m1)@coef[, 1:2]
+c2 <- rbind(summary(m2)[[1]]$tau[, 1:2],
+            summary(m2)[[1]]$Regression[, 1:2])
+```
+```{r}
+# Parameter estimates according to each model.
+c4 <- cbind("P" = rbind(NA, c0),
+            "GC" = c1,
+            "TW" = c2)
+colnames(c4) <- substr(colnames(c4), 1, 6)
+round(c4, digits = 4)
+
+# Ratios between stardard errors.
+cbind(GC = summary(c4[-1, 4]/c4[-1, 2]),
+      TW = summary(c4[-1, 6]/c4[-1, 2]))
+```
+
+```{r, include = FALSE}
+# V <- cov2cor(vcov(m1))
+# corrplot.mixed(V,
+#                lower = "number",
+#                upper = "ellipse",
+#                diag = "l",
+#                tl.pos = "lt",
+#                tl.col = "black",
+#                tl.cex = 0.8,
+#                col = brewer.pal(9, "Greys")
+#                [-(1:3)]) dev.off()
+```
+
+The Poisson model gave the higher statistic to the rejection of the null
+hypothesis than Gamma-Count and Poisson-Tweedie because it is assuming a
+dispersion of 1 that is not the case. Gamma-Count and Poisson-Tweedie
+perform very similar to test the interaction.
+
+```{r}
+# Analysis of deviance table.
+anova(m0, test = "Chisq")
+
+# Wald test for interaction.
+a <- c(0, attr(model.matrix(m0), "assign"))
+ai <- a == max(a)
+L <- t(replicate(sum(ai), rbind(coef(m1) * 0), simplify = "matrix"))
+L[, ai] <- diag(sum(ai))
+linearHypothesis(model = m0, # m0 is not being used here.
+                 hypothesis.matrix = L,
+                 vcov. = vcov(m1),
+                 coef. = coef(m1))
+
+# Wald test for fixed effects.
+anova(m2)
+```
+
+Figure \@ref(fig:segplot-beans) shows the estimated cells means with 95%
+confidence intervals. All estimated means are equals along models in
+each cell.  Gamma-count and Poisson-Tweedie have wider confidence
+intervals than Poisson, because the extra variability where incorporated
+on the model and have increased the estimates uncertainly.
+
+```{r, include = FALSE}
+#-----------------------------------------------------------------------
+# Mean prediction.
+
+# Because of the offset term, when can't use LSmatrix().
+pred <- unique(subset(soja, select = c("umid", "K")))
+X <- model.matrix(formula(m0)[-2],
+                  data = cbind(off = 1, bloc = soja$bloc[1], pred))
+i <- grep(x = colnames(X), pattern = "^bloc")
+X[, i] <- X[, i] * 0 + 1/(length(i) + 1)
+pred <- transform(pred,
+                  K = as.numeric(as.character(K)),
+                  umid = factor(umid))
+pred <- list(P = pred, GC = pred, TW = pred)
+
+# Poisson model prediction.
+aux <- confint(glht(m0, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$P <- cbind(pred$P, exp(aux))
+
+# Gamma-Count model prediction.
+aux <- predict(m1, newdata = X,
+               interval = "confidence",
+               type = "link")
+pred$GC <- cbind(pred$GC, exp(aux[, c(2, 1, 3)]))
+
+V <- vcov(m2)
+i <- grepl("^beta", rownames(V))
+eta <- X %*% coef(m2, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*%
+                           as.matrix(V[i, i]) %*%
+                           t(X))))
+q <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+me <- outer(std, q, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$TW <- cbind(pred$TW, exp(aux))
+
+pred <- ldply(pred, .id = "model")
+pred <- arrange(pred, umid, K, model)
+
+key <- list(type = "o", divide = 1,
+            lines = list(pch = 1:nlevels(pred$model),
+                         lty = 1, col = 1),
+            text = list(c("Poisson",
+                          "Gamma-Count",
+                          "Poisson-Tweedie")))
+```
+```{r segplot-beans, echo = FALSE, fig.cap = cap}
+cap <- "Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals."
+xyplot(fit ~ K | umid,
+       data = pred,
+       layout = c(NA, 1),
+       as.table = TRUE,
+       xlim = extendrange(range(pred$K), f = 0.1),
+       key = key,
+       pch = pred$model,
+       xlab = expression("Applied potassium amount" ~ (mg ~ dm^{-3})),
+       ylab = "Number of beans per plot",
+       ly = pred$lwr,
+       uy = pred$upr,
+       cty = "bars",
+       length = 0,
+       prepanel = prepanel.cbH,
+       desloc = 8 * scale(as.integer(pred$model), scale = FALSE),
+       panel = panel.cbH)
+```
+
+We analysed the number of soybean beans. This variable showed slight
+overdispersion. Gamma-count and Poisson-Tweedie performed very similiar.
+
+<!------------------------------------------- -->
+### Number of grains per pod
+
+Analyse the number of beans per plot is better than the total number of
+beans, because the leter can be a side effect of the number of pods. We
+will analyse the number of beans using the number of pods as an offset.
+
+```{r}
+#--------------------------------------------
+# Poisson.
+
+m0 <- glm(ngra ~ offset(log(nvag)) + bloc + umid * K,
+          data = soja,
+          family = poisson)
+
+#--------------------------------------------
+# Gamma-Count.
+
+m1 <- gcnt(formula(m0), data = soja)
+
+#--------------------------------------------
+# Tweedie.
+
+m2 <- mcglm(linear_pred = c(ngra ~ bloc + umid * K),
+            matrix_pred = list(mc_id(data = soja)),
+            link = "log",
+            offset = list(log(soja$nvag)),
+            variance = "poisson_tweedie",
+            power_fixed = TRUE,
+            data = soja,
+            control_algorithm = list(verbose = FALSE,
+                                     max_iter = 100,
+                                     tunning = 0.5,
+                                     correct = FALSE))
+```
+
+To accomplish the fitting, we set `power_fixed = TRUE` otherwise
+convergence wasn't met.
+
+```{r bp-plot-residuals, echo = FALSE, fig.cap = cap, fig.height = 7}
+cap <-
+    "The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods."
+par(mfrow = c(2, 2))
+plot(m0); layout(1)
+```
+
+Figure \@ref(fig:bp-plot-residuals) shows the 4 plots based on
+residuals. The y axis of the qq-norm plot has
+range on -1.5 to 1.5, indicating an underdispersed count variable.
+
+The maximised log-likelihood were different between Poisson and
+Gamma-Count models. The profile log-likelihood for Gamma-Count
+dispersion parameter does not contain 0 inside (Figure
+\@ref(fig:profile-alpha-bp)), so indicating an underdispersed
+count. The profile likelihood is "V" shape that represents a quadratic
+profile log-likelihood function. <!-- The profile has a very simetric shape -->
+
+```{r}
+#-----------------------------------------------------------------------
+# Comparing models.
+
+# Log-likelihood.
+c(P = logLik(m0), GC = logLik(m1), TW = NA)
+```
+```{r profile-alpha-bp, fig.cap = cap}
+cap <-
+    "Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line."
+# Likelihhod profile for Gamma-Count dispersion parameter.
+plot(profile(m1, which = "alpha"))
+```
+
+The point estimates for location parameters were, once more, the same
+for all three models. The standard error for Poisson estimates were
+greater than those for Gamma-Count and Poisson-Tweedie.
+
+```{r, results = "hide"}
+c0 <- summary(m0)$coefficients[, 1:2]
+c1 <- summary(m1)@coef[, 1:2]
+c2 <- rbind(summary(m2)[[1]]$tau[, 1:2],
+            summary(m2)[[1]]$Regression[, 1:2])
+```
+```{r}
+# Parameter estimates according to each model.
+c4 <- cbind("P" = rbind(NA, c0),
+            "GC" = c1,
+            "TW" = c2)
+colnames(c4) <- substr(colnames(c4), 1, 6)
+round(c4, digits = 4)
+
+# Ratios between stardard errors.
+cbind(GC = summary(c4[-1, 4]/c4[-1, 2]),
+      TW = summary(c4[-1, 6]/c4[-1, 2]))
+```
+
+
+```{r, include = FALSE}
+# V <- cov2cor(vcov(m1))
+# corrplot.mixed(V,
+#                lower = "number",
+#                upper = "ellipse",
+#                diag = "l",
+#                tl.pos = "lt",
+#                tl.col = "black",
+#                tl.cex = 0.8,
+#                col = brewer.pal(9, "Greys")
+#                [-(1:3)]) dev.off()
+```
+
+None of the experimental factors had effect on the number of beans per
+pod. Althought, Gamma-Count and Poisson-Tweedie showed more favorable
+statistics to the rejection of the null hypothesis than Poisson.
+
+```{r}
+# Analysis of deviance table.
+anova(m0, test = "Chisq")
+
+# Wald test for interaction.
+a <- c(0, attr(model.matrix(m0), "assign"))
+ai <- a == max(a)
+L <- t(replicate(sum(ai), rbind(coef(m1) * 0), simplify = "matrix"))
+L[, ai] <- diag(sum(ai))
+linearHypothesis(model = m0, # m0 is not being used here.
+                 hypothesis.matrix = L,
+                 vcov. = vcov(m1),
+                 coef. = coef(m1))
+
+# Wald test for fixed effects.
+anova(m2)
+```
+
+Figure \@ref(fig:segplot-bp) shows the estimated cells means with 95%
+confidence intervals. All estimated means are equals along models in
+each cell.  Gamma-count and Poisson-Tweedie have more shorter confidence
+intervals than Poisson.
+
+```{r, include = FALSE}
+#-----------------------------------------------------------------------
+# Mean prediction.
+
+# Because of the offset term, when can't use LSmatrix().
+pred <- unique(subset(soja, select = c("umid", "K")))
+X <- model.matrix(formula(m0)[-2],
+                  data = cbind(nvag = 1, bloc = soja$bloc[1], pred))
+i <- grep(x = colnames(X), pattern = "^bloc")
+X[, i] <- X[, i] * 0 + 1/(length(i) + 1)
+pred <- transform(pred,
+                  K = as.numeric(as.character(K)),
+                  umid = factor(umid))
+pred <- list(P = pred, GC = pred, TW = pred)
+
+# Poisson model prediction.
+aux <- confint(glht(m0, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$P <- cbind(pred$P, exp(aux))
+
+# Gamma-Count model prediction.
+aux <- predict(m1, newdata = X,
+               interval = "confidence",
+               type = "link")
+pred$GC <- cbind(pred$GC, exp(aux[, c(2, 1, 3)]))
+
+V <- vcov(m2)
+i <- grepl("^beta", rownames(V))
+eta <- X %*% coef(m2, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*%
+                           as.matrix(V[i, i]) %*%
+                           t(X))))
+q <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+me <- outer(std, q, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$TW <- cbind(pred$TW, exp(aux))
+
+pred <- ldply(pred, .id = "model")
+pred <- arrange(pred, umid, K, model)
+
+key <- list(type = "o", divide = 1,
+            lines = list(pch = 1:nlevels(pred$model),
+                         lty = 1, col = 1),
+            text = list(c("Poisson",
+                          "Gamma-Count",
+                          "Poisson-Tweedie")))
+```
+```{r segplot-bp, echo = FALSE, fig.cap = cap}
+cap <- "Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals."
+xyplot(fit ~ K | umid,
+       data = pred,
+       layout = c(NA, 1),
+       as.table = TRUE,
+       xlim = extendrange(range(pred$K), f = 0.1),
+       key = key,
+       pch = pred$model,
+       xlab = expression("Applied potassium amount" ~ (mg ~ dm^{-3})),
+       ylab = "Number of beans per pod",
+       ly = pred$lwr,
+       uy = pred$upr,
+       cty = "bars",
+       length = 0,
+       prepanel = prepanel.cbH,
+       desloc = 8 * scale(as.integer(pred$model), scale = FALSE),
+       panel = panel.cbH)
+```
+
+We analysed the number of beans por pod in a experiment with
+soybeans. This variable showed underdispersion so Gamma-Count and
+Poisson-Tweedie perform better than Poisson. <!-- TODO complementar -->
+
 
 ## Number of vehicle claims
+
+```{r eval-not}
+opts_chunk$set(eval = FALSE)
+```
