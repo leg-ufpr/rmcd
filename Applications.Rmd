@@ -523,3 +523,369 @@ fivenum(with(soja, ngra/off))
 ### Number of grains per pod ###
 
 ## Number of vehicle claims
+
+## Radiation-induced chromosome aberration counts ##
+
+```{r}
+
+## The density of PTW dsitributions (using numerical integration)
+library(statmod)
+library(tweedie)
+
+integrand <- function(x, y, mu, phi, power) {
+    int = dpois(y, lambda = x)*
+        dtweedie(x, mu = mu, phi = phi, power = power)
+    return(int)
+}
+# Numerical integration using Gauss-Laguerre method
+gauss_laguerre <- function(integrand, n_pts, y, mu, phi, power) {
+    pts <- gauss.quad(n_pts, kind="laguerre")
+    integral <- sum(pts$weights*integrand(pts$nodes, y = y, mu = mu,
+                                          phi = phi, power = power)/
+                        exp(-pts$nodes))
+    return(integral)
+}
+gauss_laguerre_vec <- Vectorize(FUN = gauss_laguerre,
+                                vectorize.args = "y")
+
+# Numerical integration using Monte Carlo method -----------------------
+monte_carlo <- function(integrand, n_pts, y, mu, phi, power) {
+    pts <- rtweedie(n_pts, mu = mu, phi = phi, power = power)
+    norma <- dtweedie(pts, mu = mu, phi = phi, power = power)
+    integral <- mean(integrand(pts, y = y, mu = mu, phi = phi,
+                               power = power)/norma)
+    return(integral)
+}
+
+# Probability mass function Poisson-Tweedie ----------------------------
+dptweedie_aux <- function(y, mu, phi, power, n_pts, method) {
+    if(method == "laguerre" | y > 0) {
+        pmf <- gauss_laguerre(integrand = integrand, n_pts = n_pts,
+                              y = y, mu = mu, phi = phi, power = power)
+    }
+    if(method == "laguerre" & y == 0) {
+        v.y <- round(10*sqrt(mu + phi*mu^power),0)
+        if(v.y > 1000) {v.y <- 1000}
+        #print(v.y)
+        y.grid <- 0:v.y
+        temp <- gauss_laguerre_vec(integrand = integrand, n_pts = n_pts,
+                                   y = y.grid, mu = mu, phi = phi,
+                                   power = power)
+        pmf <- 1-sum(temp)+temp[1]
+    }
+    if(method == "MC") {
+        pmf <- monte_carlo(integrand = integrand, n_pts = n_pts,
+                           y = y, mu = mu, phi = phi, power = power)
+    }
+    return(pmf)
+}
+# Vectorize version
+dptweedie <- Vectorize(FUN = dptweedie_aux, vectorize.args = c("y","mu"))
+
+```
+
+In biological dosimetry studies essentially the response variables are
+data counts. These experiments measure the number of chromosome
+aberrations in human lymphocytes after to controlled exposure of
+ionizing radiation. The aim of the studies are analyse the biological
+effects induced by ionizing radiation. The aberrations most commonly
+mensured are the dicentrics, centric rings, and micronucle .
+
+In this section the dataset considered was obtained after irradiating
+blood samples with five different doses between 0.1 and 1 Gy of 2.1 MeV
+neutrons. In this case, the frequencies of dicentrics and centric rings
+after a culture of 72 hours are analysed. The dataset was analysed by
+@Oliveira2006, as an example of zero-inflated data and @Bonat2016b,
+using extend Poisson-Tweedie approach.
+
+The data are available in `data/chromossome.rda` file. In `R` it can be
+loaded with
+
+```{r}
+
+##----------------------------------------------------------------------
+## Load
+load("./data/chromosome.rda")
+str(chromosome)
+
+```
+
+The Figure \@ref(fig:desc-chromo) shows the frequencies chromosome
+aberrations (left) and average of chromosome aberrations by radiation
+doses (right). Note that the highest frequencies are observed for zero
+counts and the averages are between 0 and 1, suggesting excess zero.
+
+```{r desc-chromo, fig.width=9, fig.height=4, fig.cap = cap, echo=FALSE}
+
+cap <- paste("Observed frequencies of the chromosome aberrations",
+             "counts by radiation doses (left) and means of chromosome",
+             "aberrations for each radiation doses (right).")
+
+##----------------------------------------------------------------------
+## Descriptive analysis
+
+## Frequencies
+xt <- xtabs(~ndic + dose, data = chromosome)
+xy1 <- barchart(xt,
+                axis = axis.grid,
+                stack = FALSE,
+                horizontal = FALSE,
+                xlab = "Number of chromosome aberrations",
+                ylab = "Frequency",
+                auto.key = list(
+                    title = "Radiation doses",
+                    cex.title = 1.1,
+                    column = 3
+                ))
+
+## Means
+mobs <- with(chromosome,
+             data.frame("means" = tapply(ndic, dose, mean),
+                        "doses" = unique(dose)))
+xy2 <- xyplot(means ~ doses,
+              data = mobs,
+              pch = 19,
+              type = c("p", "g", "o"),
+              xlab = "Radiation doses",
+              ylab = "Mean of chromosome aberrations")
+
+print(xy1, split = c(1, 1, 2, 1), more = TRUE)
+print(xy2, split = c(2, 1, 2, 1), more = FALSE)
+
+```
+
+```{r model-chromo}
+
+##----------------------------------------------------------------------
+## Modelling
+form <- ndic ~ dose + I(dose^2)
+
+m0PO <- glm(form, family = poisson, data = chromosome)
+m0GC <- gcnt(form, data = chromosome)
+m0CP <- cmp(form, data = chromosome, sumto = 100)
+m0PT <- mcglm(
+    linear_pred = c(form),
+    matrix_pred = list(mc_id(chromosome)),
+    link = "log",
+    variance = "poisson_tweedie",
+    power_fixed = FALSE,
+    data = chromosome,
+    control_algorithm = list(
+        verbose = FALSE, max_iter = 1000,
+        tunning = 0.5, tol = 1e-10)
+)
+
+```
+
+```{r gof-chromo}
+
+##----------------------------------------------------------------------
+## Goodness of fit
+
+## Compute logLik for Poisson-Tweedie
+##    ** especific for this example
+logLik.mcglm <- function(object) {
+    y <- c(0:5, 7)
+    data <- data.frame(dose = unique(chromosome$dose))
+    ## ---
+    form <- update(object$linear_pred[[1]], NULL ~ .)
+    X <- model.matrix(form, data)
+    mu <- exp(X %*% coef(object, type = "beta")$Estimates)
+    phi <- with(coef(object), Estimates[Type == "tau"])
+    power <- with(coef(object), Estimates[Type == "power"])
+    obs <- xtabs(~ndic + dose, data = chromosome)
+    matpred <- do.call("cbind", lapply(mu, function(mui) {
+        dptweedie(y = y, mu = mui, phi = phi, power = power,
+                  n_pts = 180, "laguerre")
+    }))
+    ll <- sum(log(matpred) * obs)
+    attr(ll, "df") <- nrow(coef(object))
+    attr(ll, "nobs") <- m0PT$n_obs
+    class(ll) <- "logLik"
+    return(ll)
+}
+
+## Compute table of gof
+models <- list("Poisson" = m0PO, "Gamma-Count" = m0GC,
+               "COM-Poisson" = m0CP, "POisson-Tweedie" = m0PT)
+(measures <- sapply(models, function(x)
+    c("LogLik" = logLik(x), "AIC" = AIC(x), "BIC" = BIC(x))))
+
+```
+
+```{r pred-chromo, echo=FALSE}
+
+##----------------------------------------------------------------------
+## Estimation
+
+##----------------------------------------------------------------------
+## Prediction
+aux <- with(chromosome, {
+    data.frame(dose = seq(min(dose), max(dose), length.out = 28))
+})
+X <- model.matrix(update(form, NULL ~ .), data = aux)
+pred <- list(PO = aux, GC = aux, CP = aux, PT = aux)
+
+## Poisson model
+aux <- confint(glht(m0PO, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$PO <- cbind(pred$PO, exp(aux)[, c("lwr", "fit", "upr")])
+
+## Gamma-Count model
+aux <- predict(m0GC, newdata = X, interval = "confidence",
+                  type = "response")
+pred$GC <- cbind(pred$GC, aux)
+
+## COM-Poisson model
+aux <- predict(m0CP, newdata = X, interval = "confidence",
+                  type = "response")
+pred$CP <- cbind(pred$CP, aux)
+
+## Poisson-Tweedie model
+qn <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+V <- vcov(m0PT)
+i <- grepl("beta", colnames(V))
+eta <- X %*% coef(m0PT, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*% as.matrix(V[i, i]) %*% t(X))))
+me <- outer(std, qn, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$PT <- cbind(pred$PT, exp(aux))
+
+## Organize predictions
+preds <- ldply(pred, .id = "model")
+
+```
+
+```{r mean-chromo, fig.cap=cap}
+
+cap <- paste("Dispersion diagram of observed chromossome aberrations and",
+             "curves of predict values an confidence intervals (95\\%)",
+             "based on Poisson, Gamma-Count, COM-Poisson and",
+             "Poisson-Tweedie regression models.")
+
+##-------------------------------------------
+## Visualize means
+
+## pred2 <- subset(preds, model %in% c("PO", "PT"))
+xyplot(fit ~ dose,
+       data = preds,
+       groups = model,
+       type = c("g", "l"),
+       ly = preds$lwr, uy = preds$upr,
+       layout = c(NA, 1),
+       as.table = TRUE,
+       alpha = 0.2,
+       xlab = "Radiation doses",
+       ylab = "Mean of chromosomic aberrations",
+       auto.key = list(
+           columns = 2,
+           lines = TRUE,
+           points = FALSE,
+           text = c("Poisson", "Gamma-Count",
+                    "COM-Poisson", "Poisson-Tweedie")
+       ),
+       cty = "bands", fill = "gray80",
+       panel = panel.superpose,
+       panel.groups = panel.cbH,
+       prepanel = prepanel.cbH) +
+    as.layer(
+        update(xy2, type = "p")
+    )
+
+```
+
+```{r probs-chromo}
+
+##-------------------------------------------
+## Calcule probabilities
+index <- preds$dose %in% unique(chromosome$dose)
+means <- preds[index, c("model", "dose", "fit")]
+probs <- list()
+y <- 0:5
+
+## Poisson model
+indPO <- grep("PO", means$model)
+probs$PO <- do.call(
+    "rbind",
+    lapply(indPO, function(i) {
+        with(means, {
+            py <- dpois(y, fit[i])
+            data.frame(dose = dose[i], y = y, prob = py)
+        })
+    })
+)
+
+## Gamma-Count model
+indGC <- grep("GC", means$model)
+alpha <- exp(coef(m0GC)["alpha"])
+probs$GC <- do.call(
+    "rbind",
+    lapply(indGC, function(i) {
+        with(means, {
+            aux <- predict(m0GC, newdata = t(cbind(X[i, ])),
+                           type = "link")
+            lambda <- alpha %*% exp(aux)
+            py <- dgcnt(y, lambda = lambda, alpha = alpha)
+            data.frame(dose = dose[i], y = y, prob = py)
+        })
+    })
+)
+
+## COM-Poisson model
+indCP <- grep("CP", means$model)
+nu <- exp(coef(m0CP)["phi"])
+sumto <- m0CP@data$sumto
+probs$CP <- do.call(
+    "rbind",
+    lapply(indCP, function(i) {
+        with(means, {
+            aux <- predict(m0CP, newdata = t(cbind(X[i, ])),
+                           type = "link")
+            lambda <- exp(aux)
+            py <- dcmp(y, lambda = lambda, nu = nu, sumto = sumto)
+            data.frame(dose = dose[i], y = y, prob = py)
+        })
+    })
+)
+
+## Poisson-Tweedie model
+indPT <- grep("PT", means$model)
+phi <- with(coef(m0PT), Estimates[Type == "tau"])
+power <- with(coef(m0PT), Estimates[Type == "power"])
+probs$PT <- do.call(
+    "rbind",
+    lapply(indPT, function(i) {
+        with(means, {
+            py <- dptweedie(y = y, mu = fit[i], phi = phi,
+                            power = power, n_pts = 180,
+                            method = "laguerre")
+            data.frame(dose = dose[i], y = y, prob = py)
+        })
+    })
+)
+
+## Visualize the probabilities
+daprobs <- ldply(probs, .id = "model")
+
+barchart(prob ~ y | factor(dose), groups = model,
+         data = daprobs,
+         horizontal = FALSE,
+         axis = axis.grid,
+         as.table = TRUE,
+         origin = 0,
+         xlab = "Number of chromosomic aberrations",
+         ylab = "Probability",
+         scales = list(x = list(labels = y)),
+         auto.key = list(
+             columns = 2,
+             text = c("Poisson", "Gamma-Count",
+                      "COM-Poisson", "Poisson-Tweedie")
+         ),
+         strip = strip.custom(
+             strip.name = TRUE,
+             var.name = "dose",
+             sep = " = "
+         ))
+
+```
