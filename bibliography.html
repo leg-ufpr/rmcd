@@ -33,7 +33,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="SM.html">
+<link rel="prev" href="applications.html">
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -48,6 +48,15 @@
 
 
 
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      "HTML-CSS": {
+          scale: 85,
+          /* preferredFont: "STIX" /* padrão do MathJax */
+          availableFonts: ["TeX"], /* */
+      }
+  });
+</script>
 
 
 <style type="text/css">
@@ -57,35 +66,30 @@ table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
+code > span.kw { color: #0000ff; } /* Keyword */
+code > span.ch { color: #008080; } /* Char */
+code > span.st { color: #008080; } /* String */
+code > span.co { color: #008000; } /* Comment */
+code > span.ot { color: #ff4000; } /* Other */
+code > span.al { color: #ff0000; } /* Alert */
 code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.wa { color: #008000; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #008080; } /* SpecialChar */
+code > span.vs { color: #008080; } /* VerbatimString */
+code > span.ss { color: #008080; } /* SpecialString */
 code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
+code > span.va { } /* Variable */
+code > span.cf { color: #0000ff; } /* ControlFlow */
+code > span.op { } /* Operator */
 code > span.bu { } /* BuiltIn */
 code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code > span.pp { color: #ff4000; } /* Preprocessor */
+code > span.do { color: #008000; } /* Documentation */
+code > span.an { color: #008000; } /* Annotation */
+code > span.cv { color: #008000; } /* CommentVar */
+code > span.at { } /* Attribute */
+code > span.in { color: #008000; } /* Information */
 </style>
 
 <link rel="stylesheet" href="config/rmcd.css" type="text/css" />
@@ -120,6 +124,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.1" data-path="SM.html"><a href="SM.html#extended-poisson-tweedie-model"><i class="fa fa-check"></i><b>4.1</b> Extended Poisson-Tweedie model</a></li>
 <li class="chapter" data-level="4.2" data-path="SM.html"><a href="SM.html#estimation-and-inference"><i class="fa fa-check"></i><b>4.2</b> Estimation and Inference</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#cotton-bolls"><i class="fa fa-check"></i><b>5.1</b> Cotton Bolls</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#soybean-pod-and-beans"><i class="fa fa-check"></i><b>5.2</b> Soybean pod and beans</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#number-of-pods"><i class="fa fa-check"></i><b>5.2.1</b> Number of pods</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#number-of-grains"><i class="fa fa-check"></i><b>5.2.2</b> Númber of grains</a></li>
+<li class="chapter" data-level="5.2.3" data-path="applications.html"><a href="applications.html#number-of-grains-per-pod"><i class="fa fa-check"></i><b>5.2.3</b> Number of grains per pod</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#number-of-vehicle-claims"><i class="fa fa-check"></i><b>5.3</b> Number of vehicle claims</a></li>
+<li class="chapter" data-level="5.4" data-path="applications.html"><a href="applications.html#radiation-induced-chromosome-aberration-counts"><i class="fa fa-check"></i><b>5.4</b> Radiation-induced chromosome aberration counts</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
 </hr>
@@ -152,7 +166,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Barabesi, L., C. Becatti, and M. Marcheselli. 2016. “The Tempered Discrete Linnik Distribution.” <em>ArXiv E-Prints</em>.</p>
 </div>
 <div>
-<p>Bolker, Ben, and R Development Core Team. 2014. <em>Bbmle: Tools for General Maximum Likelihood Estimation</em>. <a href="https://CRAN.R-project.org/package=bbmle" class="uri">https://CRAN.R-project.org/package=bbmle</a>.</p>
+<p>Bolker, Ben, and R Development Core Team. 2016. <em>Bbmle: Tools for General Maximum Likelihood Estimation</em>. <a href="https://CRAN.R-project.org/package=bbmle" class="uri">https://CRAN.R-project.org/package=bbmle</a>.</p>
 </div>
 <div>
 <p>Bonat, W. H. 2016. “Mcglm: Multivariate Covariance Generalized Linear Models.” <em>Gitlab Repository</em>. http://git.leg.ufpr.br/wbonat/mcglm; GitLab.</p>
@@ -206,6 +220,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>Sellers, Kimberly F., Sharad Borle, and Galit Shmueli. 2012. “The Com-Poisson Model for Count Data: A Survey of Methods and Applications.” <em>Applied Stochastic Models in Business and Industry</em> 28 (2): 104–16.</p>
 </div>
 <div>
+<p>Silva, A. M., P. E. Degrande, R. Suekane, M. G. Fernandes, and W. M. Zeviani. 2012. “Impacto de diferentes níveis de desfolha artificial nos estádios fenológicos do algodoeiro.” <em>Revista de Ciências Agrárias</em> 35 (1): 163–72. <a href="http://www.cabdirect.org/abstracts/20123299470.html;jsessionid=CF06663390A3A4463413D3018ECAACD6" class="uri">http://www.cabdirect.org/abstracts/20123299470.html;jsessionid=CF06663390A3A4463413D3018ECAACD6</a>.</p>
+</div>
+<div>
 <p>Silvey, S.D. 1975. <em>Statistical Inference</em>. Chapman and Hall/Crc Monographs on Statistics and Applied Probability. Taylor; Francis.</p>
 </div>
 <div>
@@ -220,6 +237,9 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div>
 <p>Zeviani, W. M., P. J. Ribeiro Jr, W. H. Bonat, S. E. Shimakura, and J. A. Muniz. 2014. “The Gamma-Count Distribution in the Analysis of Experimental Underdispersed Data.” <em>Journal of Applied Statistics</em> 41 (12): 2616–26.</p>
 </div>
+<div>
+<p>Zeviani, Walmes Marques, Eduardo Elias Ribeiro Junior, and Cesar Augusto Taconeli. 2016. <em>MRDCr: Modelos de Regressão Para Dados de Contagem</em>. <a href="https://gitlab.c3sl.ufpr.br/leg/MRDCr" class="uri">https://gitlab.c3sl.ufpr.br/leg/MRDCr</a>.</p>
+</div>
 </div>
 </div>
             </section>
@@ -227,7 +247,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
           </div>
         </div>
       </div>
-<a href="SM.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="applications.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>

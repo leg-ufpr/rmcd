@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Regression Models for Count Data: beyond the Poisson model</title>
+  <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
+  <meta name="generator" content="bookdown 0.3.14 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Regression Models for Count Data: beyond the Poisson model" />
+  
+  
+  
+
+<meta name="author" content="Wagner Hugo Bonat">
+<meta name="author" content="Walmes Marques Zeviani">
+<meta name="author" content="Eduardo Elias Ribeiro Jr">
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="SM.html">
+<link rel="next" href="bibliography.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      "HTML-CSS": {
+          scale: 85,
+          /* preferredFont: "STIX" /* padrão do MathJax */
+          availableFonts: ["TeX"], /* */
+      }
+  });
+</script>
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #0000ff; } /* Keyword */
+code > span.ch { color: #008080; } /* Char */
+code > span.st { color: #008080; } /* String */
+code > span.co { color: #008000; } /* Comment */
+code > span.ot { color: #ff4000; } /* Other */
+code > span.al { color: #ff0000; } /* Alert */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #008000; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #008080; } /* SpecialChar */
+code > span.vs { color: #008080; } /* VerbatimString */
+code > span.ss { color: #008080; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { } /* Variable */
+code > span.cf { color: #0000ff; } /* ControlFlow */
+code > span.op { } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #ff4000; } /* Preprocessor */
+code > span.do { color: #008000; } /* Documentation */
+code > span.an { color: #008000; } /* Annotation */
+code > span.cv { color: #008000; } /* CommentVar */
+code > span.at { } /* Attribute */
+code > span.in { color: #008000; } /* Information */
+</style>
+
+<link rel="stylesheet" href="config/rmcd.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<center><li><strong><a href="./">
+  Regression Models for Count Data
+</a></strong></li></center>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Preface</a></li>
+<li class="chapter" data-level="1" data-path="introduction.html"><a href="introduction.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="models.html"><a href="models.html"><i class="fa fa-check"></i><b>2</b> Count distributions: properties and regression models</a><ul>
+<li class="chapter" data-level="2.1" data-path="models.html"><a href="models.html#poisson-distribution"><i class="fa fa-check"></i><b>2.1</b> Poisson distribution</a></li>
+<li class="chapter" data-level="2.2" data-path="models.html"><a href="models.html#gammacount"><i class="fa fa-check"></i><b>2.2</b> Gamma-Count distribution</a></li>
+<li class="chapter" data-level="2.3" data-path="models.html"><a href="models.html#ptw"><i class="fa fa-check"></i><b>2.3</b> Poisson-Tweedie distribution</a></li>
+<li class="chapter" data-level="2.4" data-path="models.html"><a href="models.html#com-poisson-distribution"><i class="fa fa-check"></i><b>2.4</b> COM-Poisson distribution</a></li>
+<li class="chapter" data-level="2.5" data-path="models.html"><a href="models.html#comparing-count-distributions"><i class="fa fa-check"></i><b>2.5</b> Comparing count distributions</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="likelihood.html"><a href="likelihood.html"><i class="fa fa-check"></i><b>3</b> The method of maximum likelihood</a></li>
+<li class="chapter" data-level="4" data-path="SM.html"><a href="SM.html"><i class="fa fa-check"></i><b>4</b> Models specified by second-moment assumptions</a><ul>
+<li class="chapter" data-level="4.1" data-path="SM.html"><a href="SM.html#extended-poisson-tweedie-model"><i class="fa fa-check"></i><b>4.1</b> Extended Poisson-Tweedie model</a></li>
+<li class="chapter" data-level="4.2" data-path="SM.html"><a href="SM.html#estimation-and-inference"><i class="fa fa-check"></i><b>4.2</b> Estimation and Inference</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#cotton-bolls"><i class="fa fa-check"></i><b>5.1</b> Cotton Bolls</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#soybean-pod-and-beans"><i class="fa fa-check"></i><b>5.2</b> Soybean pod and beans</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#number-of-pods"><i class="fa fa-check"></i><b>5.2.1</b> Number of pods</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#number-of-grains"><i class="fa fa-check"></i><b>5.2.2</b> Númber of grains</a></li>
+<li class="chapter" data-level="5.2.3" data-path="applications.html"><a href="applications.html#number-of-grains-per-pod"><i class="fa fa-check"></i><b>5.2.3</b> Number of grains per pod</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#number-of-vehicle-claims"><i class="fa fa-check"></i><b>5.3</b> Number of vehicle claims</a></li>
+<li class="chapter" data-level="5.4" data-path="applications.html"><a href="applications.html#radiation-induced-chromosome-aberration-counts"><i class="fa fa-check"></i><b>5.4</b> Radiation-induced chromosome aberration counts</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
+<li class="divider"></li>
+</hr>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Regression Models for Count Data: beyond the Poisson model</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="applications" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Applications</h1>
+<p>In this chapter, we will bring some applications based on real data sets to show how use R packages to analyse count data.</p>
+<div id="cotton-bolls" class="section level2">
+<h2><span class="header-section-number">5.1</span> Cotton Bolls</h2>
+<p>Cotton production can be drastically reduced by attack of defoliating insects. Depending on the growth stage, the plant can recover from the caused damage and keeps production not affected or can have the production reduced by low intensity defoliation.</p>
+<p>A greenhouse experiment with cotton plants (<em>Gossypium hirsutum</em>) was done under a completely randomized design with five replicates to assess the effects of five defoliation levels (0%, 25%, 50%,75% and 100%) on the observed number of bolls produced by plants at five growth stages: vegetative, flower-bud, blossom, fig and cotton boll. The experimental unity was a vase with two plants <span class="citation">(Silva et al. 2012, for more)</span>. The number of cotton bolls was recorded at the hasvest of the experiment.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lattice)
+<span class="kw">library</span>(latticeExtra)
+<span class="kw">library</span>(gridExtra)
+<span class="kw">library</span>(plyr)
+<span class="kw">library</span>(car)
+<span class="kw">library</span>(corrplot)
+<span class="kw">library</span>(doBy)
+<span class="kw">library</span>(multcomp)
+<span class="kw">library</span>(mcglm)
+<span class="kw">library</span>(MRDCr)
+<span class="kw">ls</span>(<span class="st">&quot;package:MRDCr&quot;</span>)</code></pre></div>
+<pre><code>##  [1] &quot;apc&quot;                  &quot;calc_mean_cmp&quot;       
+##  [3] &quot;calc_mean_gcnt&quot;       &quot;calc_var_cmp&quot;        
+##  [5] &quot;cambras&quot;              &quot;capdesfo&quot;            
+##  [7] &quot;capmosca&quot;             &quot;cmp&quot;                 
+##  [9] &quot;conftemp&quot;             &quot;confterm&quot;            
+## [11] &quot;convergencez&quot;         &quot;dcmp&quot;                
+## [13] &quot;dgcnt&quot;                &quot;dpgnz&quot;               
+## [15] &quot;gcnt&quot;                 &quot;led&quot;                 
+## [17] &quot;llcmp&quot;                &quot;llgcnt&quot;              
+## [19] &quot;llpgnz&quot;               &quot;nematoide&quot;           
+## [21] &quot;ninfas&quot;               &quot;panel.beeswarm&quot;      
+## [23] &quot;panel.cbH&quot;            &quot;panel.groups.segplot&quot;
+## [25] &quot;peixe&quot;                &quot;pgnz&quot;                
+## [27] &quot;postura&quot;              &quot;prepanel.cbH&quot;        
+## [29] &quot;seguros&quot;              &quot;soja&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Documentation in Portuguese.</span>
+<span class="kw">help</span>(capdesfo, <span class="dt">help_type =</span> <span class="st">&quot;html&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(capdesfo)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    125 obs. of  4 variables:
+##  $ est : Factor w/ 5 levels &quot;vegetativo&quot;,&quot;botão floral&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ des : num  0 0 0 0 0 0.25 0.25 0.25 0.25 0.25 ...
+##  $ rept: int  1 2 3 4 5 1 2 3 4 5 ...
+##  $ ncap: int  10 9 8 8 10 11 9 10 10 10 ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(capdesfo$est) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;vegetative&quot;</span>,
+                          <span class="st">&quot;flower-bud&quot;</span>,
+                          <span class="st">&quot;blossom&quot;</span>,
+                          <span class="st">&quot;fig&quot;</span>,
+                          <span class="st">&quot;cotton boll&quot;</span>)
+<span class="kw">xtabs</span>(~est +<span class="st"> </span>des, <span class="dt">data =</span> capdesfo)</code></pre></div>
+<pre><code>##              des
+## est           0 0.25 0.5 0.75 1
+##   vegetative  5    5   5    5 5
+##   flower-bud  5    5   5    5 5
+##   blossom     5    5   5    5 5
+##   fig         5    5   5    5 5
+##   cotton boll 5    5   5    5 5</code></pre>
+<p>Figure <a href="applications.html#fig:bools-mean-var">5.1</a> (top) shows the beeswarm plot of number of cotton bolls recorded for each combination of defoliation level and growth stage. All the points in the sample means and variances dispersion diagram (bottom) are below the identity line, clearly suggesting data with underdispersion.</p>
+<div class="figure" style="text-align: center"><span id="fig:bools-mean-var"></span>
+<img src="rmcdbook_files/figure-html/bools-mean-var-1.png" alt="(top) Number of bolls produced for each artificial defoliation level and each growth stage. (bottom) Sample variance against the sample mean of the five replicates for each combination of defoliation level and growth stage." width="672" />
+<p class="caption">
+Figure 5.1: (top) Number of bolls produced for each artificial defoliation level and each growth stage. (bottom) Sample variance against the sample mean of the five replicates for each combination of defoliation level and growth stage.
+</p>
+</div>
+<p>The exploratory data analysis, although simple, was able to detect departures from the Poisson equidispersion assumption. So, we have in advance few conditions met for the use of GLM Poisson as a regression model to analyse this experiment.</p>
+<p>Poisson, as being a process derived from the memoryless waiting times Exponential distribuition, implies that each boll is an independent event in the artificial subjacent domain, that can be thought was the natural resource domain that the plant has to allocate bolls. Its is easy to assume, based on plant fisiology, that the probability of a boll decreases with the number of previous bolls because the plant’s resource to produce bolls is limited and it is a non memoryless process equivalent.</p>
+<!--
+
+We are going to convert artifitial defoliation (`desf`) to categorial,
+despite is a numeric factor, to avoid lack of fit concerns that are out
+of scope here.
+
+-->
+<!--
+
+To access the effects of the experimental factors, nested models in
+terms of linear predictors were fitted, as described by the following
+structures for the log-link function $g()$.
+
+  1. $g(\mu) = \beta_0$ (null model);
+  2. $g(\mu) = \beta_0 + \beta_1 \text{def}$ (1st order effect of
+     defoliation);
+  3. $g(\mu) = \beta_0 + \beta_1 \text{def} + \beta_2 \text{def}^2$
+     (2nd order effect of defoliation);
+  4. $g(\mu) = \beta_0 + \beta_{1j} \text{def} + \beta_2
+     \text{def}^2$ (1st order defoliation effect for each growth stage);
+  5. $g(\mu) = \beta_0 + \beta_{1j} \text{def}
+     + \beta_{2j} \text{def}^2$ (2nd order effect defoliation for each
+     growth stage).
+
+-->
+<p>Based on the exploratory data analysis, a predictor with 2nd order effect of defoliation for each growth stage should be enough to model the number of bolls mean in a regression model. The analysis and assessment of the effects of the experimental factors are based on the Poisson, Gamma-count and Poisson Tweedie models.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m0 &lt;-<span class="st"> </span><span class="kw">glm</span>(ncap ~<span class="st"> </span>est *<span class="st"> </span>(des +<span class="st"> </span><span class="kw">I</span>(des^<span class="dv">2</span>)),
+          <span class="dt">data =</span> capdesfo,
+          <span class="dt">family =</span> poisson)
+
+<span class="kw">summary</span>(m0)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = ncap ~ est * (des + I(des^2)), family = poisson, 
+##     data = capdesfo)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.0771  -0.3098  -0.0228   0.2704   1.1665  
+## 
+## Coefficients:
+##                         Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)               2.2142     0.1394   15.89   &lt;2e-16 ***
+## estflower-bud            -0.0800     0.2007   -0.40     0.69    
+## estblossom               -0.0272     0.2001   -0.14     0.89    
+## estfig                   -0.1486     0.2051   -0.72     0.47    
+## estcotton boll            0.1129     0.1922    0.59     0.56    
+## des                       0.3486     0.6805    0.51     0.61    
+## I(des^2)                 -0.7384     0.6733   -1.10     0.27    
+## estflower-bud:des         0.1364     0.9644    0.14     0.89    
+## estblossom:des           -1.5819     1.0213   -1.55     0.12    
+## estfig:des                0.4755     1.0194    0.47     0.64    
+## estcotton boll:des       -0.8210     0.9395   -0.87     0.38    
+## estflower-bud:I(des^2)    0.1044     0.9447    0.11     0.91    
+## estblossom:I(des^2)       1.4044     1.0191    1.38     0.17    
+## estfig:I(des^2)          -0.9294     1.0323   -0.90     0.37    
+## estcotton boll:I(des^2)   1.0757     0.9210    1.17     0.24    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 75.514  on 124  degrees of freedom
+## Residual deviance: 25.331  on 110  degrees of freedom
+## AIC: 539.7
+## 
+## Number of Fisher Scoring iterations: 4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">logLik</span>(m0)</code></pre></div>
+<pre><code>## &#39;log Lik.&#39; -255 (df=15)</code></pre>
+<p>We fit the GLM Poisson regression model using the stardard <code>glm()</code> function in R. The fitted model summary shows the estimated parameters for the second order effect of defoliation crossed with growth stages levels. The residual deviance was 25.33 based on 110 degrees of freedoom. The ratio <span class="math inline">\(25.33/110 = 0.23\)</span> is a strong evidence against Poisson equidispersion assumption that uses a dispersion parameter equals 1.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">anova</span>(m0, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: ncap
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##              Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)    
+## NULL                           124       75.5             
+## est           4    19.96       120       55.6  0.00051 ***
+## des           1    15.86       119       39.7  6.8e-05 ***
+## I(des^2)      1     1.29       118       38.4  0.25557    
+## est:des       4     6.71       114       31.7  0.15212    
+## est:I(des^2)  4     6.36       110       25.3  0.17388    
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<p>The analysis of deviance table did not stated effect of any interactions, neither second order effect of defiliation. Although, all these effects are noticeable in Figure <a href="#bools-mean-var"><strong>??</strong></a>.</p>
+<div class="figure" style="text-align: center"><span id="fig:bolls-plot-residuals"></span>
+<img src="rmcdbook_files/figure-html/bolls-plot-residuals-1.png" alt="The 4 plots for checking departures of assumptions in the GLM-Poisson regression." width="672" />
+<p class="caption">
+Figure 5.2: The 4 plots for checking departures of assumptions in the GLM-Poisson regression.
+</p>
+</div>
+<p>Figure <a href="#bolls-plot-residuals"><strong>??</strong></a> displays the four residual plots for the fitted model. Based on these plots, there is no concern about mispecifications regarding to the model predictor or influential observations. The only remarkable aspect is about the range of the stardartized deviance residuals quite distant from the expected -3 to 3 from the normal distribution. Once more, these is another measure indicating a underdispersed count data.</p>
+<p>The <code>gcnt()</code> is a function defined in the <code>MRDCr</code> package <span class="citation">(Walmes Marques Zeviani, Junior, and Taconeli 2016)</span> to fit the Gamma-Count regression model. This function fits a GML-Poisson to use the estimates as initial values to optimize Gamma-Count likelihood using <code>optim()</code> through <code>bblme</code> package <span class="citation">(Bolker and Team 2016)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1 &lt;-<span class="st"> </span><span class="kw">gcnt</span>(ncap ~<span class="st"> </span>est *<span class="st"> </span>(des +<span class="st"> </span><span class="kw">I</span>(des^<span class="dv">2</span>)),
+           <span class="dt">data =</span> capdesfo)
+<span class="kw">summary</span>(m1)</code></pre></div>
+<pre><code>## Maximum likelihood estimation
+## 
+## Call:
+## bbmle::mle2(minuslogl = llgcnt, start = start, data = list(y = y, 
+##     X = X, offset = off), vecpar = TRUE)
+## 
+## Coefficients:
+##                         Estimate Std. Error z value   Pr(z)    
+## alpha                     1.7110     0.1352   12.66 &lt; 2e-16 ***
+## (Intercept)               2.2580     0.0593   38.05 &lt; 2e-16 ***
+## estflower-bud            -0.0765     0.0854   -0.90 0.37025    
+## estblossom               -0.0253     0.0851   -0.30 0.76616    
+## estfig                   -0.1398     0.0872   -1.60 0.10885    
+## estcotton boll            0.1084     0.0818    1.33 0.18476    
+## des                       0.3294     0.2896    1.14 0.25543    
+## I(des^2)                 -0.6997     0.2866   -2.44 0.01464 *  
+## estflower-bud:des         0.1337     0.4105    0.33 0.74456    
+## estblossom:des           -1.5020     0.4345   -3.46 0.00055 ***
+## estfig:des                0.4218     0.4336    0.97 0.33062    
+## estcotton boll:des       -0.7820     0.3998   -1.96 0.05046 .  
+## estflower-bud:I(des^2)    0.0943     0.4021    0.23 0.81452    
+## estblossom:I(des^2)       1.3382     0.4335    3.09 0.00202 ** 
+## estfig:I(des^2)          -0.8333     0.4390   -1.90 0.05768 .  
+## estcotton boll:I(des^2)   1.0222     0.3920    2.61 0.00911 ** 
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## -2 log L: 408</code></pre>
+<p>During the optimization process for this dataset, <code>optim()</code> has found <code>NaN</code> when evaluating the likelihood. This occurs due little numerical precision to calculate the difference of Gamma CDFs on tails or for extreme values, resulting in numerical zeros and corresponding <code>-Inf</code> log-likelihood. This is a numerical problem that can narrow, or make things difficult, the use of Gamma-Count regression model.</p>
+<p>The dispersion parameter is the first position in the parameter vector. The optimization was carried out on the log scale to avoid problems regarding to bounded parameter spaces. As the dispersion parameter is in fact interpreted as a precision coefficient, the positive estimate indicates an underdispersed count. According to the <span class="math inline">\(z\)</span> statistic, <span class="math inline">\(\hat{alpha}\)</span> is significantly different from zero (Poisson case). Poisson is special case of Gamma-Count when <span class="math inline">\(\alpha = 0\)</span>, so we can perform a likelihood ratio test to the hypothesis <span class="math inline">\(H_0: \alpha = 0\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Likelihood ratio test.</span>
+chi &lt;-<span class="st"> </span><span class="dv">2</span> *<span class="st"> </span>(<span class="kw">logLik</span>(m1) -<span class="st"> </span><span class="kw">logLik</span>(m0))
+pval &lt;-<span class="st"> </span><span class="dv">2</span> *<span class="st"> </span><span class="kw">pchisq</span>(chi, <span class="dt">df =</span> <span class="dv">1</span>, <span class="dt">lower.tail =</span> <span class="ot">FALSE</span>)
+<span class="kw">cat</span>(<span class="st">&quot;Likelihood Ratio Test</span><span class="ch">\n</span><span class="st">&quot;</span>,
+    <span class="st">&quot;Chisq:</span><span class="ch">\t\t</span><span class="st"> &quot;</span>, chi, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,
+    <span class="st">&quot;Pr(&gt;Chisq):</span><span class="ch">\t</span><span class="st"> &quot;</span>, pval, <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>,
+    <span class="dt">sep =</span> <span class="st">&quot;&quot;</span>)</code></pre></div>
+<pre><code>## Likelihood Ratio Test
+## Chisq:        102
+## Pr(&gt;Chisq):   1.01e-23</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Log-likelihood profile for alpha.</span>
+<span class="kw">plot</span>(<span class="kw">profile</span>(m1, <span class="dt">which =</span> <span class="st">&quot;alpha&quot;</span>))</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">cbind</span>(<span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">coef</span>(m0)), <span class="kw">coef</span>(m1))</code></pre></div>
+<pre><code>##                            [,1]    [,2]
+##                          0.0000  1.7110
+## (Intercept)              2.2142  2.2580
+## estflower-bud           -0.0800 -0.0765
+## estblossom              -0.0272 -0.0253
+## estfig                  -0.1486 -0.1398
+## estcotton boll           0.1129  0.1084
+## des                      0.3486  0.3294
+## I(des^2)                -0.7384 -0.6997
+## estflower-bud:des        0.1364  0.1337
+## estblossom:des          -1.5819 -1.5020
+## estfig:des               0.4755  0.4218
+## estcotton boll:des      -0.8210 -0.7820
+## estflower-bud:I(des^2)   0.1044  0.0943
+## estblossom:I(des^2)      1.4044  1.3382
+## estfig:I(des^2)         -0.9294 -0.8333
+## estcotton boll:I(des^2)  1.0757  1.0222</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rstd &lt;-<span class="st"> </span><span class="kw">summary</span>(m1)@coef[-<span class="dv">1</span>, <span class="dv">2</span>]/<span class="kw">summary</span>(m0)$coeff[, <span class="dv">2</span>]
+plyr::<span class="kw">each</span>(mean, range)(rstd)</code></pre></div>
+<pre><code>##   mean range1 range2 
+##  0.426  0.425  0.426</code></pre>
+<p>The estimates for the location parameters were very close. The ratio between Gamma-Count parameters standard error and Poisson ones, on the other hand, were 0.426 for all estimates, for 3 decimals of precision. This leads to the conclusion that TODO relação linear no parâmetro de dispersão.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wald test for the interaction.</span>
+a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">attr</span>(<span class="kw">model.matrix</span>(m0), <span class="st">&quot;assign&quot;</span>))
+ai &lt;-<span class="st"> </span>a ==<span class="st"> </span><span class="kw">max</span>(a)
+L &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">replicate</span>(<span class="kw">sum</span>(ai), <span class="kw">rbind</span>(<span class="kw">coef</span>(m1) *<span class="st"> </span><span class="dv">0</span>), <span class="dt">simplify =</span> <span class="st">&quot;matrix&quot;</span>))
+L[, ai] &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">sum</span>(ai))
+
+<span class="kw">linearHypothesis</span>(<span class="dt">model =</span> m0, <span class="co"># m0 is not being used here.</span>
+                 <span class="dt">hypothesis.matrix =</span> L,
+                 <span class="dt">vcov. =</span> <span class="kw">vcov</span>(m1),
+                 <span class="dt">coef. =</span> <span class="kw">coef</span>(m1))</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## estflower - bud:I(des^2) = 0
+## estblossom:I(des^2) = 0
+## estfig:I(des^2) = 0
+## estcotton boll:I(des^2) = 0
+## 
+## Model 1: restricted model
+## Model 2: ncap ~ est * (des + I(des^2))
+## 
+## Note: Coefficient covariance matrix supplied.
+## 
+##   Res.Df Df Chisq Pr(&gt;Chisq)    
+## 1    114                        
+## 2    110  4  30.5    3.8e-06 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Fitting Poisson-Tweedie model.</span>
+m2 &lt;-<span class="st"> </span><span class="kw">mcglm</span>(<span class="dt">linear_pred =</span> <span class="kw">c</span>(ncap ~<span class="st"> </span>est *<span class="st"> </span>(des +<span class="st"> </span><span class="kw">I</span>(des^<span class="dv">2</span>))),
+            <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(<span class="dt">data =</span> capdesfo)),
+            <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
+            <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
+            <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
+            <span class="dt">data =</span> capdesfo,
+            <span class="dt">control_algorithm =</span> <span class="kw">list</span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+                                     <span class="dt">max_iter =</span> <span class="dv">100</span>,
+                                     <span class="dt">tunning =</span> <span class="fl">0.5</span>,
+                                     <span class="dt">correct =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Automatic initial values selected.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Parameter estimates.</span>
+<span class="kw">summary</span>(m2)</code></pre></div>
+<pre><code>## Call: ncap ~ est * (des + I(des^2))
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##                         Estimates Std.error Z value
+## (Intercept)                2.2143    0.0627  35.308
+## estflower-bud             -0.0800    0.0904  -0.886
+## estblossom                -0.0265    0.0900  -0.294
+## estfig                    -0.1485    0.0924  -1.607
+## estcotton boll             0.1128    0.0864   1.306
+## des                        0.3486    0.3065   1.137
+## I(des^2)                  -0.7385    0.3037  -2.432
+## estflower-bud:des          0.1361    0.4345   0.313
+## estblossom:des            -1.5875    0.4612  -3.442
+## estfig:des                 0.4693    0.4602   1.020
+## estcotton boll:des        -0.8204    0.4228  -1.940
+## estflower-bud:I(des^2)     0.1048    0.4259   0.246
+## estblossom:I(des^2)        1.4098    0.4609   3.059
+## estfig:I(des^2)           -0.9205    0.4671  -1.971
+## estcotton boll:I(des^2)    1.0752    0.4149   2.592
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1      1.01     0.136    7.43
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1    -0.781     0.217   -3.59
+## 
+## Algorithm: chaser
+## Correction: FALSE
+## Number iterations: 14</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(m2, <span class="dt">type =</span> <span class="st">&quot;algorithm&quot;</span>)</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wald test for fixed effects.</span>
+<span class="kw">anova</span>(m2)</code></pre></div>
+<pre><code>## Wald test for fixed effects
+## Call: ncap ~ est * (des + I(des^2))
+## 
+##                Covariate Chi.Square Df p.value
+## 1          estflower-bud       9.54  4  0.0489
+## 2                    des       1.29  1  0.2555
+## 3               I(des^2)       5.91  1  0.0150
+## 4      estflower-bud:des      25.00  4  0.0001
+## 5 estflower-bud:I(des^2)      30.72  4  0.0000</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># New data values for prediction.</span>
+pred &lt;-<span class="st"> </span><span class="kw">with</span>(capdesfo,
+             <span class="kw">expand.grid</span>(<span class="dt">est =</span> <span class="kw">levels</span>(est),
+                         <span class="dt">des =</span> <span class="kw">seq</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dt">length.out =</span> <span class="dv">30</span>)))
+
+<span class="co"># Corresponding model matrix.</span>
+X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="kw">formula</span>(m0)[-<span class="dv">2</span>], <span class="dt">data =</span> pred)
+
+<span class="co">#--------------------------------------------</span>
+<span class="co"># Poisson.</span>
+
+yp &lt;-<span class="st"> </span><span class="kw">predict</span>(m0, <span class="dt">newdata =</span> pred, <span class="dt">se.fit =</span> <span class="ot">TRUE</span>)
+em &lt;-<span class="st"> </span><span class="kw">outer</span>(yp$se.fit,
+            <span class="kw">c</span>(<span class="dt">lwrP =</span> -<span class="dv">1</span>, <span class="dt">fitP =</span> <span class="dv">0</span>, <span class="dt">uprP =</span> <span class="dv">1</span>) *<span class="st"> </span><span class="kw">qnorm</span>(<span class="fl">0.975</span>),
+            <span class="dt">FUN =</span> <span class="st">&quot;*&quot;</span>)
+ci &lt;-<span class="st"> </span><span class="kw">sweep</span>(em, <span class="dt">MARGIN =</span> <span class="dv">1</span>, <span class="dt">STATS =</span> yp$fit, <span class="dt">FUN =</span> <span class="st">&quot;+&quot;</span>)
+ci &lt;-<span class="st"> </span>m0$family$<span class="kw">linkinv</span>(ci)
+
+pred &lt;-<span class="st"> </span><span class="kw">cbind</span>(pred, <span class="kw">as.data.frame</span>(ci))
+<span class="kw">str</span>(pred)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    150 obs. of  5 variables:
+##  $ est : Factor w/ 5 levels &quot;vegetative&quot;,&quot;flower-bud&quot;,..: 1 2 3 4 5 1 2 3 4 5 ...
+##  $ des : num  0 0 0 0 0 ...
+##  $ lwrP: num  6.97 6.37 6.72 5.88 7.91 ...
+##  $ fitP: num  9.15 8.45 8.91 7.89 10.25 ...
+##  $ uprP: num  12 11.2 11.8 10.6 13.3 ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># xyplot(fitP + lwrP + uprP ~ des | )</span></code></pre></div>
+<p>TODO: pares de estimativa e erros padrões.</p>
+</div>
+<div id="soybean-pod-and-beans" class="section level2">
+<h2><span class="header-section-number">5.2</span> Soybean pod and beans</h2>
+<p>The tropical soils, usually poor in potassium (K), demand potassium fertilization when cultivated with soybean (<em>Glycine max</em> L.) to obtain satisfactory yields. Soybean production is affected by long exposition to water deficit. As postassium is a nutrient involved in the water balance in plant, by hyphotesis, a good supply of potassium avoids lose production.</p>
+<p>The aim of this study was to evaluate the effects of K doses and soil humidity levels on soybean production. The experiment was carried out in a greenhouse, in pots with two plants, containing 5 dm<sup>3</sup> of soil. The experimental design was completely randomized block with treatments in a 5 x 3 factorial arrangement. The K doses were 0, 30, 60, 120 and 180 mg dm<sup>-3</sup> , and the soil humidity ranged from 35 to 40, 47.5 to 52.5, and 60 to 65% of the total porosity.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(soja)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    75 obs. of  5 variables:
+##  $ K   : int  0 30 60 120 180 0 30 60 120 180 ...
+##  $ umid: Factor w/ 3 levels &quot;37,5&quot;,&quot;50&quot;,&quot;62,5&quot;: 1 1 1 1 1 2 2 2 2 2 ...
+##  $ bloc: Factor w/ 5 levels &quot;I&quot;,&quot;II&quot;,&quot;III&quot;,..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ ngra: int  136 159 156 171 190 140 193 200 208 237 ...
+##  $ nvag: int  56 62 66 68 82 63 86 94 86 97 ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Removing an outlier.</span>
+soja &lt;-<span class="st"> </span>soja[-<span class="dv">74</span>, ]
+soja &lt;-<span class="st"> </span><span class="kw">transform</span>(soja, <span class="dt">K =</span> <span class="kw">factor</span>(K))</code></pre></div>
+<div id="number-of-pods" class="section level3">
+<h3><span class="header-section-number">5.2.1</span> Number of pods</h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#-----------------------------------------------------------------------</span>
+<span class="co"># Carregando e explorando os dados.</span>
+
+<span class="kw">xyplot</span>(nvag +<span class="st"> </span>ngra ~<span class="st"> </span>K,
+       <span class="dt">groups =</span> umid,
+       <span class="dt">outer =</span> <span class="ot">TRUE</span>,
+       <span class="dt">data =</span> soja,
+       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;p&quot;</span>, <span class="st">&quot;a&quot;</span>),
+       <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>,
+       <span class="dt">ylab =</span> <span class="ot">NULL</span>,
+       <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="st">&quot;Applied potassium amount&quot;</span> ~<span class="st"> </span>(mg ~<span class="st"> </span>dm^{-<span class="dv">3</span>})),
+       <span class="dt">auto.key =</span> <span class="kw">list</span>(<span class="dt">title =</span> <span class="st">&quot;Soil water content (%)&quot;</span>,
+                       <span class="dt">cex.title =</span> <span class="dv">1</span>,
+                       <span class="dt">columns =</span> <span class="dv">3</span>),
+       <span class="dt">strip =</span> <span class="kw">strip.custom</span>(
+           <span class="dt">factor.levels =</span> <span class="kw">c</span>(<span class="st">&quot;Number of pods&quot;</span>,
+                             <span class="st">&quot;Number of beans&quot;</span>)))</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#--------------------------------------------</span>
+<span class="co"># Poisson.</span>
+
+m0 &lt;-<span class="st"> </span><span class="kw">glm</span>(nvag ~<span class="st"> </span>bloc +<span class="st"> </span>umid *<span class="st"> </span>K,
+          <span class="dt">data =</span> soja,
+          <span class="dt">family =</span> poisson)
+
+## # Checking residuals.
+## par(mfrow = c(2, 2))
+## plot(m0); layout(1)
+
+<span class="co">#--------------------------------------------</span>
+<span class="co"># Gamma-Count.</span>
+
+m1 &lt;-<span class="st"> </span><span class="kw">gcnt</span>(<span class="kw">formula</span>(m0), <span class="dt">data =</span> soja)
+
+<span class="co">#--------------------------------------------</span>
+<span class="co"># Tweedie.</span>
+
+m2 &lt;-<span class="st"> </span><span class="kw">mcglm</span>(<span class="dt">linear_pred =</span> <span class="kw">c</span>(nvag ~<span class="st"> </span>bloc +<span class="st"> </span>umid *<span class="st"> </span>K),
+            <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(<span class="dt">data =</span> soja)),
+            <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
+            <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
+            <span class="dt">power_fixed =</span> <span class="ot">TRUE</span>,
+            <span class="dt">data =</span> soja,
+            <span class="dt">control_algorithm =</span> <span class="kw">list</span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+                                     <span class="dt">max_iter =</span> <span class="dv">100</span>,
+                                     <span class="dt">tunning =</span> <span class="fl">0.5</span>,
+                                     <span class="dt">correct =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Automatic initial values selected.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#-----------------------------------------------------------------------</span>
+<span class="co"># Comparing models.</span>
+
+<span class="co"># Log-likelihood.</span>
+<span class="kw">c</span>(<span class="dt">P =</span> <span class="kw">logLik</span>(m0), <span class="dt">GC =</span> <span class="kw">logLik</span>(m1), <span class="dt">TW =</span> <span class="ot">NA</span>)</code></pre></div>
+<pre><code>##    P   GC   TW 
+## -260 -259   NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c0 &lt;-<span class="st"> </span><span class="kw">summary</span>(m0)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>]
+c1 &lt;-<span class="st"> </span><span class="kw">summary</span>(m1)@coef[, <span class="dv">1</span>:<span class="dv">2</span>]
+c2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$tau[, <span class="dv">1</span>:<span class="dv">2</span>],
+            <span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Parameter estimates according to each model.</span>
+c0 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;P&quot;</span> =<span class="st"> </span><span class="kw">rbind</span>(<span class="dv">0</span>, c0),
+            <span class="st">&quot;GC&quot;</span> =<span class="st"> </span>c1,
+            <span class="st">&quot;TW&quot;</span> =<span class="st"> </span>c2)
+<span class="kw">colnames</span>(c0) &lt;-<span class="st"> </span><span class="kw">substr</span>(<span class="kw">colnames</span>(c0), <span class="dv">1</span>, <span class="dv">6</span>)
+<span class="kw">round</span>(c0, <span class="dt">digits =</span> <span class="dv">6</span>)</code></pre></div>
+<pre><code>##                P.Esti P.Std.  GC.Est GC.Std  TW.Est TW.Std
+##                0.0000 0.0000  0.1288 0.1655 -0.1088 0.1458
+## (Intercept)    3.9537 0.0689  3.9549 0.0646  3.9537 0.0651
+## blocII        -0.0293 0.0409 -0.0293 0.0383 -0.0293 0.0386
+## blocIII       -0.0727 0.0414 -0.0726 0.0388 -0.0727 0.0390
+## blocIV        -0.1254 0.0419 -0.1253 0.0393 -0.1254 0.0396
+## blocV         -0.1079 0.0430 -0.1079 0.0403 -0.1079 0.0406
+## umid50         0.1340 0.0877  0.1339 0.0822  0.1340 0.0827
+## umid62,5       0.2166 0.0860  0.2163 0.0806  0.2166 0.0812
+## K30            0.2743 0.0849  0.2740 0.0796  0.2743 0.0802
+## K60            0.3080 0.0843  0.3076 0.0790  0.3080 0.0796
+## K120           0.3288 0.0840  0.3285 0.0787  0.3288 0.0793
+## K180           0.2554 0.0853  0.2551 0.0799  0.2554 0.0805
+## umid50:K30     0.0632 0.1156  0.0632 0.1083  0.0632 0.1091
+## umid62,5:K30  -0.1075 0.1154 -0.1073 0.1081 -0.1075 0.1089
+## umid50:K60     0.1656 0.1137  0.1655 0.1066  0.1656 0.1073
+## umid62,5:K60   0.1074 0.1122  0.1073 0.1052  0.1074 0.1059
+## umid50:K120    0.1492 0.1134  0.1491 0.1063  0.1492 0.1070
+## umid62,5:K120  0.1184 0.1140  0.1184 0.1069  0.1184 0.1077
+## umid50:K180    0.3037 0.1136  0.3035 0.1065  0.3037 0.1072
+## umid62,5:K180  0.1984 0.1126  0.1983 0.1055  0.1984 0.1063</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Likelihhod profile for Gamma-Count dispersion parameter.</span>
+<span class="kw">plot</span>(<span class="kw">profile</span>(m1, <span class="dt">which =</span> <span class="st">&quot;alpha&quot;</span>))
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># V &lt;- cov2cor(vcov(m1))</span>
+<span class="co"># corrplot.mixed(V,</span>
+<span class="co">#                lower = &quot;number&quot;,</span>
+<span class="co">#                upper = &quot;ellipse&quot;,</span>
+<span class="co">#                diag = &quot;l&quot;,</span>
+<span class="co">#                tl.pos = &quot;lt&quot;,</span>
+<span class="co">#                tl.col = &quot;black&quot;,</span>
+<span class="co">#                tl.cex = 0.8,</span>
+<span class="co">#                col = brewer.pal(9, &quot;Greys&quot;)</span>
+<span class="co">#                [-(1:3)]) dev.off()</span>
+
+<span class="co"># Analysis of deviance table.</span>
+<span class="kw">anova</span>(m0, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: nvag
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##        Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)    
+## NULL                      73        323             
+## bloc    4     14.3        69        308   0.0064 ** 
+## umid    2     92.9        67        215   &lt;2e-16 ***
+## K       4    136.1        63         79   &lt;2e-16 ***
+## umid:K  8     14.2        55         65   0.0779 .  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wald test for interaction.</span>
+a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">attr</span>(<span class="kw">model.matrix</span>(m0), <span class="st">&quot;assign&quot;</span>))
+ai &lt;-<span class="st"> </span>a ==<span class="st"> </span><span class="kw">max</span>(a)
+L &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">replicate</span>(<span class="kw">sum</span>(ai), <span class="kw">rbind</span>(<span class="kw">coef</span>(m1) *<span class="st"> </span><span class="dv">0</span>), <span class="dt">simplify =</span> <span class="st">&quot;matrix&quot;</span>))
+L[, ai] &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">sum</span>(ai))
+<span class="kw">linearHypothesis</span>(<span class="dt">model =</span> m0, <span class="co"># m0 is not being used here.</span>
+                 <span class="dt">hypothesis.matrix =</span> L,
+                 <span class="dt">vcov. =</span> <span class="kw">vcov</span>(m1),
+                 <span class="dt">coef. =</span> <span class="kw">coef</span>(m1))</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## umid50:K30 = 0
+## umid62,5:K30 = 0
+## umid50:K60 = 0
+## umid62,5:K60 = 0
+## umid50:K120 = 0
+## umid62,5:K120 = 0
+## umid50:K180 = 0
+## umid62,5:K180 = 0
+## 
+## Model 1: restricted model
+## Model 2: nvag ~ bloc + umid * K
+## 
+## Note: Coefficient covariance matrix supplied.
+## 
+##   Res.Df Df Chisq Pr(&gt;Chisq)  
+## 1     63                      
+## 2     55  8    16      0.043 *
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wald test for fixed effects.</span>
+<span class="kw">anova</span>(m2)</code></pre></div>
+<pre><code>## Wald test for fixed effects
+## Call: nvag ~ bloc + umid * K
+## 
+##    Covariate Chi.Square Df p.value
+## 1     blocII      13.92  4  0.0076
+## 2     umid50       7.15  2  0.0280
+## 3        K30      20.93  4  0.0003
+## 4 umid50:K30      15.76  8  0.0459</code></pre>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>
+<div id="number-of-grains" class="section level3">
+<h3><span class="header-section-number">5.2.2</span> Númber of grains</h3>
+<!--
+
+NOTE: Essa contagem é alta e uma análise preliminar não retornou
+Hessiana para o modelo Gamma-Count ajustado com a mle2. A suspeita que é
+seja pela ordem de magnitude dos dados. Sendo assim, vamos considerar um
+offset artifical de 10 apenas para correr as análises.
+
+Warning message:
+In mle2(llgcnt, start = start, data = L, fixed = list(alpha = 0),  :
+  couldn't invert Hessian
+
+Warning message:
+In mle2(llgcnt, start = start, data = L, vecpar = TRUE) :
+  couldn't invert Hessian
+
+-->
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#-----------------------------------------------------------------------</span>
+<span class="kw">xyplot</span>(ngra ~<span class="st"> </span>K |<span class="st"> </span>umid, <span class="dt">data =</span> soja, <span class="dt">layout =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">1</span>),
+       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;p&quot;</span>, <span class="st">&quot;smooth&quot;</span>),
+       <span class="dt">ylab =</span> <span class="st">&quot;Número de grãos por parcela&quot;</span>,
+       <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="st">&quot;Dose de potássio aplicada&quot;</span>~(mg ~<span class="st"> </span>dm^{<span class="dv">3</span>})),
+       <span class="dt">strip =</span> <span class="kw">strip.custom</span>(<span class="dt">strip.names =</span> <span class="ot">TRUE</span>, <span class="dt">var.name =</span> <span class="st">&quot;Umidade&quot;</span>))</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">soja$off &lt;-<span class="st"> </span><span class="dv">10</span>
+<span class="kw">fivenum</span>(<span class="kw">with</span>(soja, ngra/off))</code></pre></div>
+<pre><code>## [1]  9.2 14.7 17.1 21.6 27.1</code></pre>
+</div>
+<div id="number-of-grains-per-pod" class="section level3">
+<h3><span class="header-section-number">5.2.3</span> Number of grains per pod</h3>
+</div>
+</div>
+<div id="number-of-vehicle-claims" class="section level2">
+<h2><span class="header-section-number">5.3</span> Number of vehicle claims</h2>
+</div>
+<div id="radiation-induced-chromosome-aberration-counts" class="section level2">
+<h2><span class="header-section-number">5.4</span> Radiation-induced chromosome aberration counts</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## The density of PTW dsitributions (using numerical integration)
+<span class="kw">library</span>(statmod)
+<span class="kw">library</span>(tweedie)
+
+integrand &lt;-<span class="st"> </span>function(x, y, mu, phi, power) {
+    int =<span class="st"> </span><span class="kw">dpois</span>(y, <span class="dt">lambda =</span> x)*
+<span class="st">        </span><span class="kw">dtweedie</span>(x, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
+    <span class="kw">return</span>(int)
+}
+<span class="co"># Numerical integration using Gauss-Laguerre method</span>
+gauss_laguerre &lt;-<span class="st"> </span>function(integrand, n_pts, y, mu, phi, power) {
+    pts &lt;-<span class="st"> </span><span class="kw">gauss.quad</span>(n_pts, <span class="dt">kind=</span><span class="st">&quot;laguerre&quot;</span>)
+    integral &lt;-<span class="st"> </span><span class="kw">sum</span>(pts$weights*<span class="kw">integrand</span>(pts$nodes, <span class="dt">y =</span> y, <span class="dt">mu =</span> mu,
+                                          <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)/
+<span class="st">                        </span><span class="kw">exp</span>(-pts$nodes))
+    <span class="kw">return</span>(integral)
+}
+gauss_laguerre_vec &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(<span class="dt">FUN =</span> gauss_laguerre,
+                                <span class="dt">vectorize.args =</span> <span class="st">&quot;y&quot;</span>)
+
+<span class="co"># Numerical integration using Monte Carlo method -----------------------</span>
+monte_carlo &lt;-<span class="st"> </span>function(integrand, n_pts, y, mu, phi, power) {
+    pts &lt;-<span class="st"> </span><span class="kw">rtweedie</span>(n_pts, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
+    norma &lt;-<span class="st"> </span><span class="kw">dtweedie</span>(pts, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
+    integral &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">integrand</span>(pts, <span class="dt">y =</span> y, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi,
+                               <span class="dt">power =</span> power)/norma)
+    <span class="kw">return</span>(integral)
+}
+
+<span class="co"># Probability mass function Poisson-Tweedie ----------------------------</span>
+dptweedie_aux &lt;-<span class="st"> </span>function(y, mu, phi, power, n_pts, method) {
+    if(method ==<span class="st"> &quot;laguerre&quot;</span> |<span class="st"> </span>y &gt;<span class="st"> </span><span class="dv">0</span>) {
+        pmf &lt;-<span class="st"> </span><span class="kw">gauss_laguerre</span>(<span class="dt">integrand =</span> integrand, <span class="dt">n_pts =</span> n_pts,
+                              <span class="dt">y =</span> y, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
+    }
+    if(method ==<span class="st"> &quot;laguerre&quot;</span> &amp;<span class="st"> </span>y ==<span class="st"> </span><span class="dv">0</span>) {
+        v.y &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="dv">10</span>*<span class="kw">sqrt</span>(mu +<span class="st"> </span>phi*mu^power),<span class="dv">0</span>)
+        if(v.y &gt;<span class="st"> </span><span class="dv">1000</span>) {v.y &lt;-<span class="st"> </span><span class="dv">1000</span>}
+        <span class="co">#print(v.y)</span>
+        y.grid &lt;-<span class="st"> </span><span class="dv">0</span>:v.y
+        temp &lt;-<span class="st"> </span><span class="kw">gauss_laguerre_vec</span>(<span class="dt">integrand =</span> integrand, <span class="dt">n_pts =</span> n_pts,
+                                   <span class="dt">y =</span> y.grid, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi,
+                                   <span class="dt">power =</span> power)
+        pmf &lt;-<span class="st"> </span><span class="dv">1</span>-<span class="kw">sum</span>(temp)+temp[<span class="dv">1</span>]
+    }
+    if(method ==<span class="st"> &quot;MC&quot;</span>) {
+        pmf &lt;-<span class="st"> </span><span class="kw">monte_carlo</span>(<span class="dt">integrand =</span> integrand, <span class="dt">n_pts =</span> n_pts,
+                           <span class="dt">y =</span> y, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
+    }
+    <span class="kw">return</span>(pmf)
+}
+<span class="co"># Vectorize version</span>
+dptweedie &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(<span class="dt">FUN =</span> dptweedie_aux, <span class="dt">vectorize.args =</span> <span class="kw">c</span>(<span class="st">&quot;y&quot;</span>,<span class="st">&quot;mu&quot;</span>))</code></pre></div>
+<p>In biological dosimetry studies essentially the response variables are data counts. These experiments measure the number of chromosome aberrations in human lymphocytes after to controlled exposure of ionizing radiation. The aim of the studies are analyse the biological effects induced by ionizing radiation. The aberrations most commonly mensured are the dicentrics, centric rings, and micronucle .</p>
+<p>In this section the dataset considered was obtained after irradiating blood samples with five different doses between 0.1 and 1 Gy of 2.1 MeV neutrons. In this case, the frequencies of dicentrics and centric rings after a culture of 72 hours are analysed. The dataset was analysed by <span class="citation">(<span class="citeproc-not-found" data-reference-id="Oliveira2006"><strong>???</strong></span>)</span>, as an example of zero-inflated data and <span class="citation">Bonat et al. (2016)</span>, using extend Poisson-Tweedie approach.</p>
+<p>The data are available in <code>data/chromossome.rda</code> file. In <code>R</code> it can be loaded with</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
+## Load
+<span class="kw">load</span>(<span class="st">&quot;./data/chromosome.rda&quot;</span>)
+<span class="kw">str</span>(chromosome)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    5232 obs. of  2 variables:
+##  $ ndic: num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ dose: num  0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 ...</code></pre>
+<p>The Figure <a href="applications.html#fig:desc-chromo">5.3</a> shows the frequencies chromosome aberrations (left) and average of chromosome aberrations by radiation doses (right). Note that the highest frequencies are observed for zero counts and the averages are between 0 and 1, suggesting excess zero.</p>
+<div class="figure" style="text-align: center"><span id="fig:desc-chromo"></span>
+<img src="rmcdbook_files/figure-html/desc-chromo-1.png" alt="Observed frequencies of the chromosome aberrations counts by radiation doses (left) and means of chromosome aberrations for each radiation doses (right)." width="864" />
+<p class="caption">
+Figure 5.3: Observed frequencies of the chromosome aberrations counts by radiation doses (left) and means of chromosome aberrations for each radiation doses (right).
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
+## Modelling
+form &lt;-<span class="st"> </span>ndic ~<span class="st"> </span>dose +<span class="st"> </span><span class="kw">I</span>(dose^<span class="dv">2</span>)
+
+m0PO &lt;-<span class="st"> </span><span class="kw">glm</span>(form, <span class="dt">family =</span> poisson, <span class="dt">data =</span> chromosome)
+m0GC &lt;-<span class="st"> </span><span class="kw">gcnt</span>(form, <span class="dt">data =</span> chromosome)
+m0CP &lt;-<span class="st"> </span><span class="kw">cmp</span>(form, <span class="dt">data =</span> chromosome, <span class="dt">sumto =</span> <span class="dv">100</span>)
+m0PT &lt;-<span class="st"> </span><span class="kw">mcglm</span>(
+    <span class="dt">linear_pred =</span> <span class="kw">c</span>(form),
+    <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(chromosome)),
+    <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
+    <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
+    <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
+    <span class="dt">data =</span> chromosome,
+    <span class="dt">control_algorithm =</span> <span class="kw">list</span>(
+        <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">max_iter =</span> <span class="dv">1000</span>,
+        <span class="dt">tunning =</span> <span class="fl">0.5</span>, <span class="dt">tol =</span> <span class="fl">1e-10</span>)
+)</code></pre></div>
+<pre><code>## Automatic initial values selected.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
+## Goodness of fit
+
+## Compute logLik for Poisson-Tweedie
+##    ** especific for this example
+logLik.mcglm &lt;-<span class="st"> </span>function(object) {
+    y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>:<span class="dv">5</span>, <span class="dv">7</span>)
+    data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">dose =</span> <span class="kw">unique</span>(chromosome$dose))
+    ## ---
+    form &lt;-<span class="st"> </span><span class="kw">update</span>(object$linear_pred[[<span class="dv">1</span>]], <span class="ot">NULL</span> ~<span class="st"> </span>.)
+    X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(form, data)
+    mu &lt;-<span class="st"> </span><span class="kw">exp</span>(X %*%<span class="st"> </span><span class="kw">coef</span>(object, <span class="dt">type =</span> <span class="st">&quot;beta&quot;</span>)$Estimates)
+    phi &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(object), Estimates[Type ==<span class="st"> &quot;tau&quot;</span>])
+    power &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(object), Estimates[Type ==<span class="st"> &quot;power&quot;</span>])
+    obs &lt;-<span class="st"> </span><span class="kw">xtabs</span>(~ndic +<span class="st"> </span>dose, <span class="dt">data =</span> chromosome)
+    matpred &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;cbind&quot;</span>, <span class="kw">lapply</span>(mu, function(mui) {
+        <span class="kw">dptweedie</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> mui, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power,
+                  <span class="dt">n_pts =</span> <span class="dv">180</span>, <span class="st">&quot;laguerre&quot;</span>)
+    }))
+    ll &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">log</span>(matpred) *<span class="st"> </span>obs)
+    <span class="kw">attr</span>(ll, <span class="st">&quot;df&quot;</span>) &lt;-<span class="st"> </span><span class="kw">nrow</span>(<span class="kw">coef</span>(object))
+    <span class="kw">attr</span>(ll, <span class="st">&quot;nobs&quot;</span>) &lt;-<span class="st"> </span>m0PT$n_obs
+    <span class="kw">class</span>(ll) &lt;-<span class="st"> &quot;logLik&quot;</span>
+    <span class="kw">return</span>(ll)
+}
+
+## Compute table of gof
+models &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;Poisson&quot;</span> =<span class="st"> </span>m0PO, <span class="st">&quot;Gamma-Count&quot;</span> =<span class="st"> </span>m0GC,
+               <span class="st">&quot;COM-Poisson&quot;</span> =<span class="st"> </span>m0CP, <span class="st">&quot;POisson-Tweedie&quot;</span> =<span class="st"> </span>m0PT)
+(measures &lt;-<span class="st"> </span><span class="kw">sapply</span>(models, function(x)
+    <span class="kw">c</span>(<span class="st">&quot;LogLik&quot;</span> =<span class="st"> </span><span class="kw">logLik</span>(x), <span class="st">&quot;AIC&quot;</span> =<span class="st"> </span><span class="kw">AIC</span>(x), <span class="st">&quot;BIC&quot;</span> =<span class="st"> </span><span class="kw">BIC</span>(x))))</code></pre></div>
+<pre><code>##        Poisson Gamma-Count COM-Poisson POisson-Tweedie
+## LogLik   -2995       -2966       -2967           -2951
+## AIC       5997        5940        5943            5911
+## BIC       6016        5966        5969            5944</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cap &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Dispersion diagram of observed chromossome aberrations and&quot;</span>,
+             <span class="st">&quot;curves of predict values an confidence intervals (95</span><span class="ch">\\</span><span class="st">%)&quot;</span>,
+             <span class="st">&quot;based on Poisson, Gamma-Count, COM-Poisson and&quot;</span>,
+             <span class="st">&quot;Poisson-Tweedie regression models.&quot;</span>)
+
+##-------------------------------------------
+## Visualize means
+
+## pred2 &lt;- subset(preds, model %in% c(&quot;PO&quot;, &quot;PT&quot;))
+<span class="kw">xyplot</span>(fit ~<span class="st"> </span>dose,
+       <span class="dt">data =</span> preds,
+       <span class="dt">groups =</span> model,
+       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;g&quot;</span>, <span class="st">&quot;l&quot;</span>),
+       <span class="dt">ly =</span> preds$lwr, <span class="dt">uy =</span> preds$upr,
+       <span class="dt">layout =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">1</span>),
+       <span class="dt">as.table =</span> <span class="ot">TRUE</span>,
+       <span class="dt">alpha =</span> <span class="fl">0.2</span>,
+       <span class="dt">xlab =</span> <span class="st">&quot;Radiation doses&quot;</span>,
+       <span class="dt">ylab =</span> <span class="st">&quot;Mean of chromosomic aberrations&quot;</span>,
+       <span class="dt">auto.key =</span> <span class="kw">list</span>(
+           <span class="dt">columns =</span> <span class="dv">2</span>,
+           <span class="dt">lines =</span> <span class="ot">TRUE</span>,
+           <span class="dt">points =</span> <span class="ot">FALSE</span>,
+           <span class="dt">text =</span> <span class="kw">c</span>(<span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Gamma-Count&quot;</span>,
+                    <span class="st">&quot;COM-Poisson&quot;</span>, <span class="st">&quot;Poisson-Tweedie&quot;</span>)
+       ),
+       <span class="dt">cty =</span> <span class="st">&quot;bands&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;gray80&quot;</span>,
+       <span class="dt">panel =</span> panel.superpose,
+       <span class="dt">panel.groups =</span> panel.cbH,
+       <span class="dt">prepanel =</span> prepanel.cbH) +
+<span class="st">    </span><span class="kw">as.layer</span>(
+        <span class="kw">update</span>(xy2, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>)
+    )</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:mean-chromo"></span>
+<img src="rmcdbook_files/figure-html/mean-chromo-1.png" alt="Dispersion diagram of observed chromossome aberrations and curves of predict values an confidence intervals (95\%) based on Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie regression models." width="672" />
+<p class="caption">
+Figure 5.4: Dispersion diagram of observed chromossome aberrations and curves of predict values an confidence intervals (95%) based on Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie regression models.
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##-------------------------------------------
+## Calcule probabilities
+index &lt;-<span class="st"> </span>preds$dose %in%<span class="st"> </span><span class="kw">unique</span>(chromosome$dose)
+means &lt;-<span class="st"> </span>preds[index, <span class="kw">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;dose&quot;</span>, <span class="st">&quot;fit&quot;</span>)]
+probs &lt;-<span class="st"> </span><span class="kw">list</span>()
+y &lt;-<span class="st"> </span><span class="dv">0</span>:<span class="dv">5</span>
+
+## Poisson model
+indPO &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;PO&quot;</span>, means$model)
+probs$PO &lt;-<span class="st"> </span><span class="kw">do.call</span>(
+    <span class="st">&quot;rbind&quot;</span>,
+    <span class="kw">lapply</span>(indPO, function(i) {
+        <span class="kw">with</span>(means, {
+            py &lt;-<span class="st"> </span><span class="kw">dpois</span>(y, fit[i])
+            <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
+        })
+    })
+)
+
+## Gamma-Count model
+indGC &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;GC&quot;</span>, means$model)
+alpha &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(m0GC)[<span class="st">&quot;alpha&quot;</span>])
+probs$GC &lt;-<span class="st"> </span><span class="kw">do.call</span>(
+    <span class="st">&quot;rbind&quot;</span>,
+    <span class="kw">lapply</span>(indGC, function(i) {
+        <span class="kw">with</span>(means, {
+            aux &lt;-<span class="st"> </span><span class="kw">predict</span>(m0GC, <span class="dt">newdata =</span> <span class="kw">t</span>(<span class="kw">cbind</span>(X[i, ])),
+                           <span class="dt">type =</span> <span class="st">&quot;link&quot;</span>)
+            lambda &lt;-<span class="st"> </span>alpha %*%<span class="st"> </span><span class="kw">exp</span>(aux)
+            py &lt;-<span class="st"> </span><span class="kw">dgcnt</span>(y, <span class="dt">lambda =</span> lambda, <span class="dt">alpha =</span> alpha)
+            <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
+        })
+    })
+)
+
+## COM-Poisson model
+indCP &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;CP&quot;</span>, means$model)
+nu &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(m0CP)[<span class="st">&quot;phi&quot;</span>])
+sumto &lt;-<span class="st"> </span>m0CP@data$sumto
+probs$CP &lt;-<span class="st"> </span><span class="kw">do.call</span>(
+    <span class="st">&quot;rbind&quot;</span>,
+    <span class="kw">lapply</span>(indCP, function(i) {
+        <span class="kw">with</span>(means, {
+            aux &lt;-<span class="st"> </span><span class="kw">predict</span>(m0CP, <span class="dt">newdata =</span> <span class="kw">t</span>(<span class="kw">cbind</span>(X[i, ])),
+                           <span class="dt">type =</span> <span class="st">&quot;link&quot;</span>)
+            lambda &lt;-<span class="st"> </span><span class="kw">exp</span>(aux)
+            py &lt;-<span class="st"> </span><span class="kw">dcmp</span>(y, <span class="dt">lambda =</span> lambda, <span class="dt">nu =</span> nu, <span class="dt">sumto =</span> sumto)
+            <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
+        })
+    })
+)
+
+## Poisson-Tweedie model
+indPT &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;PT&quot;</span>, means$model)
+phi &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(m0PT), Estimates[Type ==<span class="st"> &quot;tau&quot;</span>])
+power &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(m0PT), Estimates[Type ==<span class="st"> &quot;power&quot;</span>])
+probs$PT &lt;-<span class="st"> </span><span class="kw">do.call</span>(
+    <span class="st">&quot;rbind&quot;</span>,
+    <span class="kw">lapply</span>(indPT, function(i) {
+        <span class="kw">with</span>(means, {
+            py &lt;-<span class="st"> </span><span class="kw">dptweedie</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> fit[i], <span class="dt">phi =</span> phi,
+                            <span class="dt">power =</span> power, <span class="dt">n_pts =</span> <span class="dv">180</span>,
+                            <span class="dt">method =</span> <span class="st">&quot;laguerre&quot;</span>)
+            <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
+        })
+    })
+)
+
+## Visualize the probabilities
+daprobs &lt;-<span class="st"> </span><span class="kw">ldply</span>(probs, <span class="dt">.id =</span> <span class="st">&quot;model&quot;</span>)
+
+<span class="kw">barchart</span>(prob ~<span class="st"> </span>y |<span class="st"> </span><span class="kw">factor</span>(dose), <span class="dt">groups =</span> model,
+         <span class="dt">data =</span> daprobs,
+         <span class="dt">horizontal =</span> <span class="ot">FALSE</span>,
+         <span class="dt">axis =</span> axis.grid,
+         <span class="dt">as.table =</span> <span class="ot">TRUE</span>,
+         <span class="dt">origin =</span> <span class="dv">0</span>,
+         <span class="dt">xlab =</span> <span class="st">&quot;Number of chromosomic aberrations&quot;</span>,
+         <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>,
+         <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">x =</span> <span class="kw">list</span>(<span class="dt">labels =</span> y)),
+         <span class="dt">auto.key =</span> <span class="kw">list</span>(
+             <span class="dt">columns =</span> <span class="dv">2</span>,
+             <span class="dt">text =</span> <span class="kw">c</span>(<span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Gamma-Count&quot;</span>,
+                      <span class="st">&quot;COM-Poisson&quot;</span>, <span class="st">&quot;Poisson-Tweedie&quot;</span>)
+         ),
+         <span class="dt">strip =</span> <span class="kw">strip.custom</span>(
+             <span class="dt">strip.name =</span> <span class="ot">TRUE</span>,
+             <span class="dt">var.name =</span> <span class="st">&quot;dose&quot;</span>,
+             <span class="dt">sep =</span> <span class="st">&quot; = &quot;</span>
+         ))</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/probs-chromo-1.png" width="672" style="display: block; margin: auto;" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="SM.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="bibliography.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"download": ["rmcdbook.pdf", "rmcdbook.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

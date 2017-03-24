@@ -48,6 +48,15 @@
 
 
 
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      "HTML-CSS": {
+          scale: 85,
+          /* preferredFont: "STIX" /* padrão do MathJax */
+          availableFonts: ["TeX"], /* */
+      }
+  });
+</script>
 
 
 <style type="text/css">
@@ -57,35 +66,30 @@ table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
 table.sourceCode { width: 100%; line-height: 100%; }
 td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
 td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
+code > span.kw { color: #0000ff; } /* Keyword */
+code > span.ch { color: #008080; } /* Char */
+code > span.st { color: #008080; } /* String */
+code > span.co { color: #008000; } /* Comment */
+code > span.ot { color: #ff4000; } /* Other */
+code > span.al { color: #ff0000; } /* Alert */
 code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.wa { color: #008000; font-weight: bold; } /* Warning */
+code > span.cn { } /* Constant */
+code > span.sc { color: #008080; } /* SpecialChar */
+code > span.vs { color: #008080; } /* VerbatimString */
+code > span.ss { color: #008080; } /* SpecialString */
 code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
+code > span.va { } /* Variable */
+code > span.cf { color: #0000ff; } /* ControlFlow */
+code > span.op { } /* Operator */
 code > span.bu { } /* BuiltIn */
 code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code > span.pp { color: #ff4000; } /* Preprocessor */
+code > span.do { color: #008000; } /* Documentation */
+code > span.an { color: #008000; } /* Annotation */
+code > span.cv { color: #008000; } /* CommentVar */
+code > span.at { } /* Attribute */
+code > span.in { color: #008000; } /* Information */
 </style>
 
 <link rel="stylesheet" href="config/rmcd.css" type="text/css" />
@@ -120,6 +124,16 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="4.1" data-path="SM.html"><a href="SM.html#extended-poisson-tweedie-model"><i class="fa fa-check"></i><b>4.1</b> Extended Poisson-Tweedie model</a></li>
 <li class="chapter" data-level="4.2" data-path="SM.html"><a href="SM.html#estimation-and-inference"><i class="fa fa-check"></i><b>4.2</b> Estimation and Inference</a></li>
 </ul></li>
+<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a><ul>
+<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#cotton-bolls"><i class="fa fa-check"></i><b>5.1</b> Cotton Bolls</a></li>
+<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#soybean-pod-and-beans"><i class="fa fa-check"></i><b>5.2</b> Soybean pod and beans</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#number-of-pods"><i class="fa fa-check"></i><b>5.2.1</b> Number of pods</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#number-of-grains"><i class="fa fa-check"></i><b>5.2.2</b> Númber of grains</a></li>
+<li class="chapter" data-level="5.2.3" data-path="applications.html"><a href="applications.html#number-of-grains-per-pod"><i class="fa fa-check"></i><b>5.2.3</b> Number of grains per pod</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#number-of-vehicle-claims"><i class="fa fa-check"></i><b>5.3</b> Number of vehicle claims</a></li>
+<li class="chapter" data-level="5.4" data-path="applications.html"><a href="applications.html#radiation-induced-chromosome-aberration-counts"><i class="fa fa-check"></i><b>5.4</b> Radiation-induced chromosome aberration counts</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
 </hr>
@@ -153,11 +167,11 @@ p(y;\mu) &amp;=&amp; \frac{\mu^y}{y!}\exp\{-\mu\} \nonumber \\
 \tag{2.1}
 \end{eqnarray}\]</span>
 <p>where <span class="math inline">\(\phi = \log \{\mu\} \in \mathbb{R}\)</span>. Hence the Poisson is a natural exponential family with cumulant generator <span class="math inline">\(\kappa(\phi) = \exp\{\phi\}\)</span>. We have <span class="math inline">\(\mathrm{E}(Y) = \kappa^{\prime}(\phi) = \exp\{\phi\} = \mu\)</span> and <span class="math inline">\(\mathrm{var}(Y) = \kappa^{\prime \prime}(\phi) = \exp\{\phi\} = \mu\)</span>. The probability mass function <a href="models.html#eq:Poisson">(2.1)</a> can be evaluated in <code>R</code> through the <code>dpois()</code> function.</p>
-<p>In order to specify a regression model based on the Poisson distribution, we consider a cross-section dataset, <span class="math inline">\((y_i, x_i)\)</span>, <span class="math inline">\(i = 1,\ldots, n\)</span>, where <span class="math inline">\(y_i\)</span>’s are iid realizations of <span class="math inline">\(Y_i\)</span> according to a Poisson distribution. The Poisson regression models is defined by <span class="math display">\[Y_i \sim P(\mu_i), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).\]</span> In this notation, <span class="math inline">\(\boldsymbol{x_i}\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are (<span class="math inline">\(p \times 1\)</span>) vectors of known covariates and unknown regression parameters, respectively. Moreover, <span class="math inline">\(g\)</span> is a standard link function, for which we adopt the logarithm link function, but potentially any other suitable link function could be adopted.</p>
+<p>In order to specify a regression model based on the Poisson distribution, we consider a cross-section dataset, <span class="math inline">\((y_i, x_i)\)</span>, <span class="math inline">\(i = 1,\ldots, n\)</span>, where <span class="math inline">\(y_i\)</span>’s are iid realizations of <span class="math inline">\(Y_i\)</span> according to a Poisson distribution. The Poisson regression models is defined by <span class="math display">\[Y_i \sim P(\mu_i), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).\]</span> In this notation, <span class="math inline">\(\boldsymbol{x_i}\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are (<span class="math inline">\(q \times 1\)</span>) vectors of known covariates and unknown regression parameters, respectively. Moreover, <span class="math inline">\(g\)</span> is a standard link function, for which we adopt the logarithm link function, but potentially any other suitable link function could be adopted.</p>
 </div>
 <div id="gammacount" class="section level2">
 <h2><span class="header-section-number">2.2</span> Gamma-Count distribution</h2>
-<p>The Poisson distribution as presented in <a href="models.html#eq:Poisson">(2.1)</a> follows directly from the natural exponential family and thus fits in the generalized linear models (GLMs) framework. Alternatively, the Poisson distribution can be derived by assuming independent and exponentially distributed times between events <span class="citation">(Zeviani et al. 2014)</span>. This derivation allows for a flexible framework to specify more general models to deal with under and overdispersed count data.</p>
+<p>The Poisson distribution as presented in <a href="models.html#eq:Poisson">(2.1)</a> follows directly from the natural exponential family and thus fits in the generalized linear models (GLMs) framework. Alternatively, the Poisson distribution can be derived by assuming independent and exponentially distributed times between events <span class="citation">(W. M. Zeviani et al. 2014)</span>. This derivation allows for a flexible framework to specify more general models to deal with under and overdispersed count data.</p>
 As point out by <span class="citation">Winkelmann (2003)</span> the distributions of the arrival times determine the distribution of the number of events. Following <span class="citation">Winkelmann (1995)</span>, let <span class="math inline">\({\tau_k, k \in \mathbb{N}}\)</span> denote a sequence of waiting times between the <span class="math inline">\((k-1)\)</span>th and the <span class="math inline">\(k\)</span>th events. Then, the arrival time of the <span class="math inline">\(y\)</span>th event is given by <span class="math inline">\(\nu_y = \sum_{k = 1}^{y} \tau_k\)</span>, for <span class="math inline">\(y = 1, 2, \ldots\)</span>. Furthermore, denote <span class="math inline">\(Y\)</span> the total number of events in the open interval between <span class="math inline">\(0\)</span> and <span class="math inline">\(T\)</span>. For fixed <span class="math inline">\(T\)</span>, <span class="math inline">\(Y\)</span> is a count variable. Indeed, from the definitions of <span class="math inline">\(Y\)</span> and <span class="math inline">\(\nu_y\)</span> we have that <span class="math inline">\(Y &lt; y\)</span> iff <span class="math inline">\(\nu_y \ge T\)</span>, which in turn implies <span class="math inline">\(P(Y &lt; y) = P(\nu_y \ge T) = 1 - F_y(T)\)</span>, where <span class="math inline">\(F_y(T)\)</span> denotes the cumulative distribution function of <span class="math inline">\(\nu_y\)</span>. Furthermore,
 <span class="math display" id="eq:DURATION">\[\begin{eqnarray}
 P(Y = y) &amp;=&amp; P(Y &lt; y+1) - P(Y &lt; y) \nonumber \\
@@ -169,7 +183,7 @@ Let <span class="math inline">\(\tau_k\)</span> be identically and independently
 <span class="math display">\[\begin{equation}
 f(\tau; \alpha, \gamma) = \frac{\gamma^{\alpha}}{\Gamma(\alpha)} \tau^{\alpha-1} \exp\{-\gamma \tau\}, \quad \alpha, \gamma \in \mathbb{R}^{+}.
 \end{equation}\]</span>
-In this parametrization <span class="math inline">\(\mathrm{E}(\tau) = \alpha/\gamma\)</span> and <span class="math inline">\(\mathrm{var}(\tau) = \alpha/\gamma^2\)</span>. Thus, by applying the convolution formula for gamma distributions, it is easy to show that the distribution of <span class="math inline">\(\nu_y\)</span> is given by
+In this parameterization <span class="math inline">\(\mathrm{E}(\tau) = \alpha/\gamma\)</span> and <span class="math inline">\(\mathrm{var}(\tau) = \alpha/\gamma^2\)</span>. Thus, by applying the convolution formula for gamma distributions, it is easy to show that the distribution of <span class="math inline">\(\nu_y\)</span> is given by
 <span class="math display">\[\begin{equation}
 f_y(\nu; \alpha, \gamma) = \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)} \nu^{y\alpha-1} \exp\{-\gamma \nu\}.
 \end{equation}\]</span>
@@ -203,7 +217,7 @@ Furthermore, for increasing <span class="math inline">\(T\)</span> it holds that
 <span class="math display">\[\begin{equation}
 Y(T) \overset{a}{\sim} N\left(\frac{\gamma T}{\alpha}, \frac{\gamma T}{\alpha^2} \right),
 \end{equation}\]</span>
-<p>thus the limiting variance-mean ratio equals a constant <span class="math inline">\(1/\alpha\)</span>. Consequently, the Gamma-Count distribution displays overdispersion for <span class="math inline">\(0 &lt; \alpha &lt; 1\)</span> and underdispersion for <span class="math inline">\(\alpha &gt; 1\)</span>. Figure <a href="models.html#fig:PlotGC">2.1</a> presents the probability mass function for some Gamma-Count distributions. We fixed the parameter <span class="math inline">\(\gamma = 10\)</span> and fit the parameter <span class="math inline">\(\alpha\)</span> in order to have dispersion index (<span class="math inline">\(\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)\)</span>) equalling to <span class="math inline">\(0.5\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(5\)</span> and <span class="math inline">\(20\)</span>.</p>
+<p>thus the limiting variance-mean ratio equals a constant <span class="math inline">\(1/\alpha\)</span>. Consequently, the Gamma-Count distribution displays overdispersion for <span class="math inline">\(0 &lt; \alpha &lt; 1\)</span> and underdispersion for <span class="math inline">\(\alpha &gt; 1\)</span>. Figure <a href="models.html#fig:PlotGC">2.1</a> presents the probability mass function for some Gamma-Count distributions. We fixed the parameter <span class="math inline">\(\gamma = 10\)</span> and fit the parameter <span class="math inline">\(\alpha\)</span> in order to have dispersion index (<span class="math inline">\(\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)\)</span>) equaling to <span class="math inline">\(0.5\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(5\)</span> and <span class="math inline">\(20\)</span>.</p>
 <div class="figure" style="text-align: center"><span id="fig:PlotGC"></span>
 <img src="rmcdbook_files/figure-html/PlotGC-1.png" alt="Gamma-Count probability mass function by values of the dispersion index (DI)." width="768" />
 <p class="caption">
@@ -236,7 +250,7 @@ The Poisson-Tweedie is an overdispersed factorial dispersion model <span class="
 f(y;\mu,\phi,p) = \int_0^\infty \frac{z^y \exp{-z}}{y!} a(z,\phi,p) \exp\{(z\psi - k_p(\psi))/\phi\} dz.
 \tag{2.7}
 \end{equation}\]</span>
-<p>The integral <a href="models.html#eq:pmfPTW">(2.7)</a> has no closed-form apart of the special case corresponding to the negative binomial distribution, obtained when <span class="math inline">\(p = 2\)</span>, i.e. a Poisson gamma mixture. In the case of <span class="math inline">\(p=1\)</span>, the integral <a href="models.html#eq:pmfPTW">(2.7)</a> is replaced by a sum and we have the Neyman Type A distribution. Further special cases include the compound Poisson <span class="math inline">\((1 &lt; p &lt; 2)\)</span>, factorial discrete positive stable <span class="math inline">\((p &gt; 2)\)</span> and Poisson-inverse Gaussian <span class="math inline">\((p = 3)\)</span> distributions <span class="citation">(Jørgensen and Kokonendji 2015 ; C. C. Kokonendji, Dossou-Gbété, and Demétrio 2004)</span>.</p>
+<p>The integral <a href="models.html#eq:pmfPTW">(2.7)</a> has no closed-form apart of the special case corresponding to the negative binomial distribution, obtained when <span class="math inline">\(p = 2\)</span>, i.e. a Poisson gamma mixture. In the case of <span class="math inline">\(p=1\)</span>, the integral <a href="models.html#eq:pmfPTW">(2.7)</a> is replaced by a sum and we have the Neyman Type A distribution. Further special cases include the Hermite <span class="math inline">\((p = 0)\)</span>, compound Poisson <span class="math inline">\((1 &lt; p &lt; 2)\)</span>, factorial discrete positive stable <span class="math inline">\((p &gt; 2)\)</span> and Poisson-inverse Gaussian <span class="math inline">\((p = 3)\)</span> distributions <span class="citation">(Jørgensen and Kokonendji 2015 ; C. C. Kokonendji, Dossou-Gbété, and Demétrio 2004)</span>.</p>
 <p>In spite of other approaches to compute the probability mass function of the Poisson-Tweedie distribution are available in the literature <span class="citation">(Esnaola et al. 2013 ; Barabesi, Becatti, and Marcheselli 2016)</span>. In this material, we opted to compute it by numerical evaluation of the integral in <a href="models.html#eq:pmfPTW">(2.7)</a> using the Monte Carlo method as implemented by the following functions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Integrand Poisson X Tweedie distributions</span>
 integrand &lt;-<span class="st"> </span>function(x, y, mu, phi, power) {
@@ -254,7 +268,7 @@ dptw &lt;-<span class="st"> </span>function(y, mu, phi, power, control_sample) {
     <span class="kw">return</span>(integral)
 }
 dptw &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(dptw, <span class="dt">vectorize.args =</span> <span class="st">&quot;y&quot;</span>)</code></pre></div>
-<p>When using the Monte Carlo method, we need to specify a proposal distribution, from which samples will be taken to compute the integral as an expectation. In the Poisson-Tweedie case is sensible to use the Tweedie distribution as proposal. Thus, in our function we use the argument <code>control_sample</code> to provide these values. The advantage of this approach is that we need to simulate values once and we can reuse them for all evaluations of the probability mass function, as shown in the following code.</p>
+<p>When using the Monte Carlo method we need to specify a proposal distribution, from which samples will be taken to compute the integral as an expectation. In the Poisson-Tweedie case is sensible to use the Tweedie distribution as proposal. Thus, in our function we use the argument <code>control_sample</code> to provide these values. The advantage of this approach is that we need to simulate values once and we can reuse them for all evaluations of the probability mass function, as shown in the following code.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">require</span>(tweedie)
 <span class="kw">set.seed</span>(<span class="dv">123</span>)
 pts &lt;-<span class="st"> </span><span class="kw">rtweedie</span>(<span class="dt">n =</span> <span class="dv">1000</span>, <span class="dt">mu =</span> <span class="dv">10</span>, <span class="dt">phi =</span> <span class="dv">1</span>, <span class="dt">power =</span> <span class="dv">2</span>)
@@ -274,140 +288,23 @@ Figure 2.2: Empirical (gray) and approximated (black) Poisson-Tweedie probabilit
 </p>
 </div>
 <p>For all scenarios considered the Monte Carlo method provides a quite accurate approximation to the empirical probability mass function. For these examples, we used <span class="math inline">\(5000\)</span> random samples from the proposal distribution.</p>
-<p>Finally, the Poisson-Tweedie regression model is defined by <span class="math display">\[Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),\]</span> where <span class="math inline">\(\boldsymbol{x}_i\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are <span class="math inline">\((p \times 1)\)</span> vectors of known covariates and unknown regression parameters. The estimation and inference of Poisson-Tweedie regression models based on the maximum likelihood method are challenged by the presence of an intractable integral in the probability mass function and non-trivial restrictions on the power parameter space. In Chapter <a href="likelihood.html#likelihood">3</a>, we discuss maximum likelihood estimation for Poisson-Tweedie regression. Furthermore, in Chapter <a href="SM.html#SM">4</a> we extended the Poisson-Tweedie model by using an estimating function approach in the style of <span class="citation">Wedderburn (1974)</span>.</p>
+<p>Finally, the Poisson-Tweedie regression model is defined by <span class="math display">\[Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),\]</span> where <span class="math inline">\(\boldsymbol{x}_i\)</span> and <span class="math inline">\(\boldsymbol{\beta}\)</span> are <span class="math inline">\((q \times 1)\)</span> vectors of known covariates and unknown regression parameters. The estimation and inference of Poisson-Tweedie regression models based on the maximum likelihood method are challenged by the presence of an intractable integral in the probability mass function and non-trivial restrictions on the power parameter space. In Chapter <a href="likelihood.html#likelihood">3</a>, we discuss maximum likelihood estimation for Poisson-Tweedie regression. Furthermore, in Chapter <a href="SM.html#SM">4</a> we extended the Poisson-Tweedie model by using an estimating function approach in the style of <span class="citation">Wedderburn (1974)</span>.</p>
 </div>
 <div id="com-poisson-distribution" class="section level2">
 <h2><span class="header-section-number">2.4</span> COM-Poisson distribution</h2>
-<p>The COM-Poisson distribution belongs to the family of weighted Poisson distributions. A random variable <span class="math inline">\(Y\)</span> is a weighted Poisson distribution if its probability mass function can be written in the form <span class="math display">\[
-f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!},
-\quad y = 0, 1, \ldots,
-\]</span> where <span class="math inline">\(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_i / i!\)</span> is a normalizing constant <span class="citation">(Kimberly F. Sellers, Borle, and Shmueli 2012)</span>. The COM-Poisson is obtained when <span class="math inline">\(w_{y} = (y!)^{1-\nu}\)</span> for <span class="math inline">\(\nu \geq 0\)</span>. The series <span class="math inline">\(W\)</span> for COM-Poisson distribution is denoted by <span class="math inline">\(Z(\lambda, \nu)\)</span> and can be written as <span class="math inline">\(\sum_{i=0}^{\infty}\lambda^i/(i!)^\nu\)</span>. Note that the series is theoretically divergent only when <span class="math inline">\(\nu = 0\)</span> and <span class="math inline">\(\lambda \geq 1\)</span>, but numerically for small values of <span class="math inline">\(\nu\)</span> combined with large values of <span class="math inline">\(\lambda\)</span>, the sum is so huge it causes overflow. The Table <a href="models.html#tab:convergenceZ">2.1</a> shows the sums calculated with <span class="math inline">\(1000\)</span> increments, in other words, <span class="math inline">\(\sum_{i=0}^{1000}\lambda^i/(i!)^\nu\)</span> for different values of <span class="math inline">\(\nu\)</span> (horizontal lines) and <span class="math inline">\(\lambda\)</span> (vertical lines).</p>
-<table>
-<caption><span id="tab:convergenceZ">Table 2.1: </span>Values for <span class="math inline">\(Z(\lambda, \nu)\)</span> constant (calculated numerically) to combined values of <span class="math inline">\(\lambda\)</span> (0.5 to 50) and <span class="math inline">\(\phi\)</span> (0 to 1)</caption>
-<thead>
-<tr class="header">
-<th></th>
-<th align="center">0.5</th>
-<th align="center">1</th>
-<th align="center">5</th>
-<th align="center">10</th>
-<th align="center">30</th>
-<th align="center">50</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td align="center">2.00</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-</tr>
-<tr class="even">
-<td>0.1</td>
-<td align="center">1.92</td>
-<td align="center">7.64</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-</tr>
-<tr class="odd">
-<td>0.2</td>
-<td align="center">1.86</td>
-<td align="center">5.25</td>
-<td align="center">3.17e+273</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-</tr>
-<tr class="even">
-<td>0.3</td>
-<td align="center">1.81</td>
-<td align="center">4.32</td>
-<td align="center">1.60e+29</td>
-<td align="center">2.54e+282</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-</tr>
-<tr class="odd">
-<td>0.4</td>
-<td align="center">1.77</td>
-<td align="center">3.80</td>
-<td align="center">4.71e+10</td>
-<td align="center">1.33e+56</td>
-<td align="center">Inf</td>
-<td align="center">Inf</td>
-</tr>
-<tr class="even">
-<td>0.5</td>
-<td align="center">1.74</td>
-<td align="center">3.47</td>
-<td align="center">1.34e+06</td>
-<td align="center">3.67e+22</td>
-<td align="center">3.32e+196</td>
-<td align="center">Inf</td>
-</tr>
-<tr class="odd">
-<td>0.6</td>
-<td align="center">1.72</td>
-<td align="center">3.23</td>
-<td align="center">2.05e+04</td>
-<td align="center">4.99e+12</td>
-<td align="center">1.73e+76</td>
-<td align="center">4.63e+177</td>
-</tr>
-<tr class="even">
-<td>0.7</td>
-<td align="center">1.70</td>
-<td align="center">3.06</td>
-<td align="center">2.37e+03</td>
-<td align="center">3.69e+08</td>
-<td align="center">4.93e+39</td>
-<td align="center">6.93e+81</td>
-</tr>
-<tr class="odd">
-<td>0.8</td>
-<td align="center">1.68</td>
-<td align="center">2.92</td>
-<td align="center">6.49e+02</td>
-<td align="center">2.70e+06</td>
-<td align="center">5.09e+24</td>
-<td align="center">3.43e+46</td>
-</tr>
-<tr class="even">
-<td>0.9</td>
-<td align="center">1.66</td>
-<td align="center">2.81</td>
-<td align="center">2.74e+02</td>
-<td align="center">1.47e+05</td>
-<td align="center">1.80e+17</td>
-<td align="center">2.19e+30</td>
-</tr>
-<tr class="odd">
-<td>1</td>
-<td align="center">1.65</td>
-<td align="center">2.72</td>
-<td align="center">1.48e+02</td>
-<td align="center">2.20e+04</td>
-<td align="center">1.07e+13</td>
-<td align="center">5.18e+21</td>
-</tr>
-</tbody>
-</table>
-<p>In general, the expectation and variance of the COM-Poisson distribution cannot be expressed in closed-form. However, they can be approximated by <span class="math display">\[\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu}
-\quad \text{and} \quad
-\mathrm{var}(Y) \approx \frac{1}{\nu} \lambda^{1 /\nu}.
-\]</span> These approximations are accurate when <span class="math inline">\(\nu \leq 1\)</span> or <span class="math inline">\(\lambda &gt; 10^{\nu}\)</span>. The infinite sum involved in computing the probability mass function of the COM-Poisson distribution can be approximated to any level of precision. It can be evaluated in <code>R</code> using the function <code>dcom()</code> from the <code>compoisson</code> package <span class="citation">(Dunn 2012)</span>. Figure <a href="models.html#fig:comPoispmfplot">2.3</a> presents some COM-Poisson probability mass functions. We tried to find parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\nu\)</span> in order to have <span class="math inline">\(\mathrm{E}(Y) = 10\)</span> and dispersion index equals to <span class="math inline">\(\mathrm{DI} = 0.5, 2, 5\)</span> and <span class="math inline">\(20\)</span>. However, we could not find any parameter combination to have <span class="math inline">\(\mathrm{DI} = 20\)</span>. Probably, it was due to overflow of the sum since <span class="math inline">\(\nu\)</span> is inversely proportional to the dispersion index (see table <a href="models.html#tab:convergenceZ">2.1</a>).</p>
+<p>The COM-Poisson distribution belongs to the family of weighted Poisson distributions. A random variable <span class="math inline">\(Y\)</span> is a weighted Poisson distribution if its probability mass function can be written in the form</p>
+<p><span class="math display">\[
+f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!}, \quad y = 0, 1, \ldots,
+\]</span> where <span class="math inline">\(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_s / i!\)</span> is a normalizing constant <span class="citation">(Kimberly F. Sellers, Borle, and Shmueli 2012)</span>. The COM-Poisson is obtained when <span class="math inline">\(w_{y} = (y!)^{1-\nu}\)</span> for <span class="math inline">\(\nu \geq 0\)</span>. In general, the expectation and variance of the COM-Poisson distribution cannot be expressed in closed-form. However, they can be approximated by <span class="math display">\[\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu} \quad
+\text{and} \quad \mathrm{var}(Y) \approx (1/ \nu) \lambda^{1 /\nu}.\]</span></p>
+<p>These approximations are accurate when <span class="math inline">\(\nu \leq 1\)</span> or <span class="math inline">\(\lambda &gt; 10^{\nu}\)</span>. The infinite sum involved in computing the probability mass function of the COM-Poisson distribution can be approximated to any level of precision. It can be evaluated in <code>R</code> using the function <code>dcom()</code> from the <code>compoisson</code> package <span class="citation">(Dunn 2012)</span>. Figure <a href="models.html#fig:comPoispmfplot">2.3</a> presents some COM-Poisson probability mass functions. We tried to find parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\nu\)</span> in order to have <span class="math inline">\(\mathrm{E}(Y) = 10\)</span> and dispersion index equals to <span class="math inline">\(\mathrm{DI} = 0.5, 2, 5\)</span> and <span class="math inline">\(20\)</span>. However, we could not find any parameter combination to have <span class="math inline">\(\mathrm{DI} = 20\)</span>.</p>
 <div class="figure" style="text-align: center"><span id="fig:comPoispmfplot"></span>
 <img src="rmcdbook_files/figure-html/comPoispmfplot-1.png" alt="COM-Poisson probability mass function by values of the dispersion index (DI)." width="768" />
 <p class="caption">
 Figure 2.3: COM-Poisson probability mass function by values of the dispersion index (DI).
 </p>
 </div>
-<p><span class="citation">K. F. Sellers and Shmueli (2010)</span> proposed a regression model based on the COM-Poisson distribution where the parameter <span class="math inline">\(\lambda\)</span> is described by the values of known covariates in a generalized linear models style. The COM-Poisson regression model is defined by <span class="math display">\[Y_i \sim CP(\lambda_i, \nu), \quad  \text{with} \quad \lambda_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).\]</span> In this notation, the parameter <span class="math inline">\(\nu\)</span> is considered the dispersion parameter such that <span class="math inline">\(\nu &gt; 1\)</span> represents underdispersion and <span class="math inline">\(\nu &lt; 1\)</span> overdispersion. The Poisson model is obtained for <span class="math inline">\(\nu = 1\)</span> and as usual we adopt the logarithm link function for <span class="math inline">\(g\)</span>.</p>
+<p><span class="citation">K. F. Sellers and Shmueli (2010)</span> proposed a regression model based on the COM-Poisson distribution where the parameter <span class="math inline">\(\lambda\)</span> is described by the values of known covariates in a generalized linear models style. The COM-Poisson regression model is defined by <span class="math display">\[Y_i \sim CP(\lambda_i, \nu), \quad  \text{with} \quad \lambda_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).\]</span> In this notation, the parameter <span class="math inline">\(\nu\)</span> is considered the dispersion parameter such that <span class="math inline">\(\nu &gt; 1\)</span> represents underdispersion and <span class="math inline">\(\nu &lt; 1\)</span> overdispersion. The Poisson model is obtained for <span class="math inline">\(\nu = 0\)</span> and as usual we adopt the logarithm link function for <span class="math inline">\(g\)</span>.</p>
 </div>
 <div id="comparing-count-distributions" class="section level2">
 <h2><span class="header-section-number">2.5</span> Comparing count distributions</h2>
@@ -420,9 +317,8 @@ and
 <span class="math display">\[\begin{equation}
 \mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty.
 \end{equation}\]</span>
-<p>These indexes are defined in relation to the Poisson distribution. Thus, the dispersion index indicates underdispersion for <span class="math inline">\(\mathrm{DI} &lt; 1\)</span>, equidispersion for <span class="math inline">\(\mathrm{DI} = 1\)</span> and overdispersion for <span class="math inline">\(\mathrm{DI} &gt; 1\)</span>. Similarly, the zero-inflation index is easily interpreted, since <span class="math inline">\(\mathrm{ZI} &lt; 0\)</span> indicates zero-deflation, <span class="math inline">\(\mathrm{ZI} = 0\)</span> corresponds to no excess of zeroes and <span class="math inline">\(\mathrm{ZI} &gt; 0\)</span> indicates zero-inflation. Finally, <span class="math inline">\(\mathrm{HT} \to 1\)</span> when <span class="math inline">\(y \to \infty\)</span> indicates a heavy tail distribution.</p>
-<p>For the Poisson distribution the dispersion index equals <span class="math inline">\(1\)</span> <span class="math inline">\(\forall \mu\)</span>. In the Poisson case, it is easy to show that <span class="math inline">\(\mathrm{ZI} = 0\)</span> and <span class="math inline">\(\mathrm{HT} \to 0\)</span> when <span class="math inline">\(y \to \infty\)</span>. Thus, it is quite clear that the Poisson model can deal only with equidispersed data and has no flexibility to deal with zero-inflation and/or heavy tail count data. In fact, the presented indexes were proposed in relation to the Poisson distribution in order to highlight its limitations.</p>
-<p>Figure <a href="models.html#fig:indexes">2.4</a> presents the relationship between mean and variance, the dispersion and zero-inflation indexes as a function of the expected values <span class="math inline">\(\mu\)</span> for different scenarios and count distributions. Scenario <span class="math inline">\(1\)</span> corresponds to the case of underdispersion. Thus, we fixed the dispersion index at <span class="math inline">\(\mathrm{DI} = 0.5\)</span> when the mean equalling <span class="math inline">\(10\)</span>. Since the Poisson-Tweedie cannot deal with underdispersion, in this scenario we present only the Gamma-Count and COM-Poisson distributions. Similarly, scenarios <span class="math inline">\(2--4\)</span> are obtained by fixing the dispersion index at <span class="math inline">\(\mathrm{DI} = 2, 5\)</span> and <span class="math inline">\(10\)</span> when mean equalling <span class="math inline">\(10\)</span>. In the scenario <span class="math inline">\(4\)</span> we could not find a parameter configuration in order to have a COM-Poisson distribution with dispersion index equals <span class="math inline">\(20\)</span>. Consequently, we present results only for the Gamma-Count and Poisson-Tweedie distributions. Furthermore, Figure <a href="models.html#fig:heavytail">2.5</a> presents the heavy tail index for some extreme values of the random variable <span class="math inline">\(Y\)</span>.</p>
+<p>These indexes are defined in relation to the Poisson distribution. Thus, the dispersion index indicates underdispersion for <span class="math inline">\(\mathrm{DI} &lt; 1\)</span>, equidispersion for <span class="math inline">\(\mathrm{DI} = 1\)</span> and overdispersion for <span class="math inline">\(\mathrm{DI} &gt; 1\)</span>. Similarly, the zero-inflated index is easily interpreted, since <span class="math inline">\(\mathrm{ZI} &lt; 0\)</span> indicates zero-deflation, <span class="math inline">\(\mathrm{ZI} = 0\)</span> corresponds to no excess of zeroes and <span class="math inline">\(\mathrm{ZI} &gt; 0\)</span> indicates zero-inflation. Finally, <span class="math inline">\(\mathrm{HT} \to 1\)</span> when <span class="math inline">\(y \to \infty\)</span> indicates a heavy tail distribution.</p>
+<p>For the Poisson distribution the dispersion index equals <span class="math inline">\(1\)</span> <span class="math inline">\(\forall \mu\)</span>. In the Poisson case, it is easy to show that <span class="math inline">\(\mathrm{ZI} = 0\)</span> and <span class="math inline">\(\mathrm{HT} \to 0\)</span> when <span class="math inline">\(y \to \infty\)</span>. Thus, it is quite clear that the Poisson model can deal only with equidispersed data and has no flexibility to deal with zero-inflation and/or heavy tail count data. In fact, the presented indexes were proposed in relation to the Poisson distribution in order to highlight its limitations. Figure <a href="models.html#fig:indexes">2.4</a> presents the relationship between mean and variance, the dispersion and zero-inflation indexes as a function of the expected values <span class="math inline">\(\mu\)</span> for different scenarios and count distributions. Scenario <span class="math inline">\(1\)</span> corresponds to the case of underdispersion. Thus, we fixed the dispersion index at <span class="math inline">\(DI = 0.5\)</span> when the mean equaling <span class="math inline">\(10\)</span>. Since the Poisson-Tweedie cannot deal with underdispersion, in this scenario we present only the Gamma-Count and COM-Poisson distributions. Similarly, scenarios <span class="math inline">\(2--4\)</span> are obtained by fixing the dispesion index at <span class="math inline">\(DI = 2, 5\)</span> and <span class="math inline">\(10\)</span> when mean equaling <span class="math inline">\(10\)</span>. In the scenario <span class="math inline">\(4\)</span> we could not find a parameter configuration in order to have a COM-Poisson distribution with dispersion index equals <span class="math inline">\(20\)</span>. Consequently, we present results only for the Gamma-Count and Poisson-Tweedie distributions. Furthermore, Figure <a href="models.html#fig:heavytail">2.5</a> presents the heavy tail index for some extreme values of the random variable <span class="math inline">\(Y\)</span>.</p>
 <div class="figure" style="text-align: center"><span id="fig:indexes"></span>
 <img src="rmcdbook_files/figure-html/indexes-1.png" alt="Mean and variance relationship (first line), dispersion (DI) and zero-inflation (ZI) indexes as a function of the expected values by simulation scenarios and count distributions." width="768" />
 <p class="caption">
@@ -435,10 +331,10 @@ Figure 2.4: Mean and variance relationship (first line), dispersion (DI) and zer
 Figure 2.5: Heavy tail index for some extreme values of the random variable Y by simulation scenarios and count distributions.
 </p>
 </div>
-<p>The indexes presented in Figures <a href="models.html#fig:indexes">2.4</a> and <a href="models.html#fig:heavytail">2.5</a> show that for all considered scenarios the Gamma-Count and COM-Poisson distributions are quite similar. In general, for these distributions, the indexes slightly depend on the expected values and tend to stabilize for large values of <span class="math inline">\(\mu\)</span>. Consequently, the mean and variance relationship is proportional to the dispersion parameter value. In the overdispersion case, the Gamma-Count and COM-Poisson distributions can handle with a limited amount of zero-inflation and are in general light tailed distributions, i.e. <span class="math inline">\(\mathrm{HT} \to 0\)</span> for <span class="math inline">\(y \to \infty\)</span>.</p>
-<p>Regarding the Poisson-Tweedie distributions the indexes show that for small values of the power parameter the Poisson-Tweedie distribution is suitable to deal with zero-inflated count data. In that case, the <span class="math inline">\(\mathrm{DI}\)</span> and <span class="math inline">\(\mathrm{ZI}\)</span> are almost not dependent on the values of the mean. Furthermore, the <span class="math inline">\(\mathrm{HT}\)</span> decreases as the mean increases. On the other hand, for large values of the power parameter the <span class="math inline">\(\mathrm{HT}\)</span> increases with increasing mean, showing that the model is specially suitable to deal with heavy-tailed count data. In this case, the <span class="math inline">\(\mathrm{DI}\)</span> and <span class="math inline">\(\mathrm{ZI}\)</span> increase quickly as the mean increases giving an extremely overdispersed model for large values of the mean. In general, the <span class="math inline">\(\mathrm{DI}\)</span> and <span class="math inline">\(\mathrm{ZI}\)</span> are larger than one and zero, respectively, which, of course, show that the corresponding Poisson-Tweedie distributions cannot deal with underdispersed and zero-deflated count data.</p>
+<p>The indexes presented in Figures <a href="models.html#fig:indexes">2.4</a> and <a href="models.html#fig:heavytail">2.5</a> show that for all considered scenarios the Gamma-Count and COM-Poisson distributions are quite similar. In general, for these distributions, the indexes slightly depend on the expected values and tend to stabilize for large values of <span class="math inline">\(\mu\)</span>. Consequently, the mean and variance relationship is proportional to the dispersion parameter value. In the overdispersion case, the Gamma-Count and COM-Poisson distributions can handle with a limited ammount of zero-inflation and are in general light tailed distributions, i.e. <span class="math inline">\(\mathrm{HT} \to 0\)</span> for <span class="math inline">\(y \to \infty\)</span>.</p>
+<p>Regarding the Poisson-Tweedie distributions the indexes show that for small values of the power parameter the Poisson-Tweedie distribution is suitable to deal with zero-inflated count data. In that case, the <span class="math inline">\(\mathrm{DI}\)</span> and <span class="math inline">\(\mathrm{ZI}\)</span> are almost not dependent on the values of the mean. Furthermore, the <span class="math inline">\(\mathrm{HT}\)</span> decreases as the mean increases. On the other hand, for large values of the power parameter the <span class="math inline">\(\mathrm{HT}\)</span> increases with increasing mean, showing that the model is specially suitable to deal with heavy tailed count data. In this case, the <span class="math inline">\(\mathrm{DI}\)</span> and <span class="math inline">\(\mathrm{ZI}\)</span> increase quickly as the mean increases giving an extremely overdispersed model for large values of the mean. In general, the <span class="math inline">\(\mathrm{DI}\)</span> and <span class="math inline">\(\mathrm{ZI}\)</span> are larger than one and zero, respectively, which, of course, show that the corresponding Poisson-Tweedie distributions cannot deal with underdispersed and zero-deflated count data.</p>
 <p>In terms of regression models, the Poisson and Poisson-Tweedie models are easy and convenient to interpret because the expected value is directly modelled as a function of known covariates in a generalized linear models manner. On the other hand, the Gamma-Count specifies the regression model for the expectation of the times between events and, thus requires careful interpretation. The COM-Poisson regression model is hard to interpret and compare with the traditional Poisson regression model, since it specifies the regression model for the parameter <span class="math inline">\(\lambda\)</span> that has no easy interpretation in relation to the expectation of the count response variable.</p>
-<p>Finally, in terms of computational implementation the simplicity of the Poisson regression model is unquestionable. The probability mass function of the Gamma-Count distribution requires the evaluation of the difference between two cumulative gamma distributions. For large values of the random variable <span class="math inline">\(Y\)</span>, such a difference can be time consuming and inaccurately computed. Similarly, the COM-Poisson probability mass function involves the evaluation of a infinity sum, which can be computational expensive and inaccurate for large values of <span class="math inline">\(Y\)</span>. Furthermore, for extreme values of <span class="math inline">\(\lambda\)</span> combined with small values of <span class="math inline">\(\nu\)</span> the infinite sum can numerically diverges making impossible to evaluate the probability mass function. Finally, the Poisson-Tweedie probability mass function involves an intractable integral, which makes the estimation and inference based on likelihood methods computationally intensive.</p>
+<p>Finally, in terms of computational implementation the simplicity of the Poisson regression model is unquestionable. The probability mass function of the Gamma-Count distribution requires the evaluation of the difference between two cumulative gamma distributions. For large values of the random variable <span class="math inline">\(Y\)</span>, such a difference can be time consuming and inaccurately computed. Similarly, the COM-Poisson probability mass function involves the evaluation of a infinity sum, which can be computational expensive and inaccurate for large values of <span class="math inline">\(Y\)</span>. Furthermore, for extreme values of <span class="math inline">\(\lambda\)</span> combined with small values of <span class="math inline">\(\nu\)</span> the infinite sum can numerically diverge making impossible to evaluate the probability mass function. Finally, the Poisson-Tweedie probability mass function involves an intractable integral, which makes the estimation and inference based on likelihood methods computationally intensive.</p>
 
 </div>
 </div>

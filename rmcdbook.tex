@@ -170,12 +170,6 @@
 \def\verbatim@font{\ttfamily \small \color{outputcolor}}%
 \makeatother
 
-% % For table placemente (knitr::kable don't provides this option)
-% \usepackage{float}
-% \makeatletter
-% \renewcommand{\fps@table}{H}
-% \makeatother
-
 \usepackage{amsthm}
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}{Lemma}[chapter]
@@ -257,7 +251,7 @@ The main goal of this course is to present a wide range of statistical
 models to deal with count data. We focus on parametric and second-moment
 specified models. We shall present the model specification along with
 strategies for model fitting and associated \texttt{R}\citep{R2015}
-code. Furthermore, this book-course and supplementary materials, such as
+code. Furthermore, this book-course and supplementary materials as
 \texttt{R} code and data sets are available for the students on the web
 page \url{http://cursos.leg.ufpr.br/rmcd}.
 
@@ -267,18 +261,18 @@ who already attended a course on generalized linear models
 topics, it can be of interest of postgraduate students and researches in
 general.
 
-We designed the course for three hours of tuition. In the first part of
-the course, we shall present the analysis of count data based on fully
-parametric models. After a brief introduction and motivation on count
-data, we present the Poisson, Gamma-Count, Poisson-Tweedie and
-COM-Poisson distributions. We explore their properties through a
-consideration of dispersion, zero-inflated and heavy tail indexes.
-Furthermore, the estimation and inference for these models based on the
-likelihood paradigm is discussed along with the associated \texttt{R}
-code and worked examples.
+We designed the course for three hours of tuition. In the first part
+(two hours) of the course, we shall present the analysis of count data
+based on fully parametric models. After a brief introduction and
+motivation on count data, we present the Poisson, Gamma-Count,
+Poisson-Tweedie and COM-Poisson distributions. We explore their
+properties through a consideration of dispersion, zero-inflated and
+heavy tail indexes. Furthermore, the estimation and inference for these
+models based on the likelihood paradigm is discussed along with
+\texttt{R} code and worked examples.
 
-In the second part of the course, we provide a brief introduction to the
-estimating function approach \citetext{\citealp[
+In the second part (one hour) of the course, we provide a brief
+introduction to the estimating function approach \citetext{\citealp[
 ]{Jorgensen2004}; \citealp{Bonat2016a}} and discuss models based on
 second-moment assumptions in the style of \citet{Wedderburn1974}. In
 particular, we focus on the recently proposed Extended Poisson-Tweedie
@@ -301,9 +295,9 @@ March 27, 2017.
 The analysis of count data has received attention from the statistical
 community in the last four decades. Since the seminal paper published by
 \citet{Nelder1972}, the class of generalized linear models (GLMs) have a
-prominent role for regression modelling of normal and non-normal data.
-GLMs are fitted by a simple and efficient Newton scoring algorithm
-relying only on second-moment assumptions for estimation and inference.
+proeminent role for regression modelling of normal and non-normal data.
+GLMs are fitted by a simple and efficient Newton score algorithm relying
+only on second-moment assumptions for estimation and inference.
 Furthermore, the theoretical background for GLMs is well established in
 the class of dispersion models \citep{Jorgensen1987, Jorgensen1997} as a
 generalization of the exponential family of distributions.
@@ -323,12 +317,12 @@ practical data analysis a number of these could be involved.
 One possible cause of under/overdispersion is departure from the Poisson
 process. It is well known that the Poisson counts can be interpreted as
 the number of events in a given time interval where the arrival's times
-are exponential distributed. In the cases where this assumption is
-violated the resulting counts can be under or overdispersed
-\citep{Zeviani2014}. Another possibility and probably more frequent
-cause of overdispersion is unobserved heterogeneity of experimental
-units. It can be due, for example, to correlation between individual
-responses, cluster sampling, omitted covariates and others.
+are exponential distributed. When this assumption is violated the
+resulting counts can be under or overdispersed \citep{Zeviani2014}.
+Another possibility and probably more frequent cause of overdispersion
+is unobserved heterogeneity of experimental units. It can be due, for
+example, to correlation between individual responses, cluster sampling,
+ommitted covariates and others.
 
 In general, these departures from the Poisson distribution are
 manifested in the raw data as a zero-inflated or heavy-tailed count
@@ -348,8 +342,8 @@ related with the causes of the non-equidispersion. When departures from
 the Poisson process are plausible the class of duration dependence
 models \citep{Winkelmann2003} can be employed. This class of models
 changes the distribution of the time between events from the exponential
-to more general distributions, such as gamma and inverse Gaussian. In
-this course, we shall discuss one example of this approach, namely, the
+to more general distributions, like gamma and inverse Gaussian. In this
+course, we shall discuss one example of this approach, namely, the
 Gamma-Count distribution \citep{Zeviani2014}. This distribution assumes
 that the time between events is gamma distributed, thus it can deal with
 under, equi and overdispersed count data.
@@ -374,23 +368,24 @@ exponential family, has the Poisson and geometric distributions as
 special cases and the Bernoulli distribution as a limiting case. It can
 deal with both under and overdispersed count data. Thus, given the nice
 properties of the COM-Poisson distribution for handling count data, we
-chose to present this model as part of this course.
+choose to present this model as part of this short course.
 
-In this course, we shall highlight and compare the flexibility of these
-distributions to deal with count data through a consideration of
+In this short course, we shall highlight and compare the ability of
+these distributions to deal with count data through a consideration of
 dispersion, zero-inflated and heavy tail indexes. Furthermore, we
-specify regression models and illustrate their application with three
+specify regression models and illustrate their application with two
 worked examples.
 
 In Chapter \ref{models} we present the properties and regression models
 associated with the Poisson, Gamma-count, Poisson-Tweedie and
 COM-Poisson distributions. Furthermore, we compare these distributions
-using the dispersion, zero-inflated and heavy tail indexes. Estimation
+using the dispersion, zero-inflated and heavy-tail indexes. Estimation
 and inference for these models based on the likelihood paradigm are
 discussed in Chapter \ref{likelihood}. In Chapter \ref{SM}, we extend
-the Poisson-Tweedie model using only second-moment assumptions and
-present the fitting algorithm based on the estimating functions
-approach. Chapter \(5\) presents three worked examples.
+the Poisson-Tweedie model using only second-moment assumptions and the
+fitting algorithm based on the estimating functions approach. Chapter
+\(5\) presents two worked examples. Finally, in Chapter \(6\) we discuss
+the general methods and propose some topics for future works.
 
 \chapter{Count distributions: properties and regression
 models}\label{models}
@@ -427,7 +422,7 @@ according to a Poisson distribution. The Poisson regression models is
 defined by
 \[Y_i \sim P(\mu_i), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}).\]
 In this notation, \(\boldsymbol{x_i}\) and \(\boldsymbol{\beta}\) are
-(\(p \times 1\)) vectors of known covariates and unknown regression
+(\(q \times 1\)) vectors of known covariates and unknown regression
 parameters, respectively. Moreover, \(g\) is a standard link function,
 for which we adopt the logarithm link function, but potentially any
 other suitable link function could be adopted.
@@ -476,7 +471,7 @@ density distribution (dropping the index \(k\)) given by
 f(\tau; \alpha, \gamma) = \frac{\gamma^{\alpha}}{\Gamma(\alpha)} \tau^{\alpha-1} \exp\{-\gamma \tau\}, \quad \alpha, \gamma \in \mathbb{R}^{+}.
 \end{equation}
 
-In this parametrization \(\mathrm{E}(\tau) = \alpha/\gamma\) and
+In this parameterization \(\mathrm{E}(\tau) = \alpha/\gamma\) and
 \(\mathrm{var}(\tau) = \alpha/\gamma^2\). Thus, by applying the
 convolution formula for gamma distributions, it is easy to show that the
 distribution of \(\nu_y\) is given by
@@ -551,7 +546,7 @@ Consequently, the Gamma-Count distribution displays overdispersion for
 \ref{fig:PlotGC} presents the probability mass function for some
 Gamma-Count distributions. We fixed the parameter \(\gamma = 10\) and
 fit the parameter \(\alpha\) in order to have dispersion index
-(\(\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)\)) equalling to \(0.5\),
+(\(\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)\)) equaling to \(0.5\),
 \(2\), \(5\) and \(20\).
 
 \begin{figure}[h]
@@ -646,9 +641,10 @@ The integral \eqref{eq:pmfPTW} has no closed-form apart of the special
 case corresponding to the negative binomial distribution, obtained when
 \(p = 2\), i.e.~a Poisson gamma mixture. In the case of \(p=1\), the
 integral \eqref{eq:pmfPTW} is replaced by a sum and we have the Neyman
-Type A distribution. Further special cases include the compound Poisson
-\((1 < p < 2)\), factorial discrete positive stable \((p > 2)\) and
-Poisson-inverse Gaussian \((p = 3)\) distributions \citetext{\citealp[
+Type A distribution. Further special cases include the Hermite
+\((p = 0)\), compound Poisson \((1 < p < 2)\), factorial discrete
+positive stable \((p > 2)\) and Poisson-inverse Gaussian \((p = 3)\)
+distributions \citetext{\citealp[
 ]{Jorgensen2014}; \citealp{Kokonendji2004}}.
 
 In spite of other approaches to compute the probability mass function of
@@ -679,7 +675,7 @@ following functions.
 \end{Highlighting}
 \end{Shaded}
 
-When using the Monte Carlo method, we need to specify a proposal
+When using the Monte Carlo method we need to specify a proposal
 distribution, from which samples will be taken to compute the integral
 as an expectation. In the Poisson-Tweedie case is sensible to use the
 Tweedie distribution as proposal. Thus, in our function we use the
@@ -746,7 +742,7 @@ distribution.
 Finally, the Poisson-Tweedie regression model is defined by
 \[Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{with} \quad \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),\]
 where \(\boldsymbol{x}_i\) and \(\boldsymbol{\beta}\) are
-\((p \times 1)\) vectors of known covariates and unknown regression
+\((q \times 1)\) vectors of known covariates and unknown regression
 parameters. The estimation and inference of Poisson-Tweedie regression
 models based on the maximum likelihood method are challenged by the
 presence of an intractable integral in the probability mass function and
@@ -761,52 +757,19 @@ the style of \citet{Wedderburn1974}.
 The COM-Poisson distribution belongs to the family of weighted Poisson
 distributions. A random variable \(Y\) is a weighted Poisson
 distribution if its probability mass function can be written in the form
+
 \[
-f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!},
-\quad y = 0, 1, \ldots,
+f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!}, \quad y = 0, 1, \ldots,
 \] where
-\(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_i / i!\) is
+\(W = \sum_{i = 0}^{\infty} \exp^{\{-\lambda\}} \lambda^i w_s / i!\) is
 a normalizing constant \citep{Sellers2012}. The COM-Poisson is obtained
-when \(w_{y} = (y!)^{1-\nu}\) for \(\nu \geq 0\). The series \(W\) for
-COM-Poisson distribution is denoted by \(Z(\lambda, \nu)\) and can be
-written as \(\sum_{i=0}^{\infty}\lambda^i/(i!)^\nu\). Note that the
-series is theoretically divergent only when \(\nu = 0\) and
-\(\lambda \geq 1\), but numerically for small values of \(\nu\) combined
-with large values of \(\lambda\), the sum is so huge it causes overflow.
-The Table \ref{tab:convergenceZ} shows the sums calculated with \(1000\)
-increments, in other words, \(\sum_{i=0}^{1000}\lambda^i/(i!)^\nu\) for
-different values of \(\nu\) (horizontal lines) and \(\lambda\) (vertical
-lines).
+when \(w_{y} = (y!)^{1-\nu}\) for \(\nu \geq 0\). In general, the
+expectation and variance of the COM-Poisson distribution cannot be
+expressed in closed-form. However, they can be approximated by
+\[\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu} \quad
+\text{and} \quad \mathrm{var}(Y) \approx (1/ \nu) \lambda^{1 /\nu}.\]
 
-\begin{table}
-
-\caption{\label{tab:convergenceZ}Values for $Z(\lambda, \nu)$ constant (calculated numerically) to combined values of $\lambda$ (0.5 to 50) and $\phi$ (0 to 1)}
-\centering
-\begin{tabular}[t]{lcccccc}
-\toprule
-  & 0.5 & 1 & 5 & 10 & 30 & 50\\
-\midrule
-0 & 2.00 & Inf & Inf & Inf & Inf & Inf\\
-0.1 & 1.92 & 7.64 & Inf & Inf & Inf & Inf\\
-0.2 & 1.86 & 5.25 & 3.17e+273 & Inf & Inf & Inf\\
-0.3 & 1.81 & 4.32 & 1.60e+29 & 2.54e+282 & Inf & Inf\\
-0.4 & 1.77 & 3.80 & 4.71e+10 & 1.33e+56 & Inf & Inf\\
-0.5 & 1.74 & 3.47 & 1.34e+06 & 3.67e+22 & 3.32e+196 & Inf\\
-0.6 & 1.72 & 3.23 & 2.05e+04 & 4.99e+12 & 1.73e+76 & 4.63e+177\\
-0.7 & 1.70 & 3.06 & 2.37e+03 & 3.69e+08 & 4.93e+39 & 6.93e+81\\
-0.8 & 1.68 & 2.92 & 6.49e+02 & 2.70e+06 & 5.09e+24 & 3.43e+46\\
-0.9 & 1.66 & 2.81 & 2.74e+02 & 1.47e+05 & 1.80e+17 & 2.19e+30\\
-1 & 1.65 & 2.72 & 1.48e+02 & 2.20e+04 & 1.07e+13 & 5.18e+21\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-In general, the expectation and variance of the COM-Poisson distribution
-cannot be expressed in closed-form. However, they can be approximated by
-\[\mathrm{E}(Y) \approx \lambda^{1/\nu} - \frac{\nu - 1}{2 \nu}
-\quad \text{and} \quad
-\mathrm{var}(Y) \approx \frac{1}{\nu} \lambda^{1 /\nu}.
-\] These approximations are accurate when \(\nu \leq 1\) or
+These approximations are accurate when \(\nu \leq 1\) or
 \(\lambda > 10^{\nu}\). The infinite sum involved in computing the
 probability mass function of the COM-Poisson distribution can be
 approximated to any level of precision. It can be evaluated in
@@ -816,9 +779,7 @@ approximated to any level of precision. It can be evaluated in
 functions. We tried to find parameters \(\lambda\) and \(\nu\) in order
 to have \(\mathrm{E}(Y) = 10\) and dispersion index equals to
 \(\mathrm{DI} = 0.5, 2, 5\) and \(20\). However, we could not find any
-parameter combination to have \(\mathrm{DI} = 20\). Probably, it was due
-to overflow of the sum since \(\nu\) is inversely proportional to the
-dispersion index (see table \ref{tab:convergenceZ}).
+parameter combination to have \(\mathrm{DI} = 20\).
 
 \begin{figure}[h]
 
@@ -837,7 +798,7 @@ COM-Poisson regression model is defined by
 In this notation, the parameter \(\nu\) is considered the dispersion
 parameter such that \(\nu > 1\) represents underdispersion and
 \(\nu < 1\) overdispersion. The Poisson model is obtained for
-\(\nu = 1\) and as usual we adopt the logarithm link function for \(g\).
+\(\nu = 0\) and as usual we adopt the logarithm link function for \(g\).
 
 \section{Comparing count
 distributions}\label{comparing-count-distributions}
@@ -863,7 +824,7 @@ and
 These indexes are defined in relation to the Poisson distribution. Thus,
 the dispersion index indicates underdispersion for \(\mathrm{DI} < 1\),
 equidispersion for \(\mathrm{DI} = 1\) and overdispersion for
-\(\mathrm{DI} > 1\). Similarly, the zero-inflation index is easily
+\(\mathrm{DI} > 1\). Similarly, the zero-inflated index is easily
 interpreted, since \(\mathrm{ZI} < 0\) indicates zero-deflation,
 \(\mathrm{ZI} = 0\) corresponds to no excess of zeroes and
 \(\mathrm{ZI} > 0\) indicates zero-inflation. Finally,
@@ -877,18 +838,16 @@ Thus, it is quite clear that the Poisson model can deal only with
 equidispersed data and has no flexibility to deal with zero-inflation
 and/or heavy tail count data. In fact, the presented indexes were
 proposed in relation to the Poisson distribution in order to highlight
-its limitations.
-
-Figure \ref{fig:indexes} presents the relationship between mean and
-variance, the dispersion and zero-inflation indexes as a function of the
-expected values \(\mu\) for different scenarios and count distributions.
-Scenario \(1\) corresponds to the case of underdispersion. Thus, we
-fixed the dispersion index at \(\mathrm{DI} = 0.5\) when the mean
-equalling \(10\). Since the Poisson-Tweedie cannot deal with
-underdispersion, in this scenario we present only the Gamma-Count and
-COM-Poisson distributions. Similarly, scenarios \(2--4\) are obtained by
-fixing the dispersion index at \(\mathrm{DI} = 2, 5\) and \(10\) when
-mean equalling \(10\). In the scenario \(4\) we could not find a
+its limitations. Figure \ref{fig:indexes} presents the relationship
+between mean and variance, the dispersion and zero-inflation indexes as
+a function of the expected values \(\mu\) for different scenarios and
+count distributions. Scenario \(1\) corresponds to the case of
+underdispersion. Thus, we fixed the dispersion index at \(DI = 0.5\)
+when the mean equaling \(10\). Since the Poisson-Tweedie cannot deal
+with underdispersion, in this scenario we present only the Gamma-Count
+and COM-Poisson distributions. Similarly, scenarios \(2--4\) are
+obtained by fixing the dispesion index at \(DI = 2, 5\) and \(10\) when
+mean equaling \(10\). In the scenario \(4\) we could not find a
 parameter configuration in order to have a COM-Poisson distribution with
 dispersion index equals \(20\). Consequently, we present results only
 for the Gamma-Count and Poisson-Tweedie distributions. Furthermore,
@@ -920,7 +879,7 @@ for these distributions, the indexes slightly depend on the expected
 values and tend to stabilize for large values of \(\mu\). Consequently,
 the mean and variance relationship is proportional to the dispersion
 parameter value. In the overdispersion case, the Gamma-Count and
-COM-Poisson distributions can handle with a limited amount of
+COM-Poisson distributions can handle with a limited ammount of
 zero-inflation and are in general light tailed distributions, i.e.
 \(\mathrm{HT} \to 0\) for \(y \to \infty\).
 
@@ -931,7 +890,7 @@ suitable to deal with zero-inflated count data. In that case, the
 values of the mean. Furthermore, the \(\mathrm{HT}\) decreases as the
 mean increases. On the other hand, for large values of the power
 parameter the \(\mathrm{HT}\) increases with increasing mean, showing
-that the model is specially suitable to deal with heavy-tailed count
+that the model is specially suitable to deal with heavy tailed count
 data. In this case, the \(\mathrm{DI}\) and \(\mathrm{ZI}\) increase
 quickly as the mean increases giving an extremely overdispersed model
 for large values of the mean. In general, the \(\mathrm{DI}\) and
@@ -959,7 +918,7 @@ and inaccurately computed. Similarly, the COM-Poisson probability mass
 function involves the evaluation of a infinity sum, which can be
 computational expensive and inaccurate for large values of \(Y\).
 Furthermore, for extreme values of \(\lambda\) combined with small
-values of \(\nu\) the infinite sum can numerically diverges making
+values of \(\nu\) the infinite sum can numerically diverge making
 impossible to evaluate the probability mass function. Finally, the
 Poisson-Tweedie probability mass function involves an intractable
 integral, which makes the estimation and inference based on likelihood
@@ -974,17 +933,17 @@ method and its main properties along with some examples in \texttt{R}.
 The maximum likelihood method is applicable mainly in situations where
 the true distribution of the count random variable \(Y\) is known apart
 of the values of a finite number of unknown parameters. Let
-\(f(y;\boldsymbol{\theta})\) denote the true probability mass function
+\(p(y;\boldsymbol{\theta})\) denote the true probability mass function
 of the count random variable \(Y\). We assume that the family
-\(f(y;\boldsymbol{\theta})\) is labelled by a (\(p \times 1\)) parameter
+\(p(y;\boldsymbol{\theta})\) is labelled by a (\(p \times 1\)) parameter
 vector \(\boldsymbol{\theta}\) taking values in \(\Theta\) a subset of
 \(\mathbb{R}^n\). For a given observed value \(y\) of the a random
 variable \(Y\), the likelihood function corresponding to the observation
 \(y\) is defined as
-\(L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta})\). It is important
-to highlight that \(f(y;\boldsymbol{\theta})\) is a probability mass
+\(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\). It is important
+to highlight that \(p(y;\boldsymbol{\theta})\) is a probability mass
 function on the sample space. On the other hand,
-\(L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta})\) is a function on
+\(L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})\) is a function on
 the parameter space \(\Theta\). The likelihood function expresses the
 plausibilities of different parameters after we have observed \(y\), in
 the absence of any other information that we may have about these
@@ -1009,13 +968,13 @@ the context to make it clear whether we are thinking of
 a function.
 
 Let \(Y_i\) be independent and identically distributed count random
-variables with probability mass function \(f(y;\boldsymbol{\theta})\),
+variables with probability mass function \(p(y;\boldsymbol{\theta})\),
 whose observed values are denoted by \(y_i\) for \(i = 1, \ldots, n.\)
 In this case, the likelihood function can be written as the product of
 the individuals probability mass distributions, i.e.
 
 \begin{equation}
-L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n f(y_i; \boldsymbol{\theta}).
+L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n p(y_i; \boldsymbol{\theta}).
 \label{eq:LIK}
 \end{equation}
 
@@ -1041,10 +1000,10 @@ i.e.
 \label{eq:SCORE}
 \end{equation}
 
-The system of non-linear equations in \eqref{eq:SCORE} often have to be
-solved numerically. The entry \((i,j)\) of the \(p \times p\) Fisher
-information matrix \(\mathcal{F}_{\boldsymbol{\theta}}\) for the vector
-of parameter \(\boldsymbol{\theta}\) is given by
+However, the system of non-linear equations in \eqref{eq:SCORE} often have
+to be solved numerically. The entry \((i,j)\) of the \(p \times p\)
+Fisher information matrix \(\mathcal{F}_{\boldsymbol{\theta}}\) for the
+vector of parameter \(\boldsymbol{\theta}\) is given by
 
 \begin{equation}
 \mathcal{F}_{\boldsymbol{\theta}_{ij}} =-\mathrm{E} \left \{ \frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial\theta_i\partial\theta_j} \right \}.
@@ -1070,7 +1029,7 @@ function. However, for the Gamma-Count where the log-likelihood function
 is given by the difference between two integrals, we cannot obtain such
 derivatives analytically. Similarly, for the COM-Poisson the
 log-likelihood function involves an infinite sum and consequently such
-derivatives cannot be obtained analytically. Finally, in the
+derivatives cannot be obtained analitycally. Finally, in the
 Poisson-Tweedie distribution the log-likelihood function is defined by
 an intractable integral, which implies that we cannot obtain a
 closed-form for the score function and Fisher information matrix.
@@ -1144,7 +1103,9 @@ such as \texttt{summary()}, \texttt{coef()}, \texttt{confint()},
 \end{verbatim}
 
 Similar functions can be done for the Poisson, Poisson-Tweedie and
-COM-Poisson distributions.
+COM-Poisson distributions. In the supplementary material
+\texttt{Script5.R}, we provide some functions for maximum likelihood
+estimation of Poisson-Tweedie and COM-Poisson distributions.
 
 \chapter{Models specified by second-moment assumptions}\label{SM}
 
@@ -1161,12 +1122,13 @@ assumptions.
 \section{Extended Poisson-Tweedie
 model}\label{extended-poisson-tweedie-model}
 
-The Poisson-Tweedie distribution as presented in subsection \ref{ptw}
-provides a very flexible family of count distributions, however, such a
-family has two main drawbacks: it cannot deal with underdispersed count
-data and its probability mass function is given by an intractable
-integral, which implies that estimation based on the maximum likelihood
-method is computational demanding for practical data analysis.
+The Poisson-Tweedie distribution as presented in subsection the
+\ref{ptw} provides a very flexible family of count distributions,
+however, such a family has two main drawbacks: it cannot deal with
+underdispersed count data and its probability mass function is given by
+an intractable integral, which implies that estimation based on the
+maximum likelihood method is computational demanding for practical data
+analysis.
 
 In spite of these issues \citet{Jorgensen2014} showed using factorial
 cumulant function that for \(Y \sim PTw_p(\mu, \phi)\),
@@ -1186,7 +1148,7 @@ are given by
 \end{align}
 
 where as before \(\boldsymbol{x}_i\) and \(\boldsymbol{\beta}\) are
-(\(p \times 1\)) vectors of known covariates and unknown regression
+(\(q \times 1\)) vectors of known covariates and unknown regression
 parameters and \(g\) is the logarithm link function. The regression
 model specified in \eqref{eq:EPTW} is parametrized by
 \(\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top )^\top\),
@@ -1229,14 +1191,14 @@ parameters respectively. Following \citet{Bonat2016b} the quasi-score
 function for \(\boldsymbol{\beta}\) has the following form,
 
 \begin{equation*}
-\psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_p}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
+\psi_{\boldsymbol{\beta}}(\boldsymbol{\beta}, \boldsymbol{\lambda}) = \left (\sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_1}C^{-1}_i(Y_i - \mu_i), \ldots, \sum_{i=1}^n \frac{\partial \mu_i}{\partial \beta_q}C^{-1}_i(Y_i - \mu_i)  \right )^\top,
 \end{equation*}
 
 where \(\partial \mu_i/\partial \beta_j = \mu_i x_{ij}\) for
-\(j = 1, \ldots, p\). The sensitivity matrix is defined as the
+\(j = 1, \ldots, q\). The sensitivity matrix is defined as the
 expectation of the first derivative of the estimating function with
 respect to the model parameters. Thus, the entry \((j,k)\) of the
-\(p \times p\) sensitivity matrix for \(\psi_{\boldsymbol{\beta}}\) is
+\(q \times q\) sensitivity matrix for \(\psi_{\boldsymbol{\beta}}\) is
 given by
 
 \begin{equation}
@@ -1246,7 +1208,7 @@ given by
 
 In a similar way, the variability matrix is defined as the variance of
 the estimating function. In particular, for the quasi-score function the
-entry \((j,k)\) of the \(p \times p\) variability matrix is given by
+entry \((j,k)\) of the \(q \times q\) variability matrix is given by
 
 \begin{equation*}
 \label{Vbeta}
@@ -1322,7 +1284,7 @@ where
 \(\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} = \mathrm{V}^{\top}_{\boldsymbol{\beta}\boldsymbol{\lambda}}\)
 and \(\mathrm{V}_{\boldsymbol{\lambda}}\) depend on the third and fourth
 moments of \(Y_i\), respectively. In order to avoid this dependence on
-higher-order moments, we use the empirical versions of
+higher-order moments, we propose to use the empirical versions of
 \(\mathrm{V}_{\boldsymbol{\lambda}}\) and
 \(\mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}}\) as given by
 
@@ -1358,6 +1320,1177 @@ algorithm is a special case of the flexible algorithm presented by
 linear models. Hence, estimation for the extended Poisson-Tweedie model
 is easily implemented in \texttt{R} through the \texttt{mcglm}
 \citep{Bonat2016c} package.
+
+\chapter{Applications}\label{applications}
+
+In this chapter, we will bring some applications based on real data sets
+to show how use R packages to analyse count data.
+
+\section{Cotton Bolls}\label{cotton-bolls}
+
+Cotton production can be drastically reduced by attack of defoliating
+insects. Depending on the growth stage, the plant can recover from the
+caused damage and keeps production not affected or can have the
+production reduced by low intensity defoliation.
+
+A greenhouse experiment with cotton plants (\emph{Gossypium hirsutum})
+was done under a completely randomized design with five replicates to
+assess the effects of five defoliation levels (0\%, 25\%, 50\%,75\% and
+100\%) on the observed number of bolls produced by plants at five growth
+stages: vegetative, flower-bud, blossom, fig and cotton boll. The
+experimental unity was a vase with two plants \citep[for
+more]{Silva2012a}. The number of cotton bolls was recorded at the
+hasvest of the experiment.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(lattice)}
+\KeywordTok{library}\NormalTok{(latticeExtra)}
+\KeywordTok{library}\NormalTok{(gridExtra)}
+\KeywordTok{library}\NormalTok{(plyr)}
+\KeywordTok{library}\NormalTok{(car)}
+\KeywordTok{library}\NormalTok{(corrplot)}
+\KeywordTok{library}\NormalTok{(doBy)}
+\KeywordTok{library}\NormalTok{(multcomp)}
+\KeywordTok{library}\NormalTok{(mcglm)}
+\KeywordTok{library}\NormalTok{(MRDCr)}
+\KeywordTok{ls}\NormalTok{(}\StringTok{"package:MRDCr"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##  [1] "apc"                  "calc_mean_cmp"       
+##  [3] "calc_mean_gcnt"       "calc_var_cmp"        
+##  [5] "cambras"              "capdesfo"            
+##  [7] "capmosca"             "cmp"                 
+##  [9] "conftemp"             "confterm"            
+## [11] "convergencez"         "dcmp"                
+## [13] "dgcnt"                "dpgnz"               
+## [15] "gcnt"                 "led"                 
+## [17] "llcmp"                "llgcnt"              
+## [19] "llpgnz"               "nematoide"           
+## [21] "ninfas"               "panel.beeswarm"      
+## [23] "panel.cbH"            "panel.groups.segplot"
+## [25] "peixe"                "pgnz"                
+## [27] "postura"              "prepanel.cbH"        
+## [29] "seguros"              "soja"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Documentation in Portuguese.}
+\KeywordTok{help}\NormalTok{(capdesfo, }\DataTypeTok{help_type =} \StringTok{"html"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(capdesfo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    125 obs. of  4 variables:
+##  $ est : Factor w/ 5 levels "vegetativo","botão floral",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ des : num  0 0 0 0 0 0.25 0.25 0.25 0.25 0.25 ...
+##  $ rept: int  1 2 3 4 5 1 2 3 4 5 ...
+##  $ ncap: int  10 9 8 8 10 11 9 10 10 10 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{levels}\NormalTok{(capdesfo$est) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"vegetative"}\NormalTok{,}
+                          \StringTok{"flower-bud"}\NormalTok{,}
+                          \StringTok{"blossom"}\NormalTok{,}
+                          \StringTok{"fig"}\NormalTok{,}
+                          \StringTok{"cotton boll"}\NormalTok{)}
+\KeywordTok{xtabs}\NormalTok{(~est +}\StringTok{ }\NormalTok{des, }\DataTypeTok{data =} \NormalTok{capdesfo)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              des
+## est           0 0.25 0.5 0.75 1
+##   vegetative  5    5   5    5 5
+##   flower-bud  5    5   5    5 5
+##   blossom     5    5   5    5 5
+##   fig         5    5   5    5 5
+##   cotton boll 5    5   5    5 5
+\end{verbatim}
+
+Figure \ref{fig:bools-mean-var} (top) shows the beeswarm plot of number
+of cotton bolls recorded for each combination of defoliation level and
+growth stage. All the points in the sample means and variances
+dispersion diagram (bottom) are below the identity line, clearly
+suggesting data with underdispersion.
+
+\begin{figure}[h]
+
+{\centering \includegraphics{rmcdbook_files/figure-latex/bools-mean-var-1} 
+
+}
+
+\caption{(top) Number of bolls produced for each artificial defoliation level and each growth stage. (bottom) Sample variance against the sample mean of the five replicates for each combination of defoliation level and growth stage.}\label{fig:bools-mean-var}
+\end{figure}
+
+The exploratory data analysis, although simple, was able to detect
+departures from the Poisson equidispersion assumption. So, we have in
+advance few conditions met for the use of GLM Poisson as a regression
+model to analyse this experiment.
+
+Poisson, as being a process derived from the memoryless waiting times
+Exponential distribuition, implies that each boll is an independent
+event in the artificial subjacent domain, that can be thought was the
+natural resource domain that the plant has to allocate bolls. Its is
+easy to assume, based on plant fisiology, that the probability of a boll
+decreases with the number of previous bolls because the plant's resource
+to produce bolls is limited and it is a non memoryless process
+equivalent.
+
+Based on the exploratory data analysis, a predictor with 2nd order
+effect of defoliation for each growth stage should be enough to model
+the number of bolls mean in a regression model. The analysis and
+assessment of the effects of the experimental factors are based on the
+Poisson, Gamma-count and Poisson Tweedie models.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m0 <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(ncap ~}\StringTok{ }\NormalTok{est *}\StringTok{ }\NormalTok{(des +}\StringTok{ }\KeywordTok{I}\NormalTok{(des^}\DecValTok{2}\NormalTok{)),}
+          \DataTypeTok{data =} \NormalTok{capdesfo,}
+          \DataTypeTok{family =} \NormalTok{poisson)}
+
+\KeywordTok{summary}\NormalTok{(m0)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = ncap ~ est * (des + I(des^2)), family = poisson, 
+##     data = capdesfo)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.0771  -0.3098  -0.0228   0.2704   1.1665  
+## 
+## Coefficients:
+##                         Estimate Std. Error z value Pr(>|z|)    
+## (Intercept)               2.2142     0.1394   15.89   <2e-16 ***
+## estflower-bud            -0.0800     0.2007   -0.40     0.69    
+## estblossom               -0.0272     0.2001   -0.14     0.89    
+## estfig                   -0.1486     0.2051   -0.72     0.47    
+## estcotton boll            0.1129     0.1922    0.59     0.56    
+## des                       0.3486     0.6805    0.51     0.61    
+## I(des^2)                 -0.7384     0.6733   -1.10     0.27    
+## estflower-bud:des         0.1364     0.9644    0.14     0.89    
+## estblossom:des           -1.5819     1.0213   -1.55     0.12    
+## estfig:des                0.4755     1.0194    0.47     0.64    
+## estcotton boll:des       -0.8210     0.9395   -0.87     0.38    
+## estflower-bud:I(des^2)    0.1044     0.9447    0.11     0.91    
+## estblossom:I(des^2)       1.4044     1.0191    1.38     0.17    
+## estfig:I(des^2)          -0.9294     1.0323   -0.90     0.37    
+## estcotton boll:I(des^2)   1.0757     0.9210    1.17     0.24    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for poisson family taken to be 1)
+## 
+##     Null deviance: 75.514  on 124  degrees of freedom
+## Residual deviance: 25.331  on 110  degrees of freedom
+## AIC: 539.7
+## 
+## Number of Fisher Scoring iterations: 4
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{logLik}\NormalTok{(m0)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'log Lik.' -255 (df=15)
+\end{verbatim}
+
+We fit the GLM Poisson regression model using the stardard
+\texttt{glm()} function in R. The fitted model summary shows the
+estimated parameters for the second order effect of defoliation crossed
+with growth stages levels. The residual deviance was 25.33 based on 110
+degrees of freedoom. The ratio \(25.33/110 = 0.23\) is a strong evidence
+against Poisson equidispersion assumption that uses a dispersion
+parameter equals 1.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{anova}\NormalTok{(m0, }\DataTypeTok{test =} \StringTok{"Chisq"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: ncap
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##              Df Deviance Resid. Df Resid. Dev Pr(>Chi)    
+## NULL                           124       75.5             
+## est           4    19.96       120       55.6  0.00051 ***
+## des           1    15.86       119       39.7  6.8e-05 ***
+## I(des^2)      1     1.29       118       38.4  0.25557    
+## est:des       4     6.71       114       31.7  0.15212    
+## est:I(des^2)  4     6.36       110       25.3  0.17388    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+The analysis of deviance table did not stated effect of any
+interactions, neither second order effect of defiliation. Although, all
+these effects are noticeable in Figure \ref{bools-mean-var}.
+
+\begin{figure}[h]
+
+{\centering \includegraphics{rmcdbook_files/figure-latex/bolls-plot-residuals-1} 
+
+}
+
+\caption{The 4 plots for checking departures of assumptions in the GLM-Poisson regression.}\label{fig:bolls-plot-residuals}
+\end{figure}
+
+Figure \ref{bolls-plot-residuals} displays the four residual plots for
+the fitted model. Based on these plots, there is no concern about
+mispecifications regarding to the model predictor or influential
+observations. The only remarkable aspect is about the range of the
+stardartized deviance residuals quite distant from the expected -3 to 3
+from the normal distribution. Once more, these is another measure
+indicating a underdispersed count data.
+
+The \texttt{gcnt()} is a function defined in the \texttt{MRDCr} package
+\citep{mrdcr-pkg} to fit the Gamma-Count regression model. This function
+fits a GML-Poisson to use the estimates as initial values to optimize
+Gamma-Count likelihood using \texttt{optim()} through \texttt{bblme}
+package \citep{bblme-pkg}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m1 <-}\StringTok{ }\KeywordTok{gcnt}\NormalTok{(ncap ~}\StringTok{ }\NormalTok{est *}\StringTok{ }\NormalTok{(des +}\StringTok{ }\KeywordTok{I}\NormalTok{(des^}\DecValTok{2}\NormalTok{)),}
+           \DataTypeTok{data =} \NormalTok{capdesfo)}
+\KeywordTok{summary}\NormalTok{(m1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Maximum likelihood estimation
+## 
+## Call:
+## bbmle::mle2(minuslogl = llgcnt, start = start, data = list(y = y, 
+##     X = X, offset = off), vecpar = TRUE)
+## 
+## Coefficients:
+##                         Estimate Std. Error z value   Pr(z)    
+## alpha                     1.7110     0.1352   12.66 < 2e-16 ***
+## (Intercept)               2.2580     0.0593   38.05 < 2e-16 ***
+## estflower-bud            -0.0765     0.0854   -0.90 0.37025    
+## estblossom               -0.0253     0.0851   -0.30 0.76616    
+## estfig                   -0.1398     0.0872   -1.60 0.10885    
+## estcotton boll            0.1084     0.0818    1.33 0.18476    
+## des                       0.3294     0.2896    1.14 0.25543    
+## I(des^2)                 -0.6997     0.2866   -2.44 0.01464 *  
+## estflower-bud:des         0.1337     0.4105    0.33 0.74456    
+## estblossom:des           -1.5020     0.4345   -3.46 0.00055 ***
+## estfig:des                0.4218     0.4336    0.97 0.33062    
+## estcotton boll:des       -0.7820     0.3998   -1.96 0.05046 .  
+## estflower-bud:I(des^2)    0.0943     0.4021    0.23 0.81452    
+## estblossom:I(des^2)       1.3382     0.4335    3.09 0.00202 ** 
+## estfig:I(des^2)          -0.8333     0.4390   -1.90 0.05768 .  
+## estcotton boll:I(des^2)   1.0222     0.3920    2.61 0.00911 ** 
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## -2 log L: 408
+\end{verbatim}
+
+During the optimization process for this dataset, \texttt{optim()} has
+found \texttt{NaN} when evaluating the likelihood. This occurs due
+little numerical precision to calculate the difference of Gamma CDFs on
+tails or for extreme values, resulting in numerical zeros and
+corresponding \texttt{-Inf} log-likelihood. This is a numerical problem
+that can narrow, or make things difficult, the use of Gamma-Count
+regression model.
+
+The dispersion parameter is the first position in the parameter vector.
+The optimization was carried out on the log scale to avoid problems
+regarding to bounded parameter spaces. As the dispersion parameter is in
+fact interpreted as a precision coefficient, the positive estimate
+indicates an underdispersed count. According to the \(z\) statistic,
+\(\hat{alpha}\) is significantly different from zero (Poisson case).
+Poisson is special case of Gamma-Count when \(\alpha = 0\), so we can
+perform a likelihood ratio test to the hypothesis \(H_0: \alpha = 0\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Likelihood ratio test.}
+\NormalTok{chi <-}\StringTok{ }\DecValTok{2} \NormalTok{*}\StringTok{ }\NormalTok{(}\KeywordTok{logLik}\NormalTok{(m1) -}\StringTok{ }\KeywordTok{logLik}\NormalTok{(m0))}
+\NormalTok{pval <-}\StringTok{ }\DecValTok{2} \NormalTok{*}\StringTok{ }\KeywordTok{pchisq}\NormalTok{(chi, }\DataTypeTok{df =} \DecValTok{1}\NormalTok{, }\DataTypeTok{lower.tail =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{cat}\NormalTok{(}\StringTok{"Likelihood Ratio Test}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+    \StringTok{"Chisq:}\CharTok{\textbackslash{}t\textbackslash{}t}\StringTok{ "}\NormalTok{, chi, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+    \StringTok{"Pr(>Chisq):}\CharTok{\textbackslash{}t}\StringTok{ "}\NormalTok{, pval, }\StringTok{"}\CharTok{\textbackslash{}n}\StringTok{"}\NormalTok{,}
+    \DataTypeTok{sep =} \StringTok{""}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Likelihood Ratio Test
+## Chisq:        102
+## Pr(>Chisq):   1.01e-23
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Log-likelihood profile for alpha.}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{profile}\NormalTok{(m1, }\DataTypeTok{which =} \StringTok{"alpha"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-15-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{cbind}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\KeywordTok{coef}\NormalTok{(m0)), }\KeywordTok{coef}\NormalTok{(m1))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                            [,1]    [,2]
+##                          0.0000  1.7110
+## (Intercept)              2.2142  2.2580
+## estflower-bud           -0.0800 -0.0765
+## estblossom              -0.0272 -0.0253
+## estfig                  -0.1486 -0.1398
+## estcotton boll           0.1129  0.1084
+## des                      0.3486  0.3294
+## I(des^2)                -0.7384 -0.6997
+## estflower-bud:des        0.1364  0.1337
+## estblossom:des          -1.5819 -1.5020
+## estfig:des               0.4755  0.4218
+## estcotton boll:des      -0.8210 -0.7820
+## estflower-bud:I(des^2)   0.1044  0.0943
+## estblossom:I(des^2)      1.4044  1.3382
+## estfig:I(des^2)         -0.9294 -0.8333
+## estcotton boll:I(des^2)  1.0757  1.0222
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{rstd <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m1)@coef[-}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{]/}\KeywordTok{summary}\NormalTok{(m0)$coeff[, }\DecValTok{2}\NormalTok{]}
+\NormalTok{plyr::}\KeywordTok{each}\NormalTok{(mean, range)(rstd)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   mean range1 range2 
+##  0.426  0.425  0.426
+\end{verbatim}
+
+The estimates for the location parameters were very close. The ratio
+between Gamma-Count parameters standard error and Poisson ones, on the
+other hand, were 0.426 for all estimates, for 3 decimals of precision.
+This leads to the conclusion that TODO relação linear no parâmetro de
+dispersão.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Wald test for the interaction.}
+\NormalTok{a <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\KeywordTok{attr}\NormalTok{(}\KeywordTok{model.matrix}\NormalTok{(m0), }\StringTok{"assign"}\NormalTok{))}
+\NormalTok{ai <-}\StringTok{ }\NormalTok{a ==}\StringTok{ }\KeywordTok{max}\NormalTok{(a)}
+\NormalTok{L <-}\StringTok{ }\KeywordTok{t}\NormalTok{(}\KeywordTok{replicate}\NormalTok{(}\KeywordTok{sum}\NormalTok{(ai), }\KeywordTok{rbind}\NormalTok{(}\KeywordTok{coef}\NormalTok{(m1) *}\StringTok{ }\DecValTok{0}\NormalTok{), }\DataTypeTok{simplify =} \StringTok{"matrix"}\NormalTok{))}
+\NormalTok{L[, ai] <-}\StringTok{ }\KeywordTok{diag}\NormalTok{(}\KeywordTok{sum}\NormalTok{(ai))}
+
+\KeywordTok{linearHypothesis}\NormalTok{(}\DataTypeTok{model =} \NormalTok{m0, }\CommentTok{# m0 is not being used here.}
+                 \DataTypeTok{hypothesis.matrix =} \NormalTok{L,}
+                 \DataTypeTok{vcov. =} \KeywordTok{vcov}\NormalTok{(m1),}
+                 \DataTypeTok{coef. =} \KeywordTok{coef}\NormalTok{(m1))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear hypothesis test
+## 
+## Hypothesis:
+## estflower - bud:I(des^2) = 0
+## estblossom:I(des^2) = 0
+## estfig:I(des^2) = 0
+## estcotton boll:I(des^2) = 0
+## 
+## Model 1: restricted model
+## Model 2: ncap ~ est * (des + I(des^2))
+## 
+## Note: Coefficient covariance matrix supplied.
+## 
+##   Res.Df Df Chisq Pr(>Chisq)    
+## 1    114                        
+## 2    110  4  30.5    3.8e-06 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Fitting Poisson-Tweedie model.}
+\NormalTok{m2 <-}\StringTok{ }\KeywordTok{mcglm}\NormalTok{(}\DataTypeTok{linear_pred =} \KeywordTok{c}\NormalTok{(ncap ~}\StringTok{ }\NormalTok{est *}\StringTok{ }\NormalTok{(des +}\StringTok{ }\KeywordTok{I}\NormalTok{(des^}\DecValTok{2}\NormalTok{))),}
+            \DataTypeTok{matrix_pred =} \KeywordTok{list}\NormalTok{(}\KeywordTok{mc_id}\NormalTok{(}\DataTypeTok{data =} \NormalTok{capdesfo)),}
+            \DataTypeTok{link =} \StringTok{"log"}\NormalTok{,}
+            \DataTypeTok{variance =} \StringTok{"poisson_tweedie"}\NormalTok{,}
+            \DataTypeTok{power_fixed =} \OtherTok{FALSE}\NormalTok{,}
+            \DataTypeTok{data =} \NormalTok{capdesfo,}
+            \DataTypeTok{control_algorithm =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{verbose =} \OtherTok{FALSE}\NormalTok{,}
+                                     \DataTypeTok{max_iter =} \DecValTok{100}\NormalTok{,}
+                                     \DataTypeTok{tunning =} \FloatTok{0.5}\NormalTok{,}
+                                     \DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Automatic initial values selected.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Parameter estimates.}
+\KeywordTok{summary}\NormalTok{(m2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: ncap ~ est * (des + I(des^2))
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##                         Estimates Std.error Z value
+## (Intercept)                2.2143    0.0627  35.308
+## estflower-bud             -0.0800    0.0904  -0.886
+## estblossom                -0.0265    0.0900  -0.294
+## estfig                    -0.1485    0.0924  -1.607
+## estcotton boll             0.1128    0.0864   1.306
+## des                        0.3486    0.3065   1.137
+## I(des^2)                  -0.7385    0.3037  -2.432
+## estflower-bud:des          0.1361    0.4345   0.313
+## estblossom:des            -1.5875    0.4612  -3.442
+## estfig:des                 0.4693    0.4602   1.020
+## estcotton boll:des        -0.8204    0.4228  -1.940
+## estflower-bud:I(des^2)     0.1048    0.4259   0.246
+## estblossom:I(des^2)        1.4098    0.4609   3.059
+## estfig:I(des^2)           -0.9205    0.4671  -1.971
+## estcotton boll:I(des^2)    1.0752    0.4149   2.592
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1      1.01     0.136    7.43
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1    -0.781     0.217   -3.59
+## 
+## Algorithm: chaser
+## Correction: FALSE
+## Number iterations: 14
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{plot}\NormalTok{(m2, }\DataTypeTok{type =} \StringTok{"algorithm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-18-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Wald test for fixed effects.}
+\KeywordTok{anova}\NormalTok{(m2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Wald test for fixed effects
+## Call: ncap ~ est * (des + I(des^2))
+## 
+##                Covariate Chi.Square Df p.value
+## 1          estflower-bud       9.54  4  0.0489
+## 2                    des       1.29  1  0.2555
+## 3               I(des^2)       5.91  1  0.0150
+## 4      estflower-bud:des      25.00  4  0.0001
+## 5 estflower-bud:I(des^2)      30.72  4  0.0000
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# New data values for prediction.}
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{with}\NormalTok{(capdesfo,}
+             \KeywordTok{expand.grid}\NormalTok{(}\DataTypeTok{est =} \KeywordTok{levels}\NormalTok{(est),}
+                         \DataTypeTok{des =} \KeywordTok{seq}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DataTypeTok{length.out =} \DecValTok{30}\NormalTok{)))}
+
+\CommentTok{# Corresponding model matrix.}
+\NormalTok{X <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\KeywordTok{formula}\NormalTok{(m0)[-}\DecValTok{2}\NormalTok{], }\DataTypeTok{data =} \NormalTok{pred)}
+
+\CommentTok{#--------------------------------------------}
+\CommentTok{# Poisson.}
+
+\NormalTok{yp <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(m0, }\DataTypeTok{newdata =} \NormalTok{pred, }\DataTypeTok{se.fit =} \OtherTok{TRUE}\NormalTok{)}
+\NormalTok{em <-}\StringTok{ }\KeywordTok{outer}\NormalTok{(yp$se.fit,}
+            \KeywordTok{c}\NormalTok{(}\DataTypeTok{lwrP =} \NormalTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{fitP =} \DecValTok{0}\NormalTok{, }\DataTypeTok{uprP =} \DecValTok{1}\NormalTok{) *}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{),}
+            \DataTypeTok{FUN =} \StringTok{"*"}\NormalTok{)}
+\NormalTok{ci <-}\StringTok{ }\KeywordTok{sweep}\NormalTok{(em, }\DataTypeTok{MARGIN =} \DecValTok{1}\NormalTok{, }\DataTypeTok{STATS =} \NormalTok{yp$fit, }\DataTypeTok{FUN =} \StringTok{"+"}\NormalTok{)}
+\NormalTok{ci <-}\StringTok{ }\NormalTok{m0$family$}\KeywordTok{linkinv}\NormalTok{(ci)}
+
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred, }\KeywordTok{as.data.frame}\NormalTok{(ci))}
+\KeywordTok{str}\NormalTok{(pred)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    150 obs. of  5 variables:
+##  $ est : Factor w/ 5 levels "vegetative","flower-bud",..: 1 2 3 4 5 1 2 3 4 5 ...
+##  $ des : num  0 0 0 0 0 ...
+##  $ lwrP: num  6.97 6.37 6.72 5.88 7.91 ...
+##  $ fitP: num  9.15 8.45 8.91 7.89 10.25 ...
+##  $ uprP: num  12 11.2 11.8 10.6 13.3 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# xyplot(fitP + lwrP + uprP ~ des | )}
+\end{Highlighting}
+\end{Shaded}
+
+TODO: pares de estimativa e erros padrões.
+
+\section{Soybean pod and beans}\label{soybean-pod-and-beans}
+
+The tropical soils, usually poor in potassium (K), demand potassium
+fertilization when cultivated with soybean (\emph{Glycine max} L.) to
+obtain satisfactory yields. Soybean production is affected by long
+exposition to water deficit. As postassium is a nutrient involved in the
+water balance in plant, by hyphotesis, a good supply of potassium avoids
+lose production.
+
+The aim of this study was to evaluate the effects of K doses and soil
+humidity levels on soybean production. The experiment was carried out in
+a greenhouse, in pots with two plants, containing 5
+dm\textsuperscript{3} of soil. The experimental design was completely
+randomized block with treatments in a 5 x 3 factorial arrangement. The K
+doses were 0, 30, 60, 120 and 180 mg dm\textsuperscript{-3} , and the
+soil humidity ranged from 35 to 40, 47.5 to 52.5, and 60 to 65\% of the
+total porosity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(soja)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    75 obs. of  5 variables:
+##  $ K   : int  0 30 60 120 180 0 30 60 120 180 ...
+##  $ umid: Factor w/ 3 levels "37,5","50","62,5": 1 1 1 1 1 2 2 2 2 2 ...
+##  $ bloc: Factor w/ 5 levels "I","II","III",..: 1 1 1 1 1 1 1 1 1 1 ...
+##  $ ngra: int  136 159 156 171 190 140 193 200 208 237 ...
+##  $ nvag: int  56 62 66 68 82 63 86 94 86 97 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Removing an outlier.}
+\NormalTok{soja <-}\StringTok{ }\NormalTok{soja[-}\DecValTok{74}\NormalTok{, ]}
+\NormalTok{soja <-}\StringTok{ }\KeywordTok{transform}\NormalTok{(soja, }\DataTypeTok{K =} \KeywordTok{factor}\NormalTok{(K))}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Number of pods}\label{number-of-pods}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#-----------------------------------------------------------------------}
+\CommentTok{# Carregando e explorando os dados.}
+
+\KeywordTok{xyplot}\NormalTok{(nvag +}\StringTok{ }\NormalTok{ngra ~}\StringTok{ }\NormalTok{K,}
+       \DataTypeTok{groups =} \NormalTok{umid,}
+       \DataTypeTok{outer =} \OtherTok{TRUE}\NormalTok{,}
+       \DataTypeTok{data =} \NormalTok{soja,}
+       \DataTypeTok{type =} \KeywordTok{c}\NormalTok{(}\StringTok{"p"}\NormalTok{, }\StringTok{"a"}\NormalTok{),}
+       \DataTypeTok{scales =} \StringTok{"free"}\NormalTok{,}
+       \DataTypeTok{ylab =} \OtherTok{NULL}\NormalTok{,}
+       \DataTypeTok{xlab =} \KeywordTok{expression}\NormalTok{(}\StringTok{"Applied potassium amount"} \NormalTok{~}\StringTok{ }\NormalTok{(mg ~}\StringTok{ }\NormalTok{dm^\{-}\DecValTok{3}\NormalTok{\})),}
+       \DataTypeTok{auto.key =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{title =} \StringTok{"Soil water content (%)"}\NormalTok{,}
+                       \DataTypeTok{cex.title =} \DecValTok{1}\NormalTok{,}
+                       \DataTypeTok{columns =} \DecValTok{3}\NormalTok{),}
+       \DataTypeTok{strip =} \KeywordTok{strip.custom}\NormalTok{(}
+           \DataTypeTok{factor.levels =} \KeywordTok{c}\NormalTok{(}\StringTok{"Number of pods"}\NormalTok{,}
+                             \StringTok{"Number of beans"}\NormalTok{)))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-21-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#--------------------------------------------}
+\CommentTok{# Poisson.}
+
+\NormalTok{m0 <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(nvag ~}\StringTok{ }\NormalTok{bloc +}\StringTok{ }\NormalTok{umid *}\StringTok{ }\NormalTok{K,}
+          \DataTypeTok{data =} \NormalTok{soja,}
+          \DataTypeTok{family =} \NormalTok{poisson)}
+
+\NormalTok{## # Checking residuals.}
+\NormalTok{## par(mfrow = c(2, 2))}
+\NormalTok{## plot(m0); layout(1)}
+
+\CommentTok{#--------------------------------------------}
+\CommentTok{# Gamma-Count.}
+
+\NormalTok{m1 <-}\StringTok{ }\KeywordTok{gcnt}\NormalTok{(}\KeywordTok{formula}\NormalTok{(m0), }\DataTypeTok{data =} \NormalTok{soja)}
+
+\CommentTok{#--------------------------------------------}
+\CommentTok{# Tweedie.}
+
+\NormalTok{m2 <-}\StringTok{ }\KeywordTok{mcglm}\NormalTok{(}\DataTypeTok{linear_pred =} \KeywordTok{c}\NormalTok{(nvag ~}\StringTok{ }\NormalTok{bloc +}\StringTok{ }\NormalTok{umid *}\StringTok{ }\NormalTok{K),}
+            \DataTypeTok{matrix_pred =} \KeywordTok{list}\NormalTok{(}\KeywordTok{mc_id}\NormalTok{(}\DataTypeTok{data =} \NormalTok{soja)),}
+            \DataTypeTok{link =} \StringTok{"log"}\NormalTok{,}
+            \DataTypeTok{variance =} \StringTok{"poisson_tweedie"}\NormalTok{,}
+            \DataTypeTok{power_fixed =} \OtherTok{TRUE}\NormalTok{,}
+            \DataTypeTok{data =} \NormalTok{soja,}
+            \DataTypeTok{control_algorithm =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{verbose =} \OtherTok{FALSE}\NormalTok{,}
+                                     \DataTypeTok{max_iter =} \DecValTok{100}\NormalTok{,}
+                                     \DataTypeTok{tunning =} \FloatTok{0.5}\NormalTok{,}
+                                     \DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Automatic initial values selected.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#-----------------------------------------------------------------------}
+\CommentTok{# Comparing models.}
+
+\CommentTok{# Log-likelihood.}
+\KeywordTok{c}\NormalTok{(}\DataTypeTok{P =} \KeywordTok{logLik}\NormalTok{(m0), }\DataTypeTok{GC =} \KeywordTok{logLik}\NormalTok{(m1), }\DataTypeTok{TW =} \OtherTok{NA}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    P   GC   TW 
+## -260 -259   NA
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c0 <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m0)$coefficients[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{c1 <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m1)@coef[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{c2 <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\KeywordTok{summary}\NormalTok{(m2)[[}\DecValTok{1}\NormalTok{]]$tau[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{],}
+            \KeywordTok{summary}\NormalTok{(m2)[[}\DecValTok{1}\NormalTok{]]$Regression[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Parameter estimates according to each model.}
+\NormalTok{c0 <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\StringTok{"P"} \NormalTok{=}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\DecValTok{0}\NormalTok{, c0),}
+            \StringTok{"GC"} \NormalTok{=}\StringTok{ }\NormalTok{c1,}
+            \StringTok{"TW"} \NormalTok{=}\StringTok{ }\NormalTok{c2)}
+\KeywordTok{colnames}\NormalTok{(c0) <-}\StringTok{ }\KeywordTok{substr}\NormalTok{(}\KeywordTok{colnames}\NormalTok{(c0), }\DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{)}
+\KeywordTok{round}\NormalTok{(c0, }\DataTypeTok{digits =} \DecValTok{6}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##                P.Esti P.Std.  GC.Est GC.Std  TW.Est TW.Std
+##                0.0000 0.0000  0.1288 0.1655 -0.1088 0.1458
+## (Intercept)    3.9537 0.0689  3.9549 0.0646  3.9537 0.0651
+## blocII        -0.0293 0.0409 -0.0293 0.0383 -0.0293 0.0386
+## blocIII       -0.0727 0.0414 -0.0726 0.0388 -0.0727 0.0390
+## blocIV        -0.1254 0.0419 -0.1253 0.0393 -0.1254 0.0396
+## blocV         -0.1079 0.0430 -0.1079 0.0403 -0.1079 0.0406
+## umid50         0.1340 0.0877  0.1339 0.0822  0.1340 0.0827
+## umid62,5       0.2166 0.0860  0.2163 0.0806  0.2166 0.0812
+## K30            0.2743 0.0849  0.2740 0.0796  0.2743 0.0802
+## K60            0.3080 0.0843  0.3076 0.0790  0.3080 0.0796
+## K120           0.3288 0.0840  0.3285 0.0787  0.3288 0.0793
+## K180           0.2554 0.0853  0.2551 0.0799  0.2554 0.0805
+## umid50:K30     0.0632 0.1156  0.0632 0.1083  0.0632 0.1091
+## umid62,5:K30  -0.1075 0.1154 -0.1073 0.1081 -0.1075 0.1089
+## umid50:K60     0.1656 0.1137  0.1655 0.1066  0.1656 0.1073
+## umid62,5:K60   0.1074 0.1122  0.1073 0.1052  0.1074 0.1059
+## umid50:K120    0.1492 0.1134  0.1491 0.1063  0.1492 0.1070
+## umid62,5:K120  0.1184 0.1140  0.1184 0.1069  0.1184 0.1077
+## umid50:K180    0.3037 0.1136  0.3035 0.1065  0.3037 0.1072
+## umid62,5:K180  0.1984 0.1126  0.1983 0.1055  0.1984 0.1063
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Likelihhod profile for Gamma-Count dispersion parameter.}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{profile}\NormalTok{(m1, }\DataTypeTok{which =} \StringTok{"alpha"}\NormalTok{))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{v =} \DecValTok{0}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-23-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# V <- cov2cor(vcov(m1))}
+\CommentTok{# corrplot.mixed(V,}
+\CommentTok{#                lower = "number",}
+\CommentTok{#                upper = "ellipse",}
+\CommentTok{#                diag = "l",}
+\CommentTok{#                tl.pos = "lt",}
+\CommentTok{#                tl.col = "black",}
+\CommentTok{#                tl.cex = 0.8,}
+\CommentTok{#                col = brewer.pal(9, "Greys")}
+\CommentTok{#                [-(1:3)]) dev.off()}
+
+\CommentTok{# Analysis of deviance table.}
+\KeywordTok{anova}\NormalTok{(m0, }\DataTypeTok{test =} \StringTok{"Chisq"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: nvag
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##        Df Deviance Resid. Df Resid. Dev Pr(>Chi)    
+## NULL                      73        323             
+## bloc    4     14.3        69        308   0.0064 ** 
+## umid    2     92.9        67        215   <2e-16 ***
+## K       4    136.1        63         79   <2e-16 ***
+## umid:K  8     14.2        55         65   0.0779 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Wald test for interaction.}
+\NormalTok{a <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\KeywordTok{attr}\NormalTok{(}\KeywordTok{model.matrix}\NormalTok{(m0), }\StringTok{"assign"}\NormalTok{))}
+\NormalTok{ai <-}\StringTok{ }\NormalTok{a ==}\StringTok{ }\KeywordTok{max}\NormalTok{(a)}
+\NormalTok{L <-}\StringTok{ }\KeywordTok{t}\NormalTok{(}\KeywordTok{replicate}\NormalTok{(}\KeywordTok{sum}\NormalTok{(ai), }\KeywordTok{rbind}\NormalTok{(}\KeywordTok{coef}\NormalTok{(m1) *}\StringTok{ }\DecValTok{0}\NormalTok{), }\DataTypeTok{simplify =} \StringTok{"matrix"}\NormalTok{))}
+\NormalTok{L[, ai] <-}\StringTok{ }\KeywordTok{diag}\NormalTok{(}\KeywordTok{sum}\NormalTok{(ai))}
+\KeywordTok{linearHypothesis}\NormalTok{(}\DataTypeTok{model =} \NormalTok{m0, }\CommentTok{# m0 is not being used here.}
+                 \DataTypeTok{hypothesis.matrix =} \NormalTok{L,}
+                 \DataTypeTok{vcov. =} \KeywordTok{vcov}\NormalTok{(m1),}
+                 \DataTypeTok{coef. =} \KeywordTok{coef}\NormalTok{(m1))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Linear hypothesis test
+## 
+## Hypothesis:
+## umid50:K30 = 0
+## umid62,5:K30 = 0
+## umid50:K60 = 0
+## umid62,5:K60 = 0
+## umid50:K120 = 0
+## umid62,5:K120 = 0
+## umid50:K180 = 0
+## umid62,5:K180 = 0
+## 
+## Model 1: restricted model
+## Model 2: nvag ~ bloc + umid * K
+## 
+## Note: Coefficient covariance matrix supplied.
+## 
+##   Res.Df Df Chisq Pr(>Chisq)  
+## 1     63                      
+## 2     55  8    16      0.043 *
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Wald test for fixed effects.}
+\KeywordTok{anova}\NormalTok{(m2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Wald test for fixed effects
+## Call: nvag ~ bloc + umid * K
+## 
+##    Covariate Chi.Square Df p.value
+## 1     blocII      13.92  4  0.0076
+## 2     umid50       7.15  2  0.0280
+## 3        K30      20.93  4  0.0003
+## 4 umid50:K30      15.76  8  0.0459
+\end{verbatim}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-24-1} \end{center}
+
+\subsection{Númber of grains}\label{number-of-grains}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{#-----------------------------------------------------------------------}
+\KeywordTok{xyplot}\NormalTok{(ngra ~}\StringTok{ }\NormalTok{K |}\StringTok{ }\NormalTok{umid, }\DataTypeTok{data =} \NormalTok{soja, }\DataTypeTok{layout =} \KeywordTok{c}\NormalTok{(}\OtherTok{NA}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+       \DataTypeTok{type =} \KeywordTok{c}\NormalTok{(}\StringTok{"p"}\NormalTok{, }\StringTok{"smooth"}\NormalTok{),}
+       \DataTypeTok{ylab =} \StringTok{"Número de grãos por parcela"}\NormalTok{,}
+       \DataTypeTok{xlab =} \KeywordTok{expression}\NormalTok{(}\StringTok{"Dose de potássio aplicada"}\NormalTok{~(mg ~}\StringTok{ }\NormalTok{dm^\{}\DecValTok{3}\NormalTok{\})),}
+       \DataTypeTok{strip =} \KeywordTok{strip.custom}\NormalTok{(}\DataTypeTok{strip.names =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{var.name =} \StringTok{"Umidade"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-25-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{soja$off <-}\StringTok{ }\DecValTok{10}
+\KeywordTok{fivenum}\NormalTok{(}\KeywordTok{with}\NormalTok{(soja, ngra/off))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1]  9.2 14.7 17.1 21.6 27.1
+\end{verbatim}
+
+\subsection{Number of grains per pod}\label{number-of-grains-per-pod}
+
+\section{Number of vehicle claims}\label{number-of-vehicle-claims}
+
+\section{Radiation-induced chromosome aberration
+counts}\label{radiation-induced-chromosome-aberration-counts}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## The density of PTW dsitributions (using numerical integration)}
+\KeywordTok{library}\NormalTok{(statmod)}
+\KeywordTok{library}\NormalTok{(tweedie)}
+
+\NormalTok{integrand <-}\StringTok{ }\NormalTok{function(x, y, mu, phi, power) \{}
+    \NormalTok{int =}\StringTok{ }\KeywordTok{dpois}\NormalTok{(y, }\DataTypeTok{lambda =} \NormalTok{x)*}
+\StringTok{        }\KeywordTok{dtweedie}\NormalTok{(x, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
+    \KeywordTok{return}\NormalTok{(int)}
+\NormalTok{\}}
+\CommentTok{# Numerical integration using Gauss-Laguerre method}
+\NormalTok{gauss_laguerre <-}\StringTok{ }\NormalTok{function(integrand, n_pts, y, mu, phi, power) \{}
+    \NormalTok{pts <-}\StringTok{ }\KeywordTok{gauss.quad}\NormalTok{(n_pts, }\DataTypeTok{kind=}\StringTok{"laguerre"}\NormalTok{)}
+    \NormalTok{integral <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(pts$weights*}\KeywordTok{integrand}\NormalTok{(pts$nodes, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu,}
+                                          \DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)/}
+\StringTok{                        }\KeywordTok{exp}\NormalTok{(-pts$nodes))}
+    \KeywordTok{return}\NormalTok{(integral)}
+\NormalTok{\}}
+\NormalTok{gauss_laguerre_vec <-}\StringTok{ }\KeywordTok{Vectorize}\NormalTok{(}\DataTypeTok{FUN =} \NormalTok{gauss_laguerre,}
+                                \DataTypeTok{vectorize.args =} \StringTok{"y"}\NormalTok{)}
+
+\CommentTok{# Numerical integration using Monte Carlo method -----------------------}
+\NormalTok{monte_carlo <-}\StringTok{ }\NormalTok{function(integrand, n_pts, y, mu, phi, power) \{}
+    \NormalTok{pts <-}\StringTok{ }\KeywordTok{rtweedie}\NormalTok{(n_pts, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
+    \NormalTok{norma <-}\StringTok{ }\KeywordTok{dtweedie}\NormalTok{(pts, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
+    \NormalTok{integral <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{integrand}\NormalTok{(pts, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi,}
+                               \DataTypeTok{power =} \NormalTok{power)/norma)}
+    \KeywordTok{return}\NormalTok{(integral)}
+\NormalTok{\}}
+
+\CommentTok{# Probability mass function Poisson-Tweedie ----------------------------}
+\NormalTok{dptweedie_aux <-}\StringTok{ }\NormalTok{function(y, mu, phi, power, n_pts, method) \{}
+    \NormalTok{if(method ==}\StringTok{ "laguerre"} \NormalTok{|}\StringTok{ }\NormalTok{y >}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+        \NormalTok{pmf <-}\StringTok{ }\KeywordTok{gauss_laguerre}\NormalTok{(}\DataTypeTok{integrand =} \NormalTok{integrand, }\DataTypeTok{n_pts =} \NormalTok{n_pts,}
+                              \DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
+    \NormalTok{\}}
+    \NormalTok{if(method ==}\StringTok{ "laguerre"} \NormalTok{&}\StringTok{ }\NormalTok{y ==}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
+        \NormalTok{v.y <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\DecValTok{10}\NormalTok{*}\KeywordTok{sqrt}\NormalTok{(mu +}\StringTok{ }\NormalTok{phi*mu^power),}\DecValTok{0}\NormalTok{)}
+        \NormalTok{if(v.y >}\StringTok{ }\DecValTok{1000}\NormalTok{) \{v.y <-}\StringTok{ }\DecValTok{1000}\NormalTok{\}}
+        \CommentTok{#print(v.y)}
+        \NormalTok{y.grid <-}\StringTok{ }\DecValTok{0}\NormalTok{:v.y}
+        \NormalTok{temp <-}\StringTok{ }\KeywordTok{gauss_laguerre_vec}\NormalTok{(}\DataTypeTok{integrand =} \NormalTok{integrand, }\DataTypeTok{n_pts =} \NormalTok{n_pts,}
+                                   \DataTypeTok{y =} \NormalTok{y.grid, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi,}
+                                   \DataTypeTok{power =} \NormalTok{power)}
+        \NormalTok{pmf <-}\StringTok{ }\DecValTok{1}\NormalTok{-}\KeywordTok{sum}\NormalTok{(temp)+temp[}\DecValTok{1}\NormalTok{]}
+    \NormalTok{\}}
+    \NormalTok{if(method ==}\StringTok{ "MC"}\NormalTok{) \{}
+        \NormalTok{pmf <-}\StringTok{ }\KeywordTok{monte_carlo}\NormalTok{(}\DataTypeTok{integrand =} \NormalTok{integrand, }\DataTypeTok{n_pts =} \NormalTok{n_pts,}
+                           \DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
+    \NormalTok{\}}
+    \KeywordTok{return}\NormalTok{(pmf)}
+\NormalTok{\}}
+\CommentTok{# Vectorize version}
+\NormalTok{dptweedie <-}\StringTok{ }\KeywordTok{Vectorize}\NormalTok{(}\DataTypeTok{FUN =} \NormalTok{dptweedie_aux, }\DataTypeTok{vectorize.args =} \KeywordTok{c}\NormalTok{(}\StringTok{"y"}\NormalTok{,}\StringTok{"mu"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+In biological dosimetry studies essentially the response variables are
+data counts. These experiments measure the number of chromosome
+aberrations in human lymphocytes after to controlled exposure of
+ionizing radiation. The aim of the studies are analyse the biological
+effects induced by ionizing radiation. The aberrations most commonly
+mensured are the dicentrics, centric rings, and micronucle .
+
+In this section the dataset considered was obtained after irradiating
+blood samples with five different doses between 0.1 and 1 Gy of 2.1 MeV
+neutrons. In this case, the frequencies of dicentrics and centric rings
+after a culture of 72 hours are analysed. The dataset was analysed by
+\citet{Oliveira2006}, as an example of zero-inflated data and
+\citet{Bonat2016b}, using extend Poisson-Tweedie approach.
+
+The data are available in \texttt{data/chromossome.rda} file. In
+\texttt{R} it can be loaded with
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##----------------------------------------------------------------------}
+\NormalTok{## Load}
+\KeywordTok{load}\NormalTok{(}\StringTok{"./data/chromosome.rda"}\NormalTok{)}
+\KeywordTok{str}\NormalTok{(chromosome)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    5232 obs. of  2 variables:
+##  $ ndic: num  0 0 0 0 0 0 0 0 0 0 ...
+##  $ dose: num  0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 ...
+\end{verbatim}
+
+The Figure \ref{fig:desc-chromo} shows the frequencies chromosome
+aberrations (left) and average of chromosome aberrations by radiation
+doses (right). Note that the highest frequencies are observed for zero
+counts and the averages are between 0 and 1, suggesting excess zero.
+
+\begin{figure}[h]
+
+{\centering \includegraphics{rmcdbook_files/figure-latex/desc-chromo-1} 
+
+}
+
+\caption{Observed frequencies of the chromosome aberrations counts by radiation doses (left) and means of chromosome aberrations for each radiation doses (right).}\label{fig:desc-chromo}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##----------------------------------------------------------------------}
+\NormalTok{## Modelling}
+\NormalTok{form <-}\StringTok{ }\NormalTok{ndic ~}\StringTok{ }\NormalTok{dose +}\StringTok{ }\KeywordTok{I}\NormalTok{(dose^}\DecValTok{2}\NormalTok{)}
+
+\NormalTok{m0PO <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(form, }\DataTypeTok{family =} \NormalTok{poisson, }\DataTypeTok{data =} \NormalTok{chromosome)}
+\NormalTok{m0GC <-}\StringTok{ }\KeywordTok{gcnt}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{chromosome)}
+\NormalTok{m0CP <-}\StringTok{ }\KeywordTok{cmp}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{chromosome, }\DataTypeTok{sumto =} \DecValTok{100}\NormalTok{)}
+\NormalTok{m0PT <-}\StringTok{ }\KeywordTok{mcglm}\NormalTok{(}
+    \DataTypeTok{linear_pred =} \KeywordTok{c}\NormalTok{(form),}
+    \DataTypeTok{matrix_pred =} \KeywordTok{list}\NormalTok{(}\KeywordTok{mc_id}\NormalTok{(chromosome)),}
+    \DataTypeTok{link =} \StringTok{"log"}\NormalTok{,}
+    \DataTypeTok{variance =} \StringTok{"poisson_tweedie"}\NormalTok{,}
+    \DataTypeTok{power_fixed =} \OtherTok{FALSE}\NormalTok{,}
+    \DataTypeTok{data =} \NormalTok{chromosome,}
+    \DataTypeTok{control_algorithm =} \KeywordTok{list}\NormalTok{(}
+        \DataTypeTok{verbose =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{max_iter =} \DecValTok{1000}\NormalTok{,}
+        \DataTypeTok{tunning =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{tol =} \FloatTok{1e-10}\NormalTok{)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Automatic initial values selected.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##----------------------------------------------------------------------}
+\NormalTok{## Goodness of fit}
+
+\NormalTok{## Compute logLik for Poisson-Tweedie}
+\NormalTok{##    ** especific for this example}
+\NormalTok{logLik.mcglm <-}\StringTok{ }\NormalTok{function(object) \{}
+    \NormalTok{y <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{:}\DecValTok{5}\NormalTok{, }\DecValTok{7}\NormalTok{)}
+    \NormalTok{data <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{dose =} \KeywordTok{unique}\NormalTok{(chromosome$dose))}
+    \NormalTok{## ---}
+    \NormalTok{form <-}\StringTok{ }\KeywordTok{update}\NormalTok{(object$linear_pred[[}\DecValTok{1}\NormalTok{]], }\OtherTok{NULL} \NormalTok{~}\StringTok{ }\NormalTok{.)}
+    \NormalTok{X <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(form, data)}
+    \NormalTok{mu <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(X %*%}\StringTok{ }\KeywordTok{coef}\NormalTok{(object, }\DataTypeTok{type =} \StringTok{"beta"}\NormalTok{)$Estimates)}
+    \NormalTok{phi <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\KeywordTok{coef}\NormalTok{(object), Estimates[Type ==}\StringTok{ "tau"}\NormalTok{])}
+    \NormalTok{power <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\KeywordTok{coef}\NormalTok{(object), Estimates[Type ==}\StringTok{ "power"}\NormalTok{])}
+    \NormalTok{obs <-}\StringTok{ }\KeywordTok{xtabs}\NormalTok{(~ndic +}\StringTok{ }\NormalTok{dose, }\DataTypeTok{data =} \NormalTok{chromosome)}
+    \NormalTok{matpred <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(}\StringTok{"cbind"}\NormalTok{, }\KeywordTok{lapply}\NormalTok{(mu, function(mui) \{}
+        \KeywordTok{dptweedie}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mui, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power,}
+                  \DataTypeTok{n_pts =} \DecValTok{180}\NormalTok{, }\StringTok{"laguerre"}\NormalTok{)}
+    \NormalTok{\}))}
+    \NormalTok{ll <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{log}\NormalTok{(matpred) *}\StringTok{ }\NormalTok{obs)}
+    \KeywordTok{attr}\NormalTok{(ll, }\StringTok{"df"}\NormalTok{) <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(}\KeywordTok{coef}\NormalTok{(object))}
+    \KeywordTok{attr}\NormalTok{(ll, }\StringTok{"nobs"}\NormalTok{) <-}\StringTok{ }\NormalTok{m0PT$n_obs}
+    \KeywordTok{class}\NormalTok{(ll) <-}\StringTok{ "logLik"}
+    \KeywordTok{return}\NormalTok{(ll)}
+\NormalTok{\}}
+
+\NormalTok{## Compute table of gof}
+\NormalTok{models <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Poisson"} \NormalTok{=}\StringTok{ }\NormalTok{m0PO, }\StringTok{"Gamma-Count"} \NormalTok{=}\StringTok{ }\NormalTok{m0GC,}
+               \StringTok{"COM-Poisson"} \NormalTok{=}\StringTok{ }\NormalTok{m0CP, }\StringTok{"POisson-Tweedie"} \NormalTok{=}\StringTok{ }\NormalTok{m0PT)}
+\NormalTok{(measures <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(models, function(x)}
+    \KeywordTok{c}\NormalTok{(}\StringTok{"LogLik"} \NormalTok{=}\StringTok{ }\KeywordTok{logLik}\NormalTok{(x), }\StringTok{"AIC"} \NormalTok{=}\StringTok{ }\KeywordTok{AIC}\NormalTok{(x), }\StringTok{"BIC"} \NormalTok{=}\StringTok{ }\KeywordTok{BIC}\NormalTok{(x))))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##        Poisson Gamma-Count COM-Poisson POisson-Tweedie
+## LogLik   -2995       -2966       -2967           -2951
+## AIC       5997        5940        5943            5911
+## BIC       6016        5966        5969            5944
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cap <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Dispersion diagram of observed chromossome aberrations and"}\NormalTok{,}
+             \StringTok{"curves of predict values an confidence intervals (95}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{%)"}\NormalTok{,}
+             \StringTok{"based on Poisson, Gamma-Count, COM-Poisson and"}\NormalTok{,}
+             \StringTok{"Poisson-Tweedie regression models."}\NormalTok{)}
+
+\NormalTok{##-------------------------------------------}
+\NormalTok{## Visualize means}
+
+\NormalTok{## pred2 <- subset(preds, model %in% c("PO", "PT"))}
+\KeywordTok{xyplot}\NormalTok{(fit ~}\StringTok{ }\NormalTok{dose,}
+       \DataTypeTok{data =} \NormalTok{preds,}
+       \DataTypeTok{groups =} \NormalTok{model,}
+       \DataTypeTok{type =} \KeywordTok{c}\NormalTok{(}\StringTok{"g"}\NormalTok{, }\StringTok{"l"}\NormalTok{),}
+       \DataTypeTok{ly =} \NormalTok{preds$lwr, }\DataTypeTok{uy =} \NormalTok{preds$upr,}
+       \DataTypeTok{layout =} \KeywordTok{c}\NormalTok{(}\OtherTok{NA}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+       \DataTypeTok{as.table =} \OtherTok{TRUE}\NormalTok{,}
+       \DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{,}
+       \DataTypeTok{xlab =} \StringTok{"Radiation doses"}\NormalTok{,}
+       \DataTypeTok{ylab =} \StringTok{"Mean of chromosomic aberrations"}\NormalTok{,}
+       \DataTypeTok{auto.key =} \KeywordTok{list}\NormalTok{(}
+           \DataTypeTok{columns =} \DecValTok{2}\NormalTok{,}
+           \DataTypeTok{lines =} \OtherTok{TRUE}\NormalTok{,}
+           \DataTypeTok{points =} \OtherTok{FALSE}\NormalTok{,}
+           \DataTypeTok{text =} \KeywordTok{c}\NormalTok{(}\StringTok{"Poisson"}\NormalTok{, }\StringTok{"Gamma-Count"}\NormalTok{,}
+                    \StringTok{"COM-Poisson"}\NormalTok{, }\StringTok{"Poisson-Tweedie"}\NormalTok{)}
+       \NormalTok{),}
+       \DataTypeTok{cty =} \StringTok{"bands"}\NormalTok{, }\DataTypeTok{fill =} \StringTok{"gray80"}\NormalTok{,}
+       \DataTypeTok{panel =} \NormalTok{panel.superpose,}
+       \DataTypeTok{panel.groups =} \NormalTok{panel.cbH,}
+       \DataTypeTok{prepanel =} \NormalTok{prepanel.cbH) +}
+\StringTok{    }\KeywordTok{as.layer}\NormalTok{(}
+        \KeywordTok{update}\NormalTok{(xy2, }\DataTypeTok{type =} \StringTok{"p"}\NormalTok{)}
+    \NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[h]
+
+{\centering \includegraphics{rmcdbook_files/figure-latex/mean-chromo-1} 
+
+}
+
+\caption{Dispersion diagram of observed chromossome aberrations and curves of predict values an confidence intervals (95\%) based on Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie regression models.}\label{fig:mean-chromo}
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##-------------------------------------------}
+\NormalTok{## Calcule probabilities}
+\NormalTok{index <-}\StringTok{ }\NormalTok{preds$dose %in%}\StringTok{ }\KeywordTok{unique}\NormalTok{(chromosome$dose)}
+\NormalTok{means <-}\StringTok{ }\NormalTok{preds[index, }\KeywordTok{c}\NormalTok{(}\StringTok{"model"}\NormalTok{, }\StringTok{"dose"}\NormalTok{, }\StringTok{"fit"}\NormalTok{)]}
+\NormalTok{probs <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+\NormalTok{y <-}\StringTok{ }\DecValTok{0}\NormalTok{:}\DecValTok{5}
+
+\NormalTok{## Poisson model}
+\NormalTok{indPO <-}\StringTok{ }\KeywordTok{grep}\NormalTok{(}\StringTok{"PO"}\NormalTok{, means$model)}
+\NormalTok{probs$PO <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(}
+    \StringTok{"rbind"}\NormalTok{,}
+    \KeywordTok{lapply}\NormalTok{(indPO, function(i) \{}
+        \KeywordTok{with}\NormalTok{(means, \{}
+            \NormalTok{py <-}\StringTok{ }\KeywordTok{dpois}\NormalTok{(y, fit[i])}
+            \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{dose =} \NormalTok{dose[i], }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{prob =} \NormalTok{py)}
+        \NormalTok{\})}
+    \NormalTok{\})}
+\NormalTok{)}
+
+\NormalTok{## Gamma-Count model}
+\NormalTok{indGC <-}\StringTok{ }\KeywordTok{grep}\NormalTok{(}\StringTok{"GC"}\NormalTok{, means$model)}
+\NormalTok{alpha <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(m0GC)[}\StringTok{"alpha"}\NormalTok{])}
+\NormalTok{probs$GC <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(}
+    \StringTok{"rbind"}\NormalTok{,}
+    \KeywordTok{lapply}\NormalTok{(indGC, function(i) \{}
+        \KeywordTok{with}\NormalTok{(means, \{}
+            \NormalTok{aux <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(m0GC, }\DataTypeTok{newdata =} \KeywordTok{t}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(X[i, ])),}
+                           \DataTypeTok{type =} \StringTok{"link"}\NormalTok{)}
+            \NormalTok{lambda <-}\StringTok{ }\NormalTok{alpha %*%}\StringTok{ }\KeywordTok{exp}\NormalTok{(aux)}
+            \NormalTok{py <-}\StringTok{ }\KeywordTok{dgcnt}\NormalTok{(y, }\DataTypeTok{lambda =} \NormalTok{lambda, }\DataTypeTok{alpha =} \NormalTok{alpha)}
+            \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{dose =} \NormalTok{dose[i], }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{prob =} \NormalTok{py)}
+        \NormalTok{\})}
+    \NormalTok{\})}
+\NormalTok{)}
+
+\NormalTok{## COM-Poisson model}
+\NormalTok{indCP <-}\StringTok{ }\KeywordTok{grep}\NormalTok{(}\StringTok{"CP"}\NormalTok{, means$model)}
+\NormalTok{nu <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(}\KeywordTok{coef}\NormalTok{(m0CP)[}\StringTok{"phi"}\NormalTok{])}
+\NormalTok{sumto <-}\StringTok{ }\NormalTok{m0CP@data$sumto}
+\NormalTok{probs$CP <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(}
+    \StringTok{"rbind"}\NormalTok{,}
+    \KeywordTok{lapply}\NormalTok{(indCP, function(i) \{}
+        \KeywordTok{with}\NormalTok{(means, \{}
+            \NormalTok{aux <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(m0CP, }\DataTypeTok{newdata =} \KeywordTok{t}\NormalTok{(}\KeywordTok{cbind}\NormalTok{(X[i, ])),}
+                           \DataTypeTok{type =} \StringTok{"link"}\NormalTok{)}
+            \NormalTok{lambda <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(aux)}
+            \NormalTok{py <-}\StringTok{ }\KeywordTok{dcmp}\NormalTok{(y, }\DataTypeTok{lambda =} \NormalTok{lambda, }\DataTypeTok{nu =} \NormalTok{nu, }\DataTypeTok{sumto =} \NormalTok{sumto)}
+            \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{dose =} \NormalTok{dose[i], }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{prob =} \NormalTok{py)}
+        \NormalTok{\})}
+    \NormalTok{\})}
+\NormalTok{)}
+
+\NormalTok{## Poisson-Tweedie model}
+\NormalTok{indPT <-}\StringTok{ }\KeywordTok{grep}\NormalTok{(}\StringTok{"PT"}\NormalTok{, means$model)}
+\NormalTok{phi <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\KeywordTok{coef}\NormalTok{(m0PT), Estimates[Type ==}\StringTok{ "tau"}\NormalTok{])}
+\NormalTok{power <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\KeywordTok{coef}\NormalTok{(m0PT), Estimates[Type ==}\StringTok{ "power"}\NormalTok{])}
+\NormalTok{probs$PT <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(}
+    \StringTok{"rbind"}\NormalTok{,}
+    \KeywordTok{lapply}\NormalTok{(indPT, function(i) \{}
+        \KeywordTok{with}\NormalTok{(means, \{}
+            \NormalTok{py <-}\StringTok{ }\KeywordTok{dptweedie}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{fit[i], }\DataTypeTok{phi =} \NormalTok{phi,}
+                            \DataTypeTok{power =} \NormalTok{power, }\DataTypeTok{n_pts =} \DecValTok{180}\NormalTok{,}
+                            \DataTypeTok{method =} \StringTok{"laguerre"}\NormalTok{)}
+            \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{dose =} \NormalTok{dose[i], }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{prob =} \NormalTok{py)}
+        \NormalTok{\})}
+    \NormalTok{\})}
+\NormalTok{)}
+
+\NormalTok{## Visualize the probabilities}
+\NormalTok{daprobs <-}\StringTok{ }\KeywordTok{ldply}\NormalTok{(probs, }\DataTypeTok{.id =} \StringTok{"model"}\NormalTok{)}
+
+\KeywordTok{barchart}\NormalTok{(prob ~}\StringTok{ }\NormalTok{y |}\StringTok{ }\KeywordTok{factor}\NormalTok{(dose), }\DataTypeTok{groups =} \NormalTok{model,}
+         \DataTypeTok{data =} \NormalTok{daprobs,}
+         \DataTypeTok{horizontal =} \OtherTok{FALSE}\NormalTok{,}
+         \DataTypeTok{axis =} \NormalTok{axis.grid,}
+         \DataTypeTok{as.table =} \OtherTok{TRUE}\NormalTok{,}
+         \DataTypeTok{origin =} \DecValTok{0}\NormalTok{,}
+         \DataTypeTok{xlab =} \StringTok{"Number of chromosomic aberrations"}\NormalTok{,}
+         \DataTypeTok{ylab =} \StringTok{"Probability"}\NormalTok{,}
+         \DataTypeTok{scales =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{x =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{labels =} \NormalTok{y)),}
+         \DataTypeTok{auto.key =} \KeywordTok{list}\NormalTok{(}
+             \DataTypeTok{columns =} \DecValTok{2}\NormalTok{,}
+             \DataTypeTok{text =} \KeywordTok{c}\NormalTok{(}\StringTok{"Poisson"}\NormalTok{, }\StringTok{"Gamma-Count"}\NormalTok{,}
+                      \StringTok{"COM-Poisson"}\NormalTok{, }\StringTok{"Poisson-Tweedie"}\NormalTok{)}
+         \NormalTok{),}
+         \DataTypeTok{strip =} \KeywordTok{strip.custom}\NormalTok{(}
+             \DataTypeTok{strip.name =} \OtherTok{TRUE}\NormalTok{,}
+             \DataTypeTok{var.name =} \StringTok{"dose"}\NormalTok{,}
+             \DataTypeTok{sep =} \StringTok{" = "}
+         \NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/probs-chromo-1} \end{center}
 
 \bibliography{config/rmcd.bib}
 
