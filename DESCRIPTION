@@ -22,5 +22,5 @@ Imports:
   mcglm
 Remotes:
   rstudio/bookdown,
-  leg-ufpr/MRDCr@devel
+  leg-ufpr/MRDCr@devel,
   wbonat/mcglm@devel
