@@ -210,7 +210,7 @@ opts_chunk$set(size = "footnotesize")
 \end{multicols}
 \end{frame}
 
-<<Introduction, child = "Introduction.Rnw">>=
+<<Section1, child = "Section1.Rnw">>=
 @
 
 \section{Distribuições para contagens: propriedades e modelos de regressão}
