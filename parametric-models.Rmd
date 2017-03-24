@@ -1,9 +1,0 @@
-# Full Parametric Approach #
-
-## Models for count data ##
-
-## Regression models ##
-
-## Estimation and inference ##
-
-## Computational implementation ##

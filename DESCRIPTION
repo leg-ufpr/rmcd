@@ -6,9 +6,16 @@ Imports:
   knitr,
   lattice,
   latticeExtra,
-  rtweedie,
-  tweedie
+  gridExtra,
+  tweedie,
+  statmod,
+  compoisson,
+  rootSolve,
+  bbmle,
+  MRDCr
 Suggests:
   sp,
   plyr
-Remotes: rstudio/bookdown
+Remotes:
+  rstudio/bookdown,
+  leg-ufpr/MRDCr@devel

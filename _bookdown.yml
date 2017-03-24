@@ -5,11 +5,10 @@ chapter_name: "Chapter "
 rmd_files: [
     "index.Rmd",
     "introduction.Rmd",
-    "background.Rmd",
-    "parametric-models.Rmd",
-    "second-moments.Rmd",
-    "data-analyses.Rmd",
-    "discussion.Rmd",
+    "Models.Rmd",
+    "Likelihood.Rmd",
+    "SM.Rmd",
+    "Applications.Rmd",
     "bibliography.Rmd"
 ]
 

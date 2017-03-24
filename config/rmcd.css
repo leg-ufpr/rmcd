@@ -26,3 +26,64 @@ body {
 .header-section-number{
     display: block;
 }
+
+/* Fonte serif */
+.book.font-family-0 {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+}
+
+/* Fonte sans */
+.book.font-family-1 {
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.book .book-header, .book .book-summary {
+    /* font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; */
+    font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal h4.author {
+    margin-bottom: 0px;
+    font-size: 1.5em;
+}
+
+address {
+    line-height: 1;
+    font-size: 1.5em !important;
+}
+
+address i.fa {
+    margin-right: 0.5ex;
+}
+
+p.caption {
+    color: #777;
+    margin-top: 10px;
+}
+
+/*------------------------------------------- */
+/* Code */
+
+p code {
+    white-space: inherit;
+}
+
+pre {
+    word-break: normal;
+    word-wrap: normal;
+}
+
+pre code {
+    white-space: inherit;
+}
+
+/*------------------------------------------- */
+
+.book .book-body .page-wrapper .page-inner section.normal pre,
+.book .book-body .page-wrapper .page-inner section.normal code {
+    line-height: 1.2;
+}
+
+.book .book-body .page-wrapper .page-inner section.normal pre {
+    padding: .3em .3em;
+}

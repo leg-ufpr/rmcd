@@ -1,0 +1,159 @@
+# The method of maximum likelihood {#likelihood}
+
+The estimation and inference for the models discussed in Chapter \@ref(models)
+can be done by the method of maximum likelihood [@Silvey:1975].
+In this Chapter, we present the maximum likelihood method and its main
+properties along with some examples in `R`.
+The maximum likelihood method is applicable mainly in situations
+where the true distribution of the count random variable $Y$ is known
+apart of the values of a finite number of unknown parameters.
+Let $p(y;\boldsymbol{\theta})$ denote the true probability mass function
+of the count random variable $Y$. We assume that the family
+$p(y;\boldsymbol{\theta})$ is labelled by a ($p \times 1$) parameter
+vector $\boldsymbol{\theta}$ taking values in $\Theta$ a subset of
+$\mathbb{R}^n$. For a given observed value $y$ of the a random variable $Y$,
+the likelihood function corresponding to the observation $y$ is defined
+as $L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})$.
+It is important to highlight that $p(y;\boldsymbol{\theta})$ is a
+probability mass function on the sample space. On the other hand,
+$L(\boldsymbol{\theta};y) = p(y;\boldsymbol{\theta})$ is a function on
+the parameter space $\Theta$.
+The likelihood function expresses the plausibilities of different
+parameters after we have observed $y$, in the absence of any other
+information that we may have about these different values.
+In particular, for count random variables the likelihood function is
+the probability of the point $y$ when $\boldsymbol{\theta}$ is the
+true parameter.
+
+The method of maximum likelihood has a strong intuitive appeal and
+according to it, we estimate the true parameter $\boldsymbol{\theta}$
+by any parameter which maximizes the likelihood function.
+In general, there is a unique maximizing parameter which is the most
+plausible and this is the maximum likelihood estimate [@Silvey:1975].
+In other words, a maximum likelihood estimate $\hat{\boldsymbol{\theta}}(y)$
+is any element of $\Theta$ such that
+$L(\hat{\boldsymbol{\theta}}(y);y) = \underset{\boldsymbol{\theta}\in \Theta}\max L(\boldsymbol{\theta};y).$
+At this stage, we make the distinction between the estimate $\hat{\boldsymbol{\theta}}(y)$
+and the estimator $\hat{\boldsymbol{\theta}}$.
+However, we are not maintain this distinction and we shall use only
+$\hat{\boldsymbol{\theta}}$ leaving the context to make it clear whether
+we are thinking of $\hat{\boldsymbol{\theta}}$ as a function or as
+a particular value of a function.
+
+Let $Y_i$ be independent and identically distributed count random
+variables with probability mass function $p(y;\boldsymbol{\theta})$,
+whose observed values are denoted by $y_i$ for $i = 1, \ldots, n.$
+In this case, the likelihood function can be written as the product
+of the individuals probability mass distributions, i.e.
+
+\begin{equation}
+L(\boldsymbol{\theta};\boldsymbol{y}) = \prod_{i=1}^n L(\boldsymbol{\theta}; y_i) = \prod_{i=1}^n p(y_i; \boldsymbol{\theta}).
+(\#eq:LIK)
+\end{equation}
+
+For convenience, in practical situations is advisable to work with the
+log-likelihood function obtained by taking the logarithm of Eq. \@ref(eq:LIK).
+Thus, the maximum likelihood estimator (MLE) for the parameter vector
+$\boldsymbol{\theta}$ is obtained by maximizing the following
+log-likelihood function,
+\begin{equation}
+\ell(\boldsymbol{\theta})=\sum^n_{i=1} \log\{ L(\boldsymbol{\theta}; y_i) \}.
+(\#eq:LOGLIK)
+\end{equation}
+
+Often, it is not possible to find a relatively simple expression in closed
+form for the maximum likelihood estimates. However, it is usually possible
+to assume that maximum likelihood estimates emerge as a solution of the
+likelihood equations or also called score functions, i.e.
+
+\begin{equation}
+\mathcal{U}(\boldsymbol{\theta}) = \left ( \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_1}^\top, \ldots, \frac{\partial \ell(\boldsymbol{\theta})}{\partial \theta_p}^\top \right )^\top = \boldsymbol{0}.
+(\#eq:SCORE)
+\end{equation}
+
+However, the system of non-linear equations in \@ref(eq:SCORE) often
+have to be solved numerically. The entry $(i,j)$ of the $p \times p$ Fisher
+information matrix $\mathcal{F}_{\boldsymbol{\theta}}$ for the vector
+of parameter $\boldsymbol{\theta}$ is given by
+\begin{equation}
+\mathcal{F}_{\boldsymbol{\theta}_{ij}} =-\mathrm{E} \left \{ \frac{\partial^2 \ell(\boldsymbol{\theta})}{\partial\theta_i\partial\theta_j} \right \}.
+\end{equation}
+
+In order to solve the system of equations $\mathcal{U}(\boldsymbol{\theta}) = \boldsymbol{0}$,
+we employ the Newton scoring algorithm, defined by
+\begin{eqnarray}
+\boldsymbol{\theta}^{(i+1)} &=& \boldsymbol{\theta}^{(i)} - \mathcal{F}_{\boldsymbol{\theta}}^{-1} \mathcal{U}(\boldsymbol{\theta}^{(i)}).
+\end{eqnarray}
+
+Finally, the well known distribution of the maximum likelihood estimator
+$\boldsymbol{\hat{\theta}}$ is $\mathrm{N}(\boldsymbol{\theta}, \mathcal{F}_{\boldsymbol{\theta}}^{-1})$.
+Thus, the maximum likelihood estimator is asymptotically consistent, unbiased and efficient.
+
+A critical point of the approach described so far, is that we should be
+able to compute the first and second derivatives of the log-likelihood
+function. However, for the Gamma-Count where the log-likelihood function
+is given by the difference between two integrals, we cannot obtain such
+derivatives analytically. Similarly, for the COM-Poisson the log-likelihood
+function involves an infinite sum and consequently such derivatives cannot
+be obtained analitycally. Finally, in the Poisson-Tweedie distribution the
+log-likelihood function is defined by an intractable integral, which implies
+that we cannot obtain a closed-form for the score function and Fisher information matrix.
+
+Thus, an alternative approach is to maximize directly the log-likelihood
+function in equation \@ref(eq:LOGLIK) using a derivative-free algorithm
+as the Nelder-Mead method [@Nelder:1965] or some other numerical method for
+maximizing the log-likelihood function, examples include the $BFGS$,
+conjugate gradient and simulated annealing.
+All of them are implemented in `R` through the `optim()` function.
+The package `bbmle` [@bbmle:2014] offers a suite of functions to work
+with numerical maximization of log-likelihood functions in `R`.
+As an example, consider the Gamma-Count distribution described in
+subsection \@ref(gammacount). The log-likelihood function for the parameters
+$\theta = (\gamma, \alpha)$ in `R` is given by
+
+```{r gcpmf2, echo = FALSE, fig.cap = 'Probability mass function - Gamma-Count distribution.'}
+dgc <- function(y, gamma, alpha, log = FALSE) {
+  p <- pgamma(q = 1,
+              shape = y * alpha,
+              rate = alpha * gamma) -
+    pgamma(q = 1,
+           shape = (y + 1) * alpha,
+           rate = alpha * gamma)
+  if(log == TRUE) {p <- log(p)}
+  return(p)
+}
+```
+
+
+```{r llgc, echo = TRUE, fig.cap = 'Log-likelihood function - Gamma-Count distribution.'}
+ll_gc <- function(gamma, alpha, y) {
+  ll <- sum(dgc(y = y, gamma = gamma, alpha = alpha, log = TRUE))
+  return(-ll)
+}
+```
+
+Thus, for a given vector of observed count values, we can numerically
+maximize the log-likelihood function above using the function `mle2()`
+from the `bbmle`package. It is important to highlight that by default
+the `mle2()` function requires the negative of the log-likelihood function
+instead of the log-likelihood itself. Thus, our function returns the
+negative value of the log-likelihood function.
+
+```{r fitllgc, echo = TRUE, fig.cap = 'Fitting Gamma-Count distributions using maximum likelihood.'}
+require(bbmle)
+y <- rpois(100, lambda = 10)
+fit_gc <- mle2(ll_gc, start = list("gamma" = 10, "alpha" = 1),
+               data = list("y" = y))
+```
+The great advantage of the `bbmle` package for maximum likelihood estimation
+in `R`, is that it already provides standard methods, such as
+`summary()`, `coef()`, `confint()`, `vcov()`, `profile()` and other
+for objects of `mle2` class.
+
+```{r SUMMARYllgc, echo = TRUE, fig.cap = 'Summary likelihood analysis of Gamma-Count distributions.'}
+summary(fit_gc)
+```
+Similar functions can be done for the Poisson, Poisson-Tweedie and
+COM-Poisson distributions. In the supplementary material `Script5.R`,
+we provide some functions for maximum likelihood estimation of
+Poisson-Tweedie and COM-Poisson distributions.

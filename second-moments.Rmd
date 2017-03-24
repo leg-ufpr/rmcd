@@ -1,9 +1,0 @@
-# Second Moments Based Especification #
-
-## Mean and variance relationship ##
-
-## Estimation functions approach ##
-
-## Extended Poisson-Tweedie regression models ##
-
-## Computational implementation ##
