@@ -23,9 +23,9 @@ The main goal of this course is to present a wide range of statistical
 models to deal with count data. We focus on parametric and second-moment
 specified models. We shall present the model specification along with
 strategies for model fitting and associated `R`[@R2015] code.
-Furthermore, this book-course and supplementary materials as `R` code
-and data sets are available for the students on the web page
-<http://cursos.leg.ufpr.br/rmcd>.
+Furthermore, this book-course and supplementary materials, 
+such as `R` code and data sets are available for the students 
+on the web page <http://cursos.leg.ufpr.br/rmcd>.
 
 We intend to keep the course in a level suitable for bachelor students
 who already attended a course on generalized linear models [@Nelder1972].
@@ -33,16 +33,16 @@ However, since the course also covers updated topics, it can be of
 interest of postgraduate students and researches in general.
 
 We designed the course for three hours of tuition.
-In the first part (two hours) of the course, we shall present the
+In the first part of the course, we shall present the
 analysis of count data based on fully parametric models.
 After a brief introduction and motivation on count data, we present the
 Poisson, Gamma-Count, Poisson-Tweedie and COM-Poisson distributions.
 We explore their properties through a consideration of dispersion,
 zero-inflated and heavy tail indexes. Furthermore, the estimation and
 inference for these models based on the likelihood paradigm is discussed
-along with `R` code and worked examples.
+along with the associated `R` code and worked examples.
 
-In the second part (one hour) of the course, we provide a brief
+In the second part of the course, we provide a brief
 introduction to the estimating function approach [@Jorgensen2004 ; @Bonat2016a]
 and discuss models based on second-moment assumptions in the style of @Wedderburn1974.
 In particular, we focus on the recently proposed Extended Poisson-Tweedie model [@Bonat2016b]
