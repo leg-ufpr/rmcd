@@ -531,54 +531,51 @@ Aproximação proposta por Shimueli (2005), boa aproximação para $\nu
 \end{figure}
 \end{frame}
 
-%%%-------------------------------------------------------------------
+%%%---------------------------------------------------------------------
 \subsection{Comparando distribuições para contagens}
 \begin{frame}{Medindo propriedades das distribuições}
 \begin{itemize}
+\item Relação média e variância.
 \item Índice de dispersão: $$\mathrm{DI} = \frac{\mathrm{var}(Y)}{\mathrm{E}(Y)},$$
 $ \mathrm{DI} < 1$ subdispersão, $\mathrm{DI} = 1$ equidispersão e $\mathrm{DI} > 1$ superdispersão.
+\end{itemize}
+\end{frame}
+
+%%%---------------------------------------------------------------------
+\begin{frame}{Relação média variance (MV) e índice de dispersão (DI).}
+\begin{itemize}
 \begin{figure}[h]
-\includegraphics[scale=0.8]{images/MVDI.pdf}
+\includegraphics[scale=0.5]{images/MVDI.pdf}
 \centering
 \end{figure}
 \end{itemize}
 \end{frame}
 
-
-
-
-%\item Índice de inflação de zeros: $$\mathrm{ZI} = 1 + \frac{\log \mathrm{P}(Y = 0)}{\mathrm{E}(Y)}.$$
-%$ZI < 0$ zero deflacionado, $ZI=1$ não zero inflacionado e $ZI > 1$ zero inflacionado.
-
-%\item Índice de cauda pesada:
-%$$ \mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty.$$
-%$\mathrm{HT} \to 1$ quando $y \to \infty$ indica cauda pesada.
-%\end{itemize}
-
-
-%%%-------------------------------------------------------------------
-\begin{frame}[fragile]
+%%%---------------------------------------------------------------------
+\begin{frame}{Índice de inflação de zeros}
+\begin{itemize}
+\item Índice de inflação de zeros: $$\mathrm{ZI} = 1 + \frac{\log \mathrm{P}(Y = 0)}{\mathrm{E}(Y)},$$
+$\mathrm{ZI} < 0$ zero deflacionado, $\mathrm{ZI}=1$ não zero inflacionado e $\mathrm{ZI} > 0$ zero inflacionado.
 \begin{figure}[h]
-\includegraphics[scale=0.5]{images/Compara.png}
-\caption{}
-\label{Fig3}
+\includegraphics[scale=0.63]{images/ZI.pdf}
 \centering
 \end{figure}
+\end{itemize}
 \end{frame}
-
-%%%-------------------------------------------------------------------
-
-%%%-------------------------------------------------------------------
-\begin{frame}[fragile]
+%%%---------------------------------------------------------------------
+\begin{frame}{Índice de cauda pesada}
+\begin{itemize}
+\item Índice de cauda pesada:
+$$\mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty.$$
+$\mathrm{HT} \to 1$ quando $y \to \infty$ indica cauda pesada. 
 \begin{figure}[h]
-\includegraphics[scale=0.6]{images/heavytail-1.png}
-\caption{Índice de cauda pesada para alguns valores extremos da va $Y$.}
-\label{Fig3}
+\includegraphics[scale=0.63]{images/HT.pdf}
 \centering
 \end{figure}
+\end{itemize}
 \end{frame}
+%%%---------------------------------------------------------------------
 
-%%%-------------------------------------------------------------------
 
 %%%-------------------------------------------------------------------
 \begin{frame}[fragile]{Flexibilidade}
@@ -588,18 +585,19 @@ $ \mathrm{DI} < 1$ subdispersão, $\mathrm{DI} = 1$ equidispersão e $\mathrm{DI
 \label{tab:model}
 \begin{tabular}{llll} \hline
 Modelo de referência     & Fatos dominantes                     & Dispersão           & Power   \\ \hline
-Poisson                  & Equi                                 & $-$          & $-$      \\
-Gamma-Count              & Sub, Equi, Super, deflação de zero   & $\alpha \lessgtr 1$ & $-$ \\
-COM-Poisson              & Sub, Equi, Super, deflação de zero   & $\nu \lessgtr 1$    & $-$ \\
-Hermite                  & Super                                & $\phi > 0$    & $p = 0$   \\
-Neyman Type A            & Super, Zero-inflacionado             & $\phi > 0$          & $p = 1$ \\
-\textit{Poisson compound Poisson} & Super, Zero-inflacionado    & $\phi > 0$ & $1 < p < 2$ \\
-P\'olya-Aeppli           & Super, Zero-inflacionado             & $\phi > 0$ & $p = 1.5$ \\
-Negative binomial        & Super                                & $\phi > 0$ & $p = 2$ \\
-\textit{Poisson positive stable}  & Super, cauda pesada         & $\phi > 0$       & $p > 2$ \\
-Poisson-inverse Gaussian & Super, cauda pesada                  & $\phi > 0$       & $p = 3$ \\ \hline
+$^{123}$Poisson                  & Equi                                 & $-$          & $-$      \\
+$^{1}$Gamma-Count              & Sub, Equi, Super, deflação de zero   & $\alpha \lessgtr 1$ & $-$ \\
+$^{2}$COM-Poisson              & Sub, Equi, Super, deflação de zero   & $\nu \lessgtr 1$    & $-$ \\
+$^{3}$Hermite                  & Super                                & $\phi > 0$    & $p = 0$   \\
+$^{3}$Neyman Type A            & Super, Zero-inflacionado             & $\phi > 0$          & $p = 1$ \\
+$^3$\textit{Poisson compound Poisson} & Super, Zero-inflacionado    & $\phi > 0$ & $1 < p < 2$ \\
+$^{3}$P\'olya-Aeppli           & Super, Zero-inflacionado             & $\phi > 0$ & $p = 1.5$ \\
+$^{3}$Negative binomial        & Super                                & $\phi > 0$ & $p = 2$ \\
+$^{3}$\textit{Poisson positive stable}  & Super, Cauda pesada         & $\phi > 0$       & $p > 2$ \\
+$^{3}$Poisson-inverse Gaussian & Super, Cauda pesada                  & $\phi > 0$       & $p = 3$ \\ \hline
 \end{tabular}
 \end{table}
+$1$ Gamma-count, $2$ COM-Poisson e $3$ Poisson-Tweedie.
 \end{frame}
 
 %%%-------------------------------------------------------------------
