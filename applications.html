@@ -1043,9 +1043,9 @@ preds &lt;-<span class="st"> </span><span class="kw">rbind</span>(predsex, preds
            <span class="dt">prepanel =</span> prepanel.cbH)
 )</code></pre></div>
 <p><img src="rmcdbook_files/figure-html/claims-pred-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>Para avaliar o poder preditivo dos modelos nós calculamos as frequências estimadas pelos dois modelos considerados e comparamos com as observadas. As frequências estimadas <span class="math inline">\(\hat{Fr}\)</span>, para um dado valor <span class="math inline">\(y\)</span> são calculadas como</p>
+<p>Para avaliar o poder preditivo dos modelos nós calculamos as frequências estimadas pelos dois modelos considerados e comparamos com as observadas. As frequências estimadas <span class="math inline">\(\hat{\mathrm{Fr}}\)</span>, para um dado valor <span class="math inline">\(y\)</span> são calculadas como</p>
 <p><span class="math display">\[
-\hat{Fr}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
+\hat{\mathrm{Fr}}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
 \]</span></p>
 <p>Onde <span class="math inline">\(\Pr(Y=y \mid \hat{\boldsymbol{\theta}}_i)\)</span> é a função massa de probabilidade definida pelo conjunto de parâmetros <span class="math inline">\(\boldsymbol{\hat{\theta}}_i\)</span>. Para o modelo Poisson <span class="math inline">\(\hat{\boldsymbol{\theta}}_i = \hat{\mu}_i\)</span> e para o modelo Poisson-Tweedie <span class="math inline">\(\hat{\boldsymbol{\theta}}_i = [\hat{\mu}_i \hat{\phi}=4.359] \hat{p}=1.832]\)</span>. For Poisson-Tweedie model we evaluate the integral using the Gauss-Laguerre method (with 100 points). The results shows that Poisson-Tweedie model offers a better fit with adjust frequencies very close of observed frequencies.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Adjust frequencies by models
@@ -1078,9 +1078,9 @@ power &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw
 probsPT &lt;-<span class="kw">do.call</span>(
     <span class="st">&quot;rbind&quot;</span>,
     <span class="kw">lapply</span>(muPT, function(mui) {
-        py &lt;-<span class="st"> </span><span class="kw">dptweedie</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> mui, <span class="dt">phi =</span> phi,
-                        <span class="dt">power =</span> power, <span class="dt">n_pts =</span> <span class="dv">100</span>,
-                        <span class="dt">method =</span> <span class="st">&quot;laguerre&quot;</span>)
+        py &lt;-<span class="st"> </span><span class="kw">dptw</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> mui, <span class="dt">phi =</span> phi,
+                   <span class="dt">power =</span> power, <span class="dt">n_pts =</span> <span class="dv">100</span>,
+                   <span class="dt">method =</span> <span class="st">&quot;laguerre&quot;</span>)
     }))
 freqs$PT &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">apply</span>(probsPT, <span class="dv">2</span>, sum))
 tabf &lt;-<span class="st"> </span><span class="kw">ldply</span>(freqs)
@@ -1094,59 +1094,6 @@ tabf</code></pre></div>
 </div>
 <div id="radiation-induced-chromosome-aberration-counts" class="section level2">
 <h2><span class="header-section-number">5.4</span> Radiation-induced chromosome aberration counts</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## The density of PTW dsitributions (using numerical integration)
-<span class="kw">library</span>(statmod)
-<span class="kw">library</span>(tweedie)
-
-integrand &lt;-<span class="st"> </span>function(x, y, mu, phi, power) {
-    int =<span class="st"> </span><span class="kw">dpois</span>(y, <span class="dt">lambda =</span> x)*
-<span class="st">        </span><span class="kw">dtweedie</span>(x, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
-    <span class="kw">return</span>(int)
-}
-<span class="co"># Numerical integration using Gauss-Laguerre method</span>
-gauss_laguerre &lt;-<span class="st"> </span>function(integrand, n_pts, y, mu, phi, power) {
-    pts &lt;-<span class="st"> </span><span class="kw">gauss.quad</span>(n_pts, <span class="dt">kind=</span><span class="st">&quot;laguerre&quot;</span>)
-    integral &lt;-<span class="st"> </span><span class="kw">sum</span>(pts$weights*<span class="kw">integrand</span>(pts$nodes, <span class="dt">y =</span> y, <span class="dt">mu =</span> mu,
-                                          <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)/
-<span class="st">                        </span><span class="kw">exp</span>(-pts$nodes))
-    <span class="kw">return</span>(integral)
-}
-gauss_laguerre_vec &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(<span class="dt">FUN =</span> gauss_laguerre,
-                                <span class="dt">vectorize.args =</span> <span class="st">&quot;y&quot;</span>)
-
-<span class="co"># Numerical integration using Monte Carlo method -----------------------</span>
-monte_carlo &lt;-<span class="st"> </span>function(integrand, n_pts, y, mu, phi, power) {
-    pts &lt;-<span class="st"> </span><span class="kw">rtweedie</span>(n_pts, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
-    norma &lt;-<span class="st"> </span><span class="kw">dtweedie</span>(pts, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
-    integral &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">integrand</span>(pts, <span class="dt">y =</span> y, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi,
-                               <span class="dt">power =</span> power)/norma)
-    <span class="kw">return</span>(integral)
-}
-
-<span class="co"># Probability mass function Poisson-Tweedie ----------------------------</span>
-dptweedie_aux &lt;-<span class="st"> </span>function(y, mu, phi, power, n_pts, method) {
-    if(method ==<span class="st"> &quot;laguerre&quot;</span> |<span class="st"> </span>y &gt;<span class="st"> </span><span class="dv">0</span>) {
-        pmf &lt;-<span class="st"> </span><span class="kw">gauss_laguerre</span>(<span class="dt">integrand =</span> integrand, <span class="dt">n_pts =</span> n_pts,
-                              <span class="dt">y =</span> y, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
-    }
-    if(method ==<span class="st"> &quot;laguerre&quot;</span> &amp;<span class="st"> </span>y ==<span class="st"> </span><span class="dv">0</span>) {
-        v.y &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="dv">10</span>*<span class="kw">sqrt</span>(mu +<span class="st"> </span>phi*mu^power),<span class="dv">0</span>)
-        if(v.y &gt;<span class="st"> </span><span class="dv">1000</span>) {v.y &lt;-<span class="st"> </span><span class="dv">1000</span>}
-        <span class="co">#print(v.y)</span>
-        y.grid &lt;-<span class="st"> </span><span class="dv">0</span>:v.y
-        temp &lt;-<span class="st"> </span><span class="kw">gauss_laguerre_vec</span>(<span class="dt">integrand =</span> integrand, <span class="dt">n_pts =</span> n_pts,
-                                   <span class="dt">y =</span> y.grid, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi,
-                                   <span class="dt">power =</span> power)
-        pmf &lt;-<span class="st"> </span><span class="dv">1</span>-<span class="kw">sum</span>(temp)+temp[<span class="dv">1</span>]
-    }
-    if(method ==<span class="st"> &quot;MC&quot;</span>) {
-        pmf &lt;-<span class="st"> </span><span class="kw">monte_carlo</span>(<span class="dt">integrand =</span> integrand, <span class="dt">n_pts =</span> n_pts,
-                           <span class="dt">y =</span> y, <span class="dt">mu =</span> mu, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power)
-    }
-    <span class="kw">return</span>(pmf)
-}
-<span class="co"># Vectorize version</span>
-dptweedie &lt;-<span class="st"> </span><span class="kw">Vectorize</span>(<span class="dt">FUN =</span> dptweedie_aux, <span class="dt">vectorize.args =</span> <span class="kw">c</span>(<span class="st">&quot;y&quot;</span>,<span class="st">&quot;mu&quot;</span>))</code></pre></div>
 <p>In biological dosimetry studies essentially the response variables are data counts. These experiments measure the number of chromosome aberrations in human lymphocytes after to controlled exposure of ionizing radiation. The aim of the studies are analyse the biological effects induced by ionizing radiation. The aberrations most commonly mensured are the dicentrics, centric rings, and micronucle .</p>
 <p>In this section the dataset considered was obtained after irradiating blood samples with five different doses between 0.1 and 1 Gy of 2.1 MeV neutrons. In this case, the frequencies of dicentrics and centric rings after a culture of 72 hours are analysed. The dataset was analysed by <span class="citation">(<span class="citeproc-not-found" data-reference-id="Oliveira2006"><strong>???</strong></span>)</span>, as an example of zero-inflated data and <span class="citation">Bonat et al. (2016)</span>, using extend Poisson-Tweedie approach.</p>
 <p>The data are available in <code>data/chromossome.rda</code> file. In <code>R</code> it can be loaded with</p>
@@ -1177,11 +1124,7 @@ m0PT &lt;-<span class="st"> </span><span class="kw">mcglm</span>(
     <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
     <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
     <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
-    <span class="dt">data =</span> chromosome,
-    <span class="dt">control_algorithm =</span> <span class="kw">list</span>(
-        <span class="dt">verbose =</span> <span class="ot">FALSE</span>, <span class="dt">max_iter =</span> <span class="dv">1000</span>,
-        <span class="dt">tunning =</span> <span class="fl">0.5</span>, <span class="dt">tol =</span> <span class="fl">1e-10</span>)
-)</code></pre></div>
+    <span class="dt">data =</span> chromosome)</code></pre></div>
 <pre><code>## Automatic initial values selected.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
 ## Goodness of fit
@@ -1199,8 +1142,8 @@ logLik.mcglm &lt;-<span class="st"> </span>function(object) {
     power &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(object), Estimates[Type ==<span class="st"> &quot;power&quot;</span>])
     obs &lt;-<span class="st"> </span><span class="kw">xtabs</span>(~ndic +<span class="st"> </span>dose, <span class="dt">data =</span> chromosome)
     matpred &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;cbind&quot;</span>, <span class="kw">lapply</span>(mu, function(mui) {
-        <span class="kw">dptweedie</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> mui, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power,
-                  <span class="dt">n_pts =</span> <span class="dv">180</span>, <span class="st">&quot;laguerre&quot;</span>)
+        <span class="kw">dptw</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> mui, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power,
+             <span class="dt">n_pts =</span> <span class="dv">180</span>, <span class="st">&quot;laguerre&quot;</span>)
     }))
     ll &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">log</span>(matpred) *<span class="st"> </span>obs)
     <span class="kw">attr</span>(ll, <span class="st">&quot;df&quot;</span>) &lt;-<span class="st"> </span><span class="kw">nrow</span>(<span class="kw">coef</span>(object))
@@ -1317,9 +1260,9 @@ probs$PT &lt;-<span class="st"> </span><span class="kw">do.call</span>(
     <span class="st">&quot;rbind&quot;</span>,
     <span class="kw">lapply</span>(indPT, function(i) {
         <span class="kw">with</span>(means, {
-            py &lt;-<span class="st"> </span><span class="kw">dptweedie</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> fit[i], <span class="dt">phi =</span> phi,
-                            <span class="dt">power =</span> power, <span class="dt">n_pts =</span> <span class="dv">180</span>,
-                            <span class="dt">method =</span> <span class="st">&quot;laguerre&quot;</span>)
+            py &lt;-<span class="st"> </span><span class="kw">dptw</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> fit[i], <span class="dt">phi =</span> phi,
+                       <span class="dt">power =</span> power, <span class="dt">n_pts =</span> <span class="dv">180</span>,
+                       <span class="dt">method =</span> <span class="st">&quot;laguerre&quot;</span>)
             <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
         })
     })

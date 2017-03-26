@@ -2717,11 +2717,11 @@ intervalo de preços mais elevados.
 
 Para avaliar o poder preditivo dos modelos nós calculamos as frequências
 estimadas pelos dois modelos considerados e comparamos com as
-observadas. As frequências estimadas \(\hat{Fr}\), para um dado valor
-\(y\) são calculadas como
+observadas. As frequências estimadas \(\hat{\mathrm{Fr}}\), para um dado
+valor \(y\) são calculadas como
 
 \[
-\hat{Fr}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
+\hat{\mathrm{Fr}}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
 \]
 
 Onde \(\Pr(Y=y \mid \hat{\boldsymbol{\theta}}_i)\) é a função massa de
@@ -2767,9 +2767,9 @@ close of observed frequencies.
 \NormalTok{probsPT <-}\KeywordTok{do.call}\NormalTok{(}
     \StringTok{"rbind"}\NormalTok{,}
     \KeywordTok{lapply}\NormalTok{(muPT, function(mui) \{}
-        \NormalTok{py <-}\StringTok{ }\KeywordTok{dptweedie}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mui, }\DataTypeTok{phi =} \NormalTok{phi,}
-                        \DataTypeTok{power =} \NormalTok{power, }\DataTypeTok{n_pts =} \DecValTok{100}\NormalTok{,}
-                        \DataTypeTok{method =} \StringTok{"laguerre"}\NormalTok{)}
+        \NormalTok{py <-}\StringTok{ }\KeywordTok{dptw}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mui, }\DataTypeTok{phi =} \NormalTok{phi,}
+                   \DataTypeTok{power =} \NormalTok{power, }\DataTypeTok{n_pts =} \DecValTok{100}\NormalTok{,}
+                   \DataTypeTok{method =} \StringTok{"laguerre"}\NormalTok{)}
     \NormalTok{\}))}
 \NormalTok{freqs$PT <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{apply}\NormalTok{(probsPT, }\DecValTok{2}\NormalTok{, sum))}
 \NormalTok{tabf <-}\StringTok{ }\KeywordTok{ldply}\NormalTok{(freqs)}
@@ -2788,64 +2788,6 @@ close of observed frequencies.
 
 \section{Radiation-induced chromosome aberration
 counts}\label{radiation-induced-chromosome-aberration-counts}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\NormalTok{## The density of PTW dsitributions (using numerical integration)}
-\KeywordTok{library}\NormalTok{(statmod)}
-\KeywordTok{library}\NormalTok{(tweedie)}
-
-\NormalTok{integrand <-}\StringTok{ }\NormalTok{function(x, y, mu, phi, power) \{}
-    \NormalTok{int =}\StringTok{ }\KeywordTok{dpois}\NormalTok{(y, }\DataTypeTok{lambda =} \NormalTok{x)*}
-\StringTok{        }\KeywordTok{dtweedie}\NormalTok{(x, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
-    \KeywordTok{return}\NormalTok{(int)}
-\NormalTok{\}}
-\CommentTok{# Numerical integration using Gauss-Laguerre method}
-\NormalTok{gauss_laguerre <-}\StringTok{ }\NormalTok{function(integrand, n_pts, y, mu, phi, power) \{}
-    \NormalTok{pts <-}\StringTok{ }\KeywordTok{gauss.quad}\NormalTok{(n_pts, }\DataTypeTok{kind=}\StringTok{"laguerre"}\NormalTok{)}
-    \NormalTok{integral <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(pts$weights*}\KeywordTok{integrand}\NormalTok{(pts$nodes, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu,}
-                                          \DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)/}
-\StringTok{                        }\KeywordTok{exp}\NormalTok{(-pts$nodes))}
-    \KeywordTok{return}\NormalTok{(integral)}
-\NormalTok{\}}
-\NormalTok{gauss_laguerre_vec <-}\StringTok{ }\KeywordTok{Vectorize}\NormalTok{(}\DataTypeTok{FUN =} \NormalTok{gauss_laguerre,}
-                                \DataTypeTok{vectorize.args =} \StringTok{"y"}\NormalTok{)}
-
-\CommentTok{# Numerical integration using Monte Carlo method -----------------------}
-\NormalTok{monte_carlo <-}\StringTok{ }\NormalTok{function(integrand, n_pts, y, mu, phi, power) \{}
-    \NormalTok{pts <-}\StringTok{ }\KeywordTok{rtweedie}\NormalTok{(n_pts, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
-    \NormalTok{norma <-}\StringTok{ }\KeywordTok{dtweedie}\NormalTok{(pts, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
-    \NormalTok{integral <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(}\KeywordTok{integrand}\NormalTok{(pts, }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi,}
-                               \DataTypeTok{power =} \NormalTok{power)/norma)}
-    \KeywordTok{return}\NormalTok{(integral)}
-\NormalTok{\}}
-
-\CommentTok{# Probability mass function Poisson-Tweedie ----------------------------}
-\NormalTok{dptweedie_aux <-}\StringTok{ }\NormalTok{function(y, mu, phi, power, n_pts, method) \{}
-    \NormalTok{if(method ==}\StringTok{ "laguerre"} \NormalTok{|}\StringTok{ }\NormalTok{y >}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
-        \NormalTok{pmf <-}\StringTok{ }\KeywordTok{gauss_laguerre}\NormalTok{(}\DataTypeTok{integrand =} \NormalTok{integrand, }\DataTypeTok{n_pts =} \NormalTok{n_pts,}
-                              \DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
-    \NormalTok{\}}
-    \NormalTok{if(method ==}\StringTok{ "laguerre"} \NormalTok{&}\StringTok{ }\NormalTok{y ==}\StringTok{ }\DecValTok{0}\NormalTok{) \{}
-        \NormalTok{v.y <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\DecValTok{10}\NormalTok{*}\KeywordTok{sqrt}\NormalTok{(mu +}\StringTok{ }\NormalTok{phi*mu^power),}\DecValTok{0}\NormalTok{)}
-        \NormalTok{if(v.y >}\StringTok{ }\DecValTok{1000}\NormalTok{) \{v.y <-}\StringTok{ }\DecValTok{1000}\NormalTok{\}}
-        \CommentTok{#print(v.y)}
-        \NormalTok{y.grid <-}\StringTok{ }\DecValTok{0}\NormalTok{:v.y}
-        \NormalTok{temp <-}\StringTok{ }\KeywordTok{gauss_laguerre_vec}\NormalTok{(}\DataTypeTok{integrand =} \NormalTok{integrand, }\DataTypeTok{n_pts =} \NormalTok{n_pts,}
-                                   \DataTypeTok{y =} \NormalTok{y.grid, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi,}
-                                   \DataTypeTok{power =} \NormalTok{power)}
-        \NormalTok{pmf <-}\StringTok{ }\DecValTok{1}\NormalTok{-}\KeywordTok{sum}\NormalTok{(temp)+temp[}\DecValTok{1}\NormalTok{]}
-    \NormalTok{\}}
-    \NormalTok{if(method ==}\StringTok{ "MC"}\NormalTok{) \{}
-        \NormalTok{pmf <-}\StringTok{ }\KeywordTok{monte_carlo}\NormalTok{(}\DataTypeTok{integrand =} \NormalTok{integrand, }\DataTypeTok{n_pts =} \NormalTok{n_pts,}
-                           \DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mu, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power)}
-    \NormalTok{\}}
-    \KeywordTok{return}\NormalTok{(pmf)}
-\NormalTok{\}}
-\CommentTok{# Vectorize version}
-\NormalTok{dptweedie <-}\StringTok{ }\KeywordTok{Vectorize}\NormalTok{(}\DataTypeTok{FUN =} \NormalTok{dptweedie_aux, }\DataTypeTok{vectorize.args =} \KeywordTok{c}\NormalTok{(}\StringTok{"y"}\NormalTok{,}\StringTok{"mu"}\NormalTok{))}
-\end{Highlighting}
-\end{Shaded}
 
 In biological dosimetry studies essentially the response variables are
 data counts. These experiments measure the number of chromosome
@@ -2908,11 +2850,7 @@ counts and the averages are between 0 and 1, suggesting excess zero.
     \DataTypeTok{link =} \StringTok{"log"}\NormalTok{,}
     \DataTypeTok{variance =} \StringTok{"poisson_tweedie"}\NormalTok{,}
     \DataTypeTok{power_fixed =} \OtherTok{FALSE}\NormalTok{,}
-    \DataTypeTok{data =} \NormalTok{chromosome,}
-    \DataTypeTok{control_algorithm =} \KeywordTok{list}\NormalTok{(}
-        \DataTypeTok{verbose =} \OtherTok{FALSE}\NormalTok{, }\DataTypeTok{max_iter =} \DecValTok{1000}\NormalTok{,}
-        \DataTypeTok{tunning =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{tol =} \FloatTok{1e-10}\NormalTok{)}
-\NormalTok{)}
+    \DataTypeTok{data =} \NormalTok{chromosome)}
 \end{Highlighting}
 \end{Shaded}
 
@@ -2938,8 +2876,8 @@ counts and the averages are between 0 and 1, suggesting excess zero.
     \NormalTok{power <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\KeywordTok{coef}\NormalTok{(object), Estimates[Type ==}\StringTok{ "power"}\NormalTok{])}
     \NormalTok{obs <-}\StringTok{ }\KeywordTok{xtabs}\NormalTok{(~ndic +}\StringTok{ }\NormalTok{dose, }\DataTypeTok{data =} \NormalTok{chromosome)}
     \NormalTok{matpred <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(}\StringTok{"cbind"}\NormalTok{, }\KeywordTok{lapply}\NormalTok{(mu, function(mui) \{}
-        \KeywordTok{dptweedie}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mui, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power,}
-                  \DataTypeTok{n_pts =} \DecValTok{180}\NormalTok{, }\StringTok{"laguerre"}\NormalTok{)}
+        \KeywordTok{dptw}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mui, }\DataTypeTok{phi =} \NormalTok{phi, }\DataTypeTok{power =} \NormalTok{power,}
+             \DataTypeTok{n_pts =} \DecValTok{180}\NormalTok{, }\StringTok{"laguerre"}\NormalTok{)}
     \NormalTok{\}))}
     \NormalTok{ll <-}\StringTok{ }\KeywordTok{sum}\NormalTok{(}\KeywordTok{log}\NormalTok{(matpred) *}\StringTok{ }\NormalTok{obs)}
     \KeywordTok{attr}\NormalTok{(ll, }\StringTok{"df"}\NormalTok{) <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(}\KeywordTok{coef}\NormalTok{(object))}
@@ -3072,9 +3010,9 @@ counts and the averages are between 0 and 1, suggesting excess zero.
     \StringTok{"rbind"}\NormalTok{,}
     \KeywordTok{lapply}\NormalTok{(indPT, function(i) \{}
         \KeywordTok{with}\NormalTok{(means, \{}
-            \NormalTok{py <-}\StringTok{ }\KeywordTok{dptweedie}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{fit[i], }\DataTypeTok{phi =} \NormalTok{phi,}
-                            \DataTypeTok{power =} \NormalTok{power, }\DataTypeTok{n_pts =} \DecValTok{180}\NormalTok{,}
-                            \DataTypeTok{method =} \StringTok{"laguerre"}\NormalTok{)}
+            \NormalTok{py <-}\StringTok{ }\KeywordTok{dptw}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{fit[i], }\DataTypeTok{phi =} \NormalTok{phi,}
+                       \DataTypeTok{power =} \NormalTok{power, }\DataTypeTok{n_pts =} \DecValTok{180}\NormalTok{,}
+                       \DataTypeTok{method =} \StringTok{"laguerre"}\NormalTok{)}
             \KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{dose =} \NormalTok{dose[i], }\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{prob =} \NormalTok{py)}
         \NormalTok{\})}
     \NormalTok{\})}
