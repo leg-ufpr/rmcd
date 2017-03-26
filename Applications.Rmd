@@ -1129,6 +1129,14 @@ print(xy2, split = c(2, 1, 2, 1), more = FALSE)
 
 ```
 
+For this application we fit the Poisson, Gamma-Count, COM-Poisson and
+Poisson-Tweedie distributions. The linear predictor considered is a
+quadratic dose model, follow @Bonat2016b. The codes below fit the four
+models using the `MRDCd` and `mcglm` packages. Note that for
+`MRDCr::cmp` function we need specify `sumto`, the number of increments
+for a infinite sum, i.e in this case $Z(\hat{\lambda}_i, \hat{\nu}) =
+\sum_j^{50}\hat{\lambda}_i^j / (j!)^{\hat{\nu}}$.
+
 ```{r model-chromo}
 
 ##----------------------------------------------------------------------
@@ -1137,7 +1145,7 @@ form <- ndic ~ dose + I(dose^2)
 
 m0PO <- glm(form, family = poisson, data = chromosome)
 m0GC <- gcnt(form, data = chromosome)
-m0CP <- cmp(form, data = chromosome, sumto = 100)
+m0CP <- cmp(form, data = chromosome, sumto = 50)
 m0PT <- mcglm(
     linear_pred = c(form),
     matrix_pred = list(mc_id(chromosome)),
@@ -1147,6 +1155,77 @@ m0PT <- mcglm(
     data = chromosome)
 
 ```
+
+No issues were reported during the estimation process. A better research
+about the algorithm covergence for Poisson-Tweedie models is implemented
+by `mcglm::plot(model, type = "algorithm")`. This four graphs shows the
+trajectory or iterations of the fitting algorithm, we can see that both
+cases the lines converged.
+
+```{r conv-chromo}
+
+## Check algorithm convergence
+plot(m0PT, type = "algorithm")
+
+```
+
+For the COM-Poisson and Gamma-Count we can see the `details` slots,
+(`model@details`). This shows the components list of `optim`, the list
+object `convergence` when 0 means that optimization was successful and
+`counts` shows the number of calls to log-likelihood function and
+numerical gradient function. Note the in this case the COM-Poisson model
+required fewer interactions than Gamma-Count model. However, we don't
+evaluate the time of fit because to compute log-likelihood function for
+COM-Poisson is more difficult than for Gamma-Count.
+
+```{r}
+
+## Check optim convergence
+do.call("rbind",
+        lapply(list("GC" = m0GC, "CP" = m0CP),
+               function(model) {
+                   c(model@details$counts,
+                     "convergence" = model@details$convergence)
+               }))
+
+```
+
+For COM-POisson model, we also need verify that the number of increments
+for $Z(\hat{\lambda}_i, \hat{\nu})$ is satisfactory for accurate
+sums. The function `MRDCr::covergencez` shows a number of increments
+necessary for a given tolerance. For each line represent the $i$th
+observation, as we only have five different doses only five lines are
+showed. Note that the `sumto=50` is more than necessary for the
+convergence of all constansts.
+
+```{r}
+
+## Check Z(lambda, nu) convergence
+convergencez(m0CP, tol = 1e-5)
+
+```
+
+```{r, include=FALSE}
+
+power <- with(coef(m0PT), Estimates[Type == "power"])
+
+```
+
+For compare models we used the log-likelihood value and AIC and BIC
+criteria. In the Gamma-Count and COM-Poisson the measures are easily
+obtained by `logLik`, `AIC` and `BIC` functions. In the Poisson-Tweedie
+model this functions are not implemented, because the models are
+estimated only by second-moments assumptions. However, in this case we
+can compute log-likelihood, and consequently AIC and BIC criteria. This
+is possible beacause the parameter $p$ was estimated on `r power`. The
+codes below compute these measures for the four models. Note that in R
+we only implement `logLik.mcglm` function, the other functions `AIC` and
+`BIC` are methods for `logLik` objects.
+
+The measures of goodness-of-fit show that Poisson-Tweedie approach is
+more suitable in this case. Gamma-Count and COM-Poisson models present
+similar results and Poisson model the worse results. This is attributed
+to the inadequate assumption of equidespersion and excess of zeros.
 
 ```{r gof-chromo}
 
@@ -1178,11 +1257,47 @@ logLik.mcglm <- function(object) {
 
 ## Compute table of gof
 models <- list("Poisson" = m0PO, "Gamma-Count" = m0GC,
-               "COM-Poisson" = m0CP, "POisson-Tweedie" = m0PT)
+               "COM-Poisson" = m0CP, "Poisson-Tweedie" = m0PT)
 (measures <- sapply(models, function(x)
     c("LogLik" = logLik(x), "AIC" = AIC(x), "BIC" = BIC(x))))
 
 ```
+
+The parameters estimates can be obtained by `summary` methods. The codes
+below shows the estimates of location and dispersion parameters. Note
+that the estimates for the location parameters were very close in
+Poisson, COM-Poisson and Poisson-Tweedie. For the Gamma-Count model the
+estimates are many differents though the signs are the same. Regarding
+the standard deviations, we have the Poisson and COM-Poisson very close,
+Poisson-Tweedie with standard deviations a little bigger and the
+Gamma-Count much bigger than others, totally dissagre.
+
+```{r}
+
+##----------------------------------------------------------------------
+## Parameter estimates
+par <- list()
+par$PO <- rbind(NA, summary(m0PO)$coefficients[, 1:2])
+par$GC <- summary(m0GC)@coef[, 1:2]
+par$CP <- summary(m0CP)@coef[, 1:2]
+par$PT <- rbind(summary(m0PT)[[1]]$tau[, 1:2],
+               summary(m0PT)[[1]]$Regression[, 1:2])
+
+do.call("cbind", par)
+
+```
+
+The predict values with confidence intervals are calculated with matrix
+operations, using delta method for confidence intervals. The results
+for all models are presents in Figure \@ref(fig:pred-chromo) together
+with the observed values (black points). Though the estimates parameters
+are very different the other models, for Gamma-Count the pontual
+prediction is consistent with others. However, the confidence intervals
+for Gamma-Count are much more conservative.
+
+The practical interpretation of the results in \@ref(fig:pred-chromo) is
+that the chromosome aberration in blood samples increase as doses.
+However the increase does not have the same intensity for all doses.
 
 ```{r pred-chromo, echo=FALSE}
 
@@ -1266,7 +1381,15 @@ xyplot(fit ~ dose,
 
 ```
 
-```{r probs-chromo}
+To complement the study we compute the probability distribution for the
+five doses used in the experiment. This distributions are presents in
+Figure \@ref(fig:probs-chromo). Note that for 0.1Gy of 2.1MeV dose
+neutrons the probabilities are strongly concentrated in 0 count, for
+1Gy of 2.1MeV dose the distributions still strongly assymmetric on the
+right, but the probabilities are more dispersed. It is worth mentioning
+that all distribuitions, thought different, are the same average.
+
+```{r probs-chromo, fig.cap="Adjust probability distribution for the chromossome aberrations counts by five irradiation doses."}
 
 ##-------------------------------------------
 ## Calcule probabilities
