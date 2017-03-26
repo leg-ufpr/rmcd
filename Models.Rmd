@@ -490,7 +490,7 @@ difficult..
 library(MRDCr)
 library(gridExtra)
 source("config/_setup.R")
-load("orthogonality.rda")
+load("cache/orthogonality.rda")
 
 ##-------------------------------------------
 ## Deviance contours for Gamma-Count models

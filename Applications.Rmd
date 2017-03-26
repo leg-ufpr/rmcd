@@ -538,59 +538,9 @@ library(multcomp)
 library(plyr)
 
 ## The density of PTW dsitributions (using numerical integration)
-
 library(statmod)
 library(tweedie)
-
-integrand <- function(x, y, mu, phi, power) {
-    int = dpois(y, lambda = x)*
-        dtweedie(x, mu = mu, phi = phi, power = power)
-    return(int)
-}
-# Numerical integration using Gauss-Laguerre method
-gauss_laguerre <- function(integrand, n_pts, y, mu, phi, power) {
-    pts <- gauss.quad(n_pts, kind="laguerre")
-    integral <- sum(pts$weights*integrand(pts$nodes, y = y, mu = mu,
-                                          phi = phi, power = power)/
-                        exp(-pts$nodes))
-    return(integral)
-}
-gauss_laguerre_vec <- Vectorize(FUN = gauss_laguerre,
-                                vectorize.args = "y")
-
-# Numerical integration using Monte Carlo method -----------------------
-monte_carlo <- function(integrand, n_pts, y, mu, phi, power) {
-    pts <- rtweedie(n_pts, mu = mu, phi = phi, power = power)
-    norma <- dtweedie(pts, mu = mu, phi = phi, power = power)
-    integral <- mean(integrand(pts, y = y, mu = mu, phi = phi,
-                               power = power)/norma)
-    return(integral)
-}
-
-# Probability mass function Poisson-Tweedie ----------------------------
-dptweedie_aux <- function(y, mu, phi, power, n_pts, method) {
-    if(method == "laguerre" | y > 0) {
-        pmf <- gauss_laguerre(integrand = integrand, n_pts = n_pts,
-                              y = y, mu = mu, phi = phi, power = power)
-    }
-    if(method == "laguerre" & y == 0) {
-        v.y <- round(10*sqrt(mu + phi*mu^power),0)
-        if(v.y > 1000) {v.y <- 1000}
-        #print(v.y)
-        y.grid <- 0:v.y
-        temp <- gauss_laguerre_vec(integrand = integrand, n_pts = n_pts,
-                                   y = y.grid, mu = mu, phi = phi,
-                                   power = power)
-        pmf <- 1-sum(temp)+temp[1]
-    }
-    if(method == "MC") {
-        pmf <- monte_carlo(integrand = integrand, n_pts = n_pts,
-                           y = y, mu = mu, phi = phi, power = power)
-    }
-    return(pmf)
-}
-# Vectorize version
-dptweedie <- Vectorize(FUN = dptweedie_aux, vectorize.args = c("y","mu"))
+source("Script2.R")
 
 ```
 
@@ -1012,8 +962,8 @@ useOuterStrips(
 
 Para avaliar o poder preditivo dos modelos nós calculamos as frequências
 estimadas pelos dois modelos considerados e comparamos com as
-observadas. As frequências estimadas $\hat{Fr}$, para um dado valor $y$
-são calculadas como
+observadas. As frequências estimadas $\hat{\mathrm{Fr}}$, para um dado
+valor $y$ são calculadas como
 
 ```{r, include=FALSE}
 
@@ -1023,7 +973,7 @@ power <- with(coef(m1PT), Estimates[Type == "power"])
 ```
 
 $$
-\hat{Fr}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
+\hat{\mathrm{Fr}}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
 $$
 
 Onde $\Pr(Y=y \mid \hat{\boldsymbol{\theta}}_i)$ é a função massa de
@@ -1037,7 +987,7 @@ method (with 100 points). The results shows that Poisson-Tweedie model
 offers a better fit with adjust frequencies very close of observed
 frequencies.
 
-```{r freqs-claim}
+```{r freqs-claim, eval=FALSE}
 
 ## Adjust frequencies by models
 
@@ -1069,9 +1019,9 @@ power <- with(coef(m1PT), Estimates[Type == "power"])
 probsPT <-do.call(
     "rbind",
     lapply(muPT, function(mui) {
-        py <- dptweedie(y = y, mu = mui, phi = phi,
-                        power = power, n_pts = 100,
-                        method = "laguerre")
+        py <- dptw(y = y, mu = mui, phi = phi,
+                   power = power, n_pts = 100,
+                   method = "laguerre")
     }))
 freqs$PT <- round(apply(probsPT, 2, sum))
 tabf <- ldply(freqs)
@@ -1081,63 +1031,31 @@ tabf
 
 ```
 
+```{r, echo=FALSE}
+
+load("cache/tabf-claims.rda")
+tabf
+
+```
+
 ## Radiation-induced chromosome aberration counts ##
 
-```{r}
+```{r setup-chromo, include=FALSE}
+
+##----------------------------------------------------------------------
+## load packages and functions
+library(mcglm)
+library(lattice)
+library(latticeExtra)
+library(gridExtra)
+library(MRDCr)
+library(multcomp)
+library(plyr)
 
 ## The density of PTW dsitributions (using numerical integration)
 library(statmod)
 library(tweedie)
-
-integrand <- function(x, y, mu, phi, power) {
-    int = dpois(y, lambda = x)*
-        dtweedie(x, mu = mu, phi = phi, power = power)
-    return(int)
-}
-# Numerical integration using Gauss-Laguerre method
-gauss_laguerre <- function(integrand, n_pts, y, mu, phi, power) {
-    pts <- gauss.quad(n_pts, kind="laguerre")
-    integral <- sum(pts$weights*integrand(pts$nodes, y = y, mu = mu,
-                                          phi = phi, power = power)/
-                        exp(-pts$nodes))
-    return(integral)
-}
-gauss_laguerre_vec <- Vectorize(FUN = gauss_laguerre,
-                                vectorize.args = "y")
-
-# Numerical integration using Monte Carlo method -----------------------
-monte_carlo <- function(integrand, n_pts, y, mu, phi, power) {
-    pts <- rtweedie(n_pts, mu = mu, phi = phi, power = power)
-    norma <- dtweedie(pts, mu = mu, phi = phi, power = power)
-    integral <- mean(integrand(pts, y = y, mu = mu, phi = phi,
-                               power = power)/norma)
-    return(integral)
-}
-
-# Probability mass function Poisson-Tweedie ----------------------------
-dptweedie_aux <- function(y, mu, phi, power, n_pts, method) {
-    if(method == "laguerre" | y > 0) {
-        pmf <- gauss_laguerre(integrand = integrand, n_pts = n_pts,
-                              y = y, mu = mu, phi = phi, power = power)
-    }
-    if(method == "laguerre" & y == 0) {
-        v.y <- round(10*sqrt(mu + phi*mu^power),0)
-        if(v.y > 1000) {v.y <- 1000}
-        #print(v.y)
-        y.grid <- 0:v.y
-        temp <- gauss_laguerre_vec(integrand = integrand, n_pts = n_pts,
-                                   y = y.grid, mu = mu, phi = phi,
-                                   power = power)
-        pmf <- 1-sum(temp)+temp[1]
-    }
-    if(method == "MC") {
-        pmf <- monte_carlo(integrand = integrand, n_pts = n_pts,
-                           y = y, mu = mu, phi = phi, power = power)
-    }
-    return(pmf)
-}
-# Vectorize version
-dptweedie <- Vectorize(FUN = dptweedie_aux, vectorize.args = c("y","mu"))
+source("Script2.R")
 
 ```
 
@@ -1226,11 +1144,7 @@ m0PT <- mcglm(
     link = "log",
     variance = "poisson_tweedie",
     power_fixed = FALSE,
-    data = chromosome,
-    control_algorithm = list(
-        verbose = FALSE, max_iter = 1000,
-        tunning = 0.5, tol = 1e-10)
-)
+    data = chromosome)
 
 ```
 
@@ -1252,8 +1166,8 @@ logLik.mcglm <- function(object) {
     power <- with(coef(object), Estimates[Type == "power"])
     obs <- xtabs(~ndic + dose, data = chromosome)
     matpred <- do.call("cbind", lapply(mu, function(mui) {
-        dptweedie(y = y, mu = mui, phi = phi, power = power,
-                  n_pts = 180, "laguerre")
+        dptw(y = y, mu = mui, phi = phi, power = power,
+             n_pts = 180, "laguerre")
     }))
     ll <- sum(log(matpred) * obs)
     attr(ll, "df") <- nrow(coef(object))
@@ -1414,9 +1328,9 @@ probs$PT <- do.call(
     "rbind",
     lapply(indPT, function(i) {
         with(means, {
-            py <- dptweedie(y = y, mu = fit[i], phi = phi,
-                            power = power, n_pts = 180,
-                            method = "laguerre")
+            py <- dptw(y = y, mu = fit[i], phi = phi,
+                       power = power, n_pts = 180,
+                       method = "laguerre")
             data.frame(dose = dose[i], y = y, prob = py)
         })
     })
