@@ -898,6 +898,44 @@ for large values of the mean. In general, the \(\mathrm{DI}\) and
 course, show that the corresponding Poisson-Tweedie distributions cannot
 deal with underdispersed and zero-deflated count data.
 
+For multi-parameter probability function, a desirable feature is the
+orthogonality betweens parameters. This property leds a series of
+statistical implications as allows make inference for one parameter
+without worrying about the values of the other and computationally
+numerical methods for adjusting distributions with orthogonal parameters
+are more stable and fast.
+
+The orthogonality is defined by second derivatives of the log-likelihood
+function, however for the Gamma-Count, Poisson-Tweedie and COM-Poisson
+and we cannot obtain such derivatives analytically. So we designed a
+simulation study to evaluate the properties about log-likelihood
+function for Gamma-Count and COM-Poisson. We used sample size \(n=5000\)
+for simulate values of Gamma-Count and COM-Poisson following dispersion
+indexes \(DI=0.5\), \(2\), \(5\) and \(20\) and plot the deviance
+contours around the maximum likelihood estimation. The
+\texttt{Script6.R}, in supplement material contains the codes for
+simulation study. The results are shows in Figure @(fig:ortho).
+
+This graphics presented in Figure \ref{fig:ortho} show that deviance
+contours are similar a quadratic function (blue dashed contours) for
+\(DI=0.5\), \(2\), \(5\) in both distributions. However, for the
+Gamma-Count with \(DI=20\) the quadratic aproximation not as good. For
+\(DI=20\) and \(\mathrm{E}[Y]=10\) we could not find any parameter
+combination for COM-Poisson and for Gamma-Count the estimation is
+innacurate. With respect to orthogonality the Gamma-Count distribution
+is preferable, the deviance contours are well-behaved, while for
+COM-Poisson the contour are strongly flat in one direction making the
+estimation process difficult..
+
+\begin{figure}[h]
+
+{\centering \includegraphics{rmcdbook_files/figure-latex/ortho-1} 
+
+}
+
+\caption{Deviance surfaces and quadratic approximation with confidence regions (90, 95 and, 99\%) for the two parameters following dispersion indexes (DI) in the simulation study. Dashed lines represents the MLE estimation and red points the parameters used in simulation.}\label{fig:ortho}
+\end{figure}
+
 In terms of regression models, the Poisson and Poisson-Tweedie models
 are easy and convenient to interpret because the expected value is
 directly modelled as a function of known covariates in a generalized
