@@ -2835,6 +2835,14 @@ counts and the averages are between 0 and 1, suggesting excess zero.
 \caption{Observed frequencies of the chromosome aberrations counts by radiation doses (left) and means of chromosome aberrations for each radiation doses (right).}\label{fig:desc-chromo}
 \end{figure}
 
+For this application we fit the Poisson, Gamma-Count, COM-Poisson and
+Poisson-Tweedie distributions. The linear predictor considered is a
+quadratic dose model, follow \citet{Bonat2016b}. The codes below fit the
+four models using the \texttt{MRDCd} and \texttt{mcglm} packages. Note
+that for \texttt{MRDCr::cmp} function we need specify \texttt{sumto},
+the number of increments for a infinite sum, i.e in this case
+\(Z(\hat{\lambda}_i, \hat{\nu}) = \sum_j^{50}\hat{\lambda}_i^j / (j!)^{\hat{\nu}}\).
+
 \begin{Shaded}
 \begin{Highlighting}[]
 \NormalTok{##----------------------------------------------------------------------}
@@ -2843,7 +2851,7 @@ counts and the averages are between 0 and 1, suggesting excess zero.
 
 \NormalTok{m0PO <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(form, }\DataTypeTok{family =} \NormalTok{poisson, }\DataTypeTok{data =} \NormalTok{chromosome)}
 \NormalTok{m0GC <-}\StringTok{ }\KeywordTok{gcnt}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{chromosome)}
-\NormalTok{m0CP <-}\StringTok{ }\KeywordTok{cmp}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{chromosome, }\DataTypeTok{sumto =} \DecValTok{100}\NormalTok{)}
+\NormalTok{m0CP <-}\StringTok{ }\KeywordTok{cmp}\NormalTok{(form, }\DataTypeTok{data =} \NormalTok{chromosome, }\DataTypeTok{sumto =} \DecValTok{50}\NormalTok{)}
 \NormalTok{m0PT <-}\StringTok{ }\KeywordTok{mcglm}\NormalTok{(}
     \DataTypeTok{linear_pred =} \KeywordTok{c}\NormalTok{(form),}
     \DataTypeTok{matrix_pred =} \KeywordTok{list}\NormalTok{(}\KeywordTok{mc_id}\NormalTok{(chromosome)),}
@@ -2857,6 +2865,83 @@ counts and the averages are between 0 and 1, suggesting excess zero.
 \begin{verbatim}
 ## Automatic initial values selected.
 \end{verbatim}
+
+No issues were reported during the estimation process. A better research
+about the algorithm covergence for Poisson-Tweedie models is implemented
+by \texttt{mcglm::plot(model,\ type\ =\ "algorithm")}. This four graphs
+shows the trajectory or iterations of the fitting algorithm, we can see
+that both cases the lines converged.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Check algorithm convergence}
+\KeywordTok{plot}\NormalTok{(m0PT, }\DataTypeTok{type =} \StringTok{"algorithm"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/conv-chromo-1} \end{center}
+
+For the COM-Poisson and Gamma-Count we can see the \texttt{details}
+slots, (\texttt{model@details}). This shows the components list of
+\texttt{optim}, the list object \texttt{convergence} when 0 means that
+optimization was successful and \texttt{counts} shows the number of
+calls to log-likelihood function and numerical gradient function. Note
+the in this case the COM-Poisson model required fewer interactions than
+Gamma-Count model. However, we don't evaluate the time of fit because to
+compute log-likelihood function for COM-Poisson is more difficult than
+for Gamma-Count.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Check optim convergence}
+\KeywordTok{do.call}\NormalTok{(}\StringTok{"rbind"}\NormalTok{,}
+        \KeywordTok{lapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(}\StringTok{"GC"} \NormalTok{=}\StringTok{ }\NormalTok{m0GC, }\StringTok{"CP"} \NormalTok{=}\StringTok{ }\NormalTok{m0CP),}
+               \NormalTok{function(model) \{}
+                   \KeywordTok{c}\NormalTok{(model@details$counts,}
+                     \StringTok{"convergence"} \NormalTok{=}\StringTok{ }\NormalTok{model@details$convergence)}
+               \NormalTok{\}))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##    function gradient convergence
+## GC       46       16           0
+## CP       29       10           0
+\end{verbatim}
+
+For COM-POisson model, we also need verify that the number of increments
+for \(Z(\hat{\lambda}_i, \hat{\nu})\) is satisfactory for accurate sums.
+The function \texttt{MRDCr::covergencez} shows a number of increments
+necessary for a given tolerance. For each line represent the \(i\)th
+observation, as we only have five different doses only five lines are
+showed. Note that the \texttt{sumto=50} is more than necessary for the
+convergence of all constansts.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Check Z(lambda, nu) convergence}
+\KeywordTok{convergencez}\NormalTok{(m0CP, }\DataTypeTok{tol =} \FloatTok{1e-5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-40-1} \end{center}
+
+For compare models we used the log-likelihood value and AIC and BIC
+criteria. In the Gamma-Count and COM-Poisson the measures are easily
+obtained by \texttt{logLik}, \texttt{AIC} and \texttt{BIC} functions. In
+the Poisson-Tweedie model this functions are not implemented, because
+the models are estimated only by second-moments assumptions. However, in
+this case we can compute log-likelihood, and consequently AIC and BIC
+criteria. This is possible beacause the parameter \(p\) was estimated on
+1.085. The codes below compute these measures for the four models. Note
+that in R we only implement \texttt{logLik.mcglm} function, the other
+functions \texttt{AIC} and \texttt{BIC} are methods for \texttt{logLik}
+objects.
+
+The measures of goodness-of-fit show that Poisson-Tweedie approach is
+more suitable in this case. Gamma-Count and COM-Poisson models present
+similar results and Poisson model the worse results. This is attributed
+to the inadequate assumption of equidespersion and excess of zeros.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2888,18 +2973,118 @@ counts and the averages are between 0 and 1, suggesting excess zero.
 
 \NormalTok{## Compute table of gof}
 \NormalTok{models <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\StringTok{"Poisson"} \NormalTok{=}\StringTok{ }\NormalTok{m0PO, }\StringTok{"Gamma-Count"} \NormalTok{=}\StringTok{ }\NormalTok{m0GC,}
-               \StringTok{"COM-Poisson"} \NormalTok{=}\StringTok{ }\NormalTok{m0CP, }\StringTok{"POisson-Tweedie"} \NormalTok{=}\StringTok{ }\NormalTok{m0PT)}
+               \StringTok{"COM-Poisson"} \NormalTok{=}\StringTok{ }\NormalTok{m0CP, }\StringTok{"Poisson-Tweedie"} \NormalTok{=}\StringTok{ }\NormalTok{m0PT)}
 \NormalTok{(measures <-}\StringTok{ }\KeywordTok{sapply}\NormalTok{(models, function(x)}
     \KeywordTok{c}\NormalTok{(}\StringTok{"LogLik"} \NormalTok{=}\StringTok{ }\KeywordTok{logLik}\NormalTok{(x), }\StringTok{"AIC"} \NormalTok{=}\StringTok{ }\KeywordTok{AIC}\NormalTok{(x), }\StringTok{"BIC"} \NormalTok{=}\StringTok{ }\KeywordTok{BIC}\NormalTok{(x))))}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-##        Poisson Gamma-Count COM-Poisson POisson-Tweedie
+##        Poisson Gamma-Count COM-Poisson Poisson-Tweedie
 ## LogLik   -2995       -2966       -2967           -2951
 ## AIC       5997        5940        5943            5911
 ## BIC       6016        5966        5969            5944
 \end{verbatim}
+
+The parameters estimates can be obtained by \texttt{summary} methods.
+The codes below shows the estimates of location and dispersion
+parameters. Note that the estimates for the location parameters were
+very close in Poisson, COM-Poisson and Poisson-Tweedie. For the
+Gamma-Count model the estimates are many differents though the signs are
+the same. Regarding the standard deviations, we have the Poisson and
+COM-Poisson very close, Poisson-Tweedie with standard deviations a
+little bigger and the Gamma-Count much bigger than others, totally
+dissagre.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##----------------------------------------------------------------------}
+\NormalTok{## Parameter estimates}
+\NormalTok{par <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+\NormalTok{par$PO <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\OtherTok{NA}\NormalTok{, }\KeywordTok{summary}\NormalTok{(m0PO)$coefficients[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{])}
+\NormalTok{par$GC <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m0GC)@coef[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{par$CP <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m0CP)@coef[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{par$PT <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\KeywordTok{summary}\NormalTok{(m0PT)[[}\DecValTok{1}\NormalTok{]]$tau[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{],}
+               \KeywordTok{summary}\NormalTok{(m0PT)[[}\DecValTok{1}\NormalTok{]]$Regression[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: ndic ~ dose + I(dose^2)
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##             Estimates Std.error Z value
+## (Intercept)     -3.13     0.106  -29.40
+## dose             5.51     0.408   13.52
+## I(dose^2)       -2.48     0.342   -7.26
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1      1.09       0.3    3.62
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1     0.249       0.1    2.48
+## 
+## Algorithm: chaser
+## Correction: TRUE
+## Number iterations: 7Call: ndic ~ dose + I(dose^2)
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##             Estimates Std.error Z value
+## (Intercept)     -3.13     0.106  -29.40
+## dose             5.51     0.408   13.52
+## I(dose^2)       -2.48     0.342   -7.26
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1      1.09       0.3    3.62
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1     0.249       0.1    2.48
+## 
+## Algorithm: chaser
+## Correction: TRUE
+## Number iterations: 7
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{do.call}\NormalTok{(}\StringTok{"cbind"}\NormalTok{, par)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             PO.Estimate PO.Std. Error GC.Estimate GC.Std. Error
+##                      NA            NA      -0.749         0.134
+## (Intercept)       -3.12        0.0968      -6.091         0.798
+## dose               5.51        0.3693      10.468         1.472
+## I(dose^2)         -2.48        0.3086      -5.053         0.883
+##             CP.Estimate CP.Std. Error PT.Estimates PT.Std.error
+##                  -0.955        0.1952        0.249        0.100
+## (Intercept)      -3.114        0.0931       -3.126        0.106
+## dose              5.121        0.3486        5.514        0.408
+## I(dose^2)        -2.466        0.2818       -2.481        0.342
+\end{verbatim}
+
+The predict values with confidence intervals are calculated with matrix
+operations, using delta method for confidence intervals. The results for
+all models are presents in Figure \ref{fig:pred-chromo} together with
+the observed values (black points). Though the estimates parameters are
+very different the other models, for Gamma-Count the pontual prediction
+is consistent with others. However, the confidence intervals for
+Gamma-Count are much more conservative.
+
+The practical interpretation of the results in \ref{fig:pred-chromo} is
+that the chromosome aberration in blood samples increase as doses.
+However the increase does not have the same intensity for all doses.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -2947,6 +3132,14 @@ counts and the averages are between 0 and 1, suggesting excess zero.
 
 \caption{Dispersion diagram of observed chromossome aberrations and curves of predict values an confidence intervals (95\%) based on Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie regression models.}\label{fig:mean-chromo}
 \end{figure}
+
+To complement the study we compute the probability distribution for the
+five doses used in the experiment. This distributions are presents in
+Figure \ref{fig:probs-chromo}. Note that for 0.1Gy of 2.1MeV dose
+neutrons the probabilities are strongly concentrated in 0 count, for 1Gy
+of 2.1MeV dose the distributions still strongly assymmetric on the
+right, but the probabilities are more dispersed. It is worth mentioning
+that all distribuitions, thought different, are the same average.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -3043,7 +3236,14 @@ counts and the averages are between 0 and 1, suggesting excess zero.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{rmcdbook_files/figure-latex/probs-chromo-1} \end{center}
+\begin{figure}[h]
+
+{\centering \includegraphics{rmcdbook_files/figure-latex/probs-chromo-1} 
+
+}
+
+\caption{Adjust probability distribution for the chromossome aberrations counts by five irradiation doses.}\label{fig:probs-chromo}
+\end{figure}
 
 \bibliography{config/rmcd.bib}
 

@@ -1111,13 +1111,14 @@ tabf</code></pre></div>
 Figure 5.4: Observed frequencies of the chromosome aberrations counts by radiation doses (left) and means of chromosome aberrations for each radiation doses (right).
 </p>
 </div>
+<p>For this application we fit the Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie distributions. The linear predictor considered is a quadratic dose model, follow <span class="citation">Bonat et al. (2016)</span>. The codes below fit the four models using the <code>MRDCd</code> and <code>mcglm</code> packages. Note that for <code>MRDCr::cmp</code> function we need specify <code>sumto</code>, the number of increments for a infinite sum, i.e in this case <span class="math inline">\(Z(\hat{\lambda}_i, \hat{\nu}) = \sum_j^{50}\hat{\lambda}_i^j / (j!)^{\hat{\nu}}\)</span>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
 ## Modelling
 form &lt;-<span class="st"> </span>ndic ~<span class="st"> </span>dose +<span class="st"> </span><span class="kw">I</span>(dose^<span class="dv">2</span>)
 
 m0PO &lt;-<span class="st"> </span><span class="kw">glm</span>(form, <span class="dt">family =</span> poisson, <span class="dt">data =</span> chromosome)
 m0GC &lt;-<span class="st"> </span><span class="kw">gcnt</span>(form, <span class="dt">data =</span> chromosome)
-m0CP &lt;-<span class="st"> </span><span class="kw">cmp</span>(form, <span class="dt">data =</span> chromosome, <span class="dt">sumto =</span> <span class="dv">100</span>)
+m0CP &lt;-<span class="st"> </span><span class="kw">cmp</span>(form, <span class="dt">data =</span> chromosome, <span class="dt">sumto =</span> <span class="dv">50</span>)
 m0PT &lt;-<span class="st"> </span><span class="kw">mcglm</span>(
     <span class="dt">linear_pred =</span> <span class="kw">c</span>(form),
     <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(chromosome)),
@@ -1126,6 +1127,27 @@ m0PT &lt;-<span class="st"> </span><span class="kw">mcglm</span>(
     <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
     <span class="dt">data =</span> chromosome)</code></pre></div>
 <pre><code>## Automatic initial values selected.</code></pre>
+<p>No issues were reported during the estimation process. A better research about the algorithm covergence for Poisson-Tweedie models is implemented by <code>mcglm::plot(model, type = &quot;algorithm&quot;)</code>. This four graphs shows the trajectory or iterations of the fitting algorithm, we can see that both cases the lines converged.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Check algorithm convergence
+<span class="kw">plot</span>(m0PT, <span class="dt">type =</span> <span class="st">&quot;algorithm&quot;</span>)</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/conv-chromo-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>For the COM-Poisson and Gamma-Count we can see the <code>details</code> slots, (<code>model@details</code>). This shows the components list of <code>optim</code>, the list object <code>convergence</code> when 0 means that optimization was successful and <code>counts</code> shows the number of calls to log-likelihood function and numerical gradient function. Note the in this case the COM-Poisson model required fewer interactions than Gamma-Count model. However, we don’t evaluate the time of fit because to compute log-likelihood function for COM-Poisson is more difficult than for Gamma-Count.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Check optim convergence
+<span class="kw">do.call</span>(<span class="st">&quot;rbind&quot;</span>,
+        <span class="kw">lapply</span>(<span class="kw">list</span>(<span class="st">&quot;GC&quot;</span> =<span class="st"> </span>m0GC, <span class="st">&quot;CP&quot;</span> =<span class="st"> </span>m0CP),
+               function(model) {
+                   <span class="kw">c</span>(model@details$counts,
+                     <span class="st">&quot;convergence&quot;</span> =<span class="st"> </span>model@details$convergence)
+               }))</code></pre></div>
+<pre><code>##    function gradient convergence
+## GC       46       16           0
+## CP       29       10           0</code></pre>
+<p>For COM-POisson model, we also need verify that the number of increments for <span class="math inline">\(Z(\hat{\lambda}_i, \hat{\nu})\)</span> is satisfactory for accurate sums. The function <code>MRDCr::covergencez</code> shows a number of increments necessary for a given tolerance. For each line represent the <span class="math inline">\(i\)</span>th observation, as we only have five different doses only five lines are showed. Note that the <code>sumto=50</code> is more than necessary for the convergence of all constansts.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Check Z(lambda, nu) convergence
+<span class="kw">convergencez</span>(m0CP, <span class="dt">tol =</span> <span class="fl">1e-5</span>)</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>For compare models we used the log-likelihood value and AIC and BIC criteria. In the Gamma-Count and COM-Poisson the measures are easily obtained by <code>logLik</code>, <code>AIC</code> and <code>BIC</code> functions. In the Poisson-Tweedie model this functions are not implemented, because the models are estimated only by second-moments assumptions. However, in this case we can compute log-likelihood, and consequently AIC and BIC criteria. This is possible beacause the parameter <span class="math inline">\(p\)</span> was estimated on 1.085. The codes below compute these measures for the four models. Note that in R we only implement <code>logLik.mcglm</code> function, the other functions <code>AIC</code> and <code>BIC</code> are methods for <code>logLik</code> objects.</p>
+<p>The measures of goodness-of-fit show that Poisson-Tweedie approach is more suitable in this case. Gamma-Count and COM-Poisson models present similar results and Poisson model the worse results. This is attributed to the inadequate assumption of equidespersion and excess of zeros.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
 ## Goodness of fit
 
@@ -1154,13 +1176,78 @@ logLik.mcglm &lt;-<span class="st"> </span>function(object) {
 
 ## Compute table of gof
 models &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;Poisson&quot;</span> =<span class="st"> </span>m0PO, <span class="st">&quot;Gamma-Count&quot;</span> =<span class="st"> </span>m0GC,
-               <span class="st">&quot;COM-Poisson&quot;</span> =<span class="st"> </span>m0CP, <span class="st">&quot;POisson-Tweedie&quot;</span> =<span class="st"> </span>m0PT)
+               <span class="st">&quot;COM-Poisson&quot;</span> =<span class="st"> </span>m0CP, <span class="st">&quot;Poisson-Tweedie&quot;</span> =<span class="st"> </span>m0PT)
 (measures &lt;-<span class="st"> </span><span class="kw">sapply</span>(models, function(x)
     <span class="kw">c</span>(<span class="st">&quot;LogLik&quot;</span> =<span class="st"> </span><span class="kw">logLik</span>(x), <span class="st">&quot;AIC&quot;</span> =<span class="st"> </span><span class="kw">AIC</span>(x), <span class="st">&quot;BIC&quot;</span> =<span class="st"> </span><span class="kw">BIC</span>(x))))</code></pre></div>
-<pre><code>##        Poisson Gamma-Count COM-Poisson POisson-Tweedie
+<pre><code>##        Poisson Gamma-Count COM-Poisson Poisson-Tweedie
 ## LogLik   -2995       -2966       -2967           -2951
 ## AIC       5997        5940        5943            5911
 ## BIC       6016        5966        5969            5944</code></pre>
+<p>The parameters estimates can be obtained by <code>summary</code> methods. The codes below shows the estimates of location and dispersion parameters. Note that the estimates for the location parameters were very close in Poisson, COM-Poisson and Poisson-Tweedie. For the Gamma-Count model the estimates are many differents though the signs are the same. Regarding the standard deviations, we have the Poisson and COM-Poisson very close, Poisson-Tweedie with standard deviations a little bigger and the Gamma-Count much bigger than others, totally dissagre.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
+## Parameter estimates
+par &lt;-<span class="st"> </span><span class="kw">list</span>()
+par$PO &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="ot">NA</span>, <span class="kw">summary</span>(m0PO)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>])
+par$GC &lt;-<span class="st"> </span><span class="kw">summary</span>(m0GC)@coef[, <span class="dv">1</span>:<span class="dv">2</span>]
+par$CP &lt;-<span class="st"> </span><span class="kw">summary</span>(m0CP)@coef[, <span class="dv">1</span>:<span class="dv">2</span>]
+par$PT &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">summary</span>(m0PT)[[<span class="dv">1</span>]]$tau[, <span class="dv">1</span>:<span class="dv">2</span>],
+               <span class="kw">summary</span>(m0PT)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>])</code></pre></div>
+<pre><code>## Call: ndic ~ dose + I(dose^2)
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##             Estimates Std.error Z value
+## (Intercept)     -3.13     0.106  -29.40
+## dose             5.51     0.408   13.52
+## I(dose^2)       -2.48     0.342   -7.26
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1      1.09       0.3    3.62
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1     0.249       0.1    2.48
+## 
+## Algorithm: chaser
+## Correction: TRUE
+## Number iterations: 7Call: ndic ~ dose + I(dose^2)
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##             Estimates Std.error Z value
+## (Intercept)     -3.13     0.106  -29.40
+## dose             5.51     0.408   13.52
+## I(dose^2)       -2.48     0.342   -7.26
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1      1.09       0.3    3.62
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1     0.249       0.1    2.48
+## 
+## Algorithm: chaser
+## Correction: TRUE
+## Number iterations: 7</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">do.call</span>(<span class="st">&quot;cbind&quot;</span>, par)</code></pre></div>
+<pre><code>##             PO.Estimate PO.Std. Error GC.Estimate GC.Std. Error
+##                      NA            NA      -0.749         0.134
+## (Intercept)       -3.12        0.0968      -6.091         0.798
+## dose               5.51        0.3693      10.468         1.472
+## I(dose^2)         -2.48        0.3086      -5.053         0.883
+##             CP.Estimate CP.Std. Error PT.Estimates PT.Std.error
+##                  -0.955        0.1952        0.249        0.100
+## (Intercept)      -3.114        0.0931       -3.126        0.106
+## dose              5.121        0.3486        5.514        0.408
+## I(dose^2)        -2.466        0.2818       -2.481        0.342</code></pre>
+<p>The predict values with confidence intervals are calculated with matrix operations, using delta method for confidence intervals. The results for all models are presents in Figure <a href="#fig:pred-chromo"><strong>??</strong></a> together with the observed values (black points). Though the estimates parameters are very different the other models, for Gamma-Count the pontual prediction is consistent with others. However, the confidence intervals for Gamma-Count are much more conservative.</p>
+<p>The practical interpretation of the results in <a href="#fig:pred-chromo"><strong>??</strong></a> is that the chromosome aberration in blood samples increase as doses. However the increase does not have the same intensity for all doses.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cap &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Dispersion diagram of observed chromossome aberrations and&quot;</span>,
              <span class="st">&quot;curves of predict values an confidence intervals (95</span><span class="ch">\\</span><span class="st">%)&quot;</span>,
              <span class="st">&quot;based on Poisson, Gamma-Count, COM-Poisson and&quot;</span>,
@@ -1200,6 +1287,7 @@ models &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="s
 Figure 5.5: Dispersion diagram of observed chromossome aberrations and curves of predict values an confidence intervals (95%) based on Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie regression models.
 </p>
 </div>
+<p>To complement the study we compute the probability distribution for the five doses used in the experiment. This distributions are presents in Figure <a href="applications.html#fig:probs-chromo">5.6</a>. Note that for 0.1Gy of 2.1MeV dose neutrons the probabilities are strongly concentrated in 0 count, for 1Gy of 2.1MeV dose the distributions still strongly assymmetric on the right, but the probabilities are more dispersed. It is worth mentioning that all distribuitions, thought different, are the same average.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##-------------------------------------------
 ## Calcule probabilities
 index &lt;-<span class="st"> </span>preds$dose %in%<span class="st"> </span><span class="kw">unique</span>(chromosome$dose)
@@ -1290,7 +1378,12 @@ daprobs &lt;-<span class="st"> </span><span class="kw">ldply</span>(probs, <span
              <span class="dt">var.name =</span> <span class="st">&quot;dose&quot;</span>,
              <span class="dt">sep =</span> <span class="st">&quot; = &quot;</span>
          ))</code></pre></div>
-<p><img src="rmcdbook_files/figure-html/probs-chromo-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span id="fig:probs-chromo"></span>
+<img src="rmcdbook_files/figure-html/probs-chromo-1.png" alt="Adjust probability distribution for the chromossome aberrations counts by five irradiation doses." width="672" />
+<p class="caption">
+Figure 5.6: Adjust probability distribution for the chromossome aberrations counts by five irradiation doses.
+</p>
+</div>
 
 </div>
 </div>
