@@ -7,6 +7,7 @@ git clone -b gh-pages https://${GIT_KEY}@github.com/${TRAVIS_REPO_SLUG}.git book
 cd book-output
 cp -r ../_book/* ./
 cp ../slides/slides.pdf ./
+cp ../config/leg.png ./
 git add --all *
 git commit -m "Automatic Update (build number ${TRAVIS_BUILD_NUMBER})" || true
 git push origin gh-pages

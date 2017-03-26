@@ -16,7 +16,7 @@ bookdown::gitbook:
             <a href="./slides.pdf" target="_blank">Slides</a>
           </h2>
           <br/>
-          <img src="../config/leg.png" width="100px"/>
+          <img src="./leg.png" width="100px"/>
           <br/>
           Laboratório de Estatística<br/>
           e Geoinformação - UFPR
