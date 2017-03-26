@@ -2171,6 +2171,583 @@ total porosity.
 
 \section{Number of vehicle claims}\label{number-of-vehicle-claims}
 
+Em companhias de seguros é de fundamental importância especificar um
+preço adequado correspondente a um segurado, a fim de cobrir o risco
+assumido. Tal tarefa geralmente envolve a avaliação de características
+do plano de seguro que influenciam na taxa de sinistros observada.
+
+Nesta seção nós apresentamos a análise de um conjunto do dados
+referentes ao acompanhamento de 16483 clientes de uma seguradora de
+veículos ao longo de um ano. Os dados estão disponíveis no pacote
+\texttt{MRDCr} (com documentação em português) e podem ser carregados
+com
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##----------------------------------------------------------------------}
+\NormalTok{## Load and organize data}
+\KeywordTok{data}\NormalTok{(}\DataTypeTok{package =} \StringTok{"MRDCr"}\NormalTok{)}
+\KeywordTok{help}\NormalTok{(seguros, }\DataTypeTok{h =} \StringTok{"html"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Após a tradução dos níveis das variáveis categóricas a estrutura dos
+dados fica
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Translate levels of categorical variables and colnames}
+\KeywordTok{colnames}\NormalTok{(seguros) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"age"}\NormalTok{, }\StringTok{"sex"}\NormalTok{, }\StringTok{"price"}\NormalTok{, }\StringTok{"expo"}\NormalTok{, }\StringTok{"nclaims"}\NormalTok{)}
+\KeywordTok{levels}\NormalTok{(seguros$sex) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Female"}\NormalTok{, }\StringTok{"Male"}\NormalTok{)}
+\KeywordTok{str}\NormalTok{(seguros)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    16483 obs. of  5 variables:
+##  $ age    : int  59 45 42 63 36 33 35 63 54 32 ...
+##  $ sex    : Factor w/ 2 levels "Female","Male": 1 2 2 1 1 2 2 2 2 2 ...
+##  $ price  : num  24.6 23.4 86.6 77.5 25.9 ...
+##  $ expo   : num  0.5 0.7 0.79 0.01 0.51 0.79 0.81 0.01 0.76 0.79 ...
+##  $ nclaims: int  1 0 0 0 0 0 0 0 0 0 ...
+\end{verbatim}
+
+In this dataset a variável \texttt{age} é mensurada em anos, e
+\texttt{price} em 1000 reais. A variável \texttt{expo} representa o
+período de cobertura do cliente, durante o ano sob análise, um valor de
+0.5 significa que o cliente esteve exposto ao sinistro durante metade do
+ano.
+
+A Figura \ref{fig:desc-claim} mostra a descrição das variáveis a serem
+utilizadas na análise. Embora esses gráficos não considerem todas as
+variáveis conjuntamente, o gráfico à esquerda sugere que há um excesso
+de contagens nulas, no geral 95.183\% das contagens são 0.
+
+\begin{figure}[h]
+
+{\centering \includegraphics{rmcdbook_files/figure-latex/desc-claim-1} 
+
+}
+
+\caption{Relative frequencies for number of vehicle claims, and empirical densities to price of vehicle, age of clients and exposure time by sex of insurance clients.}\label{fig:desc-claim}
+\end{figure}
+
+Para análise desses dados consideramos efeitos quadráticos para
+variáveis contínuas e intercepto variando conforme sexo do cliente.
+\texttt{price} foi tomada como preditor pode ser escrito como
+
+\begin{equation*}
+  \begin{split}
+  \log\left ( \frac{\mu_i}{\texttt{expo}_i} \right ) = &
+  \beta_0 + \beta_1 \mathbb{1}(\texttt{sex}_i) +
+  \beta_2 \texttt{price}_i + \\
+  & + \beta_3 \texttt{price}_i^2 +
+  \beta_4 \texttt{age}_i +
+  \beta_5 \texttt{age}_i^2
+  \end{split}
+\end{equation*}
+
+em R definimos o preditor conforme sintaxe para objetos da classe
+\texttt{formula}. Note que a variável \texttt{expo} é envolta na função
+\texttt{offset} e sendo assim é considerado apenas como denominador das
+contagens.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Define preditor}
+\NormalTok{form0 <-}\StringTok{ }\NormalTok{nclaims ~}\StringTok{ }\KeywordTok{offset}\NormalTok{(}\KeywordTok{log}\NormalTok{(expo)) +}\StringTok{ }\NormalTok{sex +}
+\StringTok{    }\NormalTok{price +}\StringTok{ }\KeywordTok{I}\NormalTok{(price^}\DecValTok{2}\NormalTok{) +}\StringTok{ }\NormalTok{age +}\StringTok{ }\KeywordTok{I}\NormalTok{(age^}\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+Nós ajustamos os modelos de regressão Poisson e Poisson-Tweedie usando
+os frameworks \texttt{stats::glm} e \texttt{mcglm::mcglm}, que se baseam
+em máxima verossimilhança e especificação por momentos respectivamente.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Fit Poisson}
+\NormalTok{m0PO <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(form0, }\DataTypeTok{data =} \NormalTok{seguros, }\DataTypeTok{family =} \NormalTok{poisson)}
+
+\NormalTok{## Fit Poisson-Tweedie}
+\NormalTok{m0PT <-}\StringTok{ }\KeywordTok{mcglm}\NormalTok{(}
+    \DataTypeTok{linear_pred =} \KeywordTok{c}\NormalTok{(form0),}
+    \DataTypeTok{matrix_pred =} \KeywordTok{list}\NormalTok{(}\KeywordTok{mc_id}\NormalTok{(seguros)),}
+    \DataTypeTok{link =} \StringTok{"log"}\NormalTok{,}
+    \DataTypeTok{variance =} \StringTok{"poisson_tweedie"}\NormalTok{,}
+    \DataTypeTok{power_fixed =} \OtherTok{FALSE}\NormalTok{,}
+    \DataTypeTok{data =} \NormalTok{seguros)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Automatic initial values selected.
+\end{verbatim}
+
+Os parâmetros de regressão estimados nos modelos Poisson e
+Poisson-Tweedie são exibidos abaixo juntamente com seus erros padrão.
+Uma coluna com a razão entre as estimatimas e erros-padrão é acrescida.
+Note que as estimativas muito similares e os erros-Padrão são em torno
+de 20\% maiores quando considerado o modelo Poisson-Tweedie.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##----------------------------------------------------------------------}
+\NormalTok{## Parameter estimates}
+\NormalTok{parPO <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m0PO)$coefficients[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{parPT <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m0PT)[[}\DecValTok{1}\NormalTok{]]$Regression[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: nclaims ~ offset(log(expo)) + sex + price + I(price^2) + age + 
+##     I(age^2)
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##             Estimates Std.error Z value
+## (Intercept) -2.277314  4.76e-01   -4.79
+## sexMale     -0.190856  7.69e-02   -2.48
+## price        0.016413  6.03e-03    2.72
+## I(price^2)  -0.000115  5.65e-05   -2.03
+## age         -0.032210  1.82e-02   -1.77
+## I(age^2)     0.000301  1.72e-04    1.75
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1       2.2      1.12    1.96
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1      12.1      37.4   0.322
+## 
+## Algorithm: chaser
+## Correction: TRUE
+## Number iterations: 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pars <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(parPO, parPT)}
+\KeywordTok{cbind}\NormalTok{(pars, }\KeywordTok{cbind}\NormalTok{(}\StringTok{"RatioEst"} \NormalTok{=}\StringTok{ }\NormalTok{pars[, }\DecValTok{3}\NormalTok{]/pars[, }\DecValTok{1}\NormalTok{],}
+                  \StringTok{"RatioStd"} \NormalTok{=}\StringTok{ }\NormalTok{pars[, }\DecValTok{4}\NormalTok{]/pars[, }\DecValTok{2}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Estimate Std. Error Estimates Std.error RatioEst
+## (Intercept) -1.703449   3.91e-01 -2.277314  4.76e-01    1.337
+## sexMale     -0.175449   6.38e-02 -0.190856  7.69e-02    1.088
+## price        0.018583   5.28e-03  0.016413  6.03e-03    0.883
+## I(price^2)  -0.000125   5.03e-05 -0.000115  5.65e-05    0.921
+## age         -0.038209   1.50e-02 -0.032210  1.82e-02    0.843
+## I(age^2)     0.000336   1.41e-04  0.000301  1.72e-04    0.895
+##             RatioStd
+## (Intercept)     1.22
+## sexMale         1.20
+## price           1.14
+## I(price^2)      1.12
+## age             1.22
+## I(age^2)        1.22
+\end{verbatim}
+
+Embora tenhamos ajustados os modelos e avaliados seus resultados, uma
+suposição que é inerente ao modelo não foi avaliada. A inclusão do
+offset (exposição) pressupõe relação identidade entre a exposição e o
+número médio de sinistros (\(\mu_i \texttt{expo}_i = \lambda_i\)), em
+outras palavras, sob as mesmas condições esperamos que um indivíduo com
+tempo de exposição de \(1\) ano tenha o dobro de sinistros do que um
+indivíduo com tempo de exposição de \(0.5\). A avaliação dessa suposição
+é realizada estimando esse coeficiente e comparando-o com o valor
+fixado.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Define preditors (free offset of first order and second order)}
+\NormalTok{form1 <-}\StringTok{ }\NormalTok{nclaims ~}\StringTok{ }\KeywordTok{log}\NormalTok{(expo) +}\StringTok{ }\NormalTok{sex +}
+\StringTok{    }\NormalTok{price +}\StringTok{ }\KeywordTok{I}\NormalTok{(price^}\DecValTok{2}\NormalTok{) +}\StringTok{ }\NormalTok{age +}\StringTok{ }\KeywordTok{I}\NormalTok{(age^}\DecValTok{2}\NormalTok{)}
+
+\NormalTok{## Fit Poisson}
+\NormalTok{m1PO <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(form1, }\DataTypeTok{data =} \NormalTok{seguros, }\DataTypeTok{family =} \NormalTok{poisson)}
+
+\NormalTok{## Fit Poisson-Tweedie}
+\NormalTok{m1PT <-}\StringTok{ }\KeywordTok{mcglm}\NormalTok{(}\DataTypeTok{linear_pred =} \KeywordTok{c}\NormalTok{(form1),}
+          \DataTypeTok{matrix_pred =} \KeywordTok{list}\NormalTok{(}\KeywordTok{mc_id}\NormalTok{(seguros)),}
+          \DataTypeTok{link =} \StringTok{"log"}\NormalTok{,}
+          \DataTypeTok{variance =} \StringTok{"poisson_tweedie"}\NormalTok{,}
+          \DataTypeTok{power_fixed =} \OtherTok{FALSE}\NormalTok{,}
+          \DataTypeTok{data =} \NormalTok{seguros)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Automatic initial values selected.
+\end{verbatim}
+
+Nos modelos Poisson o método \texttt{anova} em R realiza o teste de
+razão de verossimilhanças para modelos aninhados.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Analysis of deviance table for nested models}
+\NormalTok{(an <-}\StringTok{ }\KeywordTok{anova}\NormalTok{(m0PO, m1PO, }\DataTypeTok{test =} \StringTok{"Chisq"}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Analysis of Deviance Table
+## 
+## Model 1: nclaims ~ offset(log(expo)) + sex + price + I(price^2) + age + 
+##     I(age^2)
+## Model 2: nclaims ~ log(expo) + sex + price + I(price^2) + age + I(age^2)
+##   Resid. Df Resid. Dev Df Deviance Pr(>Chi)    
+## 1     16477       6495                         
+## 2     16476       6269  1      226   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+\end{verbatim}
+
+Com a estimação do coeficiente para \(\log(\texttt{expo})\), houve uma
+diferença de 226.5 em relação ao modelo cujo coeficiente é fixado em 1,
+evidenciando que a suposição de identidade entre o a exposição e as
+contagens não é atendida.
+
+Para os modelos Poisson-Tweedie os testes de razão de verossimilhanças
+também são possíveis, porém tendem a ser computacionalmente intensivos
+uma vez que a função de densidade é definida por uma integral
+intratável. Sendo assim uma alternativa é comparar os modelos via
+measures of Goodness-of-Fit que não precisam da verossimilhança like
+pseudo Gaussian log-likelihood (plogLik), pseudo Akaike Information
+Criterion (pAIC), pseudo Kullback-Leibler Information Criterion (pKLIC)
+and Error Sum of Squares (ESS), que além de mais rápidas podem ser
+utilizadas para o modelo Poisson-Tweedie estendido que não se baseia em
+verossimilhança. Essas medidas são calculadas com função
+\texttt{mcglm::gof}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Measures of goodness-of-fit for compare nested models}
+\NormalTok{goflist <-}\StringTok{ }\KeywordTok{lapply}\NormalTok{(}\KeywordTok{list}\NormalTok{(m0PT, m1PT), gof)}
+\NormalTok{(gofPT <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(}\StringTok{"rbind"}\NormalTok{, goflist))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   plogLik Df pAIC pKLIC pBIC
+## 1   -3276  8 6569  6744 6630
+## 2   -3126  9 6270  6445 6339
+\end{verbatim}
+
+Da mesma forma nos modelos Poisson-Tweedie também há fortes indicações
+de que o coeficiente para o logarítimo das exposições não seja \(1\).
+Sendo assim seguimos as análises com os modelos que consideram a
+estimação do efeito dos tempos de exposição.
+
+As estimativas pontuais com erros-padrão são obtidas da mesma forma que
+nos primeiros modelos ajustados. Note que não houve uma mudança drástica
+nas estimativas comparando ao modelo com offset, indicando que não há
+relação entre os tempos de exposição e as covariáveis. A similaridade
+das estimativas do modelo Poisson e Poisson-Tweedie se mantém assim como
+o aumento em 20\% nos erros-padrão.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{##----------------------------------------------------------------------}
+\NormalTok{## Parameter estimates}
+\NormalTok{parPO <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m1PO)$coefficients[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{parPT <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m1PT)[[}\DecValTok{1}\NormalTok{]]$Regression[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: nclaims ~ log(expo) + sex + price + I(price^2) + age + I(age^2)
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##             Estimates Std.error Z value
+## (Intercept) -2.092150  4.75e-01   -4.41
+## log(expo)    0.192759  4.72e-02    4.08
+## sexMale     -0.184397  7.68e-02   -2.40
+## price        0.016408  6.11e-03    2.69
+## I(price^2)  -0.000114  5.75e-05   -1.98
+## age         -0.034693  1.81e-02   -1.91
+## I(age^2)     0.000320  1.71e-04    1.87
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1      1.83     0.873     2.1
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1      4.36      10.5   0.416
+## 
+## Algorithm: chaser
+## Correction: TRUE
+## Number iterations: 10
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pars <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(parPO, parPT)}
+\KeywordTok{cbind}\NormalTok{(pars, }\KeywordTok{cbind}\NormalTok{(}\StringTok{"RatioEst"} \NormalTok{=}\StringTok{ }\NormalTok{pars[, }\DecValTok{3}\NormalTok{]/pars[, }\DecValTok{1}\NormalTok{],}
+                  \StringTok{"RatioStd"} \NormalTok{=}\StringTok{ }\NormalTok{pars[, }\DecValTok{4}\NormalTok{]/pars[, }\DecValTok{2}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##              Estimate Std. Error Estimates Std.error RatioEst
+## (Intercept) -2.135916   3.91e-01 -2.092150  4.75e-01    0.980
+## log(expo)    0.186930   4.11e-02  0.192759  4.72e-02    1.031
+## sexMale     -0.184568   6.38e-02 -0.184397  7.68e-02    0.999
+## price        0.017008   5.21e-03  0.016408  6.11e-03    0.965
+## I(price^2)  -0.000120   4.94e-05 -0.000114  5.75e-05    0.949
+## age         -0.033467   1.49e-02 -0.034693  1.81e-02    1.037
+## I(age^2)     0.000308   1.41e-04  0.000320  1.71e-04    1.039
+##             RatioStd
+## (Intercept)     1.21
+## log(expo)       1.15
+## sexMale         1.20
+## price           1.17
+## I(price^2)      1.16
+## age             1.21
+## I(age^2)        1.21
+\end{verbatim}
+
+Finalmente a Figura \ref@(fig:claims-pred) apresenta as curvas de
+predição conforme cada variável, como temos mais de uma covariável
+numérica no modelo, fixamos as demais variáveis seu valor mediano para
+construção das curvas. O efeito quadrático das variáveis \texttt{price}
+e \texttt{age} é evidente. A média de sinistros é maior para veículos
+entre 50 e 100 mil reais, veículos de valores baixos ou muito elevados
+tendem a ter um taxa de sinistros menor, o que faz sentido no mercado
+brasileiro onde furtos e acidentes ocorrem com maior frequência em
+carros populares. Para a idade temos a interpretação contrária,
+espera-se menos sinistros para idades medianas, entre 40 e 70 anos e
+maiores para jovens e idosos.
+
+Comparando os modelos temos curvas de predição e intervalos de confiança
+muito similares, sendo levemente maiores quando considerado o
+Poisson-Tweedie. O que se destaque no gráfico é a diferença nos
+intervalos de confiança para o preço do veículo, nesse caso o modelo
+Poisson-Tweedie é muito mais conservador onde há menos observações, no
+intervalo de preços mais elevados.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cap <-}\StringTok{ }\KeywordTok{paste}\NormalTok{(}\StringTok{"Curves of predict values an confidence intervals (95}\CharTok{\textbackslash{}\textbackslash{}}\StringTok{%)"}\NormalTok{,}
+             \StringTok{"based on Poisson and Poisson-Tweedie regression models"}\NormalTok{,}
+             \StringTok{"for each numerical covariate setting the others in the"}\NormalTok{,}
+             \StringTok{"median."}\NormalTok{)}
+
+\NormalTok{##-------------------------------------------}
+\NormalTok{## Prediction to exposure}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{with}\NormalTok{(seguros, \{}
+    \KeywordTok{expand.grid}\NormalTok{(}
+        \DataTypeTok{expo =} \KeywordTok{seq}\NormalTok{(}\KeywordTok{min}\NormalTok{(expo), }\KeywordTok{max}\NormalTok{(expo), }\DataTypeTok{length.out =} \DecValTok{30}\NormalTok{),}
+        \DataTypeTok{sex =} \KeywordTok{unique}\NormalTok{(sex),}
+        \DataTypeTok{price =} \KeywordTok{median}\NormalTok{(price),}
+        \DataTypeTok{age =} \KeywordTok{median}\NormalTok{(age)}
+    \NormalTok{)}
+\NormalTok{\})}
+
+\NormalTok{da <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{var =} \StringTok{"Exposure"}\NormalTok{, }\DataTypeTok{x =} \NormalTok{aux$expo, }\DataTypeTok{sex =} \NormalTok{aux$sex)}
+\NormalTok{X <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\KeywordTok{update}\NormalTok{(form1, }\OtherTok{NULL} \NormalTok{~}\StringTok{ }\NormalTok{.), }\DataTypeTok{data =} \NormalTok{aux)}
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{PO =} \NormalTok{da, }\DataTypeTok{PT =} \NormalTok{da)}
+
+\NormalTok{## Poisson model}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{confint}\NormalTok{(}\KeywordTok{glht}\NormalTok{(m1PO, }\DataTypeTok{linfct =} \NormalTok{X),}
+               \DataTypeTok{calpha =} \KeywordTok{univariate_calpha}\NormalTok{())$confint}
+\KeywordTok{colnames}\NormalTok{(aux)[}\DecValTok{1}\NormalTok{] <-}\StringTok{ "fit"}
+\NormalTok{pred$PO <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$PO, }\KeywordTok{exp}\NormalTok{(aux)[, }\KeywordTok{c}\NormalTok{(}\StringTok{"lwr"}\NormalTok{, }\StringTok{"fit"}\NormalTok{, }\StringTok{"upr"}\NormalTok{)])}
+
+\NormalTok{## Poisson-Tweedie model}
+\NormalTok{qn <-}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) *}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DataTypeTok{lwr =} \NormalTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{fit =} \DecValTok{0}\NormalTok{, }\DataTypeTok{upr =} \DecValTok{1}\NormalTok{)}
+\NormalTok{V <-}\StringTok{ }\KeywordTok{vcov}\NormalTok{(m1PT)}
+\NormalTok{i <-}\StringTok{ }\KeywordTok{grepl}\NormalTok{(}\StringTok{"beta"}\NormalTok{, }\KeywordTok{colnames}\NormalTok{(V))}
+\NormalTok{eta <-}\StringTok{ }\NormalTok{X %*%}\StringTok{ }\KeywordTok{coef}\NormalTok{(m1PT, }\DataTypeTok{type =} \StringTok{"beta"}\NormalTok{)$Estimates}
+\NormalTok{std <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{diag}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(X %*%}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(V[i, i]) %*%}\StringTok{ }\KeywordTok{t}\NormalTok{(X))))}
+\NormalTok{me <-}\StringTok{ }\KeywordTok{outer}\NormalTok{(std, qn, }\DataTypeTok{FUN =} \StringTok{"*"}\NormalTok{)}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{sweep}\NormalTok{(me, }\DecValTok{1}\NormalTok{, eta, }\DataTypeTok{FUN =} \StringTok{"+"}\NormalTok{)}
+\NormalTok{pred$PT <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$PT, }\KeywordTok{exp}\NormalTok{(aux))}
+
+\NormalTok{## Organize predictions}
+\NormalTok{predsex <-}\StringTok{ }\KeywordTok{ldply}\NormalTok{(pred, }\DataTypeTok{.id =} \StringTok{"model"}\NormalTok{)}
+
+\NormalTok{##-------------------------------------------}
+\NormalTok{## Prediction to price}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{with}\NormalTok{(seguros, \{}
+    \KeywordTok{expand.grid}\NormalTok{(}
+        \DataTypeTok{expo =} \KeywordTok{median}\NormalTok{(expo),}
+        \DataTypeTok{sex =} \KeywordTok{unique}\NormalTok{(sex),}
+        \DataTypeTok{price =} \KeywordTok{seq}\NormalTok{(}\KeywordTok{min}\NormalTok{(price), }\KeywordTok{max}\NormalTok{(price), }\DataTypeTok{length.out =} \DecValTok{30}\NormalTok{),}
+        \DataTypeTok{age =} \KeywordTok{median}\NormalTok{(age)}
+    \NormalTok{)}
+\NormalTok{\})}
+
+\NormalTok{da <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{var =} \StringTok{"Price"}\NormalTok{, }\DataTypeTok{x =} \NormalTok{aux$price, }\DataTypeTok{sex =} \NormalTok{aux$sex)}
+\NormalTok{X <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\KeywordTok{update}\NormalTok{(form1, }\OtherTok{NULL} \NormalTok{~}\StringTok{ }\NormalTok{.), }\DataTypeTok{data =} \NormalTok{aux)}
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{PO =} \NormalTok{da, }\DataTypeTok{PT =} \NormalTok{da)}
+
+\NormalTok{## Poisson model}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{confint}\NormalTok{(}\KeywordTok{glht}\NormalTok{(m1PO, }\DataTypeTok{linfct =} \NormalTok{X),}
+               \DataTypeTok{calpha =} \KeywordTok{univariate_calpha}\NormalTok{())$confint}
+\KeywordTok{colnames}\NormalTok{(aux)[}\DecValTok{1}\NormalTok{] <-}\StringTok{ "fit"}
+\NormalTok{pred$PO <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$PO, }\KeywordTok{exp}\NormalTok{(aux)[, }\KeywordTok{c}\NormalTok{(}\StringTok{"lwr"}\NormalTok{, }\StringTok{"fit"}\NormalTok{, }\StringTok{"upr"}\NormalTok{)])}
+
+\NormalTok{## Poisson-Tweedie model}
+\NormalTok{qn <-}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) *}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DataTypeTok{lwr =} \NormalTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{fit =} \DecValTok{0}\NormalTok{, }\DataTypeTok{upr =} \DecValTok{1}\NormalTok{)}
+\NormalTok{V <-}\StringTok{ }\KeywordTok{vcov}\NormalTok{(m1PT)}
+\NormalTok{i <-}\StringTok{ }\KeywordTok{grepl}\NormalTok{(}\StringTok{"beta"}\NormalTok{, }\KeywordTok{colnames}\NormalTok{(V))}
+\NormalTok{eta <-}\StringTok{ }\NormalTok{X %*%}\StringTok{ }\KeywordTok{coef}\NormalTok{(m1PT, }\DataTypeTok{type =} \StringTok{"beta"}\NormalTok{)$Estimates}
+\NormalTok{std <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{diag}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(X %*%}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(V[i, i]) %*%}\StringTok{ }\KeywordTok{t}\NormalTok{(X))))}
+\NormalTok{me <-}\StringTok{ }\KeywordTok{outer}\NormalTok{(std, qn, }\DataTypeTok{FUN =} \StringTok{"*"}\NormalTok{)}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{sweep}\NormalTok{(me, }\DecValTok{1}\NormalTok{, eta, }\DataTypeTok{FUN =} \StringTok{"+"}\NormalTok{)}
+\NormalTok{pred$PT <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$PT, }\KeywordTok{exp}\NormalTok{(aux))}
+
+\NormalTok{## Organize predictions}
+\NormalTok{predspr <-}\StringTok{ }\KeywordTok{ldply}\NormalTok{(pred, }\DataTypeTok{.id =} \StringTok{"model"}\NormalTok{)}
+
+\NormalTok{##-------------------------------------------}
+\NormalTok{## Prediction to age}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{with}\NormalTok{(seguros, \{}
+    \KeywordTok{expand.grid}\NormalTok{(}
+        \DataTypeTok{expo =} \KeywordTok{median}\NormalTok{(expo),}
+        \DataTypeTok{sex =} \KeywordTok{unique}\NormalTok{(sex),}
+        \DataTypeTok{price =} \KeywordTok{median}\NormalTok{(price),}
+        \DataTypeTok{age =} \KeywordTok{seq}\NormalTok{(}\KeywordTok{min}\NormalTok{(age), }\KeywordTok{max}\NormalTok{(age), }\DataTypeTok{length.out =} \DecValTok{30}\NormalTok{)}
+    \NormalTok{)}
+\NormalTok{\})}
+
+\NormalTok{da <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{var =} \StringTok{"Age"}\NormalTok{, }\DataTypeTok{x =} \NormalTok{aux$age, }\DataTypeTok{sex =} \NormalTok{aux$sex)}
+\NormalTok{X <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\KeywordTok{update}\NormalTok{(form1, }\OtherTok{NULL} \NormalTok{~}\StringTok{ }\NormalTok{.), }\DataTypeTok{data =} \NormalTok{aux)}
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{PO =} \NormalTok{da, }\DataTypeTok{PT =} \NormalTok{da)}
+
+\NormalTok{## Poisson model}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{confint}\NormalTok{(}\KeywordTok{glht}\NormalTok{(m1PO, }\DataTypeTok{linfct =} \NormalTok{X),}
+               \DataTypeTok{calpha =} \KeywordTok{univariate_calpha}\NormalTok{())$confint}
+\KeywordTok{colnames}\NormalTok{(aux)[}\DecValTok{1}\NormalTok{] <-}\StringTok{ "fit"}
+\NormalTok{pred$PO <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$PO, }\KeywordTok{exp}\NormalTok{(aux)[, }\KeywordTok{c}\NormalTok{(}\StringTok{"lwr"}\NormalTok{, }\StringTok{"fit"}\NormalTok{, }\StringTok{"upr"}\NormalTok{)])}
+
+\NormalTok{## Poisson-Tweedie model}
+\NormalTok{qn <-}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) *}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DataTypeTok{lwr =} \NormalTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{fit =} \DecValTok{0}\NormalTok{, }\DataTypeTok{upr =} \DecValTok{1}\NormalTok{)}
+\NormalTok{V <-}\StringTok{ }\KeywordTok{vcov}\NormalTok{(m1PT)}
+\NormalTok{i <-}\StringTok{ }\KeywordTok{grepl}\NormalTok{(}\StringTok{"beta"}\NormalTok{, }\KeywordTok{colnames}\NormalTok{(V))}
+\NormalTok{eta <-}\StringTok{ }\NormalTok{X %*%}\StringTok{ }\KeywordTok{coef}\NormalTok{(m1PT, }\DataTypeTok{type =} \StringTok{"beta"}\NormalTok{)$Estimates}
+\NormalTok{std <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{diag}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(X %*%}\StringTok{ }\KeywordTok{as.matrix}\NormalTok{(V[i, i]) %*%}\StringTok{ }\KeywordTok{t}\NormalTok{(X))))}
+\NormalTok{me <-}\StringTok{ }\KeywordTok{outer}\NormalTok{(std, qn, }\DataTypeTok{FUN =} \StringTok{"*"}\NormalTok{)}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{sweep}\NormalTok{(me, }\DecValTok{1}\NormalTok{, eta, }\DataTypeTok{FUN =} \StringTok{"+"}\NormalTok{)}
+\NormalTok{pred$PT <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$PT, }\KeywordTok{exp}\NormalTok{(aux))}
+
+\NormalTok{## Organize predictions}
+\NormalTok{predsag <-}\StringTok{ }\KeywordTok{ldply}\NormalTok{(pred, }\DataTypeTok{.id =} \StringTok{"model"}\NormalTok{)}
+
+\NormalTok{##-------------------------------------------}
+\NormalTok{## Graph}
+\NormalTok{preds <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(predsex, predspr, predsag)}
+\KeywordTok{useOuterStrips}\NormalTok{(}
+    \KeywordTok{xyplot}\NormalTok{(fit ~}\StringTok{ }\NormalTok{x |}\StringTok{ }\NormalTok{var +}\StringTok{ }\NormalTok{sex,}
+           \DataTypeTok{data =} \NormalTok{preds,}
+           \DataTypeTok{groups =} \NormalTok{model,}
+           \DataTypeTok{type =} \KeywordTok{c}\NormalTok{(}\StringTok{"g"}\NormalTok{, }\StringTok{"l"}\NormalTok{),}
+           \DataTypeTok{ly =} \NormalTok{preds$lwr, }\DataTypeTok{uy =} \NormalTok{preds$upr,}
+           \DataTypeTok{layout =} \KeywordTok{c}\NormalTok{(}\OtherTok{NA}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+           \DataTypeTok{as.table =} \OtherTok{TRUE}\NormalTok{,}
+           \DataTypeTok{alpha =} \FloatTok{0.2}\NormalTok{,}
+           \DataTypeTok{xlab =} \StringTok{"Value of covariate"}\NormalTok{,}
+           \DataTypeTok{ylab =} \StringTok{"Mean of vehicles claims"}\NormalTok{,}
+           \NormalTok{## scales = list(x = "free"),}
+           \DataTypeTok{scales =} \StringTok{"free"}\NormalTok{,}
+           \DataTypeTok{auto.key =} \KeywordTok{list}\NormalTok{(}
+               \DataTypeTok{columns =} \DecValTok{2}\NormalTok{,}
+               \DataTypeTok{lines =} \OtherTok{TRUE}\NormalTok{,}
+               \DataTypeTok{points =} \OtherTok{FALSE}\NormalTok{,}
+               \DataTypeTok{text =} \KeywordTok{c}\NormalTok{(}\StringTok{"Poisson"}\NormalTok{, }\StringTok{"Poisson-Tweedie"}\NormalTok{)}
+           \NormalTok{),}
+           \DataTypeTok{cty =} \StringTok{"bands"}\NormalTok{, }\DataTypeTok{fill =} \StringTok{"gray80"}\NormalTok{,}
+           \DataTypeTok{panel =} \NormalTok{panel.superpose,}
+           \DataTypeTok{panel.groups =} \NormalTok{panel.cbH,}
+           \DataTypeTok{prepanel =} \NormalTok{prepanel.cbH)}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/claims-pred-1} \end{center}
+
+Para avaliar o poder preditivo dos modelos nós calculamos as frequências
+estimadas pelos dois modelos considerados e comparamos com as
+observadas. As frequências estimadas \(\hat{Fr}\), para um dado valor
+\(y\) são calculadas como
+
+\[
+\hat{Fr}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
+\]
+
+Onde \(\Pr(Y=y \mid \hat{\boldsymbol{\theta}}_i)\) é a função massa de
+probabilidade definida pelo conjunto de parâmetros
+\(\boldsymbol{\hat{\theta}}_i\). Para o modelo Poisson
+\(\hat{\boldsymbol{\theta}}_i = \hat{\mu}_i\) e para o modelo
+Poisson-Tweedie
+\(\hat{\boldsymbol{\theta}}_i = [\hat{\mu}_i \hat{\phi}=4.359] \hat{p}=1.832]\).
+For Poisson-Tweedie model we evaluate the integral using the
+Gauss-Laguerre method (with 100 points). The results shows that
+Poisson-Tweedie model offers a better fit with adjust frequencies very
+close of observed frequencies.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{## Adjust frequencies by models}
+
+\NormalTok{## Calcule probabilities}
+\NormalTok{X <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(form1, }\DataTypeTok{data =} \NormalTok{seguros)}
+\NormalTok{y <-}\StringTok{ }\DecValTok{0}\NormalTok{:}\DecValTok{6}
+\NormalTok{n <-}\StringTok{ }\KeywordTok{nrow}\NormalTok{(seguros)}
+\NormalTok{freqs <-}\StringTok{ }\KeywordTok{list}\NormalTok{()}
+
+\NormalTok{## Observed}
+\NormalTok{freqs$Obs <-}\StringTok{ }\KeywordTok{with}\NormalTok{(seguros, }\KeywordTok{sapply}\NormalTok{(y, function(x) \{}
+    \KeywordTok{sum}\NormalTok{(nclaims ==}\StringTok{ }\NormalTok{x)}
+\NormalTok{\}))}
+
+\NormalTok{## By Poisson}
+\NormalTok{muPO <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(X %*%}\StringTok{ }\KeywordTok{coef}\NormalTok{(m1PO))}
+\NormalTok{probsPO <-}\StringTok{ }\KeywordTok{do.call}\NormalTok{(}
+    \StringTok{"rbind"}\NormalTok{,}
+    \KeywordTok{lapply}\NormalTok{(muPO, function(mui) \{}
+        \NormalTok{py <-}\StringTok{ }\KeywordTok{dpois}\NormalTok{(y, }\DataTypeTok{lambda =} \NormalTok{mui)}
+    \NormalTok{\}))}
+\NormalTok{freqs$PO <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{apply}\NormalTok{(probsPO, }\DecValTok{2}\NormalTok{, sum))}
+
+\NormalTok{## By Poisson-Tweedie}
+\NormalTok{##  -- very time consuming.}
+\NormalTok{muPT <-}\StringTok{ }\KeywordTok{exp}\NormalTok{(X %*%}\StringTok{ }\KeywordTok{coef}\NormalTok{(m1PT, }\DataTypeTok{type =} \StringTok{"beta"}\NormalTok{)$Estimates)}
+\NormalTok{phi <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\KeywordTok{coef}\NormalTok{(m1PT), Estimates[Type ==}\StringTok{ "tau"}\NormalTok{])}
+\NormalTok{power <-}\StringTok{ }\KeywordTok{with}\NormalTok{(}\KeywordTok{coef}\NormalTok{(m1PT), Estimates[Type ==}\StringTok{ "power"}\NormalTok{])}
+\NormalTok{probsPT <-}\KeywordTok{do.call}\NormalTok{(}
+    \StringTok{"rbind"}\NormalTok{,}
+    \KeywordTok{lapply}\NormalTok{(muPT, function(mui) \{}
+        \NormalTok{py <-}\StringTok{ }\KeywordTok{dptweedie}\NormalTok{(}\DataTypeTok{y =} \NormalTok{y, }\DataTypeTok{mu =} \NormalTok{mui, }\DataTypeTok{phi =} \NormalTok{phi,}
+                        \DataTypeTok{power =} \NormalTok{power, }\DataTypeTok{n_pts =} \DecValTok{100}\NormalTok{,}
+                        \DataTypeTok{method =} \StringTok{"laguerre"}\NormalTok{)}
+    \NormalTok{\}))}
+\NormalTok{freqs$PT <-}\StringTok{ }\KeywordTok{round}\NormalTok{(}\KeywordTok{apply}\NormalTok{(probsPT, }\DecValTok{2}\NormalTok{, sum))}
+\NormalTok{tabf <-}\StringTok{ }\KeywordTok{ldply}\NormalTok{(freqs)}
+
+\KeywordTok{colnames}\NormalTok{(tabf) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{""}\NormalTok{, y)}
+\NormalTok{tabf}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           0   1   2  3 4 5 6
+## 1 Obs 15689 602 166 22 3 1 0
+## 2  PO 15498 953  31  1 0 0 0
+## 3  PT 15673 663 121 26 6 2 0
+\end{verbatim}
+
 \section{Radiation-induced chromosome aberration
 counts}\label{radiation-induced-chromosome-aberration-counts}
 
