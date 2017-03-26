@@ -19,7 +19,8 @@ Imports:
   doBy,
   multcomp,
   sp,
-  mcglm
+  mcglm,
+  ellipse
 Remotes:
   rstudio/bookdown,
   leg-ufpr/MRDCr@devel,
