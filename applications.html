@@ -128,15 +128,25 @@ code > span.in { color: #008000; } /* Information */
 <li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#cotton-bolls"><i class="fa fa-check"></i><b>5.1</b> Cotton Bolls</a></li>
 <li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#soybean-pod-and-beans"><i class="fa fa-check"></i><b>5.2</b> Soybean pod and beans</a><ul>
 <li class="chapter" data-level="5.2.1" data-path="applications.html"><a href="applications.html#number-of-pods"><i class="fa fa-check"></i><b>5.2.1</b> Number of pods</a></li>
-<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#number-of-grains"><i class="fa fa-check"></i><b>5.2.2</b> Númber of grains</a></li>
+<li class="chapter" data-level="5.2.2" data-path="applications.html"><a href="applications.html#number-of-grains"><i class="fa fa-check"></i><b>5.2.2</b> Number of grains</a></li>
 <li class="chapter" data-level="5.2.3" data-path="applications.html"><a href="applications.html#number-of-grains-per-pod"><i class="fa fa-check"></i><b>5.2.3</b> Number of grains per pod</a></li>
 </ul></li>
 <li class="chapter" data-level="5.3" data-path="applications.html"><a href="applications.html#number-of-vehicle-claims"><i class="fa fa-check"></i><b>5.3</b> Number of vehicle claims</a></li>
-<li class="chapter" data-level="5.4" data-path="applications.html"><a href="applications.html#radiation-induced-chromosome-aberration-counts"><i class="fa fa-check"></i><b>5.4</b> Radiation-induced chromosome aberration counts</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="bibliography.html"><a href="bibliography.html"><i class="fa fa-check"></i>Bibliography</a></li>
 <li class="divider"></li>
-</hr>
+<center>
+  <h2>
+    <a href="./slides.pdf" target="_blank">Slides</a>
+  </h2>
+  <br/>
+  <img src="../config/leg.png" width="100px"/>
+  <br/>
+  Laboratório de Estatística<br/>
+  e Geoinformação - UFPR
+  <br/>
+    <a href="http://leg.ufpr.br/doku.php" target="_blank">leg.ufpr.br</a>
+</center>
 
 </ul>
 
@@ -161,7 +171,7 @@ code > span.in { color: #008000; } /* Information */
 <div id="cotton-bolls" class="section level2">
 <h2><span class="header-section-number">5.1</span> Cotton Bolls</h2>
 <p>Cotton production can be drastically reduced by attack of defoliating insects. Depending on the growth stage, the plant can recover from the caused damage and keeps production not affected or can have the production reduced by low intensity defoliation.</p>
-<p>A greenhouse experiment with cotton plants (<em>Gossypium hirsutum</em>) was done under a completely randomized design with five replicates to assess the effects of five defoliation levels (0%, 25%, 50%,75% and 100%) on the observed number of bolls produced by plants at five growth stages: vegetative, flower-bud, blossom, fig and cotton boll. The experimental unity was a vase with two plants <span class="citation">(Silva et al. 2012, for more)</span>. The number of cotton bolls was recorded at the hasvest of the experiment.</p>
+<p>A greenhouse experiment with cotton plants (<em>Gossypium hirsutum</em>) was done under a completely randomized design with five replicates to assess the effects of five defoliation levels (0%, 25%, 50%,75% and 100%) on the observed number of bolls produced by plants at five growth stages: vegetative, flower-bud, blossom, fig and cotton boll. The experimental unity was a pot with two plants <span class="citation">(A. M. Silva et al. 2012, for more)</span>. The number of cotton bolls was recorded at the hasvest of the experiment.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(lattice)
 <span class="kw">library</span>(latticeExtra)
 <span class="kw">library</span>(gridExtra)
@@ -309,9 +319,9 @@ structures for the log-link function $g()$.
 ## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>The analysis of deviance table did not stated effect of any interactions, neither second order effect of defiliation. Although, all these effects are noticeable in Figure <a href="#bools-mean-var"><strong>??</strong></a>.</p>
 <div class="figure" style="text-align: center"><span id="fig:bolls-plot-residuals"></span>
-<img src="rmcdbook_files/figure-html/bolls-plot-residuals-1.png" alt="The 4 plots for checking departures of assumptions in the GLM-Poisson regression." width="672" />
+<img src="rmcdbook_files/figure-html/bolls-plot-residuals-1.png" alt="The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for the number of cotton bolls." width="672" />
 <p class="caption">
-Figure 5.2: The 4 plots for checking departures of assumptions in the GLM-Poisson regression.
+Figure 5.2: The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for the number of cotton bolls.
 </p>
 </div>
 <p>Figure <a href="#bolls-plot-residuals"><strong>??</strong></a> displays the four residual plots for the fitted model. Based on these plots, there is no concern about mispecifications regarding to the model predictor or influential observations. The only remarkable aspect is about the range of the stardartized deviance residuals quite distant from the expected -3 to 3 from the normal distribution. Once more, these is another measure indicating a underdispersed count data.</p>
@@ -500,14 +510,18 @@ pred &lt;-<span class="st"> </span><span class="kw">cbind</span>(pred, <span cla
 ##  $ lwrP: num  6.97 6.37 6.72 5.88 7.91 ...
 ##  $ fitP: num  9.15 8.45 8.91 7.89 10.25 ...
 ##  $ uprP: num  12 11.2 11.8 10.6 13.3 ...</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># xyplot(fitP + lwrP + uprP ~ des | )</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># TODO predito pelo 3 modelos.</span></code></pre></div>
 <p>TODO: pares de estimativa e erros padrões.</p>
+<!------------------------------------------- -->
 </div>
 <div id="soybean-pod-and-beans" class="section level2">
 <h2><span class="header-section-number">5.2</span> Soybean pod and beans</h2>
 <p>The tropical soils, usually poor in potassium (K), demand potassium fertilization when cultivated with soybean (<em>Glycine max</em> L.) to obtain satisfactory yields. Soybean production is affected by long exposition to water deficit. As postassium is a nutrient involved in the water balance in plant, by hyphotesis, a good supply of potassium avoids lose production.</p>
-<p>The aim of this study was to evaluate the effects of K doses and soil humidity levels on soybean production. The experiment was carried out in a greenhouse, in pots with two plants, containing 5 dm<sup>3</sup> of soil. The experimental design was completely randomized block with treatments in a 5 x 3 factorial arrangement. The K doses were 0, 30, 60, 120 and 180 mg dm<sup>-3</sup> , and the soil humidity ranged from 35 to 40, 47.5 to 52.5, and 60 to 65% of the total porosity.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(soja)</code></pre></div>
+<p>The aim of this experiment was to evaluate the effects of K doses and soil humidity levels on soybean production. The experiment was carried out in a greenhouse, in pots with two plants, containing 5 dm<sup>3</sup> of soil. The experimental design was completely randomized block with treatments in a 5 x 3 factorial arrangement. The K doses were 0, 30, 60, 120 and 180 mg dm<sup>-3</sup> , and the soil humidity ranged from 35 to 40, 47.5 to 52.5, and 60 to 65% of the total porosity <span class="citation">(Serafim et al. 2012, for more details)</span>.</p>
+<p>Two count variables were recorded in this experiment: the total number of pods per plot and the total number of grains per plot. The ratio, grains/pod, can also be analysed, since the fisiological response can change it.</p>
+<p>There is an outlier in the dataset at position 74 that must be removed. Potassion amount (K) will be converted to a categorical factor, despite it is a numerical one, to prevent concerns with lack of fit, that is not the main scope of the following analysis.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(soja)
+<span class="kw">str</span>(soja)</code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    75 obs. of  5 variables:
 ##  $ K   : int  0 30 60 120 180 0 30 60 120 180 ...
 ##  $ umid: Factor w/ 3 levels &quot;37,5&quot;,&quot;50&quot;,&quot;62,5&quot;: 1 1 1 1 1 2 2 2 2 2 ...
@@ -519,10 +533,11 @@ soja &lt;-<span class="st"> </span>soja[-<span class="dv">74</span>, ]
 soja &lt;-<span class="st"> </span><span class="kw">transform</span>(soja, <span class="dt">K =</span> <span class="kw">factor</span>(K))</code></pre></div>
 <div id="number-of-pods" class="section level3">
 <h3><span class="header-section-number">5.2.1</span> Number of pods</h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#-----------------------------------------------------------------------</span>
-<span class="co"># Carregando e explorando os dados.</span>
-
-<span class="kw">xyplot</span>(nvag +<span class="st"> </span>ngra ~<span class="st"> </span>K,
+<!-- Add a pod picture here -->
+<p>The pod is a dehiscent fruit of a leguminous plant such as the beans and soybeans. The pod is the basic unit of production in soybean, so factors that reduces or increases the number of pods have impact in crop production.</p>
+<p>The potassium amount (K) increased the number of pods and number of beans in all soil water content levels (A) (<a href="applications.html#fig:pods-beans-scatter">5.3</a>). For lowest soil water level, the mean was fairly low than the other levels that perform very similar. The pattern driven by the mean lines suggests interaction between applied potassium amount and soil water content for both variables.</p>
+<p>We could obtain the sample variance and sample mean for each cell combination for checking dispersion level but it would ignore the block effect, that can enlarges the variance.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(nvag +<span class="st"> </span>ngra ~<span class="st"> </span>K,
        <span class="dt">groups =</span> umid,
        <span class="dt">outer =</span> <span class="ot">TRUE</span>,
        <span class="dt">data =</span> soja,
@@ -536,17 +551,20 @@ soja &lt;-<span class="st"> </span><span class="kw">transform</span>(soja, <span
        <span class="dt">strip =</span> <span class="kw">strip.custom</span>(
            <span class="dt">factor.levels =</span> <span class="kw">c</span>(<span class="st">&quot;Number of pods&quot;</span>,
                              <span class="st">&quot;Number of beans&quot;</span>)))</code></pre></div>
-<p><img src="rmcdbook_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="figure" style="text-align: center"><span id="fig:pods-beans-scatter"></span>
+<img src="rmcdbook_files/figure-html/pods-beans-scatter-1.png" alt="Number of pods and beans as function of potassium amount (K) for each soil water content level (%). Lines passes on the average of points. The mean response pattern is the same on the two variables." width="672" />
+<p class="caption">
+Figure 5.3: Number of pods and beans as function of potassium amount (K) for each soil water content level (%). Lines passes on the average of points. The mean response pattern is the same on the two variables.
+</p>
+</div>
+<p>The following analysis with be carried out in parallel, that is, results will be showed together in each step for the sake of comparison.</p>
+<p>We fit Poisson (P), Gamma-Count (GC) and Poisson-Tweedie (TW) regression models. The first two were fit by maximum likelihood and the last by moments specification.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#--------------------------------------------</span>
 <span class="co"># Poisson.</span>
 
 m0 &lt;-<span class="st"> </span><span class="kw">glm</span>(nvag ~<span class="st"> </span>bloc +<span class="st"> </span>umid *<span class="st"> </span>K,
           <span class="dt">data =</span> soja,
           <span class="dt">family =</span> poisson)
-
-## # Checking residuals.
-## par(mfrow = c(2, 2))
-## plot(m0); layout(1)
 
 <span class="co">#--------------------------------------------</span>
 <span class="co"># Gamma-Count.</span>
@@ -567,6 +585,15 @@ m2 &lt;-<span class="st"> </span><span class="kw">mcglm</span>(<span class="dt">
                                      <span class="dt">tunning =</span> <span class="fl">0.5</span>,
                                      <span class="dt">correct =</span> <span class="ot">FALSE</span>))</code></pre></div>
 <pre><code>## Automatic initial values selected.</code></pre>
+<p>To fit Poisson and Gamma-Count, the correspond function were used in the default setting. To fit Poisson Tweedie, we <code>power_fixed = TRUE</code> option, since the number of pods is a close to equidispersed count variable. The Poisson-Tweedie loses identifiability in the equidispersion zone because the variance is <span class="math inline">\(var(Y) = \mu + \phi\mu^p\)</span>, then <span class="math inline">\(p\)</span> can be any value if <span class="math inline">\(\phi\)</span> goes to zero. We fixed <span class="math inline">\(p = 1\)</span>.</p>
+<div class="figure" style="text-align: center"><span id="fig:pods-plot-residuals"></span>
+<img src="rmcdbook_files/figure-html/pods-plot-residuals-1.png" alt="The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods." width="672" />
+<p class="caption">
+Figure 5.4: The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods.
+</p>
+</div>
+<p>Figure <a href="applications.html#fig:pods-plot-residuals">5.4</a> shows the 4 plots based on residuals. This residuals didn’t show any departure pattern. On the contray, the axes of the qq-norm plot shows the same range, indicating a equidispersed count variable.</p>
+<p>The maximised log-likelihood were very close for Poisson and Gamma-Count models. The profile log-likelihood for Gamma-Count dispersion parameter contains 0 inside (Figure <a href="applications.html#fig:profile-alpha-pods">5.5</a>), so indicating a close to Poisson case. <!-- The profile has a very simetric shape --></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#-----------------------------------------------------------------------</span>
 <span class="co"># Comparing models.</span>
 
@@ -574,18 +601,30 @@ m2 &lt;-<span class="st"> </span><span class="kw">mcglm</span>(<span class="dt">
 <span class="kw">c</span>(<span class="dt">P =</span> <span class="kw">logLik</span>(m0), <span class="dt">GC =</span> <span class="kw">logLik</span>(m1), <span class="dt">TW =</span> <span class="ot">NA</span>)</code></pre></div>
 <pre><code>##    P   GC   TW 
 ## -260 -259   NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cap &lt;-
+<span class="st">    &quot;Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line.&quot;</span>
+<span class="co"># Likelihhod profile for Gamma-Count dispersion parameter.</span>
+<span class="kw">plot</span>(<span class="kw">profile</span>(m1, <span class="dt">which =</span> <span class="st">&quot;alpha&quot;</span>))
+<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:profile-alpha-pods"></span>
+<img src="rmcdbook_files/figure-html/profile-alpha-pods-1.png" alt="Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line." width="672" />
+<p class="caption">
+Figure 5.5: Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line.
+</p>
+</div>
+<p>The estimates and standard erros also were close on the (location) regression parameters for all models. They differ only in the dispersion parameter by construction.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c0 &lt;-<span class="st"> </span><span class="kw">summary</span>(m0)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>]
 c1 &lt;-<span class="st"> </span><span class="kw">summary</span>(m1)@coef[, <span class="dv">1</span>:<span class="dv">2</span>]
 c2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$tau[, <span class="dv">1</span>:<span class="dv">2</span>],
             <span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>])</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Parameter estimates according to each model.</span>
-c0 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;P&quot;</span> =<span class="st"> </span><span class="kw">rbind</span>(<span class="dv">0</span>, c0),
+c4 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;P&quot;</span> =<span class="st"> </span><span class="kw">rbind</span>(<span class="ot">NA</span>, c0),
             <span class="st">&quot;GC&quot;</span> =<span class="st"> </span>c1,
             <span class="st">&quot;TW&quot;</span> =<span class="st"> </span>c2)
-<span class="kw">colnames</span>(c0) &lt;-<span class="st"> </span><span class="kw">substr</span>(<span class="kw">colnames</span>(c0), <span class="dv">1</span>, <span class="dv">6</span>)
-<span class="kw">round</span>(c0, <span class="dt">digits =</span> <span class="dv">6</span>)</code></pre></div>
+<span class="kw">colnames</span>(c4) &lt;-<span class="st"> </span><span class="kw">substr</span>(<span class="kw">colnames</span>(c4), <span class="dv">1</span>, <span class="dv">6</span>)
+<span class="kw">round</span>(c4, <span class="dt">digits =</span> <span class="dv">4</span>)</code></pre></div>
 <pre><code>##                P.Esti P.Std.  GC.Est GC.Std  TW.Est TW.Std
-##                0.0000 0.0000  0.1288 0.1655 -0.1088 0.1458
+##                    NA     NA  0.1288 0.1655 -0.1088 0.1458
 ## (Intercept)    3.9537 0.0689  3.9549 0.0646  3.9537 0.0651
 ## blocII        -0.0293 0.0409 -0.0293 0.0383 -0.0293 0.0386
 ## blocIII       -0.0727 0.0414 -0.0726 0.0388 -0.0727 0.0390
@@ -605,22 +644,8 @@ c0 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">
 ## umid62,5:K120  0.1184 0.1140  0.1184 0.1069  0.1184 0.1077
 ## umid50:K180    0.3037 0.1136  0.3035 0.1065  0.3037 0.1072
 ## umid62,5:K180  0.1984 0.1126  0.1983 0.1055  0.1984 0.1063</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Likelihhod profile for Gamma-Count dispersion parameter.</span>
-<span class="kw">plot</span>(<span class="kw">profile</span>(m1, <span class="dt">which =</span> <span class="st">&quot;alpha&quot;</span>))
-<span class="kw">abline</span>(<span class="dt">v =</span> <span class="dv">0</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre></div>
-<p><img src="rmcdbook_files/figure-html/unnamed-chunk-23-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># V &lt;- cov2cor(vcov(m1))</span>
-<span class="co"># corrplot.mixed(V,</span>
-<span class="co">#                lower = &quot;number&quot;,</span>
-<span class="co">#                upper = &quot;ellipse&quot;,</span>
-<span class="co">#                diag = &quot;l&quot;,</span>
-<span class="co">#                tl.pos = &quot;lt&quot;,</span>
-<span class="co">#                tl.col = &quot;black&quot;,</span>
-<span class="co">#                tl.cex = 0.8,</span>
-<span class="co">#                col = brewer.pal(9, &quot;Greys&quot;)</span>
-<span class="co">#                [-(1:3)]) dev.off()</span>
-
-<span class="co"># Analysis of deviance table.</span>
+<p>Until now, all models perform very close suggesting to keep the Poisson by parsimony. But for testing purposes, Gamma-Count and Poisson-Tweedie got a more significant p-value for the potassium amount <span class="math inline">\(\times\)</span> soil water content interaction. If a 5% significance is adoted, models lead to different practical conclusions.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Analysis of deviance table.</span>
 <span class="kw">anova</span>(m0, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
 <pre><code>## Analysis of Deviance Table
 ## 
@@ -680,710 +705,392 @@ L[, ai] &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="
 ## 2     umid50       7.15  2  0.0280
 ## 3        K30      20.93  4  0.0003
 ## 4 umid50:K30      15.76  8  0.0459</code></pre>
-<p><img src="rmcdbook_files/figure-html/unnamed-chunk-24-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Figure <a href="applications.html#fig:segplot-pods">5.6</a> shows the estimated cells means with 95% confidence intervals. All estimated means are equals along models in each cell. Gamma-count and Poisson-Tweedie have more shorter confidence intervals than Poisson, because the extra flexibility enebled by fitting a dispersion parameter.</p>
+<div class="figure" style="text-align: center"><span id="fig:segplot-pods"></span>
+<img src="rmcdbook_files/figure-html/segplot-pods-1.png" alt="Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals." width="672" />
+<p class="caption">
+Figure 5.6: Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals.
+</p>
+</div>
+<p>We analysed the number of soybean pods. This variable showed equidispersion than Gamma-Count and Poisson-Tweedie perform very close to Poisson. For testing fixed effects, on the other hand, Poisson weren’t able to detect the interaction effect under a 5% significance level. This points out that more flexible models are powerful in detecting effects.</p>
 </div>
 <div id="number-of-grains" class="section level3">
-<h3><span class="header-section-number">5.2.2</span> Númber of grains</h3>
-<!--
-
-NOTE: Essa contagem é alta e uma análise preliminar não retornou
-Hessiana para o modelo Gamma-Count ajustado com a mle2. A suspeita que é
-seja pela ordem de magnitude dos dados. Sendo assim, vamos considerar um
-offset artifical de 10 apenas para correr as análises.
-
-Warning message:
-In mle2(llgcnt, start = start, data = L, fixed = list(alpha = 0),  :
-  couldn't invert Hessian
-
-Warning message:
-In mle2(llgcnt, start = start, data = L, vecpar = TRUE) :
-  couldn't invert Hessian
-
--->
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#-----------------------------------------------------------------------</span>
-<span class="kw">xyplot</span>(ngra ~<span class="st"> </span>K |<span class="st"> </span>umid, <span class="dt">data =</span> soja, <span class="dt">layout =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">1</span>),
-       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;p&quot;</span>, <span class="st">&quot;smooth&quot;</span>),
-       <span class="dt">ylab =</span> <span class="st">&quot;Número de grãos por parcela&quot;</span>,
-       <span class="dt">xlab =</span> <span class="kw">expression</span>(<span class="st">&quot;Dose de potássio aplicada&quot;</span>~(mg ~<span class="st"> </span>dm^{<span class="dv">3</span>})),
-       <span class="dt">strip =</span> <span class="kw">strip.custom</span>(<span class="dt">strip.names =</span> <span class="ot">TRUE</span>, <span class="dt">var.name =</span> <span class="st">&quot;Umidade&quot;</span>))</code></pre></div>
-<p><img src="rmcdbook_files/figure-html/unnamed-chunk-25-1.png" width="672" style="display: block; margin: auto;" /></p>
+<h3><span class="header-section-number">5.2.2</span> Number of grains</h3>
+<p>For the analysis of number of beans, the same steps will be carried out, just adaptating the code when needed. The first adaptation we need make is to overcome a numerical problem in the Gamma-Count implementation.</p>
+<p>The Gamma-Count mass function, and also the likelihood, computes the difference of Gamma CDF. This difference can be numerically zero by lack of precision and this leads to a -Inf in the log-likelihood. To overcame this, we can use an artifitial offset that can prevent those zeros. The code below shows the effect of offset on the probabilities.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dgcnt</code></pre></div>
+<pre><code>## function (y, lambda, alpha) 
+## {
+##     p &lt;- pgamma(q = 1, shape = y * alpha, rate = alpha * lambda) - 
+##         pgamma(q = 1, shape = (y + 1) * alpha, rate = alpha * 
+##             lambda)
+##     return(p)
+## }
+## &lt;environment: namespace:MRDCr&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="dv">0</span>:<span class="dv">30</span>
+lambda &lt;-<span class="st"> </span><span class="dv">30</span>
+alpha &lt;-<span class="st"> </span><span class="dv">5</span>
+off &lt;-<span class="st"> </span><span class="dv">1</span>
+<span class="kw">pgamma</span>(<span class="dt">q =</span> off,
+       <span class="dt">shape =</span> y *<span class="st"> </span>alpha,
+       <span class="dt">rate =</span> alpha *<span class="st"> </span>lambda) -
+<span class="st">    </span><span class="kw">pgamma</span>(<span class="dt">q =</span> off,
+           <span class="dt">shape =</span> (y +<span class="st"> </span><span class="dv">1</span>) *<span class="st"> </span>alpha,
+           <span class="dt">rate =</span> alpha *<span class="st"> </span>lambda)</code></pre></div>
+<pre><code>##  [1] 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00
+##  [8] 0.00e+00 0.00e+00 0.00e+00 0.00e+00 0.00e+00 1.78e-15 1.07e-13
+## [15] 4.43e-12 1.32e-10 2.86e-09 4.62e-08 5.65e-07 5.31e-06 3.89e-05
+## [22] 2.24e-04 1.03e-03 3.81e-03 1.14e-02 2.80e-02 5.67e-02 9.54e-02
+## [29] 1.34e-01 1.59e-01 1.59e-01</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">off &lt;-<span class="st"> </span>off *<span class="st"> </span><span class="fl">0.5</span>
+<span class="kw">pgamma</span>(<span class="dt">q =</span> off,
+       <span class="dt">shape =</span> y *<span class="st"> </span>alpha,
+       <span class="dt">rate =</span> alpha *<span class="st"> </span>lambda) -
+<span class="st">    </span><span class="kw">pgamma</span>(<span class="dt">q =</span> off,
+           <span class="dt">shape =</span> (y +<span class="st"> </span><span class="dv">1</span>) *<span class="st"> </span>alpha,
+           <span class="dt">rate =</span> alpha *<span class="st"> </span>lambda)</code></pre></div>
+<pre><code>##  [1] 0.00e+00 0.00e+00 0.00e+00 1.24e-14 6.30e-12 1.15e-09 9.09e-08
+##  [8] 3.48e-06 7.10e-05 8.29e-04 5.87e-03 2.63e-02 7.76e-02 1.56e-01
+## [15] 2.18e-01 2.19e-01 1.60e-01 8.68e-02 3.56e-02 1.12e-02 2.74e-03
+## [22] 5.25e-04 8.00e-05 9.77e-06 9.67e-07 7.80e-08 5.18e-09 2.85e-10
+## [29] 1.31e-11 5.03e-13 1.64e-14</code></pre>
+<p>The practical implication of an artificial offset is changing the size of the unit were the counts were observed, so the estimates are multiples of the those with offset 1. To be consistent, we will the same artifitial offset, 10, in all models. This offset, artifitially, assumes that the count were observed as a sum of 10 pots.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">soja$off &lt;-<span class="st"> </span><span class="dv">10</span>
 <span class="kw">fivenum</span>(<span class="kw">with</span>(soja, ngra/off))</code></pre></div>
 <pre><code>## [1]  9.2 14.7 17.1 21.6 27.1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#--------------------------------------------</span>
+<span class="co"># Poisson.</span>
+
+m0 &lt;-<span class="st"> </span><span class="kw">glm</span>(ngra ~<span class="st"> </span><span class="kw">offset</span>(<span class="kw">log</span>(off)) +<span class="st"> </span>bloc +<span class="st"> </span>umid *<span class="st"> </span>K,
+          <span class="dt">data =</span> soja,
+          <span class="dt">family =</span> poisson)
+
+<span class="co">#--------------------------------------------</span>
+<span class="co"># Gamma-Count.</span>
+
+m1 &lt;-<span class="st"> </span><span class="kw">gcnt</span>(<span class="kw">formula</span>(m0), <span class="dt">data =</span> soja)
+
+<span class="co">#--------------------------------------------</span>
+<span class="co"># Tweedie.</span>
+
+m2 &lt;-<span class="st"> </span><span class="kw">mcglm</span>(<span class="dt">linear_pred =</span> <span class="kw">c</span>(ngra ~<span class="st"> </span>bloc +<span class="st"> </span>umid *<span class="st"> </span>K),
+            <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(<span class="dt">data =</span> soja)),
+            <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
+            <span class="dt">offset =</span> <span class="kw">list</span>(<span class="kw">log</span>(soja$off)),
+            <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
+            <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
+            <span class="dt">data =</span> soja,
+            <span class="dt">control_algorithm =</span> <span class="kw">list</span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+                                     <span class="dt">max_iter =</span> <span class="dv">100</span>,
+                                     <span class="dt">tunning =</span> <span class="fl">0.2</span>,
+                                     <span class="dt">correct =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Automatic initial values selected.</code></pre>
+<p>To fit Poisson Tweedie for number of beans, we set <code>power_fixed = FALSE</code> option, because the number of beans if a more dispersed variable than number of pods. We used 0.2 for tunning to get convergence.</p>
+<div class="figure" style="text-align: center"><span id="fig:beans-plot-residuals"></span>
+<img src="rmcdbook_files/figure-html/beans-plot-residuals-1.png" alt="The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods." width="672" />
+<p class="caption">
+Figure 5.7: The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods.
+</p>
+</div>
+<p>Figure <a href="applications.html#fig:beans-plot-residuals">5.7</a> shows the 4 plots based on residuals. This residuals didn’t show any departure pattern regarding mispecification of the predictor (lack of fit, for example). The y axis of the qq-norm plot has range on -3 to 4, indicating an overdispersed count variable.</p>
+<p>The maximised log-likelihood were different between Poisson and Gamma-Count models. The profile log-likelihood for Gamma-Count dispersion parameter does not contain 0 inside (Figure <a href="applications.html#fig:profile-alpha-beans">5.8</a>), so indicating a overdispersed case. The profile show a simmetric shape with almost linear or “V” shape that indicates a quadratic profile likelihood function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#-----------------------------------------------------------------------</span>
+<span class="co"># Comparing models.</span>
+
+<span class="co"># Log-likelihood.</span>
+<span class="kw">c</span>(<span class="dt">P =</span> <span class="kw">logLik</span>(m0), <span class="dt">GC =</span> <span class="kw">logLik</span>(m1), <span class="dt">TW =</span> <span class="ot">NA</span>)</code></pre></div>
+<pre><code>##    P   GC   TW 
+## -322 -316   NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cap &lt;-
+<span class="st">    &quot;Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line.&quot;</span>
+<span class="co"># Likelihhod profile for Gamma-Count dispersion parameter.</span>
+<span class="kw">plot</span>(<span class="kw">profile</span>(m1, <span class="dt">which =</span> <span class="st">&quot;alpha&quot;</span>))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:profile-alpha-beans"></span>
+<img src="rmcdbook_files/figure-html/profile-alpha-beans-1.png" alt="Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line." width="672" />
+<p class="caption">
+Figure 5.8: Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line.
+</p>
+</div>
+<p>The estimates for location parameters were the same for all three models. The standard error for Poisson estimates were smaller than those for Gamma-Count and Poisson-Tweedie. The ratio of standard errors between Gamma-Count and Poisson were 1.3 (mean) and for Poisson-Tweedie 1.26 (mean).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c0 &lt;-<span class="st"> </span><span class="kw">summary</span>(m0)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>]
+c1 &lt;-<span class="st"> </span><span class="kw">summary</span>(m1)@coef[, <span class="dv">1</span>:<span class="dv">2</span>]
+c2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$tau[, <span class="dv">1</span>:<span class="dv">2</span>],
+            <span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Parameter estimates according to each model.</span>
+c4 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;P&quot;</span> =<span class="st"> </span><span class="kw">rbind</span>(<span class="ot">NA</span>, c0),
+            <span class="st">&quot;GC&quot;</span> =<span class="st"> </span>c1,
+            <span class="st">&quot;TW&quot;</span> =<span class="st"> </span>c2)
+<span class="kw">colnames</span>(c4) &lt;-<span class="st"> </span><span class="kw">substr</span>(<span class="kw">colnames</span>(c4), <span class="dv">1</span>, <span class="dv">6</span>)
+<span class="kw">round</span>(c4, <span class="dt">digits =</span> <span class="dv">4</span>)</code></pre></div>
+<pre><code>##                P.Esti P.Std.  GC.Est GC.Std  TW.Est TW.Std
+##                    NA     NA -0.5231 0.1651  0.0053 0.0314
+## (Intercept)    2.4994 0.0448  2.4965 0.0582  2.4995 0.0549
+## blocII        -0.0194 0.0266 -0.0194 0.0345 -0.0216 0.0352
+## blocIII       -0.0366 0.0267 -0.0367 0.0347 -0.0376 0.0353
+## blocIV        -0.1056 0.0272 -0.1058 0.0353 -0.1003 0.0356
+## blocV         -0.0931 0.0279 -0.0933 0.0362 -0.0974 0.0365
+## umid50         0.1325 0.0569  0.1328 0.0740  0.1333 0.0696
+## umid62,5       0.1855 0.0562  0.1860 0.0731  0.1871 0.0690
+## K30            0.2980 0.0549  0.2988 0.0713  0.2992 0.0678
+## K60            0.3443 0.0543  0.3452 0.0706  0.3447 0.0674
+## K120           0.3649 0.0541  0.3659 0.0703  0.3662 0.0672
+## K180           0.2954 0.0549  0.2962 0.0714  0.2950 0.0679
+## umid50:K30     0.0434 0.0748  0.0434 0.0973  0.0401 0.0936
+## umid62,5:K30  -0.1367 0.0753 -0.1371 0.0979 -0.1392 0.0940
+## umid50:K60     0.1156 0.0736  0.1157 0.0957  0.1146 0.0926
+## umid62,5:K60   0.0917 0.0729  0.0917 0.0948  0.0896 0.0920
+## umid50:K120    0.1186 0.0733  0.1187 0.0953  0.1184 0.0923
+## umid62,5:K120  0.1627 0.0737  0.1628 0.0958  0.1591 0.0937
+## umid50:K180    0.2883 0.0733  0.2887 0.0953  0.2884 0.0923
+## umid62,5:K180  0.2157 0.0729  0.2159 0.0947  0.2142 0.0920</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ratios between stardard errors.</span>
+<span class="kw">cbind</span>(<span class="dt">GC =</span> <span class="kw">summary</span>(c4[-<span class="dv">1</span>, <span class="dv">4</span>]/c4[-<span class="dv">1</span>, <span class="dv">2</span>]),
+      <span class="dt">TW =</span> <span class="kw">summary</span>(c4[-<span class="dv">1</span>, <span class="dv">6</span>]/c4[-<span class="dv">1</span>, <span class="dv">2</span>]))</code></pre></div>
+<pre><code>##          GC   TW
+## Min.    1.3 1.22
+## 1st Qu. 1.3 1.24
+## Median  1.3 1.26
+## Mean    1.3 1.26
+## 3rd Qu. 1.3 1.27
+## Max.    1.3 1.32</code></pre>
+<p>The Poisson model gave the higher statistic to the rejection of the null hypothesis than Gamma-Count and Poisson-Tweedie because it is assuming a dispersion of 1 that is not the case. Gamma-Count and Poisson-Tweedie perform very similar to test the interaction.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Analysis of deviance table.</span>
+<span class="kw">anova</span>(m0, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: ngra
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##        Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)    
+## NULL                      73        761             
+## bloc    4       28        69        733  1.1e-05 ***
+## umid    2      185        67        548  &lt; 2e-16 ***
+## K       4      380        63        168  &lt; 2e-16 ***
+## umid:K  8       43        55        125  8.8e-07 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wald test for interaction.</span>
+a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">attr</span>(<span class="kw">model.matrix</span>(m0), <span class="st">&quot;assign&quot;</span>))
+ai &lt;-<span class="st"> </span>a ==<span class="st"> </span><span class="kw">max</span>(a)
+L &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">replicate</span>(<span class="kw">sum</span>(ai), <span class="kw">rbind</span>(<span class="kw">coef</span>(m1) *<span class="st"> </span><span class="dv">0</span>), <span class="dt">simplify =</span> <span class="st">&quot;matrix&quot;</span>))
+L[, ai] &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">sum</span>(ai))
+<span class="kw">linearHypothesis</span>(<span class="dt">model =</span> m0, <span class="co"># m0 is not being used here.</span>
+                 <span class="dt">hypothesis.matrix =</span> L,
+                 <span class="dt">vcov. =</span> <span class="kw">vcov</span>(m1),
+                 <span class="dt">coef. =</span> <span class="kw">coef</span>(m1))</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## umid50:K30 = 0
+## umid62,5:K30 = 0
+## umid50:K60 = 0
+## umid62,5:K60 = 0
+## umid50:K120 = 0
+## umid62,5:K120 = 0
+## umid50:K180 = 0
+## umid62,5:K180 = 0
+## 
+## Model 1: restricted model
+## Model 2: ngra ~ offset(log(off)) + bloc + umid * K
+## 
+## Note: Coefficient covariance matrix supplied.
+## 
+##   Res.Df Df Chisq Pr(&gt;Chisq)   
+## 1     63                       
+## 2     55  8  25.3     0.0014 **
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wald test for fixed effects.</span>
+<span class="kw">anova</span>(m2)</code></pre></div>
+<pre><code>## Wald test for fixed effects
+## Call: ngra ~ bloc + umid * K
+## 
+##    Covariate Chi.Square Df p.value
+## 1     blocII      12.59  4  0.0134
+## 2     umid50       7.68  2  0.0214
+## 3        K30      36.96  4  0.0000
+## 4 umid50:K30      25.56  8  0.0012</code></pre>
+<p>Figure <a href="applications.html#fig:segplot-beans">5.9</a> shows the estimated cells means with 95% confidence intervals. All estimated means are equals along models in each cell. Gamma-count and Poisson-Tweedie have wider confidence intervals than Poisson, because the extra variability where incorporated on the model and have increased the estimates uncertainly.</p>
+<div class="figure" style="text-align: center"><span id="fig:segplot-beans"></span>
+<img src="rmcdbook_files/figure-html/segplot-beans-1.png" alt="Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals." width="672" />
+<p class="caption">
+Figure 5.9: Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals.
+</p>
+</div>
+<p>We analysed the number of soybean beans. This variable showed slight overdispersion. Gamma-count and Poisson-Tweedie performed very similiar.</p>
+<!------------------------------------------- -->
 </div>
 <div id="number-of-grains-per-pod" class="section level3">
 <h3><span class="header-section-number">5.2.3</span> Number of grains per pod</h3>
+<p>Analyse the number of beans per plot is better than the total number of beans, because the leter can be a side effect of the number of pods. We will analyse the number of beans using the number of pods as an offset.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#--------------------------------------------</span>
+<span class="co"># Poisson.</span>
+
+m0 &lt;-<span class="st"> </span><span class="kw">glm</span>(ngra ~<span class="st"> </span><span class="kw">offset</span>(<span class="kw">log</span>(nvag)) +<span class="st"> </span>bloc +<span class="st"> </span>umid *<span class="st"> </span>K,
+          <span class="dt">data =</span> soja,
+          <span class="dt">family =</span> poisson)
+
+<span class="co">#--------------------------------------------</span>
+<span class="co"># Gamma-Count.</span>
+
+m1 &lt;-<span class="st"> </span><span class="kw">gcnt</span>(<span class="kw">formula</span>(m0), <span class="dt">data =</span> soja)
+
+<span class="co">#--------------------------------------------</span>
+<span class="co"># Tweedie.</span>
+
+m2 &lt;-<span class="st"> </span><span class="kw">mcglm</span>(<span class="dt">linear_pred =</span> <span class="kw">c</span>(ngra ~<span class="st"> </span>bloc +<span class="st"> </span>umid *<span class="st"> </span>K),
+            <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(<span class="dt">data =</span> soja)),
+            <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
+            <span class="dt">offset =</span> <span class="kw">list</span>(<span class="kw">log</span>(soja$nvag)),
+            <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
+            <span class="dt">power_fixed =</span> <span class="ot">TRUE</span>,
+            <span class="dt">data =</span> soja,
+            <span class="dt">control_algorithm =</span> <span class="kw">list</span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+                                     <span class="dt">max_iter =</span> <span class="dv">100</span>,
+                                     <span class="dt">tunning =</span> <span class="fl">0.5</span>,
+                                     <span class="dt">correct =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Automatic initial values selected.</code></pre>
+<p>To accomplish the fitting, we set <code>power_fixed = TRUE</code> otherwise convergence wasn’t met.</p>
+<div class="figure" style="text-align: center"><span id="fig:bp-plot-residuals"></span>
+<img src="rmcdbook_files/figure-html/bp-plot-residuals-1.png" alt="The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods." width="672" />
+<p class="caption">
+Figure 5.10: The 4 plots for checking departures of assumptions in the GLM-Poisson regression model for number of soybean pods.
+</p>
+</div>
+<p>Figure <a href="applications.html#fig:bp-plot-residuals">5.10</a> shows the 4 plots based on residuals. The y axis of the qq-norm plot has range on -1.5 to 1.5, indicating an underdispersed count variable.</p>
+<p>The maximised log-likelihood were different between Poisson and Gamma-Count models. The profile log-likelihood for Gamma-Count dispersion parameter does not contain 0 inside (Figure <a href="applications.html#fig:profile-alpha-bp">5.11</a>), so indicating an underdispersed count. The profile likelihood is “V” shape that represents a quadratic profile log-likelihood function. <!-- The profile has a very simetric shape --></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#-----------------------------------------------------------------------</span>
+<span class="co"># Comparing models.</span>
+
+<span class="co"># Log-likelihood.</span>
+<span class="kw">c</span>(<span class="dt">P =</span> <span class="kw">logLik</span>(m0), <span class="dt">GC =</span> <span class="kw">logLik</span>(m1), <span class="dt">TW =</span> <span class="ot">NA</span>)</code></pre></div>
+<pre><code>##    P   GC   TW 
+## -271 -255   NA</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cap &lt;-
+<span class="st">    &quot;Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line.&quot;</span>
+<span class="co"># Likelihhod profile for Gamma-Count dispersion parameter.</span>
+<span class="kw">plot</span>(<span class="kw">profile</span>(m1, <span class="dt">which =</span> <span class="st">&quot;alpha&quot;</span>))</code></pre></div>
+<div class="figure" style="text-align: center"><span id="fig:profile-alpha-bp"></span>
+<img src="rmcdbook_files/figure-html/profile-alpha-bp-1.png" alt="Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line." width="672" />
+<p class="caption">
+Figure 5.11: Profile log-likelihood for the Gamma-Count dispersion parameter. The confidence interval based on profile likelihood contains 0 inside as indicated by the solid vertical line.
+</p>
+</div>
+<p>The point estimates for location parameters were, once more, the same for all three models. The standard error for Poisson estimates were greater than those for Gamma-Count and Poisson-Tweedie.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c0 &lt;-<span class="st"> </span><span class="kw">summary</span>(m0)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>]
+c1 &lt;-<span class="st"> </span><span class="kw">summary</span>(m1)@coef[, <span class="dv">1</span>:<span class="dv">2</span>]
+c2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$tau[, <span class="dv">1</span>:<span class="dv">2</span>],
+            <span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Parameter estimates according to each model.</span>
+c4 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;P&quot;</span> =<span class="st"> </span><span class="kw">rbind</span>(<span class="ot">NA</span>, c0),
+            <span class="st">&quot;GC&quot;</span> =<span class="st"> </span>c1,
+            <span class="st">&quot;TW&quot;</span> =<span class="st"> </span>c2)
+<span class="kw">colnames</span>(c4) &lt;-<span class="st"> </span><span class="kw">substr</span>(<span class="kw">colnames</span>(c4), <span class="dv">1</span>, <span class="dv">6</span>)
+<span class="kw">round</span>(c4, <span class="dt">digits =</span> <span class="dv">4</span>)</code></pre></div>
+<pre><code>##                P.Esti P.Std.  GC.Est GC.Std  TW.Est TW.Std
+##                    NA     NA  1.1225 0.1648 -0.6764 0.0446
+## (Intercept)    0.8482 0.0447  0.8510 0.0255  0.8482 0.0254
+## blocII         0.0113 0.0266  0.0114 0.0152  0.0113 0.0151
+## blocIII        0.0363 0.0267  0.0363 0.0152  0.0363 0.0152
+## blocIV         0.0194 0.0272  0.0195 0.0155  0.0194 0.0155
+## blocV          0.0161 0.0280  0.0163 0.0159  0.0161 0.0159
+## umid50        -0.0019 0.0569 -0.0023 0.0325 -0.0019 0.0324
+## umid62,5      -0.0312 0.0563 -0.0317 0.0321 -0.0312 0.0320
+## K30            0.0229 0.0549  0.0221 0.0313  0.0229 0.0312
+## K60            0.0345 0.0544  0.0337 0.0310  0.0345 0.0309
+## K120           0.0353 0.0541  0.0344 0.0309  0.0353 0.0308
+## K180           0.0406 0.0549  0.0399 0.0313  0.0406 0.0312
+## umid50:K30    -0.0187 0.0748 -0.0187 0.0427 -0.0187 0.0426
+## umid62,5:K30  -0.0285 0.0753 -0.0281 0.0429 -0.0285 0.0428
+## umid50:K60    -0.0482 0.0736 -0.0483 0.0420 -0.0482 0.0419
+## umid62,5:K60  -0.0140 0.0729 -0.0140 0.0416 -0.0140 0.0415
+## umid50:K120   -0.0304 0.0733 -0.0305 0.0418 -0.0304 0.0417
+## umid62,5:K120  0.0455 0.0738  0.0454 0.0421  0.0455 0.0420
+## umid50:K180   -0.0163 0.0733 -0.0167 0.0418 -0.0163 0.0417
+## umid62,5:K180  0.0169 0.0729  0.0167 0.0416  0.0169 0.0415</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ratios between stardard errors.</span>
+<span class="kw">cbind</span>(<span class="dt">GC =</span> <span class="kw">summary</span>(c4[-<span class="dv">1</span>, <span class="dv">4</span>]/c4[-<span class="dv">1</span>, <span class="dv">2</span>]),
+      <span class="dt">TW =</span> <span class="kw">summary</span>(c4[-<span class="dv">1</span>, <span class="dv">6</span>]/c4[-<span class="dv">1</span>, <span class="dv">2</span>]))</code></pre></div>
+<pre><code>##           GC    TW
+## Min.    0.57 0.569
+## 1st Qu. 0.57 0.569
+## Median  0.57 0.569
+## Mean    0.57 0.569
+## 3rd Qu. 0.57 0.569
+## Max.    0.57 0.569</code></pre>
+<p>None of the experimental factors had effect on the number of beans per pod. Althought, Gamma-Count and Poisson-Tweedie showed more favorable statistics to the rejection of the null hypothesis than Poisson.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Analysis of deviance table.</span>
+<span class="kw">anova</span>(m0, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>)</code></pre></div>
+<pre><code>## Analysis of Deviance Table
+## 
+## Model: poisson, link: log
+## 
+## Response: ngra
+## 
+## Terms added sequentially (first to last)
+## 
+## 
+##        Df Deviance Resid. Df Resid. Dev Pr(&gt;Chi)
+## NULL                      73       34.2         
+## bloc    4     2.03        69       32.2     0.73
+## umid    2     1.75        67       30.5     0.42
+## K       4     3.83        63       26.6     0.43
+## umid:K  8     2.65        55       24.0     0.95</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wald test for interaction.</span>
+a &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">attr</span>(<span class="kw">model.matrix</span>(m0), <span class="st">&quot;assign&quot;</span>))
+ai &lt;-<span class="st"> </span>a ==<span class="st"> </span><span class="kw">max</span>(a)
+L &lt;-<span class="st"> </span><span class="kw">t</span>(<span class="kw">replicate</span>(<span class="kw">sum</span>(ai), <span class="kw">rbind</span>(<span class="kw">coef</span>(m1) *<span class="st"> </span><span class="dv">0</span>), <span class="dt">simplify =</span> <span class="st">&quot;matrix&quot;</span>))
+L[, ai] &lt;-<span class="st"> </span><span class="kw">diag</span>(<span class="kw">sum</span>(ai))
+<span class="kw">linearHypothesis</span>(<span class="dt">model =</span> m0, <span class="co"># m0 is not being used here.</span>
+                 <span class="dt">hypothesis.matrix =</span> L,
+                 <span class="dt">vcov. =</span> <span class="kw">vcov</span>(m1),
+                 <span class="dt">coef. =</span> <span class="kw">coef</span>(m1))</code></pre></div>
+<pre><code>## Linear hypothesis test
+## 
+## Hypothesis:
+## umid50:K30 = 0
+## umid62,5:K30 = 0
+## umid50:K60 = 0
+## umid62,5:K60 = 0
+## umid50:K120 = 0
+## umid62,5:K120 = 0
+## umid50:K180 = 0
+## umid62,5:K180 = 0
+## 
+## Model 1: restricted model
+## Model 2: ngra ~ offset(log(nvag)) + bloc + umid * K
+## 
+## Note: Coefficient covariance matrix supplied.
+## 
+##   Res.Df Df Chisq Pr(&gt;Chisq)
+## 1     63                    
+## 2     55  8   8.1       0.42</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wald test for fixed effects.</span>
+<span class="kw">anova</span>(m2)</code></pre></div>
+<pre><code>## Wald test for fixed effects
+## Call: ngra ~ bloc + umid * K
+## 
+##    Covariate Chi.Square Df p.value
+## 1     blocII       6.03  4   0.197
+## 2     umid50       1.26  2   0.534
+## 3        K30       2.09  4   0.719
+## 4 umid50:K30       8.20  8   0.414</code></pre>
+<p>Figure <a href="applications.html#fig:segplot-bp">5.12</a> shows the estimated cells means with 95% confidence intervals. All estimated means are equals along models in each cell. Gamma-count and Poisson-Tweedie have more shorter confidence intervals than Poisson.</p>
+<div class="figure" style="text-align: center"><span id="fig:segplot-bp"></span>
+<img src="rmcdbook_files/figure-html/segplot-bp-1.png" alt="Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals." width="672" />
+<p class="caption">
+Figure 5.12: Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals.
+</p>
+</div>
+<p>We analysed the number of beans por pod in a experiment with soybeans. This variable showed underdispersion so Gamma-Count and Poisson-Tweedie perform better than Poisson. <!-- TODO complementar --></p>
 </div>
 </div>
 <div id="number-of-vehicle-claims" class="section level2">
 <h2><span class="header-section-number">5.3</span> Number of vehicle claims</h2>
-<p>Em companhias de seguros é de fundamental importância especificar um preço adequado correspondente a um segurado, a fim de cobrir o risco assumido. Tal tarefa geralmente envolve a avaliação de características do plano de seguro que influenciam na taxa de sinistros observada.</p>
-<p>Nesta seção nós apresentamos a análise de um conjunto do dados referentes ao acompanhamento de 16483 clientes de uma seguradora de veículos ao longo de um ano. Os dados estão disponíveis no pacote <code>MRDCr</code> (com documentação em português) e podem ser carregados com</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
-## Load and organize data
-<span class="kw">data</span>(<span class="dt">package =</span> <span class="st">&quot;MRDCr&quot;</span>)
-<span class="kw">help</span>(seguros, <span class="dt">h =</span> <span class="st">&quot;html&quot;</span>)</code></pre></div>
-<p>Após a tradução dos níveis das variáveis categóricas a estrutura dos dados fica</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Translate levels of categorical variables and colnames
-<span class="kw">colnames</span>(seguros) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;sex&quot;</span>, <span class="st">&quot;price&quot;</span>, <span class="st">&quot;expo&quot;</span>, <span class="st">&quot;nclaims&quot;</span>)
-<span class="kw">levels</span>(seguros$sex) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Female&quot;</span>, <span class="st">&quot;Male&quot;</span>)
-<span class="kw">str</span>(seguros)</code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    16483 obs. of  5 variables:
-##  $ age    : int  59 45 42 63 36 33 35 63 54 32 ...
-##  $ sex    : Factor w/ 2 levels &quot;Female&quot;,&quot;Male&quot;: 1 2 2 1 1 2 2 2 2 2 ...
-##  $ price  : num  24.6 23.4 86.6 77.5 25.9 ...
-##  $ expo   : num  0.5 0.7 0.79 0.01 0.51 0.79 0.81 0.01 0.76 0.79 ...
-##  $ nclaims: int  1 0 0 0 0 0 0 0 0 0 ...</code></pre>
-<p>In this dataset a variável <code>age</code> é mensurada em anos, e <code>price</code> em 1000 reais. A variável <code>expo</code> representa o período de cobertura do cliente, durante o ano sob análise, um valor de 0.5 significa que o cliente esteve exposto ao sinistro durante metade do ano.</p>
-<p>A Figura <a href="applications.html#fig:desc-claim">5.3</a> mostra a descrição das variáveis a serem utilizadas na análise. Embora esses gráficos não considerem todas as variáveis conjuntamente, o gráfico à esquerda sugere que há um excesso de contagens nulas, no geral 95.183% das contagens são 0.</p>
-<div class="figure" style="text-align: center"><span id="fig:desc-claim"></span>
-<img src="rmcdbook_files/figure-html/desc-claim-1.png" alt="Relative frequencies for number of vehicle claims, and empirical densities to price of vehicle, age of clients and exposure time by sex of insurance clients." width="768" />
-<p class="caption">
-Figure 5.3: Relative frequencies for number of vehicle claims, and empirical densities to price of vehicle, age of clients and exposure time by sex of insurance clients.
-</p>
-</div>
-<p>Para análise desses dados consideramos efeitos quadráticos para variáveis contínuas e intercepto variando conforme sexo do cliente. <code>price</code> foi tomada como preditor pode ser escrito como</p>
-<span class="math display">\[\begin{equation*}
-  \begin{split}
-  \log\left ( \frac{\mu_i}{\texttt{expo}_i} \right ) = &amp;
-  \beta_0 + \beta_1 \mathbb{1}(\texttt{sex}_i) +
-  \beta_2 \texttt{price}_i + \\
-  &amp; + \beta_3 \texttt{price}_i^2 +
-  \beta_4 \texttt{age}_i +
-  \beta_5 \texttt{age}_i^2
-  \end{split}
-\end{equation*}\]</span>
-<p>em R definimos o preditor conforme sintaxe para objetos da classe <code>formula</code>. Note que a variável <code>expo</code> é envolta na função <code>offset</code> e sendo assim é considerado apenas como denominador das contagens.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define preditor
-form0 &lt;-<span class="st"> </span>nclaims ~<span class="st"> </span><span class="kw">offset</span>(<span class="kw">log</span>(expo)) +<span class="st"> </span>sex +
-<span class="st">    </span>price +<span class="st"> </span><span class="kw">I</span>(price^<span class="dv">2</span>) +<span class="st"> </span>age +<span class="st"> </span><span class="kw">I</span>(age^<span class="dv">2</span>)</code></pre></div>
-<p>Nós ajustamos os modelos de regressão Poisson e Poisson-Tweedie usando os frameworks <code>stats::glm</code> e <code>mcglm::mcglm</code>, que se baseam em máxima verossimilhança e especificação por momentos respectivamente.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Fit Poisson
-m0PO &lt;-<span class="st"> </span><span class="kw">glm</span>(form0, <span class="dt">data =</span> seguros, <span class="dt">family =</span> poisson)
-
-## Fit Poisson-Tweedie
-m0PT &lt;-<span class="st"> </span><span class="kw">mcglm</span>(
-    <span class="dt">linear_pred =</span> <span class="kw">c</span>(form0),
-    <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(seguros)),
-    <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
-    <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
-    <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
-    <span class="dt">data =</span> seguros)</code></pre></div>
-<pre><code>## Automatic initial values selected.</code></pre>
-<p>Os parâmetros de regressão estimados nos modelos Poisson e Poisson-Tweedie são exibidos abaixo juntamente com seus erros padrão. Uma coluna com a razão entre as estimatimas e erros-padrão é acrescida. Note que as estimativas muito similares e os erros-Padrão são em torno de 20% maiores quando considerado o modelo Poisson-Tweedie.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
-## Parameter estimates
-parPO &lt;-<span class="st"> </span><span class="kw">summary</span>(m0PO)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>]
-parPT &lt;-<span class="st"> </span><span class="kw">summary</span>(m0PT)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>]</code></pre></div>
-<pre><code>## Call: nclaims ~ offset(log(expo)) + sex + price + I(price^2) + age + 
-##     I(age^2)
-## 
-## Link function: log
-## Variance function: poisson_tweedie
-## Covariance function: identity
-## Regression:
-##             Estimates Std.error Z value
-## (Intercept) -2.277314  4.76e-01   -4.79
-## sexMale     -0.190856  7.69e-02   -2.48
-## price        0.016413  6.03e-03    2.72
-## I(price^2)  -0.000115  5.65e-05   -2.03
-## age         -0.032210  1.82e-02   -1.77
-## I(age^2)     0.000301  1.72e-04    1.75
-## 
-## Power:
-##   Estimates Std.error Z value
-## 1       2.2      1.12    1.96
-## 
-## Dispersion:
-##   Estimates Std.error Z value
-## 1      12.1      37.4   0.322
-## 
-## Algorithm: chaser
-## Correction: TRUE
-## Number iterations: 10</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pars &lt;-<span class="st"> </span><span class="kw">cbind</span>(parPO, parPT)
-<span class="kw">cbind</span>(pars, <span class="kw">cbind</span>(<span class="st">&quot;RatioEst&quot;</span> =<span class="st"> </span>pars[, <span class="dv">3</span>]/pars[, <span class="dv">1</span>],
-                  <span class="st">&quot;RatioStd&quot;</span> =<span class="st"> </span>pars[, <span class="dv">4</span>]/pars[, <span class="dv">2</span>]))</code></pre></div>
-<pre><code>##              Estimate Std. Error Estimates Std.error RatioEst
-## (Intercept) -1.703449   3.91e-01 -2.277314  4.76e-01    1.337
-## sexMale     -0.175449   6.38e-02 -0.190856  7.69e-02    1.088
-## price        0.018583   5.28e-03  0.016413  6.03e-03    0.883
-## I(price^2)  -0.000125   5.03e-05 -0.000115  5.65e-05    0.921
-## age         -0.038209   1.50e-02 -0.032210  1.82e-02    0.843
-## I(age^2)     0.000336   1.41e-04  0.000301  1.72e-04    0.895
-##             RatioStd
-## (Intercept)     1.22
-## sexMale         1.20
-## price           1.14
-## I(price^2)      1.12
-## age             1.22
-## I(age^2)        1.22</code></pre>
-<p>Embora tenhamos ajustados os modelos e avaliados seus resultados, uma suposição que é inerente ao modelo não foi avaliada. A inclusão do offset (exposição) pressupõe relação identidade entre a exposição e o número médio de sinistros (<span class="math inline">\(\mu_i \texttt{expo}_i = \lambda_i\)</span>), em outras palavras, sob as mesmas condições esperamos que um indivíduo com tempo de exposição de <span class="math inline">\(1\)</span> ano tenha o dobro de sinistros do que um indivíduo com tempo de exposição de <span class="math inline">\(0.5\)</span>. A avaliação dessa suposição é realizada estimando esse coeficiente e comparando-o com o valor fixado.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Define preditors (free offset of first order and second order)
-form1 &lt;-<span class="st"> </span>nclaims ~<span class="st"> </span><span class="kw">log</span>(expo) +<span class="st"> </span>sex +
-<span class="st">    </span>price +<span class="st"> </span><span class="kw">I</span>(price^<span class="dv">2</span>) +<span class="st"> </span>age +<span class="st"> </span><span class="kw">I</span>(age^<span class="dv">2</span>)
-
-## Fit Poisson
-m1PO &lt;-<span class="st"> </span><span class="kw">glm</span>(form1, <span class="dt">data =</span> seguros, <span class="dt">family =</span> poisson)
-
-## Fit Poisson-Tweedie
-m1PT &lt;-<span class="st"> </span><span class="kw">mcglm</span>(<span class="dt">linear_pred =</span> <span class="kw">c</span>(form1),
-          <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(seguros)),
-          <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
-          <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
-          <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
-          <span class="dt">data =</span> seguros)</code></pre></div>
-<pre><code>## Automatic initial values selected.</code></pre>
-<p>Nos modelos Poisson o método <code>anova</code> em R realiza o teste de razão de verossimilhanças para modelos aninhados.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Analysis of deviance table for nested models
-(an &lt;-<span class="st"> </span><span class="kw">anova</span>(m0PO, m1PO, <span class="dt">test =</span> <span class="st">&quot;Chisq&quot;</span>))</code></pre></div>
-<pre><code>## Analysis of Deviance Table
-## 
-## Model 1: nclaims ~ offset(log(expo)) + sex + price + I(price^2) + age + 
-##     I(age^2)
-## Model 2: nclaims ~ log(expo) + sex + price + I(price^2) + age + I(age^2)
-##   Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)    
-## 1     16477       6495                         
-## 2     16476       6269  1      226   &lt;2e-16 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p>Com a estimação do coeficiente para <span class="math inline">\(\log(\texttt{expo})\)</span>, houve uma diferença de 226.5 em relação ao modelo cujo coeficiente é fixado em 1, evidenciando que a suposição de identidade entre o a exposição e as contagens não é atendida.</p>
-<p>Para os modelos Poisson-Tweedie os testes de razão de verossimilhanças também são possíveis, porém tendem a ser computacionalmente intensivos uma vez que a função de densidade é definida por uma integral intratável. Sendo assim uma alternativa é comparar os modelos via measures of Goodness-of-Fit que não precisam da verossimilhança like pseudo Gaussian log-likelihood (plogLik), pseudo Akaike Information Criterion (pAIC), pseudo Kullback-Leibler Information Criterion (pKLIC) and Error Sum of Squares (ESS), que além de mais rápidas podem ser utilizadas para o modelo Poisson-Tweedie estendido que não se baseia em verossimilhança. Essas medidas são calculadas com função <code>mcglm::gof</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Measures of goodness-of-fit for compare nested models
-goflist &lt;-<span class="st"> </span><span class="kw">lapply</span>(<span class="kw">list</span>(m0PT, m1PT), gof)
-(gofPT &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;rbind&quot;</span>, goflist))</code></pre></div>
-<pre><code>##   plogLik Df pAIC pKLIC pBIC
-## 1   -3276  8 6569  6744 6630
-## 2   -3126  9 6270  6445 6339</code></pre>
-<p>Da mesma forma nos modelos Poisson-Tweedie também há fortes indicações de que o coeficiente para o logarítimo das exposições não seja <span class="math inline">\(1\)</span>. Sendo assim seguimos as análises com os modelos que consideram a estimação do efeito dos tempos de exposição.</p>
-<p>As estimativas pontuais com erros-padrão são obtidas da mesma forma que nos primeiros modelos ajustados. Note que não houve uma mudança drástica nas estimativas comparando ao modelo com offset, indicando que não há relação entre os tempos de exposição e as covariáveis. A similaridade das estimativas do modelo Poisson e Poisson-Tweedie se mantém assim como o aumento em 20% nos erros-padrão.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
-## Parameter estimates
-parPO &lt;-<span class="st"> </span><span class="kw">summary</span>(m1PO)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>]
-parPT &lt;-<span class="st"> </span><span class="kw">summary</span>(m1PT)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>]</code></pre></div>
-<pre><code>## Call: nclaims ~ log(expo) + sex + price + I(price^2) + age + I(age^2)
-## 
-## Link function: log
-## Variance function: poisson_tweedie
-## Covariance function: identity
-## Regression:
-##             Estimates Std.error Z value
-## (Intercept) -2.092150  4.75e-01   -4.41
-## log(expo)    0.192759  4.72e-02    4.08
-## sexMale     -0.184397  7.68e-02   -2.40
-## price        0.016408  6.11e-03    2.69
-## I(price^2)  -0.000114  5.75e-05   -1.98
-## age         -0.034693  1.81e-02   -1.91
-## I(age^2)     0.000320  1.71e-04    1.87
-## 
-## Power:
-##   Estimates Std.error Z value
-## 1      1.83     0.873     2.1
-## 
-## Dispersion:
-##   Estimates Std.error Z value
-## 1      4.36      10.5   0.416
-## 
-## Algorithm: chaser
-## Correction: TRUE
-## Number iterations: 10</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">pars &lt;-<span class="st"> </span><span class="kw">cbind</span>(parPO, parPT)
-<span class="kw">cbind</span>(pars, <span class="kw">cbind</span>(<span class="st">&quot;RatioEst&quot;</span> =<span class="st"> </span>pars[, <span class="dv">3</span>]/pars[, <span class="dv">1</span>],
-                  <span class="st">&quot;RatioStd&quot;</span> =<span class="st"> </span>pars[, <span class="dv">4</span>]/pars[, <span class="dv">2</span>]))</code></pre></div>
-<pre><code>##              Estimate Std. Error Estimates Std.error RatioEst
-## (Intercept) -2.135916   3.91e-01 -2.092150  4.75e-01    0.980
-## log(expo)    0.186930   4.11e-02  0.192759  4.72e-02    1.031
-## sexMale     -0.184568   6.38e-02 -0.184397  7.68e-02    0.999
-## price        0.017008   5.21e-03  0.016408  6.11e-03    0.965
-## I(price^2)  -0.000120   4.94e-05 -0.000114  5.75e-05    0.949
-## age         -0.033467   1.49e-02 -0.034693  1.81e-02    1.037
-## I(age^2)     0.000308   1.41e-04  0.000320  1.71e-04    1.039
-##             RatioStd
-## (Intercept)     1.21
-## log(expo)       1.15
-## sexMale         1.20
-## price           1.17
-## I(price^2)      1.16
-## age             1.21
-## I(age^2)        1.21</code></pre>
-<p>Finalmente a Figura @(fig:claims-pred) apresenta as curvas de predição conforme cada variável, como temos mais de uma covariável numérica no modelo, fixamos as demais variáveis seu valor mediano para construção das curvas. O efeito quadrático das variáveis <code>price</code> e <code>age</code> é evidente. A média de sinistros é maior para veículos entre 50 e 100 mil reais, veículos de valores baixos ou muito elevados tendem a ter um taxa de sinistros menor, o que faz sentido no mercado brasileiro onde furtos e acidentes ocorrem com maior frequência em carros populares. Para a idade temos a interpretação contrária, espera-se menos sinistros para idades medianas, entre 40 e 70 anos e maiores para jovens e idosos.</p>
-<p>Comparando os modelos temos curvas de predição e intervalos de confiança muito similares, sendo levemente maiores quando considerado o Poisson-Tweedie. O que se destaque no gráfico é a diferença nos intervalos de confiança para o preço do veículo, nesse caso o modelo Poisson-Tweedie é muito mais conservador onde há menos observações, no intervalo de preços mais elevados.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cap &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Curves of predict values an confidence intervals (95</span><span class="ch">\\</span><span class="st">%)&quot;</span>,
-             <span class="st">&quot;based on Poisson and Poisson-Tweedie regression models&quot;</span>,
-             <span class="st">&quot;for each numerical covariate setting the others in the&quot;</span>,
-             <span class="st">&quot;median.&quot;</span>)
-
-##-------------------------------------------
-## Prediction to exposure
-aux &lt;-<span class="st"> </span><span class="kw">with</span>(seguros, {
-    <span class="kw">expand.grid</span>(
-        <span class="dt">expo =</span> <span class="kw">seq</span>(<span class="kw">min</span>(expo), <span class="kw">max</span>(expo), <span class="dt">length.out =</span> <span class="dv">30</span>),
-        <span class="dt">sex =</span> <span class="kw">unique</span>(sex),
-        <span class="dt">price =</span> <span class="kw">median</span>(price),
-        <span class="dt">age =</span> <span class="kw">median</span>(age)
-    )
-})
-
-da &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">var =</span> <span class="st">&quot;Exposure&quot;</span>, <span class="dt">x =</span> aux$expo, <span class="dt">sex =</span> aux$sex)
-X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="kw">update</span>(form1, <span class="ot">NULL</span> ~<span class="st"> </span>.), <span class="dt">data =</span> aux)
-pred &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">PO =</span> da, <span class="dt">PT =</span> da)
-
-## Poisson model
-aux &lt;-<span class="st"> </span><span class="kw">confint</span>(<span class="kw">glht</span>(m1PO, <span class="dt">linfct =</span> X),
-               <span class="dt">calpha =</span> <span class="kw">univariate_calpha</span>())$confint
-<span class="kw">colnames</span>(aux)[<span class="dv">1</span>] &lt;-<span class="st"> &quot;fit&quot;</span>
-pred$PO &lt;-<span class="st"> </span><span class="kw">cbind</span>(pred$PO, <span class="kw">exp</span>(aux)[, <span class="kw">c</span>(<span class="st">&quot;lwr&quot;</span>, <span class="st">&quot;fit&quot;</span>, <span class="st">&quot;upr&quot;</span>)])
-
-## Poisson-Tweedie model
-qn &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="fl">0.975</span>) *<span class="st"> </span><span class="kw">c</span>(<span class="dt">lwr =</span> -<span class="dv">1</span>, <span class="dt">fit =</span> <span class="dv">0</span>, <span class="dt">upr =</span> <span class="dv">1</span>)
-V &lt;-<span class="st"> </span><span class="kw">vcov</span>(m1PT)
-i &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;beta&quot;</span>, <span class="kw">colnames</span>(V))
-eta &lt;-<span class="st"> </span>X %*%<span class="st"> </span><span class="kw">coef</span>(m1PT, <span class="dt">type =</span> <span class="st">&quot;beta&quot;</span>)$Estimates
-std &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">as.matrix</span>(X %*%<span class="st"> </span><span class="kw">as.matrix</span>(V[i, i]) %*%<span class="st"> </span><span class="kw">t</span>(X))))
-me &lt;-<span class="st"> </span><span class="kw">outer</span>(std, qn, <span class="dt">FUN =</span> <span class="st">&quot;*&quot;</span>)
-aux &lt;-<span class="st"> </span><span class="kw">sweep</span>(me, <span class="dv">1</span>, eta, <span class="dt">FUN =</span> <span class="st">&quot;+&quot;</span>)
-pred$PT &lt;-<span class="st"> </span><span class="kw">cbind</span>(pred$PT, <span class="kw">exp</span>(aux))
-
-## Organize predictions
-predsex &lt;-<span class="st"> </span><span class="kw">ldply</span>(pred, <span class="dt">.id =</span> <span class="st">&quot;model&quot;</span>)
-
-##-------------------------------------------
-## Prediction to price
-aux &lt;-<span class="st"> </span><span class="kw">with</span>(seguros, {
-    <span class="kw">expand.grid</span>(
-        <span class="dt">expo =</span> <span class="kw">median</span>(expo),
-        <span class="dt">sex =</span> <span class="kw">unique</span>(sex),
-        <span class="dt">price =</span> <span class="kw">seq</span>(<span class="kw">min</span>(price), <span class="kw">max</span>(price), <span class="dt">length.out =</span> <span class="dv">30</span>),
-        <span class="dt">age =</span> <span class="kw">median</span>(age)
-    )
-})
-
-da &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">var =</span> <span class="st">&quot;Price&quot;</span>, <span class="dt">x =</span> aux$price, <span class="dt">sex =</span> aux$sex)
-X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="kw">update</span>(form1, <span class="ot">NULL</span> ~<span class="st"> </span>.), <span class="dt">data =</span> aux)
-pred &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">PO =</span> da, <span class="dt">PT =</span> da)
-
-## Poisson model
-aux &lt;-<span class="st"> </span><span class="kw">confint</span>(<span class="kw">glht</span>(m1PO, <span class="dt">linfct =</span> X),
-               <span class="dt">calpha =</span> <span class="kw">univariate_calpha</span>())$confint
-<span class="kw">colnames</span>(aux)[<span class="dv">1</span>] &lt;-<span class="st"> &quot;fit&quot;</span>
-pred$PO &lt;-<span class="st"> </span><span class="kw">cbind</span>(pred$PO, <span class="kw">exp</span>(aux)[, <span class="kw">c</span>(<span class="st">&quot;lwr&quot;</span>, <span class="st">&quot;fit&quot;</span>, <span class="st">&quot;upr&quot;</span>)])
-
-## Poisson-Tweedie model
-qn &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="fl">0.975</span>) *<span class="st"> </span><span class="kw">c</span>(<span class="dt">lwr =</span> -<span class="dv">1</span>, <span class="dt">fit =</span> <span class="dv">0</span>, <span class="dt">upr =</span> <span class="dv">1</span>)
-V &lt;-<span class="st"> </span><span class="kw">vcov</span>(m1PT)
-i &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;beta&quot;</span>, <span class="kw">colnames</span>(V))
-eta &lt;-<span class="st"> </span>X %*%<span class="st"> </span><span class="kw">coef</span>(m1PT, <span class="dt">type =</span> <span class="st">&quot;beta&quot;</span>)$Estimates
-std &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">as.matrix</span>(X %*%<span class="st"> </span><span class="kw">as.matrix</span>(V[i, i]) %*%<span class="st"> </span><span class="kw">t</span>(X))))
-me &lt;-<span class="st"> </span><span class="kw">outer</span>(std, qn, <span class="dt">FUN =</span> <span class="st">&quot;*&quot;</span>)
-aux &lt;-<span class="st"> </span><span class="kw">sweep</span>(me, <span class="dv">1</span>, eta, <span class="dt">FUN =</span> <span class="st">&quot;+&quot;</span>)
-pred$PT &lt;-<span class="st"> </span><span class="kw">cbind</span>(pred$PT, <span class="kw">exp</span>(aux))
-
-## Organize predictions
-predspr &lt;-<span class="st"> </span><span class="kw">ldply</span>(pred, <span class="dt">.id =</span> <span class="st">&quot;model&quot;</span>)
-
-##-------------------------------------------
-## Prediction to age
-aux &lt;-<span class="st"> </span><span class="kw">with</span>(seguros, {
-    <span class="kw">expand.grid</span>(
-        <span class="dt">expo =</span> <span class="kw">median</span>(expo),
-        <span class="dt">sex =</span> <span class="kw">unique</span>(sex),
-        <span class="dt">price =</span> <span class="kw">median</span>(price),
-        <span class="dt">age =</span> <span class="kw">seq</span>(<span class="kw">min</span>(age), <span class="kw">max</span>(age), <span class="dt">length.out =</span> <span class="dv">30</span>)
-    )
-})
-
-da &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">var =</span> <span class="st">&quot;Age&quot;</span>, <span class="dt">x =</span> aux$age, <span class="dt">sex =</span> aux$sex)
-X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="kw">update</span>(form1, <span class="ot">NULL</span> ~<span class="st"> </span>.), <span class="dt">data =</span> aux)
-pred &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">PO =</span> da, <span class="dt">PT =</span> da)
-
-## Poisson model
-aux &lt;-<span class="st"> </span><span class="kw">confint</span>(<span class="kw">glht</span>(m1PO, <span class="dt">linfct =</span> X),
-               <span class="dt">calpha =</span> <span class="kw">univariate_calpha</span>())$confint
-<span class="kw">colnames</span>(aux)[<span class="dv">1</span>] &lt;-<span class="st"> &quot;fit&quot;</span>
-pred$PO &lt;-<span class="st"> </span><span class="kw">cbind</span>(pred$PO, <span class="kw">exp</span>(aux)[, <span class="kw">c</span>(<span class="st">&quot;lwr&quot;</span>, <span class="st">&quot;fit&quot;</span>, <span class="st">&quot;upr&quot;</span>)])
-
-## Poisson-Tweedie model
-qn &lt;-<span class="st"> </span><span class="kw">qnorm</span>(<span class="fl">0.975</span>) *<span class="st"> </span><span class="kw">c</span>(<span class="dt">lwr =</span> -<span class="dv">1</span>, <span class="dt">fit =</span> <span class="dv">0</span>, <span class="dt">upr =</span> <span class="dv">1</span>)
-V &lt;-<span class="st"> </span><span class="kw">vcov</span>(m1PT)
-i &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">&quot;beta&quot;</span>, <span class="kw">colnames</span>(V))
-eta &lt;-<span class="st"> </span>X %*%<span class="st"> </span><span class="kw">coef</span>(m1PT, <span class="dt">type =</span> <span class="st">&quot;beta&quot;</span>)$Estimates
-std &lt;-<span class="st"> </span><span class="kw">sqrt</span>(<span class="kw">diag</span>(<span class="kw">as.matrix</span>(X %*%<span class="st"> </span><span class="kw">as.matrix</span>(V[i, i]) %*%<span class="st"> </span><span class="kw">t</span>(X))))
-me &lt;-<span class="st"> </span><span class="kw">outer</span>(std, qn, <span class="dt">FUN =</span> <span class="st">&quot;*&quot;</span>)
-aux &lt;-<span class="st"> </span><span class="kw">sweep</span>(me, <span class="dv">1</span>, eta, <span class="dt">FUN =</span> <span class="st">&quot;+&quot;</span>)
-pred$PT &lt;-<span class="st"> </span><span class="kw">cbind</span>(pred$PT, <span class="kw">exp</span>(aux))
-
-## Organize predictions
-predsag &lt;-<span class="st"> </span><span class="kw">ldply</span>(pred, <span class="dt">.id =</span> <span class="st">&quot;model&quot;</span>)
-
-##-------------------------------------------
-## Graph
-preds &lt;-<span class="st"> </span><span class="kw">rbind</span>(predsex, predspr, predsag)
-<span class="kw">useOuterStrips</span>(
-    <span class="kw">xyplot</span>(fit ~<span class="st"> </span>x |<span class="st"> </span>var +<span class="st"> </span>sex,
-           <span class="dt">data =</span> preds,
-           <span class="dt">groups =</span> model,
-           <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;g&quot;</span>, <span class="st">&quot;l&quot;</span>),
-           <span class="dt">ly =</span> preds$lwr, <span class="dt">uy =</span> preds$upr,
-           <span class="dt">layout =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">1</span>),
-           <span class="dt">as.table =</span> <span class="ot">TRUE</span>,
-           <span class="dt">alpha =</span> <span class="fl">0.2</span>,
-           <span class="dt">xlab =</span> <span class="st">&quot;Value of covariate&quot;</span>,
-           <span class="dt">ylab =</span> <span class="st">&quot;Mean of vehicles claims&quot;</span>,
-           ## scales = list(x = &quot;free&quot;),
-           <span class="dt">scales =</span> <span class="st">&quot;free&quot;</span>,
-           <span class="dt">auto.key =</span> <span class="kw">list</span>(
-               <span class="dt">columns =</span> <span class="dv">2</span>,
-               <span class="dt">lines =</span> <span class="ot">TRUE</span>,
-               <span class="dt">points =</span> <span class="ot">FALSE</span>,
-               <span class="dt">text =</span> <span class="kw">c</span>(<span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Poisson-Tweedie&quot;</span>)
-           ),
-           <span class="dt">cty =</span> <span class="st">&quot;bands&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;gray80&quot;</span>,
-           <span class="dt">panel =</span> panel.superpose,
-           <span class="dt">panel.groups =</span> panel.cbH,
-           <span class="dt">prepanel =</span> prepanel.cbH)
-)</code></pre></div>
-<p><img src="rmcdbook_files/figure-html/claims-pred-1.png" width="768" style="display: block; margin: auto;" /></p>
-<p>Para avaliar o poder preditivo dos modelos nós calculamos as frequências estimadas pelos dois modelos considerados e comparamos com as observadas. As frequências estimadas <span class="math inline">\(\hat{\mathrm{Fr}}\)</span>, para um dado valor <span class="math inline">\(y\)</span> são calculadas como</p>
-<p><span class="math display">\[
-\hat{\mathrm{Fr}}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
-\]</span></p>
-<p>Onde <span class="math inline">\(\Pr(Y=y \mid \hat{\boldsymbol{\theta}}_i)\)</span> é a função massa de probabilidade definida pelo conjunto de parâmetros <span class="math inline">\(\boldsymbol{\hat{\theta}}_i\)</span>. Para o modelo Poisson <span class="math inline">\(\hat{\boldsymbol{\theta}}_i = \hat{\mu}_i\)</span> e para o modelo Poisson-Tweedie <span class="math inline">\(\hat{\boldsymbol{\theta}}_i = [\hat{\mu}_i \hat{\phi}=4.359] \hat{p}=1.832]\)</span>. For Poisson-Tweedie model we evaluate the integral using the Gauss-Laguerre method (with 100 points). The results shows that Poisson-Tweedie model offers a better fit with adjust frequencies very close of observed frequencies.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Adjust frequencies by models
-
-## Calcule probabilities
-X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(form1, <span class="dt">data =</span> seguros)
-y &lt;-<span class="st"> </span><span class="dv">0</span>:<span class="dv">6</span>
-n &lt;-<span class="st"> </span><span class="kw">nrow</span>(seguros)
-freqs &lt;-<span class="st"> </span><span class="kw">list</span>()
-
-## Observed
-freqs$Obs &lt;-<span class="st"> </span><span class="kw">with</span>(seguros, <span class="kw">sapply</span>(y, function(x) {
-    <span class="kw">sum</span>(nclaims ==<span class="st"> </span>x)
-}))
-
-## By Poisson
-muPO &lt;-<span class="st"> </span><span class="kw">exp</span>(X %*%<span class="st"> </span><span class="kw">coef</span>(m1PO))
-probsPO &lt;-<span class="st"> </span><span class="kw">do.call</span>(
-    <span class="st">&quot;rbind&quot;</span>,
-    <span class="kw">lapply</span>(muPO, function(mui) {
-        py &lt;-<span class="st"> </span><span class="kw">dpois</span>(y, <span class="dt">lambda =</span> mui)
-    }))
-freqs$PO &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">apply</span>(probsPO, <span class="dv">2</span>, sum))
-
-## By Poisson-Tweedie
-##  -- very time consuming.
-muPT &lt;-<span class="st"> </span><span class="kw">exp</span>(X %*%<span class="st"> </span><span class="kw">coef</span>(m1PT, <span class="dt">type =</span> <span class="st">&quot;beta&quot;</span>)$Estimates)
-phi &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(m1PT), Estimates[Type ==<span class="st"> &quot;tau&quot;</span>])
-power &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(m1PT), Estimates[Type ==<span class="st"> &quot;power&quot;</span>])
-probsPT &lt;-<span class="kw">do.call</span>(
-    <span class="st">&quot;rbind&quot;</span>,
-    <span class="kw">lapply</span>(muPT, function(mui) {
-        py &lt;-<span class="st"> </span><span class="kw">dptw</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> mui, <span class="dt">phi =</span> phi,
-                   <span class="dt">power =</span> power, <span class="dt">n_pts =</span> <span class="dv">100</span>,
-                   <span class="dt">method =</span> <span class="st">&quot;laguerre&quot;</span>)
-    }))
-freqs$PT &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">apply</span>(probsPT, <span class="dv">2</span>, sum))
-tabf &lt;-<span class="st"> </span><span class="kw">ldply</span>(freqs)
-
-<span class="kw">colnames</span>(tabf) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;&quot;</span>, y)
-tabf</code></pre></div>
-<pre><code>##           0   1   2  3 4 5 6
-## 1 Obs 15689 602 166 22 3 1 0
-## 2  PO 15498 953  31  1 0 0 0
-## 3  PT 15673 663 121 26 6 2 0</code></pre>
-</div>
-<div id="radiation-induced-chromosome-aberration-counts" class="section level2">
-<h2><span class="header-section-number">5.4</span> Radiation-induced chromosome aberration counts</h2>
-<p>In biological dosimetry studies essentially the response variables are data counts. These experiments measure the number of chromosome aberrations in human lymphocytes after to controlled exposure of ionizing radiation. The aim of the studies are analyse the biological effects induced by ionizing radiation. The aberrations most commonly mensured are the dicentrics, centric rings, and micronucle .</p>
-<p>In this section the dataset considered was obtained after irradiating blood samples with five different doses between 0.1 and 1 Gy of 2.1 MeV neutrons. In this case, the frequencies of dicentrics and centric rings after a culture of 72 hours are analysed. The dataset was analysed by <span class="citation">(<span class="citeproc-not-found" data-reference-id="Oliveira2006"><strong>???</strong></span>)</span>, as an example of zero-inflated data and <span class="citation">Bonat et al. (2016)</span>, using extend Poisson-Tweedie approach.</p>
-<p>The data are available in <code>data/chromossome.rda</code> file. In <code>R</code> it can be loaded with</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
-## Load
-<span class="kw">load</span>(<span class="st">&quot;./data/chromosome.rda&quot;</span>)
-<span class="kw">str</span>(chromosome)</code></pre></div>
-<pre><code>## &#39;data.frame&#39;:    5232 obs. of  2 variables:
-##  $ ndic: num  0 0 0 0 0 0 0 0 0 0 ...
-##  $ dose: num  0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 0.1 ...</code></pre>
-<p>The Figure <a href="applications.html#fig:desc-chromo">5.4</a> shows the frequencies chromosome aberrations (left) and average of chromosome aberrations by radiation doses (right). Note that the highest frequencies are observed for zero counts and the averages are between 0 and 1, suggesting excess zero.</p>
-<div class="figure" style="text-align: center"><span id="fig:desc-chromo"></span>
-<img src="rmcdbook_files/figure-html/desc-chromo-1.png" alt="Observed frequencies of the chromosome aberrations counts by radiation doses (left) and means of chromosome aberrations for each radiation doses (right)." width="864" />
-<p class="caption">
-Figure 5.4: Observed frequencies of the chromosome aberrations counts by radiation doses (left) and means of chromosome aberrations for each radiation doses (right).
-</p>
-</div>
-<p>For this application we fit the Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie distributions. The linear predictor considered is a quadratic dose model, follow <span class="citation">Bonat et al. (2016)</span>. The codes below fit the four models using the <code>MRDCd</code> and <code>mcglm</code> packages. Note that for <code>MRDCr::cmp</code> function we need specify <code>sumto</code>, the number of increments for a infinite sum, i.e in this case <span class="math inline">\(Z(\hat{\lambda}_i, \hat{\nu}) = \sum_j^{50}\hat{\lambda}_i^j / (j!)^{\hat{\nu}}\)</span>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
-## Modelling
-form &lt;-<span class="st"> </span>ndic ~<span class="st"> </span>dose +<span class="st"> </span><span class="kw">I</span>(dose^<span class="dv">2</span>)
-
-m0PO &lt;-<span class="st"> </span><span class="kw">glm</span>(form, <span class="dt">family =</span> poisson, <span class="dt">data =</span> chromosome)
-m0GC &lt;-<span class="st"> </span><span class="kw">gcnt</span>(form, <span class="dt">data =</span> chromosome)
-m0CP &lt;-<span class="st"> </span><span class="kw">cmp</span>(form, <span class="dt">data =</span> chromosome, <span class="dt">sumto =</span> <span class="dv">50</span>)
-m0PT &lt;-<span class="st"> </span><span class="kw">mcglm</span>(
-    <span class="dt">linear_pred =</span> <span class="kw">c</span>(form),
-    <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(chromosome)),
-    <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
-    <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
-    <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
-    <span class="dt">data =</span> chromosome)</code></pre></div>
-<pre><code>## Automatic initial values selected.</code></pre>
-<p>No issues were reported during the estimation process. A better research about the algorithm covergence for Poisson-Tweedie models is implemented by <code>mcglm::plot(model, type = &quot;algorithm&quot;)</code>. This four graphs shows the trajectory or iterations of the fitting algorithm, we can see that both cases the lines converged.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Check algorithm convergence
-<span class="kw">plot</span>(m0PT, <span class="dt">type =</span> <span class="st">&quot;algorithm&quot;</span>)</code></pre></div>
-<p><img src="rmcdbook_files/figure-html/conv-chromo-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>For the COM-Poisson and Gamma-Count we can see the <code>details</code> slots, (<code>model@details</code>). This shows the components list of <code>optim</code>, the list object <code>convergence</code> when 0 means that optimization was successful and <code>counts</code> shows the number of calls to log-likelihood function and numerical gradient function. Note the in this case the COM-Poisson model required fewer interactions than Gamma-Count model. However, we don’t evaluate the time of fit because to compute log-likelihood function for COM-Poisson is more difficult than for Gamma-Count.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Check optim convergence
-<span class="kw">do.call</span>(<span class="st">&quot;rbind&quot;</span>,
-        <span class="kw">lapply</span>(<span class="kw">list</span>(<span class="st">&quot;GC&quot;</span> =<span class="st"> </span>m0GC, <span class="st">&quot;CP&quot;</span> =<span class="st"> </span>m0CP),
-               function(model) {
-                   <span class="kw">c</span>(model@details$counts,
-                     <span class="st">&quot;convergence&quot;</span> =<span class="st"> </span>model@details$convergence)
-               }))</code></pre></div>
-<pre><code>##    function gradient convergence
-## GC       46       16           0
-## CP       29       10           0</code></pre>
-<p>For COM-POisson model, we also need verify that the number of increments for <span class="math inline">\(Z(\hat{\lambda}_i, \hat{\nu})\)</span> is satisfactory for accurate sums. The function <code>MRDCr::covergencez</code> shows a number of increments necessary for a given tolerance. For each line represent the <span class="math inline">\(i\)</span>th observation, as we only have five different doses only five lines are showed. Note that the <code>sumto=50</code> is more than necessary for the convergence of all constansts.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Check Z(lambda, nu) convergence
-<span class="kw">convergencez</span>(m0CP, <span class="dt">tol =</span> <span class="fl">1e-5</span>)</code></pre></div>
-<p><img src="rmcdbook_files/figure-html/unnamed-chunk-40-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>For compare models we used the log-likelihood value and AIC and BIC criteria. In the Gamma-Count and COM-Poisson the measures are easily obtained by <code>logLik</code>, <code>AIC</code> and <code>BIC</code> functions. In the Poisson-Tweedie model this functions are not implemented, because the models are estimated only by second-moments assumptions. However, in this case we can compute log-likelihood, and consequently AIC and BIC criteria. This is possible beacause the parameter <span class="math inline">\(p\)</span> was estimated on 1.085. The codes below compute these measures for the four models. Note that in R we only implement <code>logLik.mcglm</code> function, the other functions <code>AIC</code> and <code>BIC</code> are methods for <code>logLik</code> objects.</p>
-<p>The measures of goodness-of-fit show that Poisson-Tweedie approach is more suitable in this case. Gamma-Count and COM-Poisson models present similar results and Poisson model the worse results. This is attributed to the inadequate assumption of equidespersion and excess of zeros.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
-## Goodness of fit
-
-## Compute logLik for Poisson-Tweedie
-##    ** especific for this example
-logLik.mcglm &lt;-<span class="st"> </span>function(object) {
-    y &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>:<span class="dv">5</span>, <span class="dv">7</span>)
-    data &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">dose =</span> <span class="kw">unique</span>(chromosome$dose))
-    ## ---
-    form &lt;-<span class="st"> </span><span class="kw">update</span>(object$linear_pred[[<span class="dv">1</span>]], <span class="ot">NULL</span> ~<span class="st"> </span>.)
-    X &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(form, data)
-    mu &lt;-<span class="st"> </span><span class="kw">exp</span>(X %*%<span class="st"> </span><span class="kw">coef</span>(object, <span class="dt">type =</span> <span class="st">&quot;beta&quot;</span>)$Estimates)
-    phi &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(object), Estimates[Type ==<span class="st"> &quot;tau&quot;</span>])
-    power &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(object), Estimates[Type ==<span class="st"> &quot;power&quot;</span>])
-    obs &lt;-<span class="st"> </span><span class="kw">xtabs</span>(~ndic +<span class="st"> </span>dose, <span class="dt">data =</span> chromosome)
-    matpred &lt;-<span class="st"> </span><span class="kw">do.call</span>(<span class="st">&quot;cbind&quot;</span>, <span class="kw">lapply</span>(mu, function(mui) {
-        <span class="kw">dptw</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> mui, <span class="dt">phi =</span> phi, <span class="dt">power =</span> power,
-             <span class="dt">n_pts =</span> <span class="dv">180</span>, <span class="st">&quot;laguerre&quot;</span>)
-    }))
-    ll &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">log</span>(matpred) *<span class="st"> </span>obs)
-    <span class="kw">attr</span>(ll, <span class="st">&quot;df&quot;</span>) &lt;-<span class="st"> </span><span class="kw">nrow</span>(<span class="kw">coef</span>(object))
-    <span class="kw">attr</span>(ll, <span class="st">&quot;nobs&quot;</span>) &lt;-<span class="st"> </span>m0PT$n_obs
-    <span class="kw">class</span>(ll) &lt;-<span class="st"> &quot;logLik&quot;</span>
-    <span class="kw">return</span>(ll)
-}
-
-## Compute table of gof
-models &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;Poisson&quot;</span> =<span class="st"> </span>m0PO, <span class="st">&quot;Gamma-Count&quot;</span> =<span class="st"> </span>m0GC,
-               <span class="st">&quot;COM-Poisson&quot;</span> =<span class="st"> </span>m0CP, <span class="st">&quot;Poisson-Tweedie&quot;</span> =<span class="st"> </span>m0PT)
-(measures &lt;-<span class="st"> </span><span class="kw">sapply</span>(models, function(x)
-    <span class="kw">c</span>(<span class="st">&quot;LogLik&quot;</span> =<span class="st"> </span><span class="kw">logLik</span>(x), <span class="st">&quot;AIC&quot;</span> =<span class="st"> </span><span class="kw">AIC</span>(x), <span class="st">&quot;BIC&quot;</span> =<span class="st"> </span><span class="kw">BIC</span>(x))))</code></pre></div>
-<pre><code>##        Poisson Gamma-Count COM-Poisson Poisson-Tweedie
-## LogLik   -2995       -2966       -2967           -2951
-## AIC       5997        5940        5943            5911
-## BIC       6016        5966        5969            5944</code></pre>
-<p>The parameters estimates can be obtained by <code>summary</code> methods. The codes below shows the estimates of location and dispersion parameters. Note that the estimates for the location parameters were very close in Poisson, COM-Poisson and Poisson-Tweedie. For the Gamma-Count model the estimates are many differents though the signs are the same. Regarding the standard deviations, we have the Poisson and COM-Poisson very close, Poisson-Tweedie with standard deviations a little bigger and the Gamma-Count much bigger than others, totally dissagre.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##----------------------------------------------------------------------
-## Parameter estimates
-par &lt;-<span class="st"> </span><span class="kw">list</span>()
-par$PO &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="ot">NA</span>, <span class="kw">summary</span>(m0PO)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>])
-par$GC &lt;-<span class="st"> </span><span class="kw">summary</span>(m0GC)@coef[, <span class="dv">1</span>:<span class="dv">2</span>]
-par$CP &lt;-<span class="st"> </span><span class="kw">summary</span>(m0CP)@coef[, <span class="dv">1</span>:<span class="dv">2</span>]
-par$PT &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">summary</span>(m0PT)[[<span class="dv">1</span>]]$tau[, <span class="dv">1</span>:<span class="dv">2</span>],
-               <span class="kw">summary</span>(m0PT)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>])</code></pre></div>
-<pre><code>## Call: ndic ~ dose + I(dose^2)
-## 
-## Link function: log
-## Variance function: poisson_tweedie
-## Covariance function: identity
-## Regression:
-##             Estimates Std.error Z value
-## (Intercept)     -3.13     0.106  -29.40
-## dose             5.51     0.408   13.52
-## I(dose^2)       -2.48     0.342   -7.26
-## 
-## Power:
-##   Estimates Std.error Z value
-## 1      1.09       0.3    3.62
-## 
-## Dispersion:
-##   Estimates Std.error Z value
-## 1     0.249       0.1    2.48
-## 
-## Algorithm: chaser
-## Correction: TRUE
-## Number iterations: 7Call: ndic ~ dose + I(dose^2)
-## 
-## Link function: log
-## Variance function: poisson_tweedie
-## Covariance function: identity
-## Regression:
-##             Estimates Std.error Z value
-## (Intercept)     -3.13     0.106  -29.40
-## dose             5.51     0.408   13.52
-## I(dose^2)       -2.48     0.342   -7.26
-## 
-## Power:
-##   Estimates Std.error Z value
-## 1      1.09       0.3    3.62
-## 
-## Dispersion:
-##   Estimates Std.error Z value
-## 1     0.249       0.1    2.48
-## 
-## Algorithm: chaser
-## Correction: TRUE
-## Number iterations: 7</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">do.call</span>(<span class="st">&quot;cbind&quot;</span>, par)</code></pre></div>
-<pre><code>##             PO.Estimate PO.Std. Error GC.Estimate GC.Std. Error
-##                      NA            NA      -0.749         0.134
-## (Intercept)       -3.12        0.0968      -6.091         0.798
-## dose               5.51        0.3693      10.468         1.472
-## I(dose^2)         -2.48        0.3086      -5.053         0.883
-##             CP.Estimate CP.Std. Error PT.Estimates PT.Std.error
-##                  -0.955        0.1952        0.249        0.100
-## (Intercept)      -3.114        0.0931       -3.126        0.106
-## dose              5.121        0.3486        5.514        0.408
-## I(dose^2)        -2.466        0.2818       -2.481        0.342</code></pre>
-<p>The predict values with confidence intervals are calculated with matrix operations, using delta method for confidence intervals. The results for all models are presents in Figure <a href="#fig:pred-chromo"><strong>??</strong></a> together with the observed values (black points). Though the estimates parameters are very different the other models, for Gamma-Count the pontual prediction is consistent with others. However, the confidence intervals for Gamma-Count are much more conservative.</p>
-<p>The practical interpretation of the results in <a href="#fig:pred-chromo"><strong>??</strong></a> is that the chromosome aberration in blood samples increase as doses. However the increase does not have the same intensity for all doses.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cap &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;Dispersion diagram of observed chromossome aberrations and&quot;</span>,
-             <span class="st">&quot;curves of predict values an confidence intervals (95</span><span class="ch">\\</span><span class="st">%)&quot;</span>,
-             <span class="st">&quot;based on Poisson, Gamma-Count, COM-Poisson and&quot;</span>,
-             <span class="st">&quot;Poisson-Tweedie regression models.&quot;</span>)
-
-##-------------------------------------------
-## Visualize means
-
-## pred2 &lt;- subset(preds, model %in% c(&quot;PO&quot;, &quot;PT&quot;))
-<span class="kw">xyplot</span>(fit ~<span class="st"> </span>dose,
-       <span class="dt">data =</span> preds,
-       <span class="dt">groups =</span> model,
-       <span class="dt">type =</span> <span class="kw">c</span>(<span class="st">&quot;g&quot;</span>, <span class="st">&quot;l&quot;</span>),
-       <span class="dt">ly =</span> preds$lwr, <span class="dt">uy =</span> preds$upr,
-       <span class="dt">layout =</span> <span class="kw">c</span>(<span class="ot">NA</span>, <span class="dv">1</span>),
-       <span class="dt">as.table =</span> <span class="ot">TRUE</span>,
-       <span class="dt">alpha =</span> <span class="fl">0.2</span>,
-       <span class="dt">xlab =</span> <span class="st">&quot;Radiation doses&quot;</span>,
-       <span class="dt">ylab =</span> <span class="st">&quot;Mean of chromosomic aberrations&quot;</span>,
-       <span class="dt">auto.key =</span> <span class="kw">list</span>(
-           <span class="dt">columns =</span> <span class="dv">2</span>,
-           <span class="dt">lines =</span> <span class="ot">TRUE</span>,
-           <span class="dt">points =</span> <span class="ot">FALSE</span>,
-           <span class="dt">text =</span> <span class="kw">c</span>(<span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Gamma-Count&quot;</span>,
-                    <span class="st">&quot;COM-Poisson&quot;</span>, <span class="st">&quot;Poisson-Tweedie&quot;</span>)
-       ),
-       <span class="dt">cty =</span> <span class="st">&quot;bands&quot;</span>, <span class="dt">fill =</span> <span class="st">&quot;gray80&quot;</span>,
-       <span class="dt">panel =</span> panel.superpose,
-       <span class="dt">panel.groups =</span> panel.cbH,
-       <span class="dt">prepanel =</span> prepanel.cbH) +
-<span class="st">    </span><span class="kw">as.layer</span>(
-        <span class="kw">update</span>(xy2, <span class="dt">type =</span> <span class="st">&quot;p&quot;</span>)
-    )</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:mean-chromo"></span>
-<img src="rmcdbook_files/figure-html/mean-chromo-1.png" alt="Dispersion diagram of observed chromossome aberrations and curves of predict values an confidence intervals (95\%) based on Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie regression models." width="672" />
-<p class="caption">
-Figure 5.5: Dispersion diagram of observed chromossome aberrations and curves of predict values an confidence intervals (95%) based on Poisson, Gamma-Count, COM-Poisson and Poisson-Tweedie regression models.
-</p>
-</div>
-<p>To complement the study we compute the probability distribution for the five doses used in the experiment. This distributions are presents in Figure <a href="applications.html#fig:probs-chromo">5.6</a>. Note that for 0.1Gy of 2.1MeV dose neutrons the probabilities are strongly concentrated in 0 count, for 1Gy of 2.1MeV dose the distributions still strongly assymmetric on the right, but the probabilities are more dispersed. It is worth mentioning that all distribuitions, thought different, are the same average.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">##-------------------------------------------
-## Calcule probabilities
-index &lt;-<span class="st"> </span>preds$dose %in%<span class="st"> </span><span class="kw">unique</span>(chromosome$dose)
-means &lt;-<span class="st"> </span>preds[index, <span class="kw">c</span>(<span class="st">&quot;model&quot;</span>, <span class="st">&quot;dose&quot;</span>, <span class="st">&quot;fit&quot;</span>)]
-probs &lt;-<span class="st"> </span><span class="kw">list</span>()
-y &lt;-<span class="st"> </span><span class="dv">0</span>:<span class="dv">5</span>
-
-## Poisson model
-indPO &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;PO&quot;</span>, means$model)
-probs$PO &lt;-<span class="st"> </span><span class="kw">do.call</span>(
-    <span class="st">&quot;rbind&quot;</span>,
-    <span class="kw">lapply</span>(indPO, function(i) {
-        <span class="kw">with</span>(means, {
-            py &lt;-<span class="st"> </span><span class="kw">dpois</span>(y, fit[i])
-            <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
-        })
-    })
-)
-
-## Gamma-Count model
-indGC &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;GC&quot;</span>, means$model)
-alpha &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(m0GC)[<span class="st">&quot;alpha&quot;</span>])
-probs$GC &lt;-<span class="st"> </span><span class="kw">do.call</span>(
-    <span class="st">&quot;rbind&quot;</span>,
-    <span class="kw">lapply</span>(indGC, function(i) {
-        <span class="kw">with</span>(means, {
-            aux &lt;-<span class="st"> </span><span class="kw">predict</span>(m0GC, <span class="dt">newdata =</span> <span class="kw">t</span>(<span class="kw">cbind</span>(X[i, ])),
-                           <span class="dt">type =</span> <span class="st">&quot;link&quot;</span>)
-            lambda &lt;-<span class="st"> </span>alpha %*%<span class="st"> </span><span class="kw">exp</span>(aux)
-            py &lt;-<span class="st"> </span><span class="kw">dgcnt</span>(y, <span class="dt">lambda =</span> lambda, <span class="dt">alpha =</span> alpha)
-            <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
-        })
-    })
-)
-
-## COM-Poisson model
-indCP &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;CP&quot;</span>, means$model)
-nu &lt;-<span class="st"> </span><span class="kw">exp</span>(<span class="kw">coef</span>(m0CP)[<span class="st">&quot;phi&quot;</span>])
-sumto &lt;-<span class="st"> </span>m0CP@data$sumto
-probs$CP &lt;-<span class="st"> </span><span class="kw">do.call</span>(
-    <span class="st">&quot;rbind&quot;</span>,
-    <span class="kw">lapply</span>(indCP, function(i) {
-        <span class="kw">with</span>(means, {
-            aux &lt;-<span class="st"> </span><span class="kw">predict</span>(m0CP, <span class="dt">newdata =</span> <span class="kw">t</span>(<span class="kw">cbind</span>(X[i, ])),
-                           <span class="dt">type =</span> <span class="st">&quot;link&quot;</span>)
-            lambda &lt;-<span class="st"> </span><span class="kw">exp</span>(aux)
-            py &lt;-<span class="st"> </span><span class="kw">dcmp</span>(y, <span class="dt">lambda =</span> lambda, <span class="dt">nu =</span> nu, <span class="dt">sumto =</span> sumto)
-            <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
-        })
-    })
-)
-
-## Poisson-Tweedie model
-indPT &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">&quot;PT&quot;</span>, means$model)
-phi &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(m0PT), Estimates[Type ==<span class="st"> &quot;tau&quot;</span>])
-power &lt;-<span class="st"> </span><span class="kw">with</span>(<span class="kw">coef</span>(m0PT), Estimates[Type ==<span class="st"> &quot;power&quot;</span>])
-probs$PT &lt;-<span class="st"> </span><span class="kw">do.call</span>(
-    <span class="st">&quot;rbind&quot;</span>,
-    <span class="kw">lapply</span>(indPT, function(i) {
-        <span class="kw">with</span>(means, {
-            py &lt;-<span class="st"> </span><span class="kw">dptw</span>(<span class="dt">y =</span> y, <span class="dt">mu =</span> fit[i], <span class="dt">phi =</span> phi,
-                       <span class="dt">power =</span> power, <span class="dt">n_pts =</span> <span class="dv">180</span>,
-                       <span class="dt">method =</span> <span class="st">&quot;laguerre&quot;</span>)
-            <span class="kw">data.frame</span>(<span class="dt">dose =</span> dose[i], <span class="dt">y =</span> y, <span class="dt">prob =</span> py)
-        })
-    })
-)
-
-## Visualize the probabilities
-daprobs &lt;-<span class="st"> </span><span class="kw">ldply</span>(probs, <span class="dt">.id =</span> <span class="st">&quot;model&quot;</span>)
-
-<span class="kw">barchart</span>(prob ~<span class="st"> </span>y |<span class="st"> </span><span class="kw">factor</span>(dose), <span class="dt">groups =</span> model,
-         <span class="dt">data =</span> daprobs,
-         <span class="dt">horizontal =</span> <span class="ot">FALSE</span>,
-         <span class="dt">axis =</span> axis.grid,
-         <span class="dt">as.table =</span> <span class="ot">TRUE</span>,
-         <span class="dt">origin =</span> <span class="dv">0</span>,
-         <span class="dt">xlab =</span> <span class="st">&quot;Number of chromosomic aberrations&quot;</span>,
-         <span class="dt">ylab =</span> <span class="st">&quot;Probability&quot;</span>,
-         <span class="dt">scales =</span> <span class="kw">list</span>(<span class="dt">x =</span> <span class="kw">list</span>(<span class="dt">labels =</span> y)),
-         <span class="dt">auto.key =</span> <span class="kw">list</span>(
-             <span class="dt">columns =</span> <span class="dv">2</span>,
-             <span class="dt">text =</span> <span class="kw">c</span>(<span class="st">&quot;Poisson&quot;</span>, <span class="st">&quot;Gamma-Count&quot;</span>,
-                      <span class="st">&quot;COM-Poisson&quot;</span>, <span class="st">&quot;Poisson-Tweedie&quot;</span>)
-         ),
-         <span class="dt">strip =</span> <span class="kw">strip.custom</span>(
-             <span class="dt">strip.name =</span> <span class="ot">TRUE</span>,
-             <span class="dt">var.name =</span> <span class="st">&quot;dose&quot;</span>,
-             <span class="dt">sep =</span> <span class="st">&quot; = &quot;</span>
-         ))</code></pre></div>
-<div class="figure" style="text-align: center"><span id="fig:probs-chromo"></span>
-<img src="rmcdbook_files/figure-html/probs-chromo-1.png" alt="Adjust probability distribution for the chromossome aberrations counts by five irradiation doses." width="672" />
-<p class="caption">
-Figure 5.6: Adjust probability distribution for the chromossome aberrations counts by five irradiation doses.
-</p>
-</div>
 
 </div>
 </div>
