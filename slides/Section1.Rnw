@@ -8,52 +8,33 @@
 
 \begin{frame}
 \frametitle{Dados de contagens}
-Alguns exemplos de problemas envolvendo contagens:
 
-\vspace{0,2cm}
 \begin{itemize}
+\item Contagem = Número de eventos por unidade de observação.
+\item Distribuições com suporte nos inteiros não negativos.
+\item Alguns exemplos de problemas envolvendo contagens:
+\begin{enumerate}
 \item Número de acidentes em uma rodovia por semana;
 \item Número de automóveis vendidos por dia;
 \item Número de gols marcados por times de futebol por partida;
 \item Número de falhas por metro de fio de cobre produzido;
-\item Número de colônias de bactérias por $0,01mm^{2}$ de uma dada 
-cultura $\ldots$
+\item Número de colônias de bactérias por $0,01mm^{2}$ de uma dada cultura $\ldots$
+\end{enumerate}
 
 \end{itemize}
 \end{frame}
-%%%-------------------------------------------------------------------
-
-\begin{frame}
-\frametitle{Modelos probabilísticos para dados de contagens}
-
-\begin{itemize}
-    \item Modelos probabilísticos para variáveis aleatórias discretas, 
-    com suporte no conjunto dos números inteiros não-negativos, 
-    são potenciais candidatos para a análise de dados de contagens.
-\vspace{0.5cm}
-    \item Algumas alternativas: Distribuição binomial, Poisson e 
-    generalizações; distribuições geradas por misturas, como a 
-    beta-binomial, binomial negativa; distribuições fundamentadas na 
-    modelagem do tempo entre eventos, na razão de probabilidades 
-    sucessivas $\ldots$
-
-\end{itemize}
-\end{frame}
-
 %%%-------------------------------------------------------------------
 \begin{frame}\frametitle{Regressão para dados de contagens}
 
 \begin{itemize}
 
-\item Modelos de regressão são utilizados para modelar a distribuição 
+\item Modelos de regressão: são utilizados para modelar a distribuição 
 de uma variável aleatória $Y$ condicional aos valores de um conjunto 
 de variáveis explicativas $x_{1},x_{2},...,x_{p}$.
 
 \vspace{0,5cm}
 
-\item Métodos para inferência e modelos de regressão para dados de 
-contagem estão aquém, em quantidade e diversidade, em relação ao 
-verificado para dados contínuos.
+\item Modelos 
 
 \vspace{0,5cm}
 
