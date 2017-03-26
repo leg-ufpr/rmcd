@@ -9,7 +9,7 @@
 \begin{frame}{Método de máxima verossimilhança}
 \begin{itemize}
   \item Conhecemos a distribuição que gerou os dados $f(y;\boldsymbol{\theta})$.
-  \item Mas não seu finito vetor de parâmetros $\boldsymbol{\theta} \in \Theta$.
+  \item Mas não seu vetor de parâmetros $\boldsymbol{\theta} \in \Theta$.
   \item $\Theta$ em geral é um subconjunto do $\mathbb{R}^n$.
   \item Dado $y$ uma observação da va $Y$ a função de verossimilhança 
   $$ L(\boldsymbol{\theta};y) = f(y;\boldsymbol{\theta}). $$
@@ -65,7 +65,7 @@ $$
   \item A log-verossimilhança é
   \begin{enumerate}
     \item Poisson sem problemas!
-    \item Count-Gamma: diferença de duas integrais.
+    \item Gamma-Count: diferença de duas integrais.
     \item Poisson-Tweedie: expressa como uma integral sem solução analítica.
     \item COM-Poisson: envolve uma soma infinita.
   \end{enumerate}
