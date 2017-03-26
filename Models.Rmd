@@ -515,6 +515,130 @@ are larger than one and zero, respectively, which, of course,
 show that the corresponding Poisson-Tweedie distributions cannot deal
 with underdispersed and zero-deflated count data.
 
+For multi-parameter probability function, a desirable feature is the
+orthogonality betweens parameters. This property leds a series of
+statistical implications as allows make inference for one parameter
+without worrying about the values of the other and computationally
+numerical methods for adjusting distributions with orthogonal parameters
+are more stable and fast.
+
+The orthogonality is defined by second derivatives of the log-likelihood
+function, however for the Gamma-Count, Poisson-Tweedie and COM-Poisson
+and we cannot obtain such derivatives analytically. So we designed a
+simulation study to evaluate the properties about log-likelihood
+function for Gamma-Count and COM-Poisson. We used sample size $n=5000$
+for simulate values of Gamma-Count and COM-Poisson following dispersion
+indexes $DI=0.5$, $2$, $5$ and $20$ and plot the deviance contours
+around the maximum likelihood estimation. The `Script6.R`, in supplement
+material contains the codes for simulation study. The results are shows
+in Figure \@(fig:ortho).
+
+This graphics presented in Figure \@ref(fig:ortho) show that deviance
+contours are similar a quadratic function (blue dashed contours) for
+$DI=0.5$, $2$, $5$ in both distributions. However, for the Gamma-Count
+with $DI=20$ the quadratic aproximation not as good. For $DI=20$ and
+$\mathrm{E}[Y]=10$ we could not find any parameter combination for
+COM-Poisson and for Gamma-Count the estimation is innacurate. With
+respect to orthogonality the Gamma-Count distribution is preferable, the
+deviance contours are well-behaved, while for COM-Poisson the contour
+are strongly flat in one direction making the estimation process
+difficult..
+
+```{r ortho, echo=FALSE, fig.height=6, fig.width=8, fig.cap="Deviance surfaces and quadratic approximation with confidence regions (90, 95 and, 99\\%) for the two parameters following dispersion indexes (DI) in the simulation study. Dashed lines represents the MLE estimation and red points the parameters used in simulation."}
+
+## Orthogonality COM-Poisson and Gamma-Count
+library(MRDCr)
+library(gridExtra)
+source("config/_setup.R")
+load("cache/orthogonality.rda")
+
+##-------------------------------------------
+## Deviance contours for Gamma-Count models
+plotsGC <- lapply(seq(fitsGC), function(i) {
+    ##-------------------------------------------
+    main <- paste("Gamma-Count", "| DI =",
+                  as.numeric(substrlast(names(pars)))[indGC][i])
+    ##-------------------------------------------
+    fit <- fitsGC[[i]]
+    co <- coef(fit$model)
+    tco <- log(rev(unlist(pars[indGC][[i]][-1])))
+    niveis <- c(0.9, 0.95, 0.99)
+    cortes <- qchisq(niveis, df = 2)
+    ##-------------------------------------------
+    Vc <- vcov(fit$model)
+    el <- lapply(niveis, function(l)
+        ellipse::ellipse(x = Vc, level = l))
+    ##-------------------------------------------
+    xy <- levelplot(
+        deviance ~ lalpha + lgamma,
+        data = fit$grid, cuts = 30,
+        xlab = expression(log(alpha)),
+        ylab = expression(log(gamma)),
+        main = list(main, cex = 0.8),
+        scales = list(y = list(rot = 90)),
+        colorkey = list(space = "top"),
+        par.settings = ps,
+        panel = function(x, y, z, at, region, ...){
+            panel.levelplot(x, y, z, at = at, region = TRUE, ...)
+            panel.contourplot(x, y, z, ..., at = cortes,
+                              contour = TRUE, region = FALSE)
+            panel.abline(v = co[1], h = co[2], lty = 2)
+            panel.points(x = tco[1], y = tco[2], lty = 2,
+                         col = 2, pch = 19)
+            lapply(el, function(x){
+                panel.points(x[,1] + co[1], x[,2] + co[2],
+                             type = "l", col = "#377EB8", lty = 2)
+            })
+        })
+    return(xy)
+})
+
+##-------------------------------------------
+## Deviance contours for COM-Poisson models
+plotsCP <- lapply(seq(fitsCP), function(i) {
+    ##-------------------------------------------
+    main <- paste("COM-Poisson", "| DI =",
+                  as.numeric(substrlast(names(pars)))[indCP][i])
+    ##-------------------------------------------
+    fit <- fitsCP[[i]]
+    co <- coef(fit$model)
+    tco <- log(rev(unlist(pars[indCP][[i]][-1])))
+    niveis <- c(0.9, 0.95, 0.99)
+    cortes <- qchisq(niveis, df = 2)
+    ##-------------------------------------------
+    Vc <- vcov(fit$model)
+    el <- lapply(niveis, function(l)
+        ellipse::ellipse(x = Vc, level = l))
+    ##-------------------------------------------
+    xy <- levelplot(
+        deviance ~ lnu + llambda,
+        data = fit$grid, cuts = 30,
+        xlab = expression(log(nu)),
+        ylab = expression(log(lambda)),
+        main = list(main, cex = 0.8),
+        scales = list(y = list(rot = 90)),
+        colorkey = list(space = "top"),
+        par.settings = ps,
+        panel = function(x, y, z, at, region, ...){
+            panel.levelplot(x, y, z, at = at, region = TRUE, ...)
+            panel.contourplot(x, y, z, ..., at = cortes,
+                              contour = TRUE, region = FALSE)
+            panel.abline(v = co[1], h = co[2], lty = 2)
+            panel.points(x = tco[1], y = tco[2], lty = 2,
+                         col = 2, pch = 19)
+            lapply(el, function(x){
+                panel.points(x[,1] + co[1], x[,2] + co[2],
+                             type = "l", col = "#377EB8", lty = 2)
+            })
+        })
+    return(xy)
+})
+
+##-------------------------------------------
+marrangeGrob(c(plotsGC, plotsCP), ncol = 4, nrow = 2, top = "")
+
+```
+
 In terms of regression models, the Poisson and Poisson-Tweedie models are
 easy and convenient to interpret because the expected value is
 directly modelled as a function of known covariates in a generalized

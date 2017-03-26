@@ -1043,7 +1043,3 @@ Poisson-Tweedie perform better than Poisson. <!-- TODO complementar -->
 
 
 ## Number of vehicle claims
-
-```{r eval-not}
-opts_chunk$set(eval = FALSE)
-```
