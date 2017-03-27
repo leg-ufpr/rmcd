@@ -2063,3 +2063,116 @@ barchart(prob ~ y | factor(dose), groups = model,
          ))
 
 ```
+
+```{r}
+str(nematoide)
+
+xyplot(nema/off ~ cult, data = nematoide,
+       xlab = "Linhagens de feijão",
+       ylab = "Número de nematoides por grama de raíz")
+
+m0 <- glm(nema ~ offset(log(off)) + cult,
+          data = nematoide,
+          family = poisson)
+m1 <- update(m0, family = quasipoisson)
+summary(m1)
+
+# Diagnóstico.
+par(mfrow = c(2, 2))
+plot(m0); layout(1)
+
+m2 <- mcglm(linear_pred = c(nema ~ cult),
+            matrix_pred = list(mc_id(data = nematoide)),
+            link = "log",
+            offset = list(log(nematoide$off)),
+            variance = "poisson_tweedie",
+            power_fixed = FALSE,
+            data = nematoide,
+            control_algorithm = list(verbose = FALSE,
+                                     max_iter = 100,
+                                     tunning = 0.5,
+                                     correct = FALSE))
+summary(m2)
+```
+```{r, results = "hide"}
+c0 <- summary(m0)$coefficients[, 1:2]
+c1 <- summary(m1)$coefficients[, 1:2]
+c2 <- rbind(summary(m2)[[1]]$tau[, 1:2],
+            summary(m2)[[1]]$Regression[, 1:2])
+```
+```{r}
+# Parameter estimates according to each model.
+c4 <- cbind("P" = rbind(NA, c0),
+            "QP" = rbind(c(summary(m1)$dispersion, NA), c1),
+            "TW" = c2)
+colnames(c4) <- substr(colnames(c4), 1, 6)
+round(c4, digits = 4)
+
+# Ratios between stardard errors.
+cbind(GC = summary(c4[-1, 4]/c4[-1, 2]),
+      TW = summary(c4[-1, 6]/c4[-1, 2]))
+```
+
+```{r, include = FALSE}
+#-----------------------------------------------------------------------
+# Mean prediction.
+
+# Cell combinations.
+pred <- data.frame(cult = factor(levels(nematoide$cult)))
+X <- model.matrix(~cult, data = pred)
+pred <- list(P = pred, QP = pred, TW = pred)
+
+# Poisson model prediction.
+aux <- confint(glht(m0, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$P <- cbind(pred$P, exp(aux))
+
+# Quasi Poisson.
+aux <- confint(glht(m1, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$QP <- cbind(pred$QP, exp(aux))
+
+V <- vcov(m2)
+i <- grepl("^beta", rownames(V))
+eta <- X %*% coef(m2, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*%
+                           as.matrix(V[i, i]) %*%
+                           t(X))))
+q <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+me <- outer(std, q, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$TW <- cbind(pred$TW, exp(aux))
+
+pred <- ldply(pred, .id = "model")
+pred <- arrange(pred, cult, model)
+
+key <- list(type = "o", divide = 1,
+            lines = list(pch = 1:nlevels(pred$model),
+                         lty = 1, col = 1),
+            text = list(c("Poisson",
+                          "Quasi-Poisson",
+                          "Poisson-Tweedie")))
+```
+```{r segplot-nema, echo = FALSE, fig.cap = cap}
+cap <- "Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals."
+xyplot(fit ~ cult,
+       data = pred,
+       pch = pred$model,
+       ly = pred$lwr,
+       uy = pred$upr,
+       cty = "bars",
+       length = 0,
+       prepanel = prepanel.cbH,
+       desloc = 0.15 * scale(as.integer(pred$model),
+                             scale = FALSE),
+       panel = panel.cbH)
+```
+
+```{r}
+curve(x + 4.21 * x^0.5, 0, 50, asp = 1,
+      xlab = expression(mu),
+      ylab = expression(mu + phi * mu^p))
+abline(a = 0, b = 1, lty = 2)
+```
