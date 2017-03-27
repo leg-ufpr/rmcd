@@ -292,5 +292,3 @@
   \item Motivado por aplicações em dados de experimentos.
   \end{itemize}
 \end{frame}
-
-%-----------------------------------------------------------------------

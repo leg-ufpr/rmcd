@@ -1042,8 +1042,963 @@ soybeans. This variable showed underdispersion so Gamma-Count and
 Poisson-Tweedie perform better than Poisson. <!-- TODO complementar -->
 
 
-## Number of vehicle claims
+## Number of vehicle claims ##
 
-```{r eval-not}
-opts_chunk$set(eval = FALSE)
+```{r setup-claim, include=FALSE}
+
+##----------------------------------------------------------------------
+## load packages and functions
+library(mcglm)
+library(lattice)
+library(latticeExtra)
+library(gridExtra)
+library(MRDCr)
+library(multcomp)
+library(plyr)
+
+## The density of PTW dsitributions (using numerical integration)
+library(statmod)
+library(tweedie)
+source("Script2.R")
+
+```
+
+Em companhias de seguros é de fundamental importância especificar um
+preço adequado correspondente a um segurado, a fim de cobrir o risco
+assumido. Tal tarefa geralmente envolve a avaliação de características
+do plano de seguro que influenciam na taxa de sinistros observada.
+
+Nesta seção nós apresentamos a análise de um conjunto do dados
+referentes ao acompanhamento de `r nrow(seguros)` clientes de uma
+seguradora de veículos ao longo de um ano. Os dados estão disponíveis no
+pacote `MRDCr` (com documentação em português) e podem ser carregados
+com
+
+```{r, eval=FALSE}
+
+##----------------------------------------------------------------------
+## Load and organize data
+data(package = "MRDCr")
+help(seguros, h = "html")
+
+```
+
+Após a tradução dos níveis das variáveis categóricas a estrutura dos
+dados fica
+
+```{r, include=FALSE}
+
+## Remove the unused variables
+data(seguros, package = "MRDCr")
+seguros <- seguros[, !colnames(seguros) %in% c("tipo", "civil")]
+
+```
+
+```{r}
+
+## Translate levels of categorical variables and colnames
+colnames(seguros) <- c("age", "sex", "price", "expo", "nclaims")
+levels(seguros$sex) <- c("Female", "Male")
+str(seguros)
+
+```
+
+In this dataset a variável `age` é mensurada em anos, e `price` em 1000
+reais. A variável `expo` representa o período de cobertura do cliente,
+durante o ano sob análise, um valor de 0.5 significa que o cliente
+esteve exposto ao sinistro durante metade do ano.
+
+```{r, include=FALSE}
+
+## Proportion of null counts
+p0 <- sum(seguros$nclaims == 0)*100/nrow(seguros)
+
+```
+
+A Figura \@ref(fig:desc-claim) mostra a descrição das variáveis a serem
+utilizadas na análise. Embora esses gráficos não considerem todas as
+variáveis conjuntamente, o gráfico à esquerda sugere que há um excesso
+de contagens nulas, no geral  `r p0`% das contagens são 0.
+
+```{r desc-claim, echo=FALSE, fig.width=8, fig.height=6, fig.cap=cap}
+
+cap <- paste("Relative frequencies for number of vehicle claims,",
+             "and empirical densities to price of vehicle, age of",
+             "clients and exposure time by sex of insurance clients.")
+
+##----------------------------------------------------------------------
+## Descriptive analysis
+cols <- trellis.par.get("superpose.polygon")$col
+xy1 <- barchart(prop.table(xtabs(~nclaims + sex, data = seguros)),
+                horizontal = FALSE,
+                axis = axis.grid,
+                xlab = "Number of vehicles claims",
+                ylab = "Relative frequency",
+                scales = list(y = list(rot = 90)))
+xy2 <- barchart(prop.table(table(seguros$sex)),
+                horizontal = FALSE,
+                ylab = "",
+                col = cols[1:2])
+xy3 <- densityplot(~price, data = seguros,
+                   groups = sex,
+                   axis = axis.grid,
+                   xlab = "price of vehicle (1000 R$)",
+                   scales = list(y = list(rot = 90)))
+xy4 <- densityplot(~age, data = seguros,
+                   groups = sex,
+                   axis = axis.grid,
+                   xlab = "Age of insurance client (years)",
+                   scales = list(y = list(rot = 90)))
+xy5 <- densityplot(~expo, data = seguros,
+                   groups = sex,
+                   axis = axis.grid,
+                   xlab = "Exposure time (years)",
+                   scales = list(y = list(rot = 90)))
+
+print(xy1, split = c(1, 1, 2, 2), more = TRUE)
+print(xy2, position = c(0.15, 0.65, 0.48, 0.95), more = TRUE)
+print(xy3, split = c(2, 1, 2, 2), more = TRUE)
+print(xy4, split = c(1, 2, 2, 2), more = TRUE)
+print(xy5, split = c(2, 2, 2, 2), more = FALSE)
+
+```
+
+Para análise desses dados consideramos efeitos quadráticos para
+variáveis contínuas e intercepto variando conforme sexo do cliente.  `price` foi tomada como
+preditor pode ser escrito como
+
+\begin{equation*}
+  \begin{split}
+  \log\left ( \frac{\mu_i}{\texttt{expo}_i} \right ) = &
+  \beta_0 + \beta_1 \mathbb{1}(\texttt{sex}_i) +
+  \beta_2 \texttt{price}_i + \\
+  & + \beta_3 \texttt{price}_i^2 +
+  \beta_4 \texttt{age}_i +
+  \beta_5 \texttt{age}_i^2
+  \end{split}
+\end{equation*}
+
+em R definimos o preditor conforme sintaxe para objetos da classe
+`formula`. Note que a variável `expo` é envolta na função `offset` e
+sendo assim é considerado apenas como denominador das contagens.
+
+```{r}
+
+## Define preditor
+form0 <- nclaims ~ offset(log(expo)) + sex +
+    price + I(price^2) + age + I(age^2)
+
+```
+
+Nós ajustamos os modelos de regressão Poisson e Poisson-Tweedie usando
+os frameworks `stats::glm` e `mcglm::mcglm`, que se baseam em máxima
+verossimilhança e especificação por momentos respectivamente.
+
+```{r fit-claim0}
+
+## Fit Poisson
+m0PO <- glm(form0, data = seguros, family = poisson)
+
+## Fit Poisson-Tweedie
+m0PT <- mcglm(
+    linear_pred = c(form0),
+    matrix_pred = list(mc_id(seguros)),
+    link = "log",
+    variance = "poisson_tweedie",
+    power_fixed = FALSE,
+    data = seguros)
+
+```
+
+Os parâmetros de regressão estimados nos modelos Poisson e
+Poisson-Tweedie são exibidos abaixo juntamente com seus erros
+padrão. Uma coluna com a razão entre as estimatimas e
+erros-padrão é acrescida. Note que as estimativas muito similares e os
+erros-Padrão são em torno de 20\% maiores quando considerado o modelo
+Poisson-Tweedie.
+
+```{r}
+
+##----------------------------------------------------------------------
+## Parameter estimates
+parPO <- summary(m0PO)$coefficients[, 1:2]
+parPT <- summary(m0PT)[[1]]$Regression[, 1:2]
+pars <- cbind(parPO, parPT)
+cbind(pars, cbind("RatioEst" = pars[, 3]/pars[, 1],
+                  "RatioStd" = pars[, 4]/pars[, 2]))
+
+```
+
+Embora tenhamos ajustados os modelos e avaliados seus resultados, uma
+suposição que é inerente ao modelo não foi avaliada. A inclusão do
+offset (exposição) pressupõe relação identidade entre a exposição e o
+número médio de sinistros ($\mu_i \texttt{expo}_i = \lambda_i$), em
+outras palavras, sob as mesmas condições esperamos que um indivíduo com
+tempo de exposição de $1$ ano tenha o dobro de sinistros do que um
+indivíduo com tempo de exposição de $0.5$. A avaliação dessa suposição é
+realizada estimando esse coeficiente e comparando-o com o valor fixado.
+
+```{r, fit-claim1}
+
+## Define preditors (free offset of first order and second order)
+form1 <- nclaims ~ log(expo) + sex +
+    price + I(price^2) + age + I(age^2)
+
+## Fit Poisson
+m1PO <- glm(form1, data = seguros, family = poisson)
+
+## Fit Poisson-Tweedie
+m1PT <- mcglm(linear_pred = c(form1),
+          matrix_pred = list(mc_id(seguros)),
+          link = "log",
+          variance = "poisson_tweedie",
+          power_fixed = FALSE,
+          data = seguros)
+
+```
+
+Nos modelos Poisson o método `anova` em R realiza o teste de razão de
+verossimilhanças para modelos aninhados.
+
+```{r}
+
+## Analysis of deviance table for nested models
+(an <- anova(m0PO, m1PO, test = "Chisq"))
+
+```
+
+Com a estimação do coeficiente para $\log(\texttt{expo})$, houve uma
+diferença de `r an$Deviance[2]` em relação ao modelo cujo coeficiente é
+fixado em 1, evidenciando que a suposição de identidade entre o a
+exposição e as contagens não é atendida.
+
+Para os modelos Poisson-Tweedie os testes de razão de verossimilhanças
+também são possíveis, porém tendem a ser computacionalmente intensivos
+uma vez que a função de densidade é definida por uma integral
+intratável. Sendo assim uma alternativa é comparar os modelos via
+measures of Goodness-of-Fit que não precisam da verossimilhança like
+pseudo Gaussian log-likelihood (plogLik), pseudo Akaike Information
+Criterion (pAIC), pseudo Kullback-Leibler Information Criterion (pKLIC)
+and Error Sum of Squares (ESS), que além de mais rápidas podem ser
+utilizadas para o modelo Poisson-Tweedie estendido que não se baseia em
+verossimilhança. Essas medidas são calculadas com função `mcglm::gof`.
+
+```{r}
+
+## Measures of goodness-of-fit for compare nested models
+goflist <- lapply(list(m0PT, m1PT), gof)
+(gofPT <- do.call("rbind", goflist))
+
+```
+
+Da mesma forma nos modelos Poisson-Tweedie também há fortes indicações
+de que o coeficiente para o logarítimo das exposições não seja
+$1$. Sendo assim seguimos as análises com os modelos que consideram a
+estimação do efeito dos tempos de exposição.
+
+As estimativas pontuais com erros-padrão são obtidas da mesma forma que
+nos primeiros modelos ajustados. Note que não houve uma mudança drástica
+nas estimativas comparando ao modelo com offset, indicando que não há
+relação entre os tempos de exposição e as covariáveis. A similaridade
+das estimativas do modelo Poisson e Poisson-Tweedie se mantém assim como
+o aumento em 20\% nos erros-padrão.
+
+```{r}
+
+##----------------------------------------------------------------------
+## Parameter estimates
+parPO <- summary(m1PO)$coefficients[, 1:2]
+parPT <- summary(m1PT)[[1]]$Regression[, 1:2]
+pars <- cbind(parPO, parPT)
+cbind(pars, cbind("RatioEst" = pars[, 3]/pars[, 1],
+                  "RatioStd" = pars[, 4]/pars[, 2]))
+
+```
+
+```{r, include=FALSE}
+
+co <- coef(m1PO)
+
+```
+
+Finalmente a Figura \ref@(fig:claims-pred) apresenta as curvas de
+predição conforme cada variável, como temos mais de uma covariável
+numérica no modelo, fixamos as demais variáveis seu valor mediano para
+construção das curvas. O efeito quadrático das variáveis `price` e `age`
+é evidente. A média de sinistros é maior para veículos entre 50 e 100
+mil reais, veículos de valores baixos ou muito elevados tendem a ter um
+taxa de sinistros menor, o que faz sentido no mercado brasileiro onde
+furtos e acidentes ocorrem com maior frequência em carros
+populares. Para a idade temos a interpretação contrária, espera-se menos
+sinistros para idades medianas, entre 40 e 70 anos e maiores para jovens
+e idosos.
+
+Comparando os modelos temos curvas de predição e intervalos de confiança
+muito similares, sendo levemente maiores quando considerado o
+Poisson-Tweedie. O que se destaque no gráfico é a diferença nos
+intervalos de confiança para o preço do veículo, nesse caso o modelo
+Poisson-Tweedie é muito mais conservador onde há menos observações, no
+intervalo de preços mais elevados.
+
+```{r claims-pred, fig.width=8, fig.height=5}
+
+cap <- paste("Curves of predict values an confidence intervals (95\\%)",
+             "based on Poisson and Poisson-Tweedie regression models",
+             "for each numerical covariate setting the others in the",
+             "median.")
+
+##-------------------------------------------
+## Prediction to exposure
+aux <- with(seguros, {
+    expand.grid(
+        expo = seq(min(expo), max(expo), length.out = 30),
+        sex = unique(sex),
+        price = median(price),
+        age = median(age)
+    )
+})
+
+da <- data.frame(var = "Exposure", x = aux$expo, sex = aux$sex)
+X <- model.matrix(update(form1, NULL ~ .), data = aux)
+pred <- list(PO = da, PT = da)
+
+## Poisson model
+aux <- confint(glht(m1PO, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$PO <- cbind(pred$PO, exp(aux)[, c("lwr", "fit", "upr")])
+
+## Poisson-Tweedie model
+qn <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+V <- vcov(m1PT)
+i <- grepl("beta", colnames(V))
+eta <- X %*% coef(m1PT, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*% as.matrix(V[i, i]) %*% t(X))))
+me <- outer(std, qn, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$PT <- cbind(pred$PT, exp(aux))
+
+## Organize predictions
+predsex <- ldply(pred, .id = "model")
+
+##-------------------------------------------
+## Prediction to price
+aux <- with(seguros, {
+    expand.grid(
+        expo = median(expo),
+        sex = unique(sex),
+        price = seq(min(price), max(price), length.out = 30),
+        age = median(age)
+    )
+})
+
+da <- data.frame(var = "Price", x = aux$price, sex = aux$sex)
+X <- model.matrix(update(form1, NULL ~ .), data = aux)
+pred <- list(PO = da, PT = da)
+
+## Poisson model
+aux <- confint(glht(m1PO, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$PO <- cbind(pred$PO, exp(aux)[, c("lwr", "fit", "upr")])
+
+## Poisson-Tweedie model
+qn <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+V <- vcov(m1PT)
+i <- grepl("beta", colnames(V))
+eta <- X %*% coef(m1PT, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*% as.matrix(V[i, i]) %*% t(X))))
+me <- outer(std, qn, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$PT <- cbind(pred$PT, exp(aux))
+
+## Organize predictions
+predspr <- ldply(pred, .id = "model")
+
+##-------------------------------------------
+## Prediction to age
+aux <- with(seguros, {
+    expand.grid(
+        expo = median(expo),
+        sex = unique(sex),
+        price = median(price),
+        age = seq(min(age), max(age), length.out = 30)
+    )
+})
+
+da <- data.frame(var = "Age", x = aux$age, sex = aux$sex)
+X <- model.matrix(update(form1, NULL ~ .), data = aux)
+pred <- list(PO = da, PT = da)
+
+## Poisson model
+aux <- confint(glht(m1PO, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$PO <- cbind(pred$PO, exp(aux)[, c("lwr", "fit", "upr")])
+
+## Poisson-Tweedie model
+qn <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+V <- vcov(m1PT)
+i <- grepl("beta", colnames(V))
+eta <- X %*% coef(m1PT, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*% as.matrix(V[i, i]) %*% t(X))))
+me <- outer(std, qn, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$PT <- cbind(pred$PT, exp(aux))
+
+## Organize predictions
+predsag <- ldply(pred, .id = "model")
+
+##-------------------------------------------
+## Graph
+preds <- rbind(predsex, predspr, predsag)
+useOuterStrips(
+    xyplot(fit ~ x | var + sex,
+           data = preds,
+           groups = model,
+           type = c("g", "l"),
+           ly = preds$lwr, uy = preds$upr,
+           layout = c(NA, 1),
+           as.table = TRUE,
+           alpha = 0.2,
+           xlab = "Value of covariate",
+           ylab = "Mean of vehicles claims",
+           ## scales = list(x = "free"),
+           scales = "free",
+           auto.key = list(
+               columns = 2,
+               lines = TRUE,
+               points = FALSE,
+               text = c("Poisson", "Poisson-Tweedie")
+           ),
+           cty = "bands", fill = "gray80",
+           panel = panel.superpose,
+           panel.groups = panel.cbH,
+           prepanel = prepanel.cbH)
+)
+
+```
+
+Para avaliar o poder preditivo dos modelos nós calculamos as frequências
+estimadas pelos dois modelos considerados e comparamos com as
+observadas. As frequências estimadas $\hat{\mathrm{Fr}}$, para um dado
+valor $y$ são calculadas como
+
+```{r, include=FALSE}
+
+phi <- with(coef(m1PT), Estimates[Type == "tau"])
+power <- with(coef(m1PT), Estimates[Type == "power"])
+
+```
+
+$$
+\hat{\mathrm{Fr}}(y) = \sum_{i=1}^n \Pr(Y=y \mid \boldsymbol{\hat{\theta}}_i)
+$$
+
+Onde $\Pr(Y=y \mid \hat{\boldsymbol{\theta}}_i)$ é a função massa de
+probabilidade definida pelo conjunto de parâmetros
+$\boldsymbol{\hat{\theta}}_i$. Para o modelo Poisson
+$\hat{\boldsymbol{\theta}}_i = \hat{\mu}_i$ e para o modelo
+Poisson-Tweedie $\hat{\boldsymbol{\theta}}_i =
+[\hat{\mu}_i \hat{\phi}=`r phi`] \hat{p}=`r power`]$. For
+Poisson-Tweedie model we evaluate the integral using the Gauss-Laguerre
+method (with 100 points). The results shows that Poisson-Tweedie model
+offers a better fit with adjust frequencies very close of observed
+frequencies.
+
+```{r freqs-claim, eval=FALSE}
+
+## Adjust frequencies by models
+
+## Calcule probabilities
+X <- model.matrix(form1, data = seguros)
+y <- 0:6
+n <- nrow(seguros)
+freqs <- list()
+
+## Observed
+freqs$Obs <- with(seguros, sapply(y, function(x) {
+    sum(nclaims == x)
+}))
+
+## By Poisson
+muPO <- exp(X %*% coef(m1PO))
+probsPO <- do.call(
+    "rbind",
+    lapply(muPO, function(mui) {
+        py <- dpois(y, lambda = mui)
+    }))
+freqs$PO <- round(apply(probsPO, 2, sum))
+
+## By Poisson-Tweedie
+##  -- very time consuming.
+muPT <- exp(X %*% coef(m1PT, type = "beta")$Estimates)
+phi <- with(coef(m1PT), Estimates[Type == "tau"])
+power <- with(coef(m1PT), Estimates[Type == "power"])
+probsPT <-do.call(
+    "rbind",
+    lapply(muPT, function(mui) {
+        py <- dptw(y = y, mu = mui, phi = phi,
+                   power = power, n_pts = 100,
+                   method = "laguerre")
+    }))
+freqs$PT <- round(apply(probsPT, 2, sum))
+tabf <- ldply(freqs)
+
+colnames(tabf) <- c("", y)
+tabf
+
+```
+
+```{r, echo=FALSE}
+
+load("cache/tabf-claims.rda")
+tabf
+
+```
+
+## Radiation-induced chromosome aberration counts ##
+
+```{r setup-chromo, include=FALSE}
+
+##----------------------------------------------------------------------
+## load packages and functions
+library(mcglm)
+library(lattice)
+library(latticeExtra)
+library(gridExtra)
+library(MRDCr)
+library(multcomp)
+library(plyr)
+
+## The density of PTW dsitributions (using numerical integration)
+library(statmod)
+library(tweedie)
+source("Script2.R")
+
+```
+
+In biological dosimetry studies essentially the response variables are
+data counts. These experiments measure the number of chromosome
+aberrations in human lymphocytes after to controlled exposure of
+ionizing radiation. The aim of the studies are analyse the biological
+effects induced by ionizing radiation. The aberrations most commonly
+mensured are the dicentrics, centric rings, and micronucle .
+
+In this section the dataset considered was obtained after irradiating
+blood samples with five different doses between 0.1 and 1 Gy of 2.1 MeV
+neutrons. In this case, the frequencies of dicentrics and centric rings
+after a culture of 72 hours are analysed. The dataset was analysed by
+@Oliveira2006, as an example of zero-inflated data and @Bonat2016b,
+using extend Poisson-Tweedie approach.
+
+The data are available in `data/chromossome.rda` file. In `R` it can be
+loaded with
+
+```{r}
+
+##----------------------------------------------------------------------
+## Load
+load("./data/chromosome.rda")
+str(chromosome)
+
+```
+
+The Figure \@ref(fig:desc-chromo) shows the frequencies chromosome
+aberrations (left) and average of chromosome aberrations by radiation
+doses (right). Note that the highest frequencies are observed for zero
+counts and the averages are between 0 and 1, suggesting excess zero.
+
+```{r desc-chromo, fig.width=9, fig.height=4, fig.cap = cap, echo=FALSE}
+
+cap <- paste("Observed frequencies of the chromosome aberrations",
+             "counts by radiation doses (left) and means of chromosome",
+             "aberrations for each radiation doses (right).")
+
+##----------------------------------------------------------------------
+## Descriptive analysis
+
+## Frequencies
+xt <- xtabs(~ndic + dose, data = chromosome)
+xy1 <- barchart(xt,
+                axis = axis.grid,
+                stack = FALSE,
+                horizontal = FALSE,
+                xlab = "Number of chromosome aberrations",
+                ylab = "Frequency",
+                auto.key = list(
+                    title = "Radiation doses",
+                    cex.title = 1.1,
+                    column = 3
+                ))
+
+## Means
+mobs <- with(chromosome,
+             data.frame("means" = tapply(ndic, dose, mean),
+                        "doses" = unique(dose)))
+xy2 <- xyplot(means ~ doses,
+              data = mobs,
+              pch = 19,
+              type = c("p", "g", "o"),
+              xlab = "Radiation doses",
+              ylab = "Mean of chromosome aberrations")
+
+print(xy1, split = c(1, 1, 2, 1), more = TRUE)
+print(xy2, split = c(2, 1, 2, 1), more = FALSE)
+
+```
+
+For this application we fit the Poisson, Gamma-Count, COM-Poisson and
+Poisson-Tweedie distributions. The linear predictor considered is a
+quadratic dose model, follow @Bonat2016b. The codes below fit the four
+models using the `MRDCd` and `mcglm` packages. Note that for
+`MRDCr::cmp` function we need specify `sumto`, the number of increments
+for a infinite sum, i.e in this case $Z(\hat{\lambda}_i, \hat{\nu}) =
+\sum_j^{50}\hat{\lambda}_i^j / (j!)^{\hat{\nu}}$.
+
+```{r model-chromo}
+
+##----------------------------------------------------------------------
+## Modelling
+form <- ndic ~ dose + I(dose^2)
+
+m0PO <- glm(form, family = poisson, data = chromosome)
+m0GC <- gcnt(form, data = chromosome)
+m0CP <- cmp(form, data = chromosome, sumto = 50)
+m0PT <- mcglm(
+    linear_pred = c(form),
+    matrix_pred = list(mc_id(chromosome)),
+    link = "log",
+    variance = "poisson_tweedie",
+    power_fixed = FALSE,
+    data = chromosome)
+
+```
+
+No issues were reported during the estimation process. A better research
+about the algorithm covergence for Poisson-Tweedie models is implemented
+by `mcglm::plot(model, type = "algorithm")`. This four graphs shows the
+trajectory or iterations of the fitting algorithm, we can see that both
+cases the lines converged.
+
+```{r conv-chromo}
+
+## Check algorithm convergence
+plot(m0PT, type = "algorithm")
+
+```
+
+For the COM-Poisson and Gamma-Count we can see the `details` slots,
+(`model@details`). This shows the components list of `optim`, the list
+object `convergence` when 0 means that optimization was successful and
+`counts` shows the number of calls to log-likelihood function and
+numerical gradient function. Note the in this case the COM-Poisson model
+required fewer interactions than Gamma-Count model. However, we don't
+evaluate the time of fit because to compute log-likelihood function for
+COM-Poisson is more difficult than for Gamma-Count.
+
+```{r}
+
+## Check optim convergence
+do.call("rbind",
+        lapply(list("GC" = m0GC, "CP" = m0CP),
+               function(model) {
+                   c(model@details$counts,
+                     "convergence" = model@details$convergence)
+               }))
+
+```
+
+For COM-POisson model, we also need verify that the number of increments
+for $Z(\hat{\lambda}_i, \hat{\nu})$ is satisfactory for accurate
+sums. The function `MRDCr::covergencez` shows a number of increments
+necessary for a given tolerance. For each line represent the $i$th
+observation, as we only have five different doses only five lines are
+showed. Note that the `sumto=50` is more than necessary for the
+convergence of all constansts.
+
+```{r}
+
+## Check Z(lambda, nu) convergence
+convergencez(m0CP, tol = 1e-5)
+
+```
+
+```{r, include=FALSE}
+
+power <- with(coef(m0PT), Estimates[Type == "power"])
+
+```
+
+For compare models we used the log-likelihood value and AIC and BIC
+criteria. In the Gamma-Count and COM-Poisson the measures are easily
+obtained by `logLik`, `AIC` and `BIC` functions. In the Poisson-Tweedie
+model this functions are not implemented, because the models are
+estimated only by second-moments assumptions. However, in this case we
+can compute log-likelihood, and consequently AIC and BIC criteria. This
+is possible beacause the parameter $p$ was estimated on `r power`. The
+codes below compute these measures for the four models. Note that in R
+we only implement `logLik.mcglm` function, the other functions `AIC` and
+`BIC` are methods for `logLik` objects.
+
+The measures of goodness-of-fit show that Poisson-Tweedie approach is
+more suitable in this case. Gamma-Count and COM-Poisson models present
+similar results and Poisson model the worse results. This is attributed
+to the inadequate assumption of equidespersion and excess of zeros.
+
+```{r gof-chromo}
+
+##----------------------------------------------------------------------
+## Goodness of fit
+
+## Compute logLik for Poisson-Tweedie
+##    ** especific for this example
+logLik.mcglm <- function(object) {
+    y <- c(0:5, 7)
+    data <- data.frame(dose = unique(chromosome$dose))
+    ## ---
+    form <- update(object$linear_pred[[1]], NULL ~ .)
+    X <- model.matrix(form, data)
+    mu <- exp(X %*% coef(object, type = "beta")$Estimates)
+    phi <- with(coef(object), Estimates[Type == "tau"])
+    power <- with(coef(object), Estimates[Type == "power"])
+    obs <- xtabs(~ndic + dose, data = chromosome)
+    matpred <- do.call("cbind", lapply(mu, function(mui) {
+        dptw(y = y, mu = mui, phi = phi, power = power,
+             n_pts = 180, "laguerre")
+    }))
+    ll <- sum(log(matpred) * obs)
+    attr(ll, "df") <- nrow(coef(object))
+    attr(ll, "nobs") <- m0PT$n_obs
+    class(ll) <- "logLik"
+    return(ll)
+}
+
+## Compute table of gof
+models <- list("Poisson" = m0PO, "Gamma-Count" = m0GC,
+               "COM-Poisson" = m0CP, "Poisson-Tweedie" = m0PT)
+(measures <- sapply(models, function(x)
+    c("LogLik" = logLik(x), "AIC" = AIC(x), "BIC" = BIC(x))))
+
+```
+
+The parameters estimates can be obtained by `summary` methods. The codes
+below shows the estimates of location and dispersion parameters. Note
+that the estimates for the location parameters were very close in
+Poisson, COM-Poisson and Poisson-Tweedie. For the Gamma-Count model the
+estimates are many differents though the signs are the same. Regarding
+the standard deviations, we have the Poisson and COM-Poisson very close,
+Poisson-Tweedie with standard deviations a little bigger and the
+Gamma-Count much bigger than others, totally dissagre.
+
+```{r}
+
+##----------------------------------------------------------------------
+## Parameter estimates
+par <- list()
+par$PO <- rbind(NA, summary(m0PO)$coefficients[, 1:2])
+par$GC <- summary(m0GC)@coef[, 1:2]
+par$CP <- summary(m0CP)@coef[, 1:2]
+par$PT <- rbind(summary(m0PT)[[1]]$tau[, 1:2],
+               summary(m0PT)[[1]]$Regression[, 1:2])
+
+do.call("cbind", par)
+
+```
+
+The predict values with confidence intervals are calculated with matrix
+operations, using delta method for confidence intervals. The results
+for all models are presents in Figure \@ref(fig:pred-chromo) together
+with the observed values (black points). Though the estimates parameters
+are very different the other models, for Gamma-Count the pontual
+prediction is consistent with others. However, the confidence intervals
+for Gamma-Count are much more conservative.
+
+The practical interpretation of the results in \@ref(fig:pred-chromo) is
+that the chromosome aberration in blood samples increase as doses.
+However the increase does not have the same intensity for all doses.
+
+```{r pred-chromo, echo=FALSE}
+
+##----------------------------------------------------------------------
+## Estimation
+
+##----------------------------------------------------------------------
+## Prediction
+aux <- with(chromosome, {
+    data.frame(dose = seq(min(dose), max(dose), length.out = 28))
+})
+X <- model.matrix(update(form, NULL ~ .), data = aux)
+pred <- list(PO = aux, GC = aux, CP = aux, PT = aux)
+
+## Poisson model
+aux <- confint(glht(m0PO, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$PO <- cbind(pred$PO, exp(aux)[, c("lwr", "fit", "upr")])
+
+## Gamma-Count model
+aux <- predict(m0GC, newdata = X, interval = "confidence",
+                  type = "response")
+pred$GC <- cbind(pred$GC, aux)
+
+## COM-Poisson model
+aux <- predict(m0CP, newdata = X, interval = "confidence",
+                  type = "response")
+pred$CP <- cbind(pred$CP, aux)
+
+## Poisson-Tweedie model
+qn <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+V <- vcov(m0PT)
+i <- grepl("beta", colnames(V))
+eta <- X %*% coef(m0PT, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*% as.matrix(V[i, i]) %*% t(X))))
+me <- outer(std, qn, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$PT <- cbind(pred$PT, exp(aux))
+
+## Organize predictions
+preds <- ldply(pred, .id = "model")
+
+```
+
+```{r mean-chromo, fig.cap=cap}
+
+cap <- paste("Dispersion diagram of observed chromossome aberrations and",
+             "curves of predict values an confidence intervals (95\\%)",
+             "based on Poisson, Gamma-Count, COM-Poisson and",
+             "Poisson-Tweedie regression models.")
+
+##-------------------------------------------
+## Visualize means
+
+## pred2 <- subset(preds, model %in% c("PO", "PT"))
+xyplot(fit ~ dose,
+       data = preds,
+       groups = model,
+       type = c("g", "l"),
+       ly = preds$lwr, uy = preds$upr,
+       layout = c(NA, 1),
+       as.table = TRUE,
+       alpha = 0.2,
+       xlab = "Radiation doses",
+       ylab = "Mean of chromosomic aberrations",
+       auto.key = list(
+           columns = 2,
+           lines = TRUE,
+           points = FALSE,
+           text = c("Poisson", "Gamma-Count",
+                    "COM-Poisson", "Poisson-Tweedie")
+       ),
+       cty = "bands", fill = "gray80",
+       panel = panel.superpose,
+       panel.groups = panel.cbH,
+       prepanel = prepanel.cbH) +
+    as.layer(
+        update(xy2, type = "p")
+    )
+
+```
+
+To complement the study we compute the probability distribution for the
+five doses used in the experiment. This distributions are presents in
+Figure \@ref(fig:probs-chromo). Note that for 0.1Gy of 2.1MeV dose
+neutrons the probabilities are strongly concentrated in 0 count, for
+1Gy of 2.1MeV dose the distributions still strongly assymmetric on the
+right, but the probabilities are more dispersed. It is worth mentioning
+that all distribuitions, thought different, are the same average.
+
+```{r probs-chromo, fig.cap="Adjust probability distribution for the chromossome aberrations counts by five irradiation doses."}
+
+##-------------------------------------------
+## Calcule probabilities
+index <- preds$dose %in% unique(chromosome$dose)
+means <- preds[index, c("model", "dose", "fit")]
+probs <- list()
+y <- 0:5
+
+## Poisson model
+indPO <- grep("PO", means$model)
+probs$PO <- do.call(
+    "rbind",
+    lapply(indPO, function(i) {
+        with(means, {
+            py <- dpois(y, fit[i])
+            data.frame(dose = dose[i], y = y, prob = py)
+        })
+    })
+)
+
+## Gamma-Count model
+indGC <- grep("GC", means$model)
+alpha <- exp(coef(m0GC)["alpha"])
+probs$GC <- do.call(
+    "rbind",
+    lapply(indGC, function(i) {
+        with(means, {
+            aux <- predict(m0GC, newdata = t(cbind(X[i, ])),
+                           type = "link")
+            lambda <- alpha %*% exp(aux)
+            py <- dgcnt(y, lambda = lambda, alpha = alpha)
+            data.frame(dose = dose[i], y = y, prob = py)
+        })
+    })
+)
+
+## COM-Poisson model
+indCP <- grep("CP", means$model)
+nu <- exp(coef(m0CP)["phi"])
+sumto <- m0CP@data$sumto
+probs$CP <- do.call(
+    "rbind",
+    lapply(indCP, function(i) {
+        with(means, {
+            aux <- predict(m0CP, newdata = t(cbind(X[i, ])),
+                           type = "link")
+            lambda <- exp(aux)
+            py <- dcmp(y, lambda = lambda, nu = nu, sumto = sumto)
+            data.frame(dose = dose[i], y = y, prob = py)
+        })
+    })
+)
+
+## Poisson-Tweedie model
+indPT <- grep("PT", means$model)
+phi <- with(coef(m0PT), Estimates[Type == "tau"])
+power <- with(coef(m0PT), Estimates[Type == "power"])
+probs$PT <- do.call(
+    "rbind",
+    lapply(indPT, function(i) {
+        with(means, {
+            py <- dptw(y = y, mu = fit[i], phi = phi,
+                       power = power, n_pts = 180,
+                       method = "laguerre")
+            data.frame(dose = dose[i], y = y, prob = py)
+        })
+    })
+)
+
+## Visualize the probabilities
+daprobs <- ldply(probs, .id = "model")
+
+barchart(prob ~ y | factor(dose), groups = model,
+         data = daprobs,
+         horizontal = FALSE,
+         axis = axis.grid,
+         as.table = TRUE,
+         origin = 0,
+         xlab = "Number of chromosomic aberrations",
+         ylab = "Probability",
+         scales = list(x = list(labels = y)),
+         auto.key = list(
+             columns = 2,
+             text = c("Poisson", "Gamma-Count",
+                      "COM-Poisson", "Poisson-Tweedie")
+         ),
+         strip = strip.custom(
+             strip.name = TRUE,
+             var.name = "dose",
+             sep = " = "
+         ))
+
 ```
