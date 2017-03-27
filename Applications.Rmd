@@ -2070,7 +2070,9 @@ str(nematoide)
 xyplot(nema/off ~ cult, data = nematoide,
        xlab = "Linhagens de feijão",
        ylab = "Número de nematoides por grama de raíz")
+```
 
+```{r}
 m0 <- glm(nema ~ offset(log(off)) + cult,
           data = nematoide,
           family = poisson)
