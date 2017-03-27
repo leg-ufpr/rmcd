@@ -261,8 +261,6 @@ m2 <- mcglm(linear_pred = c(ncap ~ est * (des + I(des^2))),
 # Parameter estimates.
 summary(m2)
 
-plot(m2, type = "algorithm")
-
 # Wald test for fixed effects.
 anova(m2)
 ```
@@ -275,27 +273,90 @@ pred <- with(capdesfo,
 
 # Corresponding model matrix.
 X <- model.matrix(formula(m0)[-2], data = pred)
+pred <- list(P = pred, GC = pred, TW = pred)
 
-#--------------------------------------------
-# Poisson.
+# Poisson model prediction.
+aux <- confint(glht(m0, linfct = X),
+               calpha = univariate_calpha())$confint
+colnames(aux)[1] <- "fit"
+pred$P <- cbind(pred$P, exp(aux))
 
-yp <- predict(m0, newdata = pred, se.fit = TRUE)
-em <- outer(yp$se.fit,
-            c(lwrP = -1, fitP = 0, uprP = 1) * qnorm(0.975),
-            FUN = "*")
-ci <- sweep(em, MARGIN = 1, STATS = yp$fit, FUN = "+")
-ci <- m0$family$linkinv(ci)
+# Gamma-Count model prediction.
+# aux <- predict(m1, newdata = X,
+#                interval = "confidence",
+#                type = "link")
+# pred$GC <- cbind(pred$GC, exp(aux[, c(2, 1, 3)]))
+aux <- predict(m1, newdata = X,
+               interval = "confidence",
+               type = "response")
+pred$GC <- cbind(pred$GC, aux[, c(2, 1, 3)])
 
-pred <- cbind(pred, as.data.frame(ci))
-str(pred)
+V <- vcov(m2)
+i <- grepl("^beta", rownames(V))
+eta <- X %*% coef(m2, type = "beta")$Estimates
+std <- sqrt(diag(as.matrix(X %*%
+                           as.matrix(V[i, i]) %*%
+                           t(X))))
+q <- qnorm(0.975) * c(lwr = -1, fit = 0, upr = 1)
+me <- outer(std, q, FUN = "*")
+aux <- sweep(me, 1, eta, FUN = "+")
+pred$TW <- cbind(pred$TW, exp(aux))
 
-# TODO predito pelo 3 modelos.
+pred <- ldply(pred, .id = "model")
+pred <- arrange(pred, est, des, model)
 
+key <- list(type = "o", divide = 1,
+            lines = list(pch = 1:nlevels(pred$model),
+                         lty = 1, col = 1),
+            text = list(c("Poisson",
+                          "Gamma-Count",
+                          "Poisson-Tweedie")))
+
+key <- list(lines = list(lty = 1),
+            text = list(c("Poisson",
+                          "Gamma-Count",
+                          "Poisson-Tweedie")))
+key$lines$col <-
+    trellis.par.get("superpose.line")$col[1:nlevels(pred$model)]
+```
+```{r bolls-bands, echo = FALSE, fig.cap = cap, fig.height = 5.5}
+cap <- "Fitted curves based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Envelops are 95% coverage confidence bands."
+update(xy1,
+       type = "p",
+       key = key) +
+    as.layer(xyplot(fit ~ des | est,
+                    groups = model,
+                    data = pred,
+                    # layout = c(NA, 1),
+                    as.table = TRUE,
+                    xlim = extendrange(range(pred$des), f = 0.1),
+                    key = key,
+                    type = "l",
+                    xlab = "Artifitial defoliation",
+                    ylab = "Number of bolls per plot",
+                    ly = pred$lwr,
+                    uy = pred$upr,
+                    cty = "bands",
+                    alpha = 0.35,
+                    prepanel = prepanel.cbH,
+                    panel.groups = panel.cbH,
+                    panel = panel.superpose), under = TRUE)
 ```
 
-TODO: pares de estimativa e erros padrões.
-
-
+```{r, results = "hide"}
+c0 <- summary(m0)$coefficients[, 1:2]
+c1 <- summary(m1)@coef[, 1:2]
+c2 <- rbind(summary(m2)[[1]]$tau[, 1:2],
+            summary(m2)[[1]]$Regression[, 1:2])
+```
+```{r}
+# Parameter estimates according to each model.
+c4 <- cbind("P" = rbind(NA, c0),
+            "GC" = c1,
+            "TW" = c2)
+colnames(c4) <- substr(colnames(c4), 1, 6)
+round(c4, digits = 4)
+```
 
 <!------------------------------------------- -->
 ## Soybean pod and beans
