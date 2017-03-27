@@ -1879,14 +1879,6 @@ dispersão.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\KeywordTok{plot}\NormalTok{(m2, }\DataTypeTok{type =} \StringTok{"algorithm"}\NormalTok{)}
-\end{Highlighting}
-\end{Shaded}
-
-\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-18-1} \end{center}
-
-\begin{Shaded}
-\begin{Highlighting}[]
 \CommentTok{# Wald test for fixed effects.}
 \KeywordTok{anova}\NormalTok{(m2)}
 \end{Highlighting}
@@ -1913,38 +1905,103 @@ dispersão.
 
 \CommentTok{# Corresponding model matrix.}
 \NormalTok{X <-}\StringTok{ }\KeywordTok{model.matrix}\NormalTok{(}\KeywordTok{formula}\NormalTok{(m0)[-}\DecValTok{2}\NormalTok{], }\DataTypeTok{data =} \NormalTok{pred)}
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{P =} \NormalTok{pred, }\DataTypeTok{GC =} \NormalTok{pred, }\DataTypeTok{TW =} \NormalTok{pred)}
 
-\CommentTok{#--------------------------------------------}
-\CommentTok{# Poisson.}
+\CommentTok{# Poisson model prediction.}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{confint}\NormalTok{(}\KeywordTok{glht}\NormalTok{(m0, }\DataTypeTok{linfct =} \NormalTok{X),}
+               \DataTypeTok{calpha =} \KeywordTok{univariate_calpha}\NormalTok{())$confint}
+\KeywordTok{colnames}\NormalTok{(aux)[}\DecValTok{1}\NormalTok{] <-}\StringTok{ "fit"}
+\NormalTok{pred$P <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$P, }\KeywordTok{exp}\NormalTok{(aux))}
 
-\NormalTok{yp <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(m0, }\DataTypeTok{newdata =} \NormalTok{pred, }\DataTypeTok{se.fit =} \OtherTok{TRUE}\NormalTok{)}
-\NormalTok{em <-}\StringTok{ }\KeywordTok{outer}\NormalTok{(yp$se.fit,}
-            \KeywordTok{c}\NormalTok{(}\DataTypeTok{lwrP =} \NormalTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{fitP =} \DecValTok{0}\NormalTok{, }\DataTypeTok{uprP =} \DecValTok{1}\NormalTok{) *}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{),}
-            \DataTypeTok{FUN =} \StringTok{"*"}\NormalTok{)}
-\NormalTok{ci <-}\StringTok{ }\KeywordTok{sweep}\NormalTok{(em, }\DataTypeTok{MARGIN =} \DecValTok{1}\NormalTok{, }\DataTypeTok{STATS =} \NormalTok{yp$fit, }\DataTypeTok{FUN =} \StringTok{"+"}\NormalTok{)}
-\NormalTok{ci <-}\StringTok{ }\NormalTok{m0$family$}\KeywordTok{linkinv}\NormalTok{(ci)}
+\CommentTok{# Gamma-Count model prediction.}
+\CommentTok{# aux <- predict(m1, newdata = X,}
+\CommentTok{#                interval = "confidence",}
+\CommentTok{#                type = "link")}
+\CommentTok{# pred$GC <- cbind(pred$GC, exp(aux[, c(2, 1, 3)]))}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{predict}\NormalTok{(m1, }\DataTypeTok{newdata =} \NormalTok{X,}
+               \DataTypeTok{interval =} \StringTok{"confidence"}\NormalTok{,}
+               \DataTypeTok{type =} \StringTok{"response"}\NormalTok{)}
+\NormalTok{pred$GC <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$GC, aux[, }\KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{3}\NormalTok{)])}
 
-\NormalTok{pred <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred, }\KeywordTok{as.data.frame}\NormalTok{(ci))}
-\KeywordTok{str}\NormalTok{(pred)}
+\NormalTok{V <-}\StringTok{ }\KeywordTok{vcov}\NormalTok{(m2)}
+\NormalTok{i <-}\StringTok{ }\KeywordTok{grepl}\NormalTok{(}\StringTok{"^beta"}\NormalTok{, }\KeywordTok{rownames}\NormalTok{(V))}
+\NormalTok{eta <-}\StringTok{ }\NormalTok{X %*%}\StringTok{ }\KeywordTok{coef}\NormalTok{(m2, }\DataTypeTok{type =} \StringTok{"beta"}\NormalTok{)$Estimates}
+\NormalTok{std <-}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(}\KeywordTok{diag}\NormalTok{(}\KeywordTok{as.matrix}\NormalTok{(X %*%}
+\StringTok{                           }\KeywordTok{as.matrix}\NormalTok{(V[i, i]) %*%}
+\StringTok{                           }\KeywordTok{t}\NormalTok{(X))))}
+\NormalTok{q <-}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.975}\NormalTok{) *}\StringTok{ }\KeywordTok{c}\NormalTok{(}\DataTypeTok{lwr =} \NormalTok{-}\DecValTok{1}\NormalTok{, }\DataTypeTok{fit =} \DecValTok{0}\NormalTok{, }\DataTypeTok{upr =} \DecValTok{1}\NormalTok{)}
+\NormalTok{me <-}\StringTok{ }\KeywordTok{outer}\NormalTok{(std, q, }\DataTypeTok{FUN =} \StringTok{"*"}\NormalTok{)}
+\NormalTok{aux <-}\StringTok{ }\KeywordTok{sweep}\NormalTok{(me, }\DecValTok{1}\NormalTok{, eta, }\DataTypeTok{FUN =} \StringTok{"+"}\NormalTok{)}
+\NormalTok{pred$TW <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(pred$TW, }\KeywordTok{exp}\NormalTok{(aux))}
+
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{ldply}\NormalTok{(pred, }\DataTypeTok{.id =} \StringTok{"model"}\NormalTok{)}
+\NormalTok{pred <-}\StringTok{ }\KeywordTok{arrange}\NormalTok{(pred, est, des, model)}
+
+\NormalTok{key <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{type =} \StringTok{"o"}\NormalTok{, }\DataTypeTok{divide =} \DecValTok{1}\NormalTok{,}
+            \DataTypeTok{lines =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{pch =} \DecValTok{1}\NormalTok{:}\KeywordTok{nlevels}\NormalTok{(pred$model),}
+                         \DataTypeTok{lty =} \DecValTok{1}\NormalTok{, }\DataTypeTok{col =} \DecValTok{1}\NormalTok{),}
+            \DataTypeTok{text =} \KeywordTok{list}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"Poisson"}\NormalTok{,}
+                          \StringTok{"Gamma-Count"}\NormalTok{,}
+                          \StringTok{"Poisson-Tweedie"}\NormalTok{)))}
+
+\NormalTok{key <-}\StringTok{ }\KeywordTok{list}\NormalTok{(}\DataTypeTok{lines =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{lty =} \DecValTok{1}\NormalTok{),}
+            \DataTypeTok{text =} \KeywordTok{list}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"Poisson"}\NormalTok{,}
+                          \StringTok{"Gamma-Count"}\NormalTok{,}
+                          \StringTok{"Poisson-Tweedie"}\NormalTok{)))}
+\NormalTok{key$lines$col <-}
+\StringTok{    }\KeywordTok{trellis.par.get}\NormalTok{(}\StringTok{"superpose.line"}\NormalTok{)$col[}\DecValTok{1}\NormalTok{:}\KeywordTok{nlevels}\NormalTok{(pred$model)]}
+\end{Highlighting}
+\end{Shaded}
+
+\textbackslash{}begin\{figure\}{[}h{]}
+
+\{\centering \includegraphics{rmcdbook_files/figure-latex/bolls-bands-1}
+
+\}
+
+\textbackslash{}caption\{Fitted curves based on Poisson, Gamma-Count and
+Poisson-Tweedie regression models. Envelops are 95\% coverage confidence
+bands.\}\label{fig:bolls-bands} \textbackslash{}end\{figure\}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c0 <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m0)$coefficients[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{c1 <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m1)@coef[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{c2 <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\KeywordTok{summary}\NormalTok{(m2)[[}\DecValTok{1}\NormalTok{]]$tau[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{],}
+            \KeywordTok{summary}\NormalTok{(m2)[[}\DecValTok{1}\NormalTok{]]$Regression[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Parameter estimates according to each model.}
+\NormalTok{c4 <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\StringTok{"P"} \NormalTok{=}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\OtherTok{NA}\NormalTok{, c0),}
+            \StringTok{"GC"} \NormalTok{=}\StringTok{ }\NormalTok{c1,}
+            \StringTok{"TW"} \NormalTok{=}\StringTok{ }\NormalTok{c2)}
+\KeywordTok{colnames}\NormalTok{(c4) <-}\StringTok{ }\KeywordTok{substr}\NormalTok{(}\KeywordTok{colnames}\NormalTok{(c4), }\DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{)}
+\KeywordTok{round}\NormalTok{(c4, }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
 \begin{verbatim}
-## 'data.frame':    150 obs. of  5 variables:
-##  $ est : Factor w/ 5 levels "vegetative","flower-bud",..: 1 2 3 4 5 1 2 3 4 5 ...
-##  $ des : num  0 0 0 0 0 ...
-##  $ lwrP: num  6.97 6.37 6.72 5.88 7.91 ...
-##  $ fitP: num  9.15 8.45 8.91 7.89 10.25 ...
-##  $ uprP: num  12 11.2 11.8 10.6 13.3 ...
+##                          P.Esti P.Std.  GC.Est GC.Std  TW.Est TW.Std
+##                              NA     NA  1.7110 0.1352 -0.7805 0.2174
+## (Intercept)              2.2142  0.139  2.2580 0.0593  2.2143 0.0627
+## estflower-bud           -0.0800  0.201 -0.0765 0.0854 -0.0800 0.0904
+## estblossom              -0.0272  0.200 -0.0253 0.0851 -0.0265 0.0900
+## estfig                  -0.1486  0.205 -0.1398 0.0872 -0.1485 0.0924
+## estcotton boll           0.1129  0.192  0.1084 0.0818  0.1128 0.0864
+## des                      0.3486  0.680  0.3294 0.2896  0.3486 0.3065
+## I(des^2)                -0.7384  0.673 -0.6997 0.2866 -0.7385 0.3037
+## estflower-bud:des        0.1364  0.964  0.1337 0.4105  0.1361 0.4345
+## estblossom:des          -1.5819  1.021 -1.5020 0.4345 -1.5875 0.4612
+## estfig:des               0.4755  1.019  0.4218 0.4336  0.4693 0.4602
+## estcotton boll:des      -0.8210  0.940 -0.7820 0.3998 -0.8204 0.4228
+## estflower-bud:I(des^2)   0.1044  0.945  0.0943 0.4021  0.1048 0.4259
+## estblossom:I(des^2)      1.4044  1.019  1.3382 0.4335  1.4098 0.4609
+## estfig:I(des^2)         -0.9294  1.032 -0.8333 0.4390 -0.9205 0.4671
+## estcotton boll:I(des^2)  1.0757  0.921  1.0222 0.3920  1.0752 0.4149
 \end{verbatim}
-
-\begin{Shaded}
-\begin{Highlighting}[]
-\CommentTok{# TODO predito pelo 3 modelos.}
-\end{Highlighting}
-\end{Shaded}
-
-TODO: pares de estimativa e erros padrões.
 
 \section{Soybean pod and beans}\label{soybean-pod-and-beans}
 
@@ -3656,7 +3713,7 @@ convergence of all constansts.
 \end{Highlighting}
 \end{Shaded}
 
-\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-58-1} \end{center}
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-60-1} \end{center}
 
 For compare models we used the log-likelihood value and AIC and BIC
 criteria. In the Gamma-Count and COM-Poisson the measures are easily
