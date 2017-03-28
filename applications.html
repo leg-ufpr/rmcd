@@ -1814,6 +1814,169 @@ daprobs &lt;-<span class="st"> </span><span class="kw">ldply</span>(probs, <span
 Figure 5.17: Adjust probability distribution for the chromossome aberrations counts by five irradiation doses.
 </p>
 </div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">str</span>(nematoide)</code></pre></div>
+<pre><code>## &#39;data.frame&#39;:    94 obs. of  5 variables:
+##  $ cult: Factor w/ 19 levels &quot;A&quot;,&quot;B&quot;,&quot;C&quot;,&quot;D&quot;,..: 1 1 1 1 1 2 2 2 2 2 ...
+##  $ mfr : num  10.52 11.03 6.42 8.16 4.48 ...
+##  $ vol : int  40 40 40 40 40 40 40 40 40 40 ...
+##  $ nema: int  4 5 3 4 3 2 2 2 2 2 ...
+##  $ off : num  0.263 0.276 0.161 0.204 0.112 ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">xyplot</span>(nema/off ~<span class="st"> </span>cult, <span class="dt">data =</span> nematoide,
+       <span class="dt">xlab =</span> <span class="st">&quot;Linhagens de feijão&quot;</span>,
+       <span class="dt">ylab =</span> <span class="st">&quot;Número de nematoides por grama de raíz&quot;</span>)</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-63-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m0 &lt;-<span class="st"> </span><span class="kw">glm</span>(nema ~<span class="st"> </span><span class="kw">offset</span>(<span class="kw">log</span>(off)) +<span class="st"> </span>cult,
+          <span class="dt">data =</span> nematoide,
+          <span class="dt">family =</span> poisson)
+m1 &lt;-<span class="st"> </span><span class="kw">update</span>(m0, <span class="dt">family =</span> quasipoisson)
+<span class="kw">summary</span>(m1)</code></pre></div>
+<pre><code>## 
+## Call:
+## glm(formula = nema ~ offset(log(off)) + cult, family = quasipoisson, 
+##     data = nematoide)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -3.946  -0.669   0.110   1.152   4.760  
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    2.929      0.450    6.51  7.4e-09 ***
+## cultB          0.166      0.766    0.22  0.82870    
+## cultC          0.342      0.677    0.50  0.61515    
+## cultD          0.913      0.636    1.44  0.15528    
+## cultE          0.969      0.608    1.60  0.11488    
+## cultF          0.397      0.690    0.58  0.56662    
+## cultG         -0.451      0.793   -0.57  0.57152    
+## cultH          0.322      0.867    0.37  0.71143    
+## cultI          0.881      0.602    1.46  0.14751    
+## cultJ          1.198      0.636    1.88  0.06339 .  
+## cultK          1.451      0.597    2.43  0.01737 *  
+## cultL          1.430      0.536    2.67  0.00938 ** 
+## cultM          1.614      0.551    2.93  0.00448 ** 
+## cultN          1.774      0.496    3.58  0.00061 ***
+## cultO          1.578      0.527    2.99  0.00372 ** 
+## cultP          1.672      0.510    3.28  0.00159 ** 
+## cultQ          2.210      0.491    4.50  2.4e-05 ***
+## cultR          2.208      0.510    4.33  4.6e-05 ***
+## cultS          1.915      0.496    3.86  0.00024 ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 3.84)
+## 
+##     Null deviance: 556.73  on 93  degrees of freedom
+## Residual deviance: 212.54  on 75  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 6</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Diagnóstico.</span>
+<span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>))
+<span class="kw">plot</span>(m0); <span class="kw">layout</span>(<span class="dv">1</span>)</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-64-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2 &lt;-<span class="st"> </span><span class="kw">mcglm</span>(<span class="dt">linear_pred =</span> <span class="kw">c</span>(nema ~<span class="st"> </span>cult),
+            <span class="dt">matrix_pred =</span> <span class="kw">list</span>(<span class="kw">mc_id</span>(<span class="dt">data =</span> nematoide)),
+            <span class="dt">link =</span> <span class="st">&quot;log&quot;</span>,
+            <span class="dt">offset =</span> <span class="kw">list</span>(<span class="kw">log</span>(nematoide$off)),
+            <span class="dt">variance =</span> <span class="st">&quot;poisson_tweedie&quot;</span>,
+            <span class="dt">power_fixed =</span> <span class="ot">FALSE</span>,
+            <span class="dt">data =</span> nematoide,
+            <span class="dt">control_algorithm =</span> <span class="kw">list</span>(<span class="dt">verbose =</span> <span class="ot">FALSE</span>,
+                                     <span class="dt">max_iter =</span> <span class="dv">100</span>,
+                                     <span class="dt">tunning =</span> <span class="fl">0.5</span>,
+                                     <span class="dt">correct =</span> <span class="ot">FALSE</span>))</code></pre></div>
+<pre><code>## Automatic initial values selected.</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(m2)</code></pre></div>
+<pre><code>## Call: nema ~ cult
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##             Estimates Std.error Z value
+## (Intercept)     2.915     0.412  7.0844
+## cultB          -0.037     0.802 -0.0462
+## cultC           0.176     0.639  0.2760
+## cultD           0.893     0.586  1.5242
+## cultE           0.969     0.550  1.7610
+## cultF           0.175     0.692  0.2521
+## cultG          -0.895     0.912 -0.9814
+## cultH           0.112     0.992  0.1134
+## cultI           0.825     0.547  1.5098
+## cultJ           1.164     0.588  1.9785
+## cultK           1.467     0.535  2.7429
+## cultL           1.388     0.476  2.9158
+## cultM           1.553     0.492  3.1563
+## cultN           1.757     0.440  3.9962
+## cultO           1.511     0.468  3.2307
+## cultP           1.655     0.450  3.6805
+## cultQ           2.208     0.436  5.0655
+## cultR           2.180     0.451  4.8318
+## cultS           1.803     0.442  4.0787
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1     0.519     0.216    2.41
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1      4.21      1.43    2.95
+## 
+## Algorithm: chaser
+## Correction: FALSE
+## Number iterations: 19</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">c0 &lt;-<span class="st"> </span><span class="kw">summary</span>(m0)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>]
+c1 &lt;-<span class="st"> </span><span class="kw">summary</span>(m1)$coefficients[, <span class="dv">1</span>:<span class="dv">2</span>]
+c2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$tau[, <span class="dv">1</span>:<span class="dv">2</span>],
+            <span class="kw">summary</span>(m2)[[<span class="dv">1</span>]]$Regression[, <span class="dv">1</span>:<span class="dv">2</span>])</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Parameter estimates according to each model.</span>
+c4 &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="st">&quot;P&quot;</span> =<span class="st"> </span><span class="kw">rbind</span>(<span class="ot">NA</span>, c0),
+            <span class="st">&quot;QP&quot;</span> =<span class="st"> </span><span class="kw">rbind</span>(<span class="kw">c</span>(<span class="kw">summary</span>(m1)$dispersion, <span class="ot">NA</span>), c1),
+            <span class="st">&quot;TW&quot;</span> =<span class="st"> </span>c2)
+<span class="kw">colnames</span>(c4) &lt;-<span class="st"> </span><span class="kw">substr</span>(<span class="kw">colnames</span>(c4), <span class="dv">1</span>, <span class="dv">6</span>)
+<span class="kw">round</span>(c4, <span class="dt">digits =</span> <span class="dv">4</span>)</code></pre></div>
+<pre><code>##             P.Esti P.Std. QP.Est QP.Std TW.Est TW.Std
+##                 NA     NA  3.841     NA  4.215  1.428
+## (Intercept)  2.929  0.229  2.929  0.450  2.916  0.411
+## cultB        0.166  0.391  0.166  0.766 -0.037  0.802
+## cultC        0.342  0.345  0.342  0.677  0.176  0.638
+## cultD        0.913  0.324  0.913  0.636  0.893  0.586
+## cultE        0.969  0.310  0.969  0.608  0.969  0.550
+## cultF        0.397  0.352  0.397  0.690  0.175  0.692
+## cultG       -0.451  0.405 -0.451  0.793 -0.895  0.912
+## cultH        0.322  0.442  0.322  0.867  0.113  0.992
+## cultI        0.881  0.307  0.881  0.602  0.825  0.547
+## cultJ        1.198  0.324  1.198  0.636  1.164  0.588
+## cultK        1.451  0.304  1.451  0.597  1.467  0.535
+## cultL        1.430  0.274  1.430  0.536  1.388  0.476
+## cultM        1.614  0.281  1.614  0.551  1.553  0.492
+## cultN        1.774  0.253  1.774  0.496  1.757  0.440
+## cultO        1.578  0.269  1.578  0.527  1.512  0.468
+## cultP        1.672  0.260  1.672  0.510  1.655  0.450
+## cultQ        2.211  0.251  2.211  0.491  2.208  0.436
+## cultR        2.208  0.260  2.208  0.510  2.180  0.451
+## cultS        1.915  0.253  1.915  0.496  1.803  0.442</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Ratios between stardard errors.</span>
+<span class="kw">cbind</span>(<span class="dt">GC =</span> <span class="kw">summary</span>(c4[-<span class="dv">1</span>, <span class="dv">4</span>]/c4[-<span class="dv">1</span>, <span class="dv">2</span>]),
+      <span class="dt">TW =</span> <span class="kw">summary</span>(c4[-<span class="dv">1</span>, <span class="dv">6</span>]/c4[-<span class="dv">1</span>, <span class="dv">2</span>]))</code></pre></div>
+<pre><code>##           GC   TW
+## Min.    1.96 1.73
+## 1st Qu. 1.96 1.74
+## Median  1.96 1.77
+## Mean    1.96 1.84
+## 3rd Qu. 1.96 1.83
+## Max.    1.96 2.25</code></pre>
+<div class="figure" style="text-align: center"><span id="fig:segplot-nema"></span>
+<img src="rmcdbook_files/figure-html/segplot-nema-1.png" alt="Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals." width="672" />
+<p class="caption">
+Figure 5.18: Estimated cell means based on Poisson, Gamma-Count and Poisson-Tweedie regression models. Segments are 95% individual coverage confidence intervals.
+</p>
+</div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">curve</span>(x +<span class="st"> </span><span class="fl">4.21</span> *<span class="st"> </span>x^<span class="fl">0.5</span>, <span class="dv">0</span>, <span class="dv">50</span>, <span class="dt">asp =</span> <span class="dv">1</span>,
+      <span class="dt">xlab =</span> <span class="kw">expression</span>(mu),
+      <span class="dt">ylab =</span> <span class="kw">expression</span>(mu +<span class="st"> </span>phi *<span class="st"> </span>mu^p))
+<span class="kw">abline</span>(<span class="dt">a =</span> <span class="dv">0</span>, <span class="dt">b =</span> <span class="dv">1</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</code></pre></div>
+<p><img src="rmcdbook_files/figure-html/unnamed-chunk-68-1.png" width="672" style="display: block; margin: auto;" /></p>
 
 </div>
 </div>

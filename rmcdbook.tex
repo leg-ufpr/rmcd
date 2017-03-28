@@ -4034,6 +4034,245 @@ that all distribuitions, thought different, are the same average.
 \caption{Adjust probability distribution for the chromossome aberrations counts by five irradiation doses.}\label{fig:probs-chromo}
 \end{figure}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{str}\NormalTok{(nematoide)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    94 obs. of  5 variables:
+##  $ cult: Factor w/ 19 levels "A","B","C","D",..: 1 1 1 1 1 2 2 2 2 2 ...
+##  $ mfr : num  10.52 11.03 6.42 8.16 4.48 ...
+##  $ vol : int  40 40 40 40 40 40 40 40 40 40 ...
+##  $ nema: int  4 5 3 4 3 2 2 2 2 2 ...
+##  $ off : num  0.263 0.276 0.161 0.204 0.112 ...
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{xyplot}\NormalTok{(nema/off ~}\StringTok{ }\NormalTok{cult, }\DataTypeTok{data =} \NormalTok{nematoide,}
+       \DataTypeTok{xlab =} \StringTok{"Linhagens de feijão"}\NormalTok{,}
+       \DataTypeTok{ylab =} \StringTok{"Número de nematoides por grama de raíz"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-63-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m0 <-}\StringTok{ }\KeywordTok{glm}\NormalTok{(nema ~}\StringTok{ }\KeywordTok{offset}\NormalTok{(}\KeywordTok{log}\NormalTok{(off)) +}\StringTok{ }\NormalTok{cult,}
+          \DataTypeTok{data =} \NormalTok{nematoide,}
+          \DataTypeTok{family =} \NormalTok{poisson)}
+\NormalTok{m1 <-}\StringTok{ }\KeywordTok{update}\NormalTok{(m0, }\DataTypeTok{family =} \NormalTok{quasipoisson)}
+\KeywordTok{summary}\NormalTok{(m1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## glm(formula = nema ~ offset(log(off)) + cult, family = quasipoisson, 
+##     data = nematoide)
+## 
+## Deviance Residuals: 
+##    Min      1Q  Median      3Q     Max  
+## -3.946  -0.669   0.110   1.152   4.760  
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    2.929      0.450    6.51  7.4e-09 ***
+## cultB          0.166      0.766    0.22  0.82870    
+## cultC          0.342      0.677    0.50  0.61515    
+## cultD          0.913      0.636    1.44  0.15528    
+## cultE          0.969      0.608    1.60  0.11488    
+## cultF          0.397      0.690    0.58  0.56662    
+## cultG         -0.451      0.793   -0.57  0.57152    
+## cultH          0.322      0.867    0.37  0.71143    
+## cultI          0.881      0.602    1.46  0.14751    
+## cultJ          1.198      0.636    1.88  0.06339 .  
+## cultK          1.451      0.597    2.43  0.01737 *  
+## cultL          1.430      0.536    2.67  0.00938 ** 
+## cultM          1.614      0.551    2.93  0.00448 ** 
+## cultN          1.774      0.496    3.58  0.00061 ***
+## cultO          1.578      0.527    2.99  0.00372 ** 
+## cultP          1.672      0.510    3.28  0.00159 ** 
+## cultQ          2.210      0.491    4.50  2.4e-05 ***
+## cultR          2.208      0.510    4.33  4.6e-05 ***
+## cultS          1.915      0.496    3.86  0.00024 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for quasipoisson family taken to be 3.84)
+## 
+##     Null deviance: 556.73  on 93  degrees of freedom
+## Residual deviance: 212.54  on 75  degrees of freedom
+## AIC: NA
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Diagnóstico.}
+\KeywordTok{par}\NormalTok{(}\DataTypeTok{mfrow =} \KeywordTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\KeywordTok{plot}\NormalTok{(m0); }\KeywordTok{layout}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-64-1} \end{center}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{m2 <-}\StringTok{ }\KeywordTok{mcglm}\NormalTok{(}\DataTypeTok{linear_pred =} \KeywordTok{c}\NormalTok{(nema ~}\StringTok{ }\NormalTok{cult),}
+            \DataTypeTok{matrix_pred =} \KeywordTok{list}\NormalTok{(}\KeywordTok{mc_id}\NormalTok{(}\DataTypeTok{data =} \NormalTok{nematoide)),}
+            \DataTypeTok{link =} \StringTok{"log"}\NormalTok{,}
+            \DataTypeTok{offset =} \KeywordTok{list}\NormalTok{(}\KeywordTok{log}\NormalTok{(nematoide$off)),}
+            \DataTypeTok{variance =} \StringTok{"poisson_tweedie"}\NormalTok{,}
+            \DataTypeTok{power_fixed =} \OtherTok{FALSE}\NormalTok{,}
+            \DataTypeTok{data =} \NormalTok{nematoide,}
+            \DataTypeTok{control_algorithm =} \KeywordTok{list}\NormalTok{(}\DataTypeTok{verbose =} \OtherTok{FALSE}\NormalTok{,}
+                                     \DataTypeTok{max_iter =} \DecValTok{100}\NormalTok{,}
+                                     \DataTypeTok{tunning =} \FloatTok{0.5}\NormalTok{,}
+                                     \DataTypeTok{correct =} \OtherTok{FALSE}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Automatic initial values selected.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{summary}\NormalTok{(m2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Call: nema ~ cult
+## 
+## Link function: log
+## Variance function: poisson_tweedie
+## Covariance function: identity
+## Regression:
+##             Estimates Std.error Z value
+## (Intercept)     2.915     0.412  7.0844
+## cultB          -0.037     0.802 -0.0462
+## cultC           0.176     0.639  0.2760
+## cultD           0.893     0.586  1.5242
+## cultE           0.969     0.550  1.7610
+## cultF           0.175     0.692  0.2521
+## cultG          -0.895     0.912 -0.9814
+## cultH           0.112     0.992  0.1134
+## cultI           0.825     0.547  1.5098
+## cultJ           1.164     0.588  1.9785
+## cultK           1.467     0.535  2.7429
+## cultL           1.388     0.476  2.9158
+## cultM           1.553     0.492  3.1563
+## cultN           1.757     0.440  3.9962
+## cultO           1.511     0.468  3.2307
+## cultP           1.655     0.450  3.6805
+## cultQ           2.208     0.436  5.0655
+## cultR           2.180     0.451  4.8318
+## cultS           1.803     0.442  4.0787
+## 
+## Power:
+##   Estimates Std.error Z value
+## 1     0.519     0.216    2.41
+## 
+## Dispersion:
+##   Estimates Std.error Z value
+## 1      4.21      1.43    2.95
+## 
+## Algorithm: chaser
+## Correction: FALSE
+## Number iterations: 19
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{c0 <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m0)$coefficients[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{c1 <-}\StringTok{ }\KeywordTok{summary}\NormalTok{(m1)$coefficients[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{]}
+\NormalTok{c2 <-}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\KeywordTok{summary}\NormalTok{(m2)[[}\DecValTok{1}\NormalTok{]]$tau[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{],}
+            \KeywordTok{summary}\NormalTok{(m2)[[}\DecValTok{1}\NormalTok{]]$Regression[, }\DecValTok{1}\NormalTok{:}\DecValTok{2}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Parameter estimates according to each model.}
+\NormalTok{c4 <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(}\StringTok{"P"} \NormalTok{=}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\OtherTok{NA}\NormalTok{, c0),}
+            \StringTok{"QP"} \NormalTok{=}\StringTok{ }\KeywordTok{rbind}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\KeywordTok{summary}\NormalTok{(m1)$dispersion, }\OtherTok{NA}\NormalTok{), c1),}
+            \StringTok{"TW"} \NormalTok{=}\StringTok{ }\NormalTok{c2)}
+\KeywordTok{colnames}\NormalTok{(c4) <-}\StringTok{ }\KeywordTok{substr}\NormalTok{(}\KeywordTok{colnames}\NormalTok{(c4), }\DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{)}
+\KeywordTok{round}\NormalTok{(c4, }\DataTypeTok{digits =} \DecValTok{4}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##             P.Esti P.Std. QP.Est QP.Std TW.Est TW.Std
+##                 NA     NA  3.841     NA  4.215  1.428
+## (Intercept)  2.929  0.229  2.929  0.450  2.916  0.411
+## cultB        0.166  0.391  0.166  0.766 -0.037  0.802
+## cultC        0.342  0.345  0.342  0.677  0.176  0.638
+## cultD        0.913  0.324  0.913  0.636  0.893  0.586
+## cultE        0.969  0.310  0.969  0.608  0.969  0.550
+## cultF        0.397  0.352  0.397  0.690  0.175  0.692
+## cultG       -0.451  0.405 -0.451  0.793 -0.895  0.912
+## cultH        0.322  0.442  0.322  0.867  0.113  0.992
+## cultI        0.881  0.307  0.881  0.602  0.825  0.547
+## cultJ        1.198  0.324  1.198  0.636  1.164  0.588
+## cultK        1.451  0.304  1.451  0.597  1.467  0.535
+## cultL        1.430  0.274  1.430  0.536  1.388  0.476
+## cultM        1.614  0.281  1.614  0.551  1.553  0.492
+## cultN        1.774  0.253  1.774  0.496  1.757  0.440
+## cultO        1.578  0.269  1.578  0.527  1.512  0.468
+## cultP        1.672  0.260  1.672  0.510  1.655  0.450
+## cultQ        2.211  0.251  2.211  0.491  2.208  0.436
+## cultR        2.208  0.260  2.208  0.510  2.180  0.451
+## cultS        1.915  0.253  1.915  0.496  1.803  0.442
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{# Ratios between stardard errors.}
+\KeywordTok{cbind}\NormalTok{(}\DataTypeTok{GC =} \KeywordTok{summary}\NormalTok{(c4[-}\DecValTok{1}\NormalTok{, }\DecValTok{4}\NormalTok{]/c4[-}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{]),}
+      \DataTypeTok{TW =} \KeywordTok{summary}\NormalTok{(c4[-}\DecValTok{1}\NormalTok{, }\DecValTok{6}\NormalTok{]/c4[-}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{]))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           GC   TW
+## Min.    1.96 1.73
+## 1st Qu. 1.96 1.74
+## Median  1.96 1.77
+## Mean    1.96 1.84
+## 3rd Qu. 1.96 1.83
+## Max.    1.96 2.25
+\end{verbatim}
+
+\textbackslash{}begin\{figure\}{[}h{]}
+
+\{\centering \includegraphics{rmcdbook_files/figure-latex/segplot-nema-1}
+
+\}
+
+\textbackslash{}caption\{Estimated cell means based on Poisson,
+Gamma-Count and Poisson-Tweedie regression models. Segments are 95\%
+individual coverage confidence intervals.\}\label{fig:segplot-nema}
+\textbackslash{}end\{figure\}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{curve}\NormalTok{(x +}\StringTok{ }\FloatTok{4.21} \NormalTok{*}\StringTok{ }\NormalTok{x^}\FloatTok{0.5}\NormalTok{, }\DecValTok{0}\NormalTok{, }\DecValTok{50}\NormalTok{, }\DataTypeTok{asp =} \DecValTok{1}\NormalTok{,}
+      \DataTypeTok{xlab =} \KeywordTok{expression}\NormalTok{(mu),}
+      \DataTypeTok{ylab =} \KeywordTok{expression}\NormalTok{(mu +}\StringTok{ }\NormalTok{phi *}\StringTok{ }\NormalTok{mu^p))}
+\KeywordTok{abline}\NormalTok{(}\DataTypeTok{a =} \DecValTok{0}\NormalTok{, }\DataTypeTok{b =} \DecValTok{1}\NormalTok{, }\DataTypeTok{lty =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{center}\includegraphics{rmcdbook_files/figure-latex/unnamed-chunk-68-1} \end{center}
+
 \bibliography{config/rmcd.bib}
 
 
