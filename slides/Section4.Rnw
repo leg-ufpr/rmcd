@@ -50,7 +50,7 @@ de covariáveis conhecidas e parâmetros de regressão desconhecidos.
 \item Poisson-Tweedie estendida pode lidar com subdispersão $\phi < 0$.
 \begin{figure}[h]
 \includegraphics[scale=0.4]{images/Rplot.pdf}
-\caption{\tiny{Índice de dispersão como uma função da média por valores dos parâmetros de dispersão e potência.}}
+\caption{\footnotesize{Índice de dispersão como uma função da média por valores dos parâmetros de dispersão e potência.}}
 \label{SUBPTW}
 \centering
 \end{figure}
@@ -66,7 +66,7 @@ de covariáveis conhecidas e parâmetros de regressão desconhecidos.
 \begin{frame}[c]
 \frametitle{Parâmetros de regressão}
 \begin{itemize}
-\item Seja $\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top = (\phi, p)^\top)^\top$ 
+\item Seja $\boldsymbol{\theta} = (\boldsymbol{\beta}^\top, \boldsymbol{\lambda}^\top = (\phi, p)^\top)^\top$
 o vetor de parâmetros.
 \item Função quasi-score para os parâmetros de regressão
 \begin{equation*}
@@ -97,10 +97,10 @@ onde $C_i = \mu_i + \phi \mu_i^p$ e $\partial \mu_i/\partial \beta_j = \mu_i x_{
 \psi_{\boldsymbol{\lambda}}(\boldsymbol{\lambda}, \boldsymbol{\beta}) = \left (\sum_{i=1}^n W_{i \phi} \left [ (y_i - \mu_i)^2 - C_i \right ]^\top, \sum_{i=1}^n W_{i p} \left [ (y_i - \mu_i)^2 - C_i \right ]^\top  \right )^\top,
 \end{equation*}
 onde $W_{i \phi} = - \partial C^{-1}_i/\partial \phi$ e $W_{i p} = - \partial C^{-1}_i/\partial p$.
-\item A entrada $(j,k)$ data matriz $2 \times 2$ de sensitividade é dada por 
+\item A entrada $(j,k)$ data matriz $2 \times 2$ de sensitividade é dada por
 \begin{equation}
 \label{Slambda}
-\mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n W_{i \lambda_j} C_i W_{i\lambda_k}C_i, 
+\mathrm{S}_{\boldsymbol{\lambda}_{jk}} = \mathrm{E}\left ( \frac{\partial}{\partial \lambda_k}\psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n W_{i \lambda_j} C_i W_{i\lambda_k}C_i,
 \end{equation}
 onde $\lambda_1$ e $\lambda_2$ denota ambos $\phi$ ou $p$.
 \end{itemize}
@@ -121,11 +121,11 @@ e
 \label{Slambdabeta}
 \mathrm{S}_{\lambda_j \beta_k} = \mathrm{E}\left ( \frac{\partial}{\partial \beta_k}\psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})  \right ) = -\sum_{i=1}^n W_{i\lambda_j}C_i W_{i\beta_k}C_i,
 \end{equation}
-onde $W_{i\beta_k} = -\partial C_i^{-1}/\partial \beta_k$. 
+onde $W_{i\beta_k} = -\partial C_i^{-1}/\partial \beta_k$.
 \item A matriz de sensitividade conjunta para o vetor $\boldsymbol{\theta}$ é dada por
 \begin{equation*}
 \mathrm{S}_{\boldsymbol{\theta}} = \begin{pmatrix}
-\mathrm{S}_{\boldsymbol{\beta}} & \boldsymbol{0} \\ 
+\mathrm{S}_{\boldsymbol{\beta}} & \boldsymbol{0} \\
 \mathrm{S}_{\boldsymbol{\lambda}\boldsymbol{\beta}} & \mathrm{S}_{\boldsymbol{\lambda}}
 \end{pmatrix},
 \end{equation*}
@@ -142,14 +142,14 @@ cuja entradas são definidas por (\ref{Sbeta}), (\ref{Slambda}), (\ref{Sbetalamb
 \begin{equation*}
 \label{VTHETA}
 \mathrm{V}_{\boldsymbol{\theta}} = \begin{pmatrix}
-\mathrm{V}_{\boldsymbol{\beta}} & \mathrm{V}^{\top}_{\boldsymbol{\lambda}\boldsymbol{\beta}} \\ 
+\mathrm{V}_{\boldsymbol{\beta}} & \mathrm{V}^{\top}_{\boldsymbol{\lambda}\boldsymbol{\beta}} \\
 \mathrm{V}_{\boldsymbol{\lambda}\boldsymbol{\beta}} & \mathrm{V}_{\boldsymbol{\lambda}}
 \end{pmatrix}
 \end{equation*}
 \item $\mathrm{V}_{\boldsymbol{\beta}}$ foi definido em~(\ref{Vbeta}).
 \item As entradas para matriz de variabilidade empírica são dadas por
 \begin{eqnarray*}
-\tilde{\mathrm{V}}_{\lambda_{jk}} = \sum_{i=1}^n \psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \psi_{\lambda_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \quad \text{and} \\  \tilde{\mathrm{V}}_{\lambda_j \beta_k} = \sum_{i=1}^n \psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \psi_{\beta_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i.
+\tilde{\mathrm{V}}_{\lambda_{jk}} = \sum_{i=1}^n \psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \psi_{\lambda_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \quad \text{e} \\  \tilde{\mathrm{V}}_{\lambda_j \beta_k} = \sum_{i=1}^n \psi_{\lambda_j}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i \psi_{\beta_k}(\boldsymbol{\lambda}, \boldsymbol{\beta})_i.
 \end{eqnarray*}
 \end{itemize}
 \end{frame}
@@ -160,7 +160,7 @@ cuja entradas são definidas por (\ref{Sbeta}), (\ref{Slambda}), (\ref{Sbetalamb
 \frametitle{Distribuição assintótica e algoritmo de ajuste}
 \begin{itemize}
 \item Faça $\boldsymbol{\hat{\theta}}$ denotar o estimador função de estimação.
-\item A distribuição assintótica de $\boldsymbol{\hat{\theta}}$ é dada por 
+\item A distribuição assintótica de $\boldsymbol{\hat{\theta}}$ é dada por
 \begin{equation*}
 \boldsymbol{\hat{\theta}} \sim \mathrm{N}(\boldsymbol{\theta}, \mathrm{J}_{\boldsymbol{\theta}}^{-1}), \quad
 \text{onde} \quad
@@ -174,7 +174,7 @@ cuja entradas são definidas por (\ref{Sbeta}), (\ref{Slambda}), (\ref{Sbetalamb
 \boldsymbol{\lambda}^{(i+1)} &=& \boldsymbol{\lambda}^{(i)} - \alpha \mathrm{S}_{\boldsymbol{\lambda}}^{-1} \psi_{\boldsymbol{\lambda}}(\boldsymbol{\beta}^{(i+1)}, \boldsymbol{\lambda}^{(i)}).
 \end{eqnarray*}
 \item Facilmente implementado em \texttt{R} através da função \texttt{mcglm()}
-do pacote \texttt{mcglm}(Bonat, 2015).
+do pacote \texttt{mcglm} \cite{Bonat2016c}.
 \item $\alpha$ é um \textit{tuning} constante para controlar o tamanho do passo.
 \end{itemize}
 \end{frame}

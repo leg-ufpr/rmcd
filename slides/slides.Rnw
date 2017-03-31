@@ -168,7 +168,6 @@ opts_chunk$set(size = "footnotesize")
 %% Inicia o documento
 
 \begin{document}
-\SweaveOpts{concordance=TRUE}
 
 \begin{frame}
   \titlepage
@@ -250,6 +249,8 @@ opts_chunk$set(size = "footnotesize")
   \vspace*{-0.5cm}
   \nocite{Bonat2016b}
   \nocite{Zeviani2014}
+  \nocite{Winkelman1995}
+  \nocite{Sellers2010}
   \bibliography{../config/rmcd}
 \end{frame}
 

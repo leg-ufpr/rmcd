@@ -18,7 +18,7 @@ f(y;\mu) &=& \frac{\mu^y}{y!}\exp\{-\mu\} \nonumber \\
 onde $\phi = \log \{\mu\} \in \mathbb{R}$ e $\kappa(\phi) = \exp\{\phi\}$
 denota a função cumulante.
 \vspace{0,5cm}
-\item $\mathrm{E}(Y) = \kappa^{\prime}(\phi) = \exp\{\phi\} = \mu$. 
+\item $\mathrm{E}(Y) = \kappa^{\prime}(\phi) = \exp\{\phi\} = \mu$.
 \vspace{0,5cm}
 \item $\mathrm{var}(Y) = \kappa^{\prime \prime}(\phi) = \exp\{\phi\} = \mu$.
 \vspace{0,5cm}
@@ -30,7 +30,7 @@ denota a função cumulante.
 %%%-------------------------------------------------------------------
 \begin{frame}{Regressão Poisson}
 \begin{itemize}
-\item Considere $(y_i, x_i)$, $i = 1,\ldots, n$, onde $y_i$'s são iid 
+\item Considere $(y_i, boldsymbol{x_i})$, $i = 1,\ldots, n$, onde $y_i$'s são iid
 realizações de $Y_i$ de acordo com a distribuição Poisson.
 \vspace{0,5cm}
 \item Modelo de regressão Poisson
@@ -115,7 +115,7 @@ de covariáveis conhecidas e parâmetros de regressão.
     \framebreak
 
   \item Portanto, distribuição de $Y_T$ é resultado da diferença de
-    acumuladas da distribuição Gama, 
+    acumuladas da distribuição Gama,
     \begin{equation}
       F_y(T) = G(y\alpha, \gamma T) =
       \int_{0}^{T} \frac{\gamma^{y\alpha}}{\Gamma(y\alpha)}
@@ -200,7 +200,7 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
         \frac{\gamma}{\alpha},
         \frac{\gamma}{\alpha^2}\right).
     \end{equation*}
-  \item Note que $\mathrm{DI} = \frac{1}{\alpha}$ assim $\alpha > 1$ 
+  \item Note que $\mathrm{DI} \approx \frac{1}{\alpha}$ assim $\alpha > 1$
   indica subdispersão, $\alpha = 1$ equidispersão e $\alpha < 1$ superdispersão.
   \item Considere que
     $$\frac{\gamma}{\alpha} = \exp\{\boldsymbol{x}^{\top}\beta\} \Rightarrow
@@ -215,7 +215,7 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
     $\text{E}(Y_i|x_i) = [\text{E}(\tau_i|x_i)]^{-1}$.
   \item Em \texttt{R} temos \texttt{MRDCr::gcnt(formula, data)}.
   \end{itemize}
-  
+
 \end{frame}
 %%%-------------------------------------------------------------------
 
@@ -230,12 +230,12 @@ dgc <- function(y, gamma, alpha, log = FALSE) {
 \label{distri}
 f(z; \mu, \phi, p) = a(z,\phi,p) \exp\{(z\psi - k(\psi))/\phi\},
 \end{equation*}
-onde $\mu = \mathrm{E}(Z) = k^{\prime}(\psi)$ é a média. 
+onde $\mu = \mathrm{E}(Z) = k^{\prime}(\psi)$ é a média.
 \item $\phi > 0$ e $\psi$ são os parâmetros de dispersão e canônico.
 \item $k(\psi)$ é a função cumulante e $a(z,\phi, p)$ é a constante normalizadora.
-\item $\mathrm{var}(Z) = \phi \mu^p$ onde $p \in (-\infty  ,0] \cup [1,\infty)$ é 
+\item $\mathrm{var}(Z) = \phi \mu^p$ onde $p \in (-\infty  ,0] \cup [1,\infty)$ é
 um index determinando a distribuição.
-\item Casos especiais: Normal ($p=0$), Poisson ($p=1$), não-central gamma ($p=1.5$), gamma ($p=2$), normal inversa ($p=3$) and distribuições estáveis ($p > 2$).
+\item Casos especiais: Normal ($p=0$), Poisson ($p=1$), não-central gamma ($p=1.5$), gamma ($p=2$), normal inversa ($p=3$) e distribuições estáveis ($p > 2$).
 \item Notação $Z \sim Tw_p(\mu, \phi)$.
 \end{itemize}
 \end{frame}
@@ -249,7 +249,7 @@ um index determinando a distribuição.
 \begin{align}
 \begin{split}
 \label{conditional}
-Y|Z &\sim P(Z) \\ 
+Y|Z &\sim P(Z) \\
 Z &\sim Tw_p(\mu, \phi). \nonumber
 \end{split}
 \end{align}
@@ -343,7 +343,7 @@ dnbinom(x = c(0, 5, 10, 15), mu = 10, size = 1)
 \mathrm{E}(Y) &=& \mu \nonumber    \\
 \mathrm{var}(Y) &=& \mu + \phi\mu^p. \nonumber
 \end{eqnarray}
-\item Casos especiais: Hermite ($p=0$), Neyman-Type A ($p=1$), 
+\item Casos especiais: Hermite ($p=0$), Neyman-Type A ($p=1$),
       P\'olya-Aeppli ($p=1.5$), binomial negativa $(p=2)$ e Poisson inversa-Normal ($p=3$).
 \item Cuidado! - Hermite é um caso limite.
 \item $p$ é um índice que distingue entre importantes distribuições.
@@ -358,7 +358,7 @@ dnbinom(x = c(0, 5, 10, 15), mu = 10, size = 1)
 \begin{frame}[fragile]
 \begin{figure}[h]
 \includegraphics[scale=0.5]{images/PoissonTweedie.png}
-\caption{Distribuição de probabilidade empírica (cinza) e função de 
+\caption{Distribuição de probabilidade empírica (cinza) e função de
 probabilidade aproximada (preta) por valores do
 índice de dispersão e valores do parâmetro de potência: Poisson-Tweedie com $\mu = 10$.}
 \label{Fig3}
@@ -371,11 +371,11 @@ probabilidade aproximada (preta) por valores do
 %%%-------------------------------------------------------------------
 \begin{frame}{Regressão Poisson-Tweedie}
 \begin{itemize}
-\item Considere $(y_i, x_i)$, $i = 1,\ldots, n$, onde $y_i$'s são iid 
+\item Considere $(y_i, \boldsymbol{x_i})$, $i = 1,\ldots, n$, onde $y_i$'s são iid
 realizações de $Y_i$ de acordo com a distribuição Poisson-Tweedie.
 \vspace{0,5cm}
 \item Modelo de regressão Poisson-Tweedie
-$$Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{sendo} \quad 
+$$Y_i \sim PTw_{p}(\mu_i, \phi), \quad  \text{sendo} \quad
 \mu_i = g^{-1}(\boldsymbol{x_i}^{\top} \boldsymbol{\beta}),$$
 onde $\boldsymbol{x_i}$ and $\boldsymbol{\beta}$ são vetores $(p \times 1)$
 de covariáveis conhecidas e parâmetros de regressão.
@@ -404,16 +404,16 @@ de covariáveis conhecidas e parâmetros de regressão.
             \item {\bf Distribuição COM-Poisson}\\
             $$\frac{Pr(Y = y-1)}{Pr(Y = y)} = \frac{y^\nu}{\lambda}$$
         \end{itemize}
-    \end{multicols}   
+    \end{multicols}
 \end{itemize}
 
 \framebreak
 
 \begin{block}{Distribuição de probabilidades}
 \begin{center}
-\begin{equation*} 
-    f(y; \lambda, \nu) = \frac{\lambda^y}{(y!)^\nu 
-    Z(\lambda, \nu)}, \quad \textrm{em que }\, Z(\lambda, \nu) = 
+\begin{equation*}
+    f(y; \lambda, \nu) = \frac{\lambda^y}{(y!)^\nu
+    Z(\lambda, \nu)}, \quad \textrm{em que }\, Z(\lambda, \nu) =
     \sum_{j=0}^\infty \frac{\lambda^j}{(j!)^\nu} \textrm{; e}\quad
     \lambda > 0, \, \nu \geq 0
 \end{equation*}
@@ -438,7 +438,7 @@ $$ Z(\lambda, \nu) = \sum_{j=0}^\infty \frac{\lambda^j}{(j!)^\nu} $$
 require(plyr)
 ##-------------------------------------------
 ## Calcula Z para um c(lambda, phi)
-funZ <- function(lambda, nu, maxit = 500, tol = 1e-5) {
+funZ <- function(lambda, nu, maxit = 1000, tol = 1e-5) {
     z <- rep(NA, maxit)
     j = 1
     ##
@@ -451,22 +451,23 @@ funZ <- function(lambda, nu, maxit = 500, tol = 1e-5) {
     return(cbind("j" = 0:j, "z" = c(1, z[!is.na(z)])))
 }
 
-params <- list(c("lambda" = 1.36, "nu" = 0.4),
-               c("lambda" = 8, "nu" = 1),
-               c("lambda" = 915, "nu" = 2.5))
+params <- list(c("lambda" = 10, "nu" = 0.4),
+               c("lambda" = 10, "nu" = 1),
+               c("lambda" = 10, "nu" = 2.5))
 
 zs <- sapply(params, function(x) funZ(x["lambda"], x["nu"]),
            simplify = FALSE)
 names(zs) <- seq_along(zs)
 da <- ldply(zs)
 
-fl <- expression(lambda == 1.36~","~nu == 0.4,
-                 lambda == 8~","~nu == 1,
-                 lambda == 915~","~nu == 2.5)
+fl <- expression(lambda == 10~","~nu == 0.4,
+                 lambda == 10~","~nu == 1,
+                 lambda == 10~","~nu == 2.5)
 
 xyplot(z ~ j | .id, data = da,
        type = c("b", "g"), pch = 19,
        scales = "free",
+       layout = c(NA, 1),
        ylab = list(
            expression(frac(lambda^j, "(j!)"^nu)),
            rot = 0),
@@ -485,40 +486,39 @@ Não tem expressão analítica, calculamos utilizando a definição de média e
 variância;
 \begin{itemize}
   \itemsep7.5pt\parskip0pt\parsep0pt
-  \item $\mathrm{E}(Y) = \begin{aligned} 
+  \item $\mathrm{E}(Y) = \begin{aligned}
             &\sum_{y = 0}^{\infty} y \cdot p(y)&
         \end{aligned}
         $
-  \item $\mathrm{var}(Y) = \begin{aligned} 
+  \item $\mathrm{var}(Y) = \begin{aligned}
             &\sum_{y = 0}^{\infty} y^2 \cdot p(y) - \mathrm{E}^2(Y)&
         \end{aligned}
         $
 \end{itemize}
 
 \column{.48\textwidth}
-Aproximação proposta por Shimueli (2005), boa aproximação para $\nu 
+Aproximação proposta por Shimueli (2005), boa aproximação para $\nu
 \leq 1$ ou $\lambda > 10^\nu$ \\[0.2cm]
 \begin{itemize}
   \itemsep7.5pt\parskip0pt\parsep0pt
-  \item $\mathrm{E}(Y) \approx$ $\begin{aligned} 
+  \item $\mathrm{E}(Y) \approx$ $\begin{aligned}
             &\lambda ^ \frac{1}{\nu} - \frac{\nu - 1}{2\nu}&
         \end{aligned}
-        $ 
-  \item $\mathrm{var}(Y) \approx$ $\begin{aligned} 
+        $
+  \item $\mathrm{var}(Y) \approx$ $\begin{aligned}
             &\frac{1}{\nu}\cdot \mathrm{E}(Y)&
         \end{aligned}
         $
 \end{itemize}
 \end{columns}
 \begin{itemize}
-  \item Regressão COM-Poisson: $\lambda_i = \exp(\boldsymbol{x}_i^{\top} \boldsymbol{\beta})$, 
-  em que $\boldsymbol{x}_i$ é o vetor de covariáveis do i-ésimo indivíduo e 
+  \item Regressão COM-Poisson: $\lambda_i = \exp(\boldsymbol{x}_i^{\top} \boldsymbol{\beta})$,
+  em que $\boldsymbol{x}_i$ é o vetor de covariáveis do i-ésimo indivíduo e
   $\boldsymbol{\beta}$ o vetor de parâmetros.
   \item $\nu$ é um parâmetro de dispersão, $\nu > 1$ indica subdispersão,
   $\nu = 1$ equidispersão e $\nu < 1$ superdispersão.
 \end{itemize}
 \end{frame}
-
 
 %%%-------------------------------------------------------------------
 \begin{frame}[fragile]
@@ -543,12 +543,10 @@ $ \mathrm{DI} < 1$ subdispersão, $\mathrm{DI} = 1$ equidispersão e $\mathrm{DI
 
 %%%---------------------------------------------------------------------
 \begin{frame}{Relação média variance (MV) e índice de dispersão (DI).}
-\begin{itemize}
 \begin{figure}[h]
 \includegraphics[scale=0.5]{images/MVDI.pdf}
 \centering
 \end{figure}
-\end{itemize}
 \end{frame}
 
 %%%---------------------------------------------------------------------
@@ -567,7 +565,7 @@ $\mathrm{ZI} < 0$ zero deflacionado, $\mathrm{ZI}=1$ não zero inflacionado e $\
 \begin{itemize}
 \item Índice de cauda pesada:
 $$\mathrm{HT} = \frac{\mathrm{P}(Y=y+1)}{\mathrm{P}(Y=y)}\quad \text{for} \quad y \to \infty.$$
-$\mathrm{HT} \to 1$ quando $y \to \infty$ indica cauda pesada. 
+$\mathrm{HT} \to 1$ quando $y \to \infty$ indica cauda pesada.
 \begin{figure}[h]
 \includegraphics[scale=0.63]{images/HT.pdf}
 \centering

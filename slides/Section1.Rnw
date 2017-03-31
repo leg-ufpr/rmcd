@@ -68,7 +68,7 @@
 \begin{frame}{Distribuição de Poisson}
 
   \begin{itemize}
-    \item A distribuição de Poisson é a cadidata imediata e referência
+    \item A distribuição de Poisson é a candidata imediata e referência
       para a análise de dados de contagens.
     \item Função de probabilidades:
       $$
@@ -89,7 +89,7 @@
 %%%-------------------------------------------------------------------
 \begin{frame}{Propriedades da distribuição de Poisson}
 
-  Dentre as principais propriedades da distribuição de Poisson, tem-se:
+  Dentre as principais propriedades da distribuição de Poisson, têm-se:
   \vspace{0,3cm}
   \begin{itemize}
 
@@ -195,7 +195,7 @@
 \begin{frame}{Diferentes padrões em processos de contagens}
 
 \begin{figure}[h]
-\includegraphics[scale=0.6]{images/processos14.pdf}
+\includegraphics[scale=0.65]{images/processos14.pdf}
 \caption{Ilustração de diferentes tipos de processos pontuais
   convertidos em contagens.}
 \label{Fig2}
@@ -257,7 +257,7 @@
   \item Desvios do processo Poisson;
   \item Heterogeneidade entre unidades amostrais.
     \vspace{0,5cm}
-  \item O que acontece caso o modelo Poisson seja usada para dados não
+  \item O que acontece caso o modelo Poisson seja usado para dados não
     equidispersos?
     \begin{enumerate}
     \item Superdispersão: erros padrões subestimados.
