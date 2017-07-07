@@ -5,6 +5,18 @@
 # Loading extra package
 require(compoisson)
 
+# Convergency of Z(lambda, nu) constant --------------------------------
+# devtools::install_github("JrEduardo/cmpreg")
+grid <- expand.grid(
+    lambda = c(0.5, 1, 5, 10, 30, 50),
+    nu = seq(0, 1, length.out = 11))
+grid$z <- apply(grid, 1, function(x) {
+    # com.compute.z(x[1], x[2]) # There is no a max iteration criterion
+    cmpreg::computez(loglambda = log(x[1]), phi = log(x[2]),
+                     tol = 1e-5, maxit = 1000)
+})
+format(xtabs(z ~ nu + lambda, data = grid), digits = 3)
+
 # Computing mean and variance using numerical integration --------------
 moments_cp <- function(lambda, nu, order = 1, upper = 2*lambda) {
     aux_fc <- function(x, lambda, nu, order) {
@@ -25,7 +37,7 @@ ap_moments_cp <- function(lambda, nu) {
 }
 ap_moments_cp <- Vectorize(ap_moments_cp, c("lambda"))
 
-# Dispersion index ---------------------------------------------------
+# Dispersion index -----------------------------------------------------
 disp_index_cp <- function(lambda, nu) {
     TEMP <- ap_moments_cp(lambda = lambda, nu = nu)
     DI <- TEMP[2]/TEMP[1]
@@ -33,7 +45,7 @@ disp_index_cp <- function(lambda, nu) {
 }
 disp_index_cp <- Vectorize(disp_index_cp, c("lambda"))
 
-# Zero-inflation index -----------------------------------------------
+# Zero-inflation index -------------------------------------------------
 zero_inflation_cp <- function(lambda, nu) {
     PX0 <- dcom(x = 0, lambda = lambda, nu = nu)
     mu <- ap_moments_cp(lambda = lambda, nu = nu)[1]
@@ -42,14 +54,13 @@ zero_inflation_cp <- function(lambda, nu) {
 }
 zero_inflation_cp <- Vectorize(zero_inflation_cp, c("lambda"))
 
-# Heavy-tail index ---------------------------------------------------
+# Heavy-tail index -----------------------------------------------------
 heavy_tail_cp <- function(x, lambda, nu) {
     Px1 <- dcom(x = c(x, x+1), lambda = lambda, nu = nu)
     LTI <- Px1[2]/Px1[1]
     return(LTI)
 }
 heavy_tail_cp <- Vectorize(heavy_tail_cp, c("x"))
-
 
 # Plot COM-Poisson mass function ---------------------------------------
 plot_cmp <- function(lambda, nu, title, grid_y = 0:100) {
@@ -58,26 +69,4 @@ plot_cmp <- function(lambda, nu, title, grid_y = 0:100) {
          main = title)
 }
 
-# Find parameter values ------------------------------------------------
-system_equation <- function(param, Expec, DI) {
-    lambda <- param[1]
-    nu <- param[2]
-    print(param)
-    eq1 <- ap_moments_cp(lambda, nu)[1] -  Expec
-    eq2 <- ap_moments_cp(lambda, nu)[2]/ap_moments_cp(lambda, nu)[1] - DI
-    return(c(eq1, eq2))
-}
-
-# Using rootSolve package
-#require(rootSolve)
-#multiroot(system_equation, Expec = 10, DI = 0.5, start = c(10, 0.5))
-#ap_moments_cp(lambda = 118.51, nu = 2.05)
-
-#multiroot(system_equation, Expec = 10, DI = 2, start = c(2, 0.5))
-#ap_moments_cp(lambda = 2.88, nu = 0.47)
-
-#multiroot(system_equation, Expec = 10, DI = 10, start = c(2.2, 1))
-#ap_moments_cp(lambda = 0.5, nu = 0.1)
-
-#multiroot(system_equation, Expec = 10, DI = 6, start = c(1.2, 0.13))
-
+# END-------------------------------------------------------------------

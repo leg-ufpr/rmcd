@@ -2,9 +2,13 @@
 # Author: Wagner Hugo Bonat LEG/UFPR -----------------------------------
 # Date: 27/02/2017 -----------------------------------------------------
 
+# Loading extra packages
+require(statmod)
+require(tweedie)
+
 # Integrand ------------------------------------------------------------
 integrand <- function(x, y, mu, phi, power) {
-    int = dpois(y, lambda = x)*dtweedie(x, mu = mu, 
+    int = dpois(y, lambda = x)*dtweedie(x, mu = mu,
                                         phi = phi, power = power)
     return(int)
 }
@@ -12,19 +16,19 @@ integrand <- function(x, y, mu, phi, power) {
 # Numerical integration using Gauss-Laguerre method --------------------
 gauss_laguerre <- function(integrand, n_pts, y, mu, phi, power) {
     pts <- gauss.quad(n_pts, kind="laguerre")
-    integral <- sum(pts$weights*integrand(pts$nodes, y = y, mu = mu, 
+    integral <- sum(pts$weights*integrand(pts$nodes, y = y, mu = mu,
                                           phi = phi, power = power)/
                         exp(-pts$nodes))
     return(integral)
 }
 
-gauss_laguerre_vec <- Vectorize(FUN = gauss_laguerre, vectorize.args = "y")
+gauss_laguerre_vec <- Vectorize(FUN = gauss_laguerre, c("y"))
 
 # Numerical integration using Monte Carlo method -----------------------
 monte_carlo <- function(integrand, n_pts, y, mu, phi, power) {
     pts <- rtweedie(n_pts, mu = mu, phi = phi, power = power)
     norma <- dtweedie(pts, mu = mu, phi = phi, power = power)
-    integral <- mean(integrand(pts, y = y, mu = mu, phi = phi, 
+    integral <- mean(integrand(pts, y = y, mu = mu, phi = phi,
                                power = power)/norma)
     return(integral)
 }
@@ -32,7 +36,7 @@ monte_carlo <- function(integrand, n_pts, y, mu, phi, power) {
 # Probability mass function Poisson-Tweedie ----------------------------
 dptweedie_aux <- function(y, mu, phi, power, n_pts, method) {
     if(method == "laguerre" | y > 0) {
-        pmf <- gauss_laguerre(integrand = integrand, n_pts = n_pts, 
+        pmf <- gauss_laguerre(integrand = integrand, n_pts = n_pts,
                               y = y, mu = mu, phi = phi, power = power)
     }
     if(method == "laguerre" & y == 0) {
@@ -46,7 +50,7 @@ dptweedie_aux <- function(y, mu, phi, power, n_pts, method) {
         pmf <- 1-sum(temp)+temp[1]
     }
     if(method == "MC") {
-        pmf <- monte_carlo(integrand = integrand, n_pts = n_pts, 
+        pmf <- monte_carlo(integrand = integrand, n_pts = n_pts,
                            y = y, mu = mu, phi = phi, power = power)
     }
     return(pmf)
@@ -67,14 +71,16 @@ rptweedie <- function(n, mu, phi, power) {
 }
 
 # Plot function --------------------------------------------------------
-plot_ptw <- function(mu, phi, power, title, n_sample = 100000, n_pts = 25, method = "laguerre") {
+plot_ptw <- function(mu, phi, power, title, n_sample = 100000,
+                     n_pts = 25, method = "laguerre") {
     require(statmod)
     grid_y <- 0:100
     obs <- rptweedie(n = n_sample, mu = mu, phi = phi, power = power)
-    dens <- dptw(y = grid_y, mu = mu, phi = phi, power = power, n_pts = n_pts, method = method)
-    plot(table(obs)/n_sample, ylab = "Mass function", xlab = "y", col = "gray", 
-         main = title)
-    nn <- length(grid_y)-1
+    dens <- dptw(y = grid_y, mu = mu, phi = phi, power = power,
+                 n_pts = n_pts, method = method)
+    plot(table(obs) / n_sample, ylab = "Mass function", xlab = "y",
+         col = "gray", main = title)
+    nn <- length(grid_y) - 1
     lines(c(0:nn), dens, lty = 2, lwd = 2, col = "black", type = "l")
 }
 
@@ -86,7 +92,7 @@ moments_ptw <- function(mu, phi, power) {
 }
 moments_ptw <- Vectorize(moments_ptw, c("mu"))
 
-# Dispersion index ---------------------------------------------------
+# Dispersion index -----------------------------------------------------
 disp_index_ptw <- function(mu, phi, power) {
     TEMP <- moments_ptw(mu = mu, phi = phi, power = power)
     DI <- TEMP[2]/TEMP[1]
@@ -94,9 +100,9 @@ disp_index_ptw <- function(mu, phi, power) {
 }
 disp_index_ptw <- Vectorize(disp_index_ptw, c("mu"))
 
-# Zero-inflation index -----------------------------------------------
+# Zero-inflation index -------------------------------------------------
 zero_inflation_ptw <- function(mu, phi, power) {
-    PX0 <- dptw(y = 0, mu = mu, phi = phi, power = power, n_pts = 30, 
+    PX0 <- dptw(y = 0, mu = mu, phi = phi, power = power, n_pts = 30,
                 method = "laguerre")
     mu <- moments_ptw(mu = mu, phi = phi, power = power)[1]
     ZI <- 1 + log(PX0)/mu
@@ -104,9 +110,9 @@ zero_inflation_ptw <- function(mu, phi, power) {
 }
 zero_inflation_ptw <- Vectorize(zero_inflation_ptw, c("mu"))
 
-# Heavy-tail index ---------------------------------------------------
+# Heavy-tail index -----------------------------------------------------
 heavy_tail_ptw <- function(x, mu, phi, power) {
-    Px1 <- dptw(y = c(x, x+1), mu = mu, phi = phi, power = power, 
+    Px1 <- dptw(y = c(x, x+1), mu = mu, phi = phi, power = power,
                n_pts = 100, method = "laguerre")
     LTI <- Px1[2]/Px1[1]
     return(LTI)
