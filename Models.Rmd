@@ -144,16 +144,17 @@ fit the parameter $\alpha$ in order to have dispersion index
 ($\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)$) equalling to $0.5$, $2$,
 $5$ and $20$.
 
-```{r PlotGC, echo = FALSE, fig.cap = 'Gamma-Count probability mass function by values of the dispersion index (DI).', fig.height = 2, fig.width= 8}
-par(mfrow = c(1,4), mar=c(2.6, 2.8, 1.2, 0.5), mgp = c(1.6, 0.6, 0))
-plot(dgc(y = c(0:120), gamma = 10, alpha = 2.1), type = "h", lwd = 1,
-     main = "DI = 0.5", ylab = "Mass function", xlab = "y")
-plot(dgc(y = c(0:120), gamma = 10, alpha = 0.5), type = "h", lwd = 1,
-     main = "DI = 2", ylab = "Mass function", xlab = "y")
-plot(dgc(y = c(0:120), gamma = 10, alpha = 0.15), type = "h", lwd = 1,
-     main = "DI = 5", ylab = "Mass function", xlab = "y")
-plot(dgc(y = c(0:120), gamma = 10, alpha = 0.022), type = "h", lwd = 1,
-     main = "DI = 20", ylab = "Mass function", xlab = "y")
+```{r PlotGC, echo = FALSE, fig.cap = 'Gamma-Count probability mass function by values of the dispersion index (DI).', fig.height = 1.7, fig.width = 6}
+
+par(mfrow = c(1, 3), mar = c(2.6, 2.8, 1.2, 0.5), mgp = c(1.6, 0.6, 0))
+source("Script4.R")
+plot(dgc(y = 0:100, beta = out_gc1$root[1], alpha = out_gc1$root[2]),
+     type = "h", main = "DI = 0.5", ylab = "Mass function", xlab = "y")
+plot(dgc(y = 0:100, beta = out_gc2$root[1], alpha = out_gc2$root[2]),
+     type = "h", main = "DI = 2", ylab = "Mass function", xlab = "y")
+plot(dgc(y = 0:100, beta = out_gc3$root[1], alpha = out_gc3$root[2]),
+     type = "h", main = "DI = 5", ylab = "Mass function", xlab = "y")
+
 ```
 
 The Gamma-Count regression model assumes that the period at risk $(T)$
@@ -232,7 +233,7 @@ case corresponding to the negative binomial distribution, obtained when
 $p = 2$, i.e. a Poisson gamma mixture.
 In the case of $p=1$, the integral \@ref(eq:pmfPTW) is replaced by a
 sum and we have the Neyman Type A distribution.
-Further special cases include the compound Poisson $(1 < p < 2)$, 
+Further special cases include the compound Poisson $(1 < p < 2)$,
 factorial discrete positive stable $(p > 2)$ and Poisson-inverse Gaussian $(p = 3)$ distributions
 [@Jorgensen2014 ; @Kokonendji2004].
 
@@ -414,13 +415,19 @@ combination to have $\mathrm{DI} = 20$. Probably, it was due to overflow of the
 sum since $\nu$ is inversely proportional to the dispersion index (see
 table \@ref(tab:convergenceZ)).
 
-```{r comPoispmfplot, echo = FALSE, cache = TRUE, fig.cap = 'COM-Poisson probability mass function by values of the dispersion index (DI).', fig.height = 2, fig.width= 8}
+```{r comPoispmfplot, echo = FALSE, cache = TRUE, fig.cap = 'COM-Poisson probability mass function by values of the dispersion index (DI).', fig.height = 1.7, fig.width = 6}
+
 source("Script3.R")
-par(mfrow = c(1,4), mar=c(2.6, 2.8, 1.2, 0.5), mgp = c(1.6, 0.6, 0))
-plot_cmp(lambda = 118.51, nu = 2.05, title = "DI = 0.5")
-plot_cmp(lambda = 2.88, nu = 0.47, title = "DI = 2")
-plot_cmp(lambda = 1.30, nu = 0.13, title = "DI = 5")
+par(mfrow = c(1, 3), mar = c(2.6, 2.8, 1.2, 0.5), mgp = c(1.6, 0.6, 0))
+plot_cmp(lambda = out_cp1$root[1], nu = out_cp1$root[2],
+         title = "DI = 0.5")
+plot_cmp(lambda = out_cp2$root[1], nu = out_cp2$root[2],
+         title = "DI = 2")
+plot_cmp(lambda = out_cp3$root[1], nu = out_cp3$root[2],
+         title = "DI = 5")
+
 ```
+
 @Sellers2010 proposed a regression model based on the COM-Poisson distribution
 where the parameter $\lambda$ is described by the values of known covariates
 in a generalized linear models style. The COM-Poisson regression model is defined by
@@ -463,7 +470,7 @@ Thus, it is quite clear that the Poisson model can deal only with
 equidispersed data and has no flexibility to deal with zero-inflation
 and/or heavy tail count data. In fact, the presented indexes were
 proposed in relation to the Poisson distribution in order to highlight
-its limitations. 
+its limitations.
 
 Figure \@ref(fig:indexes) presents the relationship between
 mean and variance, the dispersion and zero-inflation indexes as a function
@@ -481,7 +488,7 @@ Figure \@ref(fig:heavytail) presents the heavy tail index for some extreme
 values of the random variable $Y$.
 
 ```{r indexes, echo = FALSE, cache = TRUE, fig.cap = 'Mean and variance relationship (first line), dispersion (DI) and zero-inflation (ZI) indexes as a function of the expected values by simulation scenarios and count distributions.' , fig.height = 6, fig.width= 8}
-source("Script4.R")
+source("Script5.R")
 print(AUX.plot)
 ```
 
@@ -544,7 +551,7 @@ deviance contours are well-behaved, while for COM-Poisson the contour
 are strongly flat in one direction making the estimation process
 difficult..
 
-```{r ortho, echo=FALSE, fig.height=6, fig.width=8, fig.cap="Deviance surfaces and quadratic approximation with confidence regions (90, 95 and, 99\\%) for the two parameters following dispersion indexes (DI) in the simulation study. Dashed lines represents the MLE estimation and red points the parameters used in simulation."}
+```{r ortho, echo=FALSE, fig.height=7, fig.width=9, fig.cap="Deviance surfaces and quadratic approximation with confidence regions (90, 95 and, 99\\%) for the two parameters following dispersion indexes (DI) in the simulation study. Dashed lines represents the MLE estimation and red points the parameters used in simulation."}
 
 ## Orthogonality COM-Poisson and Gamma-Count
 library(MRDCr)
@@ -635,7 +642,7 @@ plotsCP <- lapply(seq(fitsCP), function(i) {
 })
 
 ##-------------------------------------------
-marrangeGrob(c(plotsGC, plotsCP), ncol = 4, nrow = 2, top = "")
+marrangeGrob(c(plotsGC, plotsCP), ncol = 3, nrow = 2, top = "")
 
 ```
 
