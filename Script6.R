@@ -1,32 +1,13 @@
-## =====================================================================
-## Convergency Z in CMP and Simulation study about orthogonality
-##                                                        Eduardo Junior
-##                                                    edujrrib@gmail.com
-##                                                            2017-03-24
-## =====================================================================
+# Script 6: Ortogonality study on count distributions ------------------
+# Author: Eduardo Elias Ribeiro Junior LEG/UFPR ------------------------
+# Date: 24/03/2017 -----------------------------------------------------
 
-##======================================================================
-## Convergency of Z(lambda, nu) constant
-grid <- expand.grid(
-    lambda = c(0.5, 1, 5, 10, 30, 50),
-    nu = seq(0, 1, length.out = 11))
-grid$z <- apply(grid, 1, function(x) {
-    cmpreg::computez(loglambda = log(x[1]), phi = log(x[2]),
-                     tol = 1e-5, maxit = 1000)
-})
-xtabs(z ~ nu + lambda, data = grid)
-rm(list = ls())
-
-##======================================================================
-## Ortogonality study
-
-##----------------------------------------------------------------------
-## Packages and functions
+# Packages and functions -----------------------------------------------
 library(MRDCr)
 library(gridExtra)
 library(parallel)
 
-## Trellis layout
+# Trellis layout
 source("config/_setup.R")
 ac <- list(pad1 = 0.5, pad2 = 0.5, tck = 0.5)
 ps <- list(
@@ -44,14 +25,7 @@ ps <- list(
         left = ac, right = ac)
 )
 
-## Empty trellis lattice
-empty <- list(
-    xyplot(1 ~ 1, xlab = "", ylab = "", border = NA,
-           type = "n", scales = list(draw = FALSE),
-           par.settings = list(axis.line = list(col = 0)))
-)
-
-## To simule counts following dispersion indexes
+# To simule counts following dispersion indexes
 simule <- function(config, n, y, seed = NULL) {
     lapply(pars, function(x) {
         if (!is.null(seed)) set.seed(seed)
@@ -65,42 +39,44 @@ simule <- function(config, n, y, seed = NULL) {
     })
 }
 
-## Get n characters
+# Get n characters
 substrlast <- function(string, n = 2){
     substr(string, nchar(string) - n + 1, nchar(string))
 }
 
-##----------------------------------------------------------------------
-## Simulate and organize data
+# Simulate and organize data -------------------------------------------
 
-## For PTW distribution
+# For PTW distribution
 
-## Configuration
+# Configuration
+source("Script4.R")
 pars <- list(
-    GC_.5 = c(fun = dgcnt, lambda = 10, alpha = 2.1),
-    GC_02 = c(fun = dgcnt, lambda = 10, alpha = 0.5),
-    GC_05 = c(fun = dgcnt, lambda = 10, alpha = 0.15),
-    GC_20 = c(fun = dgcnt, lambda = 10, alpha = 0.022),
-    CP_.5 = c(fun = dcmp, sumto = 50,  lambda = 118.51, nu = 2.05),
-    CP_02 = c(fun = dcmp, sumto = 80,  lambda = 2.8800, nu = 0.47),
-    CP_05 = c(fun = dcmp, sumto = 150, lambda = 1.3000, nu = 0.13)
+    GC_.5 = c(fun = dgcnt, lambda = aux[1, 4], alpha = aux[2, 4]),
+    GC_02 = c(fun = dgcnt, lambda = aux[3, 4], alpha = aux[4, 4]),
+    GC_05 = c(fun = dgcnt, lambda = aux[5, 4], alpha = aux[6, 4]),
+    CP_.5 = c(fun = dcmp, sumto = 50,
+              lambda = aux[7, 4], nu = aux[8, 4]),
+    CP_02 = c(fun = dcmp, sumto = 80,
+              lambda = aux[9, 4], nu = aux[10, 4]),
+    CP_05 = c(fun = dcmp, sumto = 150,
+              lambda = aux[11, 4], nu = aux[12, 4])
 )
 
-## Simulation process
+# Simulation process
 samples <- simule(pars, n = 5000, y = 0:120, seed = 2017)
 
-## Verify simulations
+# Verify simulations
 do.call("rbind",
     lapply(samples, function(x) {
         c("Mean" = mean(x), "Var" = var(x), "DI" = var(x)/mean(x))
     })
 )
 
-## info <- plyr::ldply(strsplit(rep(names(samples), each = n), "_"))
-## info[, 2] <- as.numeric(info[, 2])
-## colnames(info) <- c("model", "di")
-## dasim <- cbind(info, y = unlist(samples))
-## rownames(dasim) <- NULL
+# info <- plyr::ldply(strsplit(rep(names(samples), each = n), "_"))
+# info[, 2] <- as.numeric(info[, 2])
+# colnames(info) <- c("model", "di")
+# dasim <- cbind(info, y = unlist(samples))
+# rownames(dasim) <- NULL
 
 ##----------------------------------------------------------------------
 ## Compute deviances models
@@ -194,7 +170,7 @@ plotsGC <- lapply(seq(fitsGC), function(i) {
 })
 
 ## Graph
-marrangeGrob(plotsGC, ncol = 4, nrow = 1, top = "")
+marrangeGrob(plotsGC, ncol = 3, nrow = 1, top = "")
 
 plotsCP <- lapply(seq(fitsCP), function(i) {
     ##-------------------------------------------
@@ -227,9 +203,9 @@ plotsCP <- lapply(seq(fitsCP), function(i) {
 })
 
 ## Graph
-marrangeGrob(plotsCP, ncol = 4, nrow = 1, top = "")
+marrangeGrob(plotsCP, ncol = 3, nrow = 1, top = "")
 
 ## Save
-save(empty, fitsCP, fitsGC, indCP, indGC,
+save(fitsCP, fitsGC, indCP, indGC,
      pars, ps, samples, substrlast,
      file = "orthogonality.rda")

@@ -7,10 +7,11 @@ source("Script1.R")
 source("Script3.R")
 
 # System equation to find parameters to fixed Dispersion Index ---------
-system_equation <- function(param, Expec, DI, moments_function) {
+system_equation <- function(param, Expec, DI, moments_function,
+                            trace = FALSE) {
     par1 <- param[1]
     par2 <- param[2]
-    print(param)
+    if (trace) print(param)
     moments <- moments_function(par1, par2)
     eq1 <- moments[1] -  Expec
     eq2 <- moments[2] / moments[1] - DI
