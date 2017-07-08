@@ -78,6 +78,11 @@ pre code {
 }
 
 /*------------------------------------------- */
+.figure>img {
+    width: 95%;
+}
+
+/*------------------------------------------- */
 
 .book .book-body .page-wrapper .page-inner section.normal pre,
 .book .book-body .page-wrapper .page-inner section.normal code {
