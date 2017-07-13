@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Regression Models for Count Data: beyond the Poisson model</title>
   <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
-  <meta name="generator" content="bookdown 0.3.16 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4.1 and GitBook 2.6.7">
 
   <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
   <meta property="og:type" content="book" />
@@ -230,7 +230,7 @@ Y(T) \overset{a}{\sim} N\left(\frac{\gamma T}{\alpha}, \frac{\gamma T}{\alpha^2}
 \end{equation}\]</span>
 <p>thus the limiting variance-mean ratio equals a constant <span class="math inline">\(1/\alpha\)</span>. Consequently, the Gamma-Count distribution displays overdispersion for <span class="math inline">\(0 &lt; \alpha &lt; 1\)</span> and underdispersion for <span class="math inline">\(\alpha &gt; 1\)</span>. Figure <a href="models.html#fig:PlotGC">2.1</a> presents the probability mass function for some Gamma-Count distributions. We fixed the parameter <span class="math inline">\(\gamma = 10\)</span> and fit the parameter <span class="math inline">\(\alpha\)</span> in order to have dispersion index (<span class="math inline">\(\mathrm{DI} = \mathrm{var}(Y)/\mathrm{E}(Y)\)</span>) equalling to <span class="math inline">\(0.5\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(5\)</span> and <span class="math inline">\(20\)</span>.</p>
 <div class="figure" style="text-align: center"><span id="fig:PlotGC"></span>
-<img src="rmcdbook_files/figure-html/PlotGC-1.png" alt="Gamma-Count probability mass function by values of the dispersion index (DI)." width="768" />
+<img src="rmcdbook_files/figure-html/PlotGC-1.png" alt="Gamma-Count probability mass function by values of the dispersion index (DI)." width="576" />
 <p class="caption">
 Figure 2.1: Gamma-Count probability mass function by values of the dispersion index (DI).
 </p>
@@ -427,7 +427,7 @@ f(y; \lambda, \nu) = \frac{\exp^{\{-\lambda\}} \lambda^y w_y}{W y!},
 \mathrm{var}(Y) \approx \frac{1}{\nu} \lambda^{1 /\nu}.
 \]</span> These approximations are accurate when <span class="math inline">\(\nu \leq 1\)</span> or <span class="math inline">\(\lambda &gt; 10^{\nu}\)</span>. The infinite sum involved in computing the probability mass function of the COM-Poisson distribution can be approximated to any level of precision. It can be evaluated in <code>R</code> using the function <code>dcom()</code> from the <code>compoisson</code> package <span class="citation">(Dunn 2012)</span>. Figure <a href="models.html#fig:comPoispmfplot">2.3</a> presents some COM-Poisson probability mass functions. We tried to find parameters <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(\nu\)</span> in order to have <span class="math inline">\(\mathrm{E}(Y) = 10\)</span> and dispersion index equals to <span class="math inline">\(\mathrm{DI} = 0.5, 2, 5\)</span> and <span class="math inline">\(20\)</span>. However, we could not find any parameter combination to have <span class="math inline">\(\mathrm{DI} = 20\)</span>. Probably, it was due to overflow of the sum since <span class="math inline">\(\nu\)</span> is inversely proportional to the dispersion index (see table <a href="models.html#tab:convergenceZ">2.1</a>).</p>
 <div class="figure" style="text-align: center"><span id="fig:comPoispmfplot"></span>
-<img src="rmcdbook_files/figure-html/comPoispmfplot-1.png" alt="COM-Poisson probability mass function by values of the dispersion index (DI)." width="768" />
+<img src="rmcdbook_files/figure-html/comPoispmfplot-1.png" alt="COM-Poisson probability mass function by values of the dispersion index (DI)." width="576" />
 <p class="caption">
 Figure 2.3: COM-Poisson probability mass function by values of the dispersion index (DI).
 </p>
@@ -466,7 +466,7 @@ Figure 2.5: Heavy tail index for some extreme values of the random variable Y by
 <p>The orthogonality is defined by second derivatives of the log-likelihood function, however for the Gamma-Count, Poisson-Tweedie and COM-Poisson and we cannot obtain such derivatives analytically. So we designed a simulation study to evaluate the properties about log-likelihood function for Gamma-Count and COM-Poisson. We used sample size <span class="math inline">\(n=5000\)</span> for simulate values of Gamma-Count and COM-Poisson following dispersion indexes <span class="math inline">\(DI=0.5\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(5\)</span> and <span class="math inline">\(20\)</span> and plot the deviance contours around the maximum likelihood estimation. The <code>Script6.R</code>, in supplement material contains the codes for simulation study. The results are shows in Figure @(fig:ortho).</p>
 <p>This graphics presented in Figure <a href="models.html#fig:ortho">2.6</a> show that deviance contours are similar a quadratic function (blue dashed contours) for <span class="math inline">\(DI=0.5\)</span>, <span class="math inline">\(2\)</span>, <span class="math inline">\(5\)</span> in both distributions. However, for the Gamma-Count with <span class="math inline">\(DI=20\)</span> the quadratic aproximation not as good. For <span class="math inline">\(DI=20\)</span> and <span class="math inline">\(\mathrm{E}[Y]=10\)</span> we could not find any parameter combination for COM-Poisson and for Gamma-Count the estimation is innacurate. With respect to orthogonality the Gamma-Count distribution is preferable, the deviance contours are well-behaved, while for COM-Poisson the contour are strongly flat in one direction making the estimation process difficult..</p>
 <div class="figure" style="text-align: center"><span id="fig:ortho"></span>
-<img src="rmcdbook_files/figure-html/ortho-1.png" alt="Deviance surfaces and quadratic approximation with confidence regions (90, 95 and, 99\%) for the two parameters following dispersion indexes (DI) in the simulation study. Dashed lines represents the MLE estimation and red points the parameters used in simulation." width="768" />
+<img src="rmcdbook_files/figure-html/ortho-1.png" alt="Deviance surfaces and quadratic approximation with confidence regions (90, 95 and, 99\%) for the two parameters following dispersion indexes (DI) in the simulation study. Dashed lines represents the MLE estimation and red points the parameters used in simulation." width="864" />
 <p class="caption">
 Figure 2.6: Deviance surfaces and quadratic approximation with confidence regions (90, 95 and, 99%) for the two parameters following dispersion indexes (DI) in the simulation study. Dashed lines represents the MLE estimation and red points the parameters used in simulation.
 </p>
@@ -493,7 +493,7 @@ Figure 2.6: Deviance surfaces and quadratic approximation with confidence region
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
@@ -527,7 +527,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(script.src))
       script.src  = script.src.replace(/^https?:/, '');
     document.getElementsByTagName("head")[0].appendChild(script);

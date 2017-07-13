@@ -1165,20 +1165,18 @@ such as \texttt{summary()}, \texttt{coef()}, \texttt{confint()},
 \end{Shaded}
 
 \begin{verbatim}
-## Maximum likelihood estimation
-## 
-## Call:
+## An object of class "summary.mle2"
+## Slot "call":
 ## mle2(minuslogl = ll_gc, start = list(gamma = 10, alpha = 1), 
 ##     data = list(y = y))
 ## 
-## Coefficients:
-##       Estimate Std. Error z value   Pr(z)    
-## gamma    9.842      0.335   29.38 < 2e-16 ***
-## alpha    0.929      0.139    6.68 2.5e-11 ***
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Slot "coef":
+##       Estimate Std. Error z value     Pr(z)
+## gamma    9.842      0.335   29.38 1.06e-189
+## alpha    0.929      0.139    6.68  2.45e-11
 ## 
-## -2 log L: 518
+## Slot "m2logL":
+## [1] 518
 \end{verbatim}
 
 Similar functions can be done for the Poisson, Poisson-Tweedie and
@@ -1659,34 +1657,32 @@ package \citep{bblme-pkg}.
 \end{Shaded}
 
 \begin{verbatim}
-## Maximum likelihood estimation
-## 
-## Call:
+## An object of class "summary.mle2"
+## Slot "call":
 ## bbmle::mle2(minuslogl = llgcnt, start = start, data = list(y = y, 
 ##     X = X, offset = off), vecpar = TRUE)
 ## 
-## Coefficients:
-##                         Estimate Std. Error z value   Pr(z)    
-## alpha                     1.7110     0.1352   12.66 < 2e-16 ***
-## (Intercept)               2.2580     0.0593   38.05 < 2e-16 ***
-## estflower-bud            -0.0765     0.0854   -0.90 0.37025    
-## estblossom               -0.0253     0.0851   -0.30 0.76616    
-## estfig                   -0.1398     0.0872   -1.60 0.10885    
-## estcotton boll            0.1084     0.0818    1.33 0.18476    
-## des                       0.3294     0.2896    1.14 0.25543    
-## I(des^2)                 -0.6997     0.2866   -2.44 0.01464 *  
-## estflower-bud:des         0.1337     0.4105    0.33 0.74456    
-## estblossom:des           -1.5020     0.4345   -3.46 0.00055 ***
-## estfig:des                0.4218     0.4336    0.97 0.33062    
-## estcotton boll:des       -0.7820     0.3998   -1.96 0.05046 .  
-## estflower-bud:I(des^2)    0.0943     0.4021    0.23 0.81452    
-## estblossom:I(des^2)       1.3382     0.4335    3.09 0.00202 ** 
-## estfig:I(des^2)          -0.8333     0.4390   -1.90 0.05768 .  
-## estcotton boll:I(des^2)   1.0222     0.3920    2.61 0.00911 ** 
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## Slot "coef":
+##                         Estimate Std. Error z value    Pr(z)
+## alpha                     1.7110     0.1352  12.656 1.04e-36
+## (Intercept)               2.2580     0.0593  38.053 0.00e+00
+## estflower-bud            -0.0765     0.0854  -0.896 3.70e-01
+## estblossom               -0.0253     0.0851  -0.297 7.66e-01
+## estfig                   -0.1398     0.0872  -1.603 1.09e-01
+## estcotton boll            0.1084     0.0818   1.326 1.85e-01
+## des                       0.3294     0.2896   1.137 2.55e-01
+## I(des^2)                 -0.6997     0.2866  -2.441 1.46e-02
+## estflower-bud:des         0.1337     0.4105   0.326 7.45e-01
+## estblossom:des           -1.5020     0.4345  -3.457 5.46e-04
+## estfig:des                0.4218     0.4336   0.973 3.31e-01
+## estcotton boll:des       -0.7820     0.3998  -1.956 5.05e-02
+## estflower-bud:I(des^2)    0.0943     0.4021   0.235 8.15e-01
+## estblossom:I(des^2)       1.3382     0.4335   3.087 2.02e-03
+## estfig:I(des^2)          -0.8333     0.4390  -1.898 5.77e-02
+## estcotton boll:I(des^2)   1.0222     0.3920   2.608 9.11e-03
 ## 
-## -2 log L: 408
+## Slot "m2logL":
+## [1] 408
 \end{verbatim}
 
 During the optimization process for this dataset, \texttt{optim()} has

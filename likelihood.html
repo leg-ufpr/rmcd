@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Regression Models for Count Data: beyond the Poisson model</title>
   <meta name="description" content="Regression Models for Count Data: beyond the Poisson model">
-  <meta name="generator" content="bookdown 0.3.16 and GitBook 2.6.7">
+  <meta name="generator" content="bookdown 0.4.1 and GitBook 2.6.7">
 
   <meta property="og:title" content="Regression Models for Count Data: beyond the Poisson model" />
   <meta property="og:type" content="book" />
@@ -207,20 +207,18 @@ fit_gc &lt;-<span class="st"> </span><span class="kw">mle2</span>(ll_gc, <span c
                <span class="dt">data =</span> <span class="kw">list</span>(<span class="st">&quot;y&quot;</span> =<span class="st"> </span>y))</code></pre></div>
 <p>The great advantage of the <code>bbmle</code> package for maximum likelihood estimation in <code>R</code>, is that it already provides standard methods, such as <code>summary()</code>, <code>coef()</code>, <code>confint()</code>, <code>vcov()</code>, <code>profile()</code> and other for objects of <code>mle2</code> class.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(fit_gc)</code></pre></div>
-<pre><code>## Maximum likelihood estimation
-## 
-## Call:
+<pre><code>## An object of class &quot;summary.mle2&quot;
+## Slot &quot;call&quot;:
 ## mle2(minuslogl = ll_gc, start = list(gamma = 10, alpha = 1), 
 ##     data = list(y = y))
 ## 
-## Coefficients:
-##       Estimate Std. Error z value   Pr(z)    
-## gamma    9.842      0.335   29.38 &lt; 2e-16 ***
-## alpha    0.929      0.139    6.68 2.5e-11 ***
-## ---
-## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## Slot &quot;coef&quot;:
+##       Estimate Std. Error z value     Pr(z)
+## gamma    9.842      0.335   29.38 1.06e-189
+## alpha    0.929      0.139    6.68  2.45e-11
 ## 
-## -2 log L: 518</code></pre>
+## Slot &quot;m2logL&quot;:
+## [1] 518</code></pre>
 <p>Similar functions can be done for the Poisson, Poisson-Tweedie and COM-Poisson distributions.</p>
 
 </div>
@@ -241,7 +239,7 @@ fit_gc &lt;-<span class="st"> </span><span class="kw">mle2</span>(ll_gc, <span c
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
 <script>
-require(["gitbook"], function(gitbook) {
+gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
 "sharing": {
 "github": false,
@@ -275,7 +273,7 @@ gitbook.start({
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
     if (location.protocol !== "file:" && /^https?:/.test(script.src))
       script.src  = script.src.replace(/^https?:/, '');
     document.getElementsByTagName("head")[0].appendChild(script);
