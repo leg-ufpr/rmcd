@@ -25,5 +25,5 @@ Imports:
 Remotes:
   rstudio/bookdown,
   leg-ufpr/MRDCr@devel,
-  wbonat/mcglm@devel
+  wbonat/mcglm@devel,
   jreduardo/cmpreg
